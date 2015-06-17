@@ -44,7 +44,7 @@ define(function (require, exports, module) {
                 ModuleClass = moduels[name];
 
                 module = this.__load(ModuleClass);
-                module.___$type = type;
+                module.____$type = type;
                 pool[name] = module;
 
                 moduleMap.push({
