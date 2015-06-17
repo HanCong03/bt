@@ -7,17 +7,16 @@ define(function (require, exports, module) {
     var $$ = require('utils');
 
     module.exports = $$.createClass('Module', {
-        ____$ctx: null,
+        __$ctx: null,
 
         constructor: function (ctx) {
-            this.____$ctx = ctx;
-            this.init();
+            this.__$ctx = ctx;
         },
 
         init: function () {},
 
         createComponent: function (Clazz) {
-            return new Clazz(this.____$ctx);
+            return new Clazz(this.__$ctx);
         },
 
         registerService: function (name, handler) {
@@ -27,10 +26,10 @@ define(function (require, exports, module) {
                         continue;
                     }
 
-                    this.____$ctx.registerService(this, key, name[key]);
+                    this.__$ctx.registerService(this, key, name[key]);
                 }
             } else {
-                this.____$ctx.registerService(this, name, handler);
+                this.__$ctx.registerService(this, name, handler);
             }
         },
 
@@ -38,7 +37,7 @@ define(function (require, exports, module) {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            return this.____$ctx.rs.apply(this.____$ctx, args);
+            return this.__$ctx.rs.apply(this.__$ctx, args);
         },
 
         onMessage: function (topic, handler) {
@@ -48,15 +47,15 @@ define(function (require, exports, module) {
                         continue;
                     }
 
-                    this.____$ctx.onMessage(this, key, topic[key]);
+                    this.__$ctx.onMessage(this, key, topic[key]);
                 }
             } else {
-                this.____$ctx.onMessage(this, topic, handler);
+                this.__$ctx.onMessage(this, topic, handler);
             }
         },
 
         postMessage: function (topic) {
-            this.____$ctx.postMessage(this, topic);
+            this.__$ctx.postMessage(this, topic);
         },
 
         on: function (name, handler) {
@@ -66,10 +65,10 @@ define(function (require, exports, module) {
                         continue;
                     }
 
-                    this.____$ctx.on(this, key, name[key]);
+                    this.__$ctx.on(this, key, name[key]);
                 }
             } else {
-                this.____$ctx.on(this, name, handler);
+                this.__$ctx.on(this, name, handler);
             }
         },
 
@@ -77,7 +76,11 @@ define(function (require, exports, module) {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            this.____$ctx.emit.apply(this.____$ctx, args);
+            this.__$ctx.emit.apply(this.__$ctx, args);
+        },
+
+        getActiveHeap: function () {
+            return this.__$ctx.getActiveHeap(this);
         }
     });
 });

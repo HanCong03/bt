@@ -61,25 +61,25 @@ define(function (require, exports, module) {
 
             switch (true) {
                 // env
-                case bit & 1:
+                case !!(bit & 1):
                     if ($$.isDefined(messages.env[topic])) {
                         subscribers = subscribers.concat(messages.env[topic]);
                     }
 
                 // core
-                case bit & 2:
+                case !!(bit & 2):
                     if ($$.isDefined(messages.core[topic])) {
                         subscribers = subscribers.concat(messages.core[topic]);
                     }
 
                 // system
-                case bit & 4:
+                case !!(bit & 4):
                     if ($$.isDefined(messages.system[topic])) {
                         subscribers = subscribers.concat(messages.system[topic]);
                     }
 
                 // ext
-                case bit & 8:
+                case !!(bit & 8):
                     if ($$.isDefined(messages.ext[topic])) {
                         subscribers = subscribers.concat(messages.ext[topic]);
                     }

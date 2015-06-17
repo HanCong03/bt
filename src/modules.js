@@ -5,7 +5,10 @@
 
 define(function (require, exports, module) {
     module.exports = {
-        env: {},
+        env: {
+            visualData: require('./env/visual-data'),
+            startardSize: require('./env/standard-size')
+        },
         core: {},
         system: {},
         ext: {}

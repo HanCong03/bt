@@ -9,6 +9,8 @@ define(function (require, exports, module) {
     var MessageMaanager = require('./components/message-manager');
     var EventManager = require('./components/event-manager');
 
+    var Workbook = require('./workbook');
+
     module.exports = require('utils').createClass('Context', {
 
         __$components: {},
@@ -20,7 +22,9 @@ define(function (require, exports, module) {
             this.__ready();
         },
 
-        __boot: function () {},
+        __boot: function () {
+            this.__$workbook = new Workbook(this);
+        },
 
         __init: function () {
             this.__$components = {
@@ -36,9 +40,14 @@ define(function (require, exports, module) {
         },
 
         __ready: function () {
-            console.log('ready')
+            this.emitAll('ready');
         },
 
+        emitAll: function (name) {
+            this.__$components.eventManager.emitAll(name);
+        },
+
+        /* --- 模块接口 start --- */
         registerService: function (provider, name, handler) {
             this.__$components.serviceManager.register(provider, name, handler);
         },
@@ -63,6 +72,11 @@ define(function (require, exports, module) {
         emit: function () {
             var eventManager = this.__$components.eventManager;
             eventManager.emit.apply(eventManager, arguments);
+        },
+
+        getActiveHeap: function (module) {
+            return this.__$workbook.getActiveHeap(module);
         }
+        /* --- 模块接口 end --- */
     });
 });

@@ -30,8 +30,16 @@ define(function (require, exports, module) {
             this.__listen(name, listener, handler);
         },
 
+        emitAll: function (name) {
+            this.__emit('env', name);
+        },
+
         emit: function (publisher, name) {
             var type = publisher.____$type;
+            this.__emit(type, name);
+        },
+
+        __emit: function (type, name) {
             var listeners = this.__lookupListener(type, name);
 
             var args = [].slice.call(arguments, 2);
@@ -63,25 +71,25 @@ define(function (require, exports, module) {
 
             switch (true) {
                 // env
-                case bit & 1:
+                case (bit & 1) !== 0:
                     if ($$.isDefined(events.env[name])) {
                         listeners = listeners.concat(events.env[name]);
                     }
 
                 // core
-                case bit & 2:
+                case (bit & 2) !== 0:
                     if ($$.isDefined(events.core[name])) {
                         listeners = listeners.concat(events.core[name]);
                     }
 
                 // system
-                case bit & 4:
+                case (bit & 4) !== 0:
                     if ($$.isDefined(events.system[name])) {
                         listeners = listeners.concat(events.system[name]);
                     }
 
                 // ext
-                case bit & 8:
+                case (bit & 8) !== 0:
                     if ($$.isDefined(events.ext[name])) {
                         listeners = listeners.concat(events.ext[name]);
                     }

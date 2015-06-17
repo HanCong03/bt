@@ -17,6 +17,8 @@ define(function (require, exports, module) {
 
         __$ctx: null,
 
+        __mid: 0,
+
         constructor: function (ctx) {
             this.__$ctx = ctx;
         },
@@ -70,12 +72,15 @@ define(function (require, exports, module) {
 
             // 初始化
             $$.forEach(moduleMap, function (module) {
-                module.init();
+                pool[module.name].init();
             });
         },
 
         __load: function (ModuleClass) {
-            return new ModuleClass(this.__$ctx);
+            var module = new ModuleClass(this.__$ctx);
+            module.__$mid = ++this.__$mid;
+
+            return module;
         }
     });
 });
