@@ -9,8 +9,8 @@ define(function (require, exports, module) {
     module.exports = require('utils').createClass('Btable', {
         __$ctx: null,
 
-        constructor: function () {
-            this.__$ctx = new Context();
+        constructor: function (node) {
+            this.__$ctx = new Context(node);
         }
     });
 });

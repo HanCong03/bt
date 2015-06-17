@@ -17,6 +17,14 @@ define(function (require, exports, module) {
 
         getActiveHeap: function (module) {
             return this.__$workbook.getActiveHeap(module.__$mid);
+        },
+
+        execCommand: function () {
+            return this.__$workbook.execCommand.apply(this.__$workbook, arguments);
+        },
+
+        queryCommandValue: function () {
+            return this.__$workbook.queryCommandValue.apply(this.__$workbook, arguments);
         }
     });
 });

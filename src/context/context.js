@@ -8,14 +8,19 @@ define(function (require, exports, module) {
     var ServiceManager = require('./components/service-manager');
     var MessageMaanager = require('./components/message-manager');
     var EventManager = require('./components/event-manager');
+    var ContainerManager = require('./components/container-manager');
 
     var Workbook = require('./workbook');
 
     module.exports = require('utils').createClass('Context', {
 
+        __$rootNode: null,
+        __$workbook: null,
         __$components: {},
 
-        constructor: function () {
+        constructor: function (node) {
+            this.__$rootNode = node;
+
             this.__boot();
             this.__init();
             this.__startup();
@@ -28,6 +33,7 @@ define(function (require, exports, module) {
 
         __init: function () {
             this.__$components = {
+                containerManager: new ContainerManager(this),
                 moduleManager: new ModuleManager(this),
                 serviceManager: new ServiceManager(this),
                 messageManager: new MessageMaanager(this),
@@ -45,6 +51,10 @@ define(function (require, exports, module) {
 
         emitAll: function (name) {
             this.__$components.eventManager.emitAll(name);
+        },
+
+        getRootNode: function () {
+            return this.__$rootNode;
         },
 
         /* --- 模块接口 start --- */
@@ -76,6 +86,18 @@ define(function (require, exports, module) {
 
         getActiveHeap: function (module) {
             return this.__$workbook.getActiveHeap(module);
+        },
+
+        execCommand: function () {
+            return this.__$workbook.execCommand.apply(this.__$workbook, arguments);
+        },
+
+        queryCommandValue: function () {
+            return this.__$workbook.queryCommandValue.apply(this.__$workbook, arguments);
+        },
+
+        getShadowContainer: function () {
+            return this.__$components.containerManager.getShadowContainer();
         }
         /* --- 模块接口 end --- */
     });

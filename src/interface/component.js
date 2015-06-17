@@ -85,6 +85,18 @@ define(function (require, exports, module) {
 
         getActiveHeap: function () {
             return this.__$module.getActiveHeap();
+        },
+
+        execCommand: function () {
+            return this.__$ctx.execCommand.apply(this, arguments);
+        },
+
+        queryCommandValue: function () {
+            return this.__$ctx.queryCommandValue.apply(this, arguments);
+        },
+
+        getShadowContainer: function () {
+            return this.__$ctx.getShadowContainer();
         }
     });
 });
