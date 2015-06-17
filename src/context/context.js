@@ -48,22 +48,21 @@ define(function (require, exports, module) {
             return serviceManager.rs.apply(serviceManager, arguments);
         },
 
-        onMessage: function () {
-            var messageManager = this.__$components.messageManager;
-            messageManager.on.apply(messageManager, arguments);
+        onMessage: function (subscriber, topic, handler) {
+            this.__$components.messageManager.on(subscriber, topic, handler);
         },
 
         postMessage: function (publisher, topic) {
             this.__$components.messageManager.post(publisher, topic);
         },
 
-        on: function () {
-            var eventManager = this.__$components.eventManager;
-            eventManager.on.apply(eventManager, arguments);
+        on: function (listener, name, handler) {
+            this.__$components.eventManager.on(listener, name, handler);
         },
 
-        emit: function (publisher, name) {
-            this.__$components.eventManager.post(publisher, name);
+        emit: function () {
+            var eventManager = this.__$components.eventManager;
+            eventManager.emit.apply(eventManager, arguments);
         }
     });
 });

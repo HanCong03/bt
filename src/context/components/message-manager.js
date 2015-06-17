@@ -27,17 +27,7 @@ define(function (require, exports, module) {
         },
 
         on: function (subscriber, topic, handler) {
-            if ($$.isNdef(topic)) {
-                for (var key in subscriber) {
-                    if (!subscriber.hasOwnProperty(key)) {
-                        continue;
-                    }
-
-                    this.__subscribe(key, subscriber[key].subscriber, subscriber[key].handler);
-                }
-            } else {
-                this.__subscribe(topic, subscriber, handler);
-            }
+            this.__subscribe(topic, subscriber, handler);
         },
 
         post: function (publisher, topic) {

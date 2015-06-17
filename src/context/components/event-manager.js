@@ -27,17 +27,7 @@ define(function (require, exports, module) {
         },
 
         on: function (listener, name, handler) {
-            if ($$.isNdef(name)) {
-                for (var key in listener) {
-                    if (!listener.hasOwnProperty(key)) {
-                        continue;
-                    }
-
-                    this.__listen(key, listener[key].listener, listener[key].handler);
-                }
-            } else {
-                this.__listen(name, listener, handler);
-            }
+            this.__listen(name, listener, handler);
         },
 
         emit: function (publisher, name) {

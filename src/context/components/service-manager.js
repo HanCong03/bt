@@ -20,17 +20,7 @@ define(function (require, exports, module) {
         },
 
         register: function (provider, name, handler) {
-            if ($$.isNdef(name)) {
-                for (var key in provider) {
-                    if (!provider.hasOwnProperty(key)) {
-                        continue;
-                    }
-
-                    this.__register(key, provider[key].provider, provider[key].handler);
-                }
-            } else {
-                this.__register(name, provider, handler);
-            }
+            this.__register(name, provider, handler);
         },
 
         request: function (customer, name, args) {
