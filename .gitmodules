@@ -1,0 +1,3 @@
+[submodule "kernel"]
+	path = kernel
+	url = http://gitlab.baidu.com/hancong03/btable-kernel.git
