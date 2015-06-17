@@ -13,6 +13,18 @@ define(function (require, exports, module) {
         constructor: function (ctx) {
             this.__$ctx = ctx;
             this.__$workbook = new Workbook();
+
+            this.__captureWorkbookEvent();
+        },
+
+        __captureWorkbookEvent: function () {
+            this.__$workbook.on(this, {
+                '*': this.__eventHandler
+            });
+        },
+
+        __eventHandler: function () {
+            console.log(arguments)
         },
 
         getActiveHeap: function (module) {
