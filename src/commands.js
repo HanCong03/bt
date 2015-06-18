@@ -8,7 +8,8 @@ define(function (require, exports, module) {
         env: {
             'theme': require('./env/commands/theme'),
             'style': require('./env/commands/style'),
-            'userStyle': require('./env/commands/user-style')
+            'userStyle': require('./env/commands/user-style'),
+            'border': require('./env/commands/border')
         },
         core: {},
         system: {},

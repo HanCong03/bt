@@ -9,7 +9,8 @@ define(function (require, exports, module) {
             startardSize: require('./env/standard-size'),
             theme: require('./env/theme'),
             style: require('./env/style'),
-            userStyle: require('./env/user-style')
+            userStyle: require('./env/user-style'),
+            border: require('./env/border')
         },
         core: {
             //visualData: require('./core/visual-data'),
