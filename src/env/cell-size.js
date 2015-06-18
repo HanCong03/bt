@@ -16,6 +16,18 @@ define(function (require, exports, module) {
             this.__initHeap();
             this.__initEvent();
             this.__initService();
+
+            var _self = this;
+            window.setTimeout(function () {
+                _self.execCommand('color', 'red', {
+                    row: 0,
+                    col: 0
+                }, {
+                    row: 4,
+                    col: 4
+                });
+                console.log(_self.getRowHeight(3));
+            }, 0);
         },
 
         __initShadowBox: function () {
@@ -43,8 +55,8 @@ define(function (require, exports, module) {
                 return;
             }
 
-            heap.widths = {};
-            heap.heights = {};
+            heap.widths = [];
+            heap.heights = [];
         },
 
         getColumnWidth: function (col) {
@@ -71,7 +83,27 @@ define(function (require, exports, module) {
          * @private
          */
         __calculateRowHeight: function (row) {
-            var rowCells = this.rs('get.row.cells', row);
+            // 当前行被隐藏，则直接返回
+            if (this.queryCommandValue('hiderow', row)) {
+                return 0;
+            }
+
+            // 检查是否有显式设定的行高
+            var rowHeight = this.queryCommandValue('rowheight', row);
+
+            if ($$.isDefined(rowHeight)) {
+                return rowHeight;
+            }
+
+            // 否则，通过计算得到行高
+            var rowData = this.rs('get.row.data', row);
+
+            // 该行无有效数据，则返回标准行高
+            if (!rowData) {
+                return this.rs('get.standard.height');
+            }
+
+            console.log(rowData)
         }
     });
 });

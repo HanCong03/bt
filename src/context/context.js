@@ -64,7 +64,7 @@ define(function (require, exports, module) {
 
         rs: function () {
             var serviceManager = this.__$components.serviceManager;
-            return serviceManager.rs.apply(serviceManager, arguments);
+            return serviceManager.request.apply(serviceManager, arguments);
         },
 
         onMessage: function (subscriber, topic, handler) {

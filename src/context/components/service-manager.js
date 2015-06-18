@@ -51,22 +51,22 @@ define(function (require, exports, module) {
 
             switch (type) {
                 case 'ext':
-                    if ($$.isDefined(serives[name])) {
+                    if ($$.isDefined(serives.ext[name])) {
                         return serives.ext[name];
                     }
 
                 case 'system':
-                    if ($$.isDefined(serives[name])) {
+                    if ($$.isDefined(serives.system[name])) {
                         return serives.system[name];
                     }
 
                 case 'core':
-                    if ($$.isDefined(serives[name])) {
+                    if ($$.isDefined(serives.core[name])) {
                         return serives.core[name];
                     }
 
                 case 'env':
-                    if ($$.isDefined(serives[name])) {
+                    if ($$.isDefined(serives.env[name])) {
                         return serives.env[name];
                     }
 

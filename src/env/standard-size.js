@@ -34,7 +34,9 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.standard.size': this.getStandardSize
+                'get.standard.size': this.getStandardSize,
+                'get.standard.height': this.getStandardHeight,
+                'get.standard.width': this.getStandardWidth
             });
         },
 
@@ -59,6 +61,14 @@ define(function (require, exports, module) {
                 width: heap.width,
                 height: heap.height
             };
+        },
+
+        getStandardHeight: function () {
+            return this.getActiveHeap().height;
+        },
+
+        getStandardWidth: function () {
+            return this.getActiveHeap().width;
         }
     });
 });
