@@ -1,5 +1,5 @@
 /**
- * @file 提供对底层style到css style的转换功能
+ * @file 提供样式存取服务
  * @author hancong03@baiud.com
  */
 
@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var NONE = require('./definition/none');
     var GENERAL = require('./definition/general');
 
-    module.exports = $$.createClass('style', {
+    module.exports = $$.createClass('Style', {
         base: require('env-module'),
 
         init: function () {

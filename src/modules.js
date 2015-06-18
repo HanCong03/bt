@@ -8,7 +8,8 @@ define(function (require, exports, module) {
         env: {
             startardSize: require('./env/standard-size'),
             theme: require('./env/theme'),
-            style: require('./env/style')
+            style: require('./env/style'),
+            userStyle: require('./env/user-style')
         },
         core: {
             //visualData: require('./core/visual-data'),
