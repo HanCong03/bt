@@ -73,6 +73,8 @@ define(function (require, exports, module) {
         getBorder: function (row, col) {
             var borders = this.__$api.getBorder(row, col);
 
+            borders = $$.clone(borders);
+
             if (borders.top === NONE) {
                 borders.top = null;
             }
@@ -95,6 +97,8 @@ define(function (require, exports, module) {
                 && borders['bottom'] === null) {
                 return null;
             }
+
+            return borders;
         },
 
         getLeftBorder: function (start, end) {
