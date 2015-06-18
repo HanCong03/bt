@@ -1,3 +1,6 @@
 [submodule "src/kernel"]
 	path = src/kernel
 	url = http://gitlab.baidu.com/hancong03/btable-kernel.git
+[submodule "src/core/numfmt/numfmt-code"]
+	path = src/core/numfmt/numfmt-code
+	url = http://gitlab.baidu.com/hancong03/numfmt-code.git

@@ -12,7 +12,9 @@ define(function (require, exports, module) {
             visualData: require('./core/visual-data'),
             cellSize: require('./core/cell-size'),
             rowData: require('./core/row-data'),
-            style: require('./core/style')
+            style: require('./core/style'),
+            cellContent: require('./core/cell/content'),
+            numfmt: require('./core/numfmt/numfmt')
         },
         system: {},
         ext: {}
