@@ -12,14 +12,6 @@ define(function (require, exports, module) {
 
         getAPI: function () {
             return this.__$ctx.getAPI();
-        },
-
-        execBasicCommand: function () {
-            return this.__$ctx.execBasicCommand.apply(this.__$ctx, arguments);
-        },
-
-        queryBasicCommandValue: function () {
-            return this.__$ctx.queryBasicCommandValue.apply(this.__$ctx, arguments);
         }
     });
 });

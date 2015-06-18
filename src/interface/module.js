@@ -91,14 +91,14 @@ define(function (require, exports, module) {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            return this.__$ctx.execCommand.apply(this.__$ctx, args);
+            return this.__$ctx.internalExecCommand.apply(this.__$ctx, args);
         },
 
         queryCommandValue: function () {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            return this.__$ctx.queryCommandValue.apply(this.__$ctx, args);
+            return this.__$ctx.internalQueryCommandValue.apply(this.__$ctx, args);
         },
 
         getShadowContainer: function () {

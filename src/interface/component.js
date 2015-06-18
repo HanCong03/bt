@@ -95,14 +95,14 @@ define(function (require, exports, module) {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            return this.__$ctx.execCommand.apply(this, args);
+            return this.__$ctx.internalExecCommand.apply(this, args);
         },
 
         queryCommandValue: function () {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);
 
-            return this.__$ctx.queryCommandValue.apply(this, args);
+            return this.__$ctx.internalQueryCommandValue.apply(this, args);
         },
 
         getShadowContainer: function () {

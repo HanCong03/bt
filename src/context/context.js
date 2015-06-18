@@ -104,14 +104,24 @@ define(function (require, exports, module) {
         },
 
         /* --- 命令 start --- */
-        execCommand: function () {
+        internalExecCommand: function () {
             var commandManager = this.__$components.commandManager;
             return commandManager.execCommand.apply(commandManager, arguments);
         },
 
-        queryCommandValue: function () {
+        internalQueryCommandValue: function () {
             var commandManager = this.__$components.commandManager;
             return commandManager.queryCommandValue.apply(commandManager, arguments);
+        },
+
+        execCommand: function () {
+            var commandManager = this.__$components.commandManager;
+            return commandManager.anonymousExecCommand.apply(commandManager, arguments);
+        },
+
+        queryCommandValue: function () {
+            var commandManager = this.__$components.commandManager;
+            return commandManager.anonymousQueryCommandValue.apply(commandManager, arguments);
         },
         /* --- 命令 end --- */
 

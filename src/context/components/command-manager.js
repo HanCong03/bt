@@ -47,7 +47,28 @@ define(function (require, exports, module) {
 
             var args = [].slice.call(arguments, 2);
 
-            return command.handler.apply(command.provider, args);
+            if (!command.handler) {
+                return command.provider['exec'].call(command.provider, commandName, args);
+            } else {
+                return command.handler.apply(command.provider, args);
+            }
+        },
+
+        // 匿名调用
+        anonymousExecCommand: function (commandName) {
+            var command = this.__lookupExecCommand('ext', commandName);
+
+            if (!command) {
+                throw new Error('command is not found: ' + commandName);
+            }
+
+            var args = [].slice.call(arguments, 1);
+
+            if (!command.handler) {
+                return command.provider['exec'].call(command.provider, commandName, args);
+            } else {
+                return command.handler.apply(command.provider, args);
+            }
         },
 
         queryCommandValue: function (customer, commandName) {
@@ -59,7 +80,27 @@ define(function (require, exports, module) {
 
             var args = [].slice.call(arguments, 2);
 
-            return command.handler.apply(command.provider, args);
+            if (!command.handler) {
+                return command.provider['query'].call(command.provider, commandName, args);
+            } else {
+                return command.handler.apply(command.provider, args);
+            }
+        },
+
+        anonymousQueryCommandValue: function (commandName) {
+            var command = this.__lookupQueryCommand('ext', commandName);
+
+            if (!command) {
+                throw new Error('command is not found: ' + commandName);
+            }
+
+            var args = [].slice.call(arguments, 1);
+
+            if (!command.handler) {
+                return command.provider['query'].call(command.provider, commandName, args);
+            } else {
+                return command.handler.apply(command.provider, args);
+            }
         },
 
         __scan: function (type) {
