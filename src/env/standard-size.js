@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var STANDARD_SIZE = require('./definition/standard-size');
 
     module.exports = $$.createClass('StandardSize', {
-        base: require('module'),
+        base: require('evn-module'),
 
         shadowBox: null,
 

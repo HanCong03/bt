@@ -30,6 +30,10 @@ define(function (require, exports, module) {
             this.__startup('ext');
         },
 
+        lookup: function (type, name) {
+            return this.__$modules[type][name];
+        },
+
         __startup: function (type) {
             var moduels = MODULES[type];
             var pool = this.__$modules[type];

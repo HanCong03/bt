@@ -9,8 +9,9 @@ define(function (require, exports, module) {
     var MessageMaanager = require('./components/message-manager');
     var EventManager = require('./components/event-manager');
     var ContainerManager = require('./components/container-manager');
+    var CommandManager = require('./components/command-manager');
 
-    var Workbook = require('./workbook');
+    var Workbook = require('./workbook/workbook');
 
     module.exports = require('utils').createClass('Context', {
 
@@ -37,12 +38,15 @@ define(function (require, exports, module) {
                 moduleManager: new ModuleManager(this),
                 serviceManager: new ServiceManager(this),
                 messageManager: new MessageMaanager(this),
-                eventManager: new EventManager(this)
+                eventManager: new EventManager(this),
+                commandManager: new CommandManager(this)
             };
         },
 
         __startup: function () {
+            this.__$workbook.startup();
             this.__$components.moduleManager.startup();
+            this.__$components.commandManager.startup();
         },
 
         __ready: function () {
@@ -55,6 +59,10 @@ define(function (require, exports, module) {
 
         getRootNode: function () {
             return this.__$rootNode;
+        },
+
+        getManager: function (name) {
+            return this.__$components[name];
         },
 
         /* --- 模块接口 start --- */
@@ -88,13 +96,27 @@ define(function (require, exports, module) {
             return this.__$workbook.getActiveHeap(module);
         },
 
+        /* --- 命令 start --- */
         execCommand: function () {
-            return this.__$workbook.execCommand.apply(this.__$workbook, arguments);
+            var commandManager = this.__$components.commandManager;
+            return commandManager.execCommand.apply(commandManager, arguments);
         },
 
         queryCommandValue: function () {
-            return this.__$workbook.queryCommandValue.apply(this.__$workbook, arguments);
+            var commandManager = this.__$components.commandManager;
+            return commandManager.queryCommandValue.apply(commandManager, arguments);
         },
+
+        execBasicCommand: function () {
+            var commandManager = this.__$components.commandManager;
+            return commandManager.execBasicCommand.apply(commandManager, arguments);
+        },
+
+        queryBasicCommandValue: function () {
+            var commandManager = this.__$components.commandManager;
+            return commandManager.queryBasicCommandValue.apply(commandManager, arguments);
+        },
+        /* --- 命令 end --- */
 
         getShadowContainer: function () {
             return this.__$components.containerManager.getShadowContainer();

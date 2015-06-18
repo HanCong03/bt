@@ -4,7 +4,8 @@
  */
 
 define(function (require, exports, module) {
-    var Workbook = require('../kernel/src/workbook-facade');
+    var Workbook = require('../../kernel/src/workbook-facade');
+    var COMMANDS_MAP = require('./map');
 
     module.exports = require('utils').createClass('Workbook', {
         __$ctx: null,
@@ -27,16 +28,13 @@ define(function (require, exports, module) {
             console.log(arguments)
         },
 
+        startup: function () {
+            var commandManager = this.__$ctx.getManager('commandManager');
+            commandManager.addBasicCommand(this, COMMANDS_MAP);
+        },
+
         getActiveHeap: function (module) {
             return this.__$workbook.getActiveHeap(module.__$mid);
-        },
-
-        execCommand: function () {
-            return this.__$workbook.execCommand.apply(this.__$workbook, arguments);
-        },
-
-        queryCommandValue: function () {
-            return this.__$workbook.queryCommandValue.apply(this.__$workbook, arguments);
         }
     });
 });

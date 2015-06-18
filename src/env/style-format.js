@@ -5,7 +5,7 @@
 
 define(function (require, exports, module) {
     module.exports = require('utils').createClass('StyleFormat', {
-        base: require('module'),
+        base: require('evn-module'),
 
         init: function () {
             this.__initService();
