@@ -9,7 +9,8 @@ define(function (require) {
 
         $query: [
             'font',
-            'color'
+            'color',
+            'numfmt'
         ],
 
         query: function (name, args) {
@@ -20,6 +21,9 @@ define(function (require) {
 
                 case 'color':
                     return this.$dep.getColor(args[0], args[1]);
+
+                case 'numfmt':
+                    return this.$dep.getNumberFormat(args[0], args[1]);
             }
         }
     });

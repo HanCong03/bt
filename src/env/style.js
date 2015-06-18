@@ -5,6 +5,8 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var NONE = require('./definition/none');
+    var GENERAL = require('./definition/general');
 
     module.exports = $$.createClass('style', {
         base: require('env-module'),
@@ -18,22 +20,18 @@ define(function (require, exports, module) {
             this.__$api.setStyle('name', fontName, start, end);
         },
 
-        setFontToMajor: function (start, end) {
+        setFontForMajor: function (start, end) {
             this.__$api.setStyle('name', {
                 type: 'major',
                 value: this.queryCommandValue('majorfont')
             }, start, end);
         },
 
-        setFontToMinor: function (start, end) {
+        setFontForMinor: function (start, end) {
             this.__$api.setStyle('name', {
                 type: 'minor',
                 value: this.queryCommandValue('minorfont')
             }, start, end);
-        },
-
-        unsetFont: function (start, end) {
-            this.__$api.unsetStyle('name', start, end);
         },
 
         getFont: function (row, col) {
@@ -49,36 +47,44 @@ define(function (require, exports, module) {
 
         /* ---- 颜色设置 ---- start */
         setColor: function (color, start, end) {
-            this.setStyle('color', color, start, end);
+            this.__$api.setStyle('color', color, start, end);
         },
 
-        setThemeColor: function (theme, tint, start, end) {
+        setColorForTheme: function (theme, tint, start, end) {
             theme = theme - 0;
             tint = tint - 0;
 
-            this.setStyle('color', {
+            this.__$api.setStyle('color', {
                 theme: theme,
                 tint: tint,
-                value: this.rs('get.theme.color', theme, tint)
+                value: this.queryCommandValue('themecolor', theme, tint)
             }, start, end);
         },
 
-        unsetColor: function (start, end) {
-            this.unsetStyle('color', start, end);
-        },
-
         getColor: function (row, col) {
-            return this.getStyle('color', row, col);
+            var color = this.__$api.getStyle('color', row, col);
+
+            if (typeof color === 'object') {
+                return color.value;
+            }
+
+            return color;
         },
         /* ---- 颜色设置 ---- end */
 
         /* --- 格式化 start --- */
         setNumberFormat: function (code, start, end) {
-            this.setStyle('numfmt', code, start, end);
+            this.__$api.setStyle('numfmt', code, start, end);
         },
 
         getNumberFormat: function (row, col) {
-            return this.getStyle('numfmt', row, col);
+            var numfmt = this.__$api.getStyle('numfmt', row, col);
+
+            if (numfmt === NONE) {
+                return GENERAL;
+            }
+
+            return numfmt;
         }
     });
 });
