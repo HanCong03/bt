@@ -44,7 +44,6 @@ define(function (require, exports, module) {
         },
 
         __startup: function () {
-            this.__$workbook.startup();
             this.__$components.moduleManager.startup();
             this.__$components.commandManager.startup();
         },
@@ -90,6 +89,10 @@ define(function (require, exports, module) {
         emit: function () {
             var eventManager = this.__$components.eventManager;
             eventManager.emit.apply(eventManager, arguments);
+        },
+
+        getAPI: function () {
+            return this.__$workbook.getAPI();
         },
 
         getActiveHeap: function (module) {

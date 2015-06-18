@@ -6,7 +6,8 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
-            startardSize: require('./env/standard-size')
+            startardSize: require('./env/standard-size'),
+            theme: require('./env/theme')
         },
         core: {
             visualData: require('./core/visual-data'),

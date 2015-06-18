@@ -5,7 +5,9 @@
 
 define(function (require, exports, module) {
     module.exports = {
-        env: {},
+        env: {
+            'theme': require('./env/commands/theme')
+        },
         core: {},
         system: {},
         ext: {}

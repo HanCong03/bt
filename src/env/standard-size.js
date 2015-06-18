@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var STANDARD_SIZE = require('./definition/standard-size');
 
     module.exports = $$.createClass('StandardSize', {
-        base: require('evn-module'),
+        base: require('env-module'),
 
         shadowBox: null,
 
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
          */
         recalculate: function () {
             var heap = this.getActiveHeap();
-            var minorFont = this.queryBasicCommandValue('minorfont');
+            var minorFont = this.queryCommandValue('minorfont');
 
             this.shadowBox.style.fontFamily = minorFont;
 

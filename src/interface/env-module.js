@@ -10,6 +10,10 @@ define(function (require, exports, module) {
 
         base: require('module'),
 
+        getAPI: function () {
+            return this.__$ctx.getAPI();
+        },
+
         execBasicCommand: function () {
             return this.__$ctx.execBasicCommand.apply(this.__$ctx, arguments);
         },
