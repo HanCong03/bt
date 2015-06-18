@@ -88,11 +88,17 @@ define(function (require, exports, module) {
         },
 
         execCommand: function () {
-            return this.__$ctx.execCommand.apply(this, arguments);
+            var args = [].slice.call(arguments, 0);
+            args.unshift(this);
+
+            return this.__$ctx.execCommand.apply(this, args);
         },
 
         queryCommandValue: function () {
-            return this.__$ctx.queryCommandValue.apply(this, arguments);
+            var args = [].slice.call(arguments, 0);
+            args.unshift(this);
+
+            return this.__$ctx.queryCommandValue.apply(this, args);
         },
 
         getShadowContainer: function () {

@@ -12,7 +12,7 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initHeap();
-            console.log(this.getFormattedContent(0, 0))
+            //console.log(this.getFormattedContent(0, 0))
         },
 
         __initHeap: function () {
@@ -32,7 +32,6 @@ define(function (require, exports, module) {
                 contents[row] = [];
             }
 
-            debugger
             if (contents[row][col] === undefined) {
                 contents[row] = this.__loadCell(row, col);
             }

@@ -45,7 +45,7 @@ define(function (require, exports, module) {
          */
         recalculate: function () {
             var heap = this.getActiveHeap();
-            var minorFont = this.queryCommandValue('minorfont');
+            var minorFont = this.queryBasicCommandValue('minorfont');
 
             this.shadowBox.style.fontFamily = minorFont;
 

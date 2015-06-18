@@ -19,8 +19,6 @@ define(function (require, exports, module) {
 
         formatFonts: function (styles) {
             var cssStyles = {};
-
-            
         }
     });
 });

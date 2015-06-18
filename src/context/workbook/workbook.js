@@ -33,6 +33,10 @@ define(function (require, exports, module) {
             commandManager.addBasicCommand(this, COMMANDS_MAP);
         },
 
+        getAPI: function () {
+            return this.__$workbook.getAPI();
+        },
+
         getActiveHeap: function (module) {
             return this.__$workbook.getActiveHeap(module.__$mid);
         }
