@@ -12,7 +12,10 @@ define(function (require, exports, module) {
             userStyle: require('./env/commands/user-style'),
             border: require('./env/commands/border'),
             clear: require('./env/commands/clear'),
-            comment: require('./env/commands/comment')
+            comment: require('./env/commands/comment'),
+            dimension: require('./env/commands/dimension'),
+            mergeCell: require('./env/commands/merge-cell'),
+            rowColumn: require('./env/commands/row-column')
         },
         core: {},
         system: {},

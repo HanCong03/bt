@@ -5,15 +5,14 @@
 
 define(function (require) {
     return require('utils').createClass({
-
-        base: require('../i-command'),
+        $dep: 'dimension',
 
         $query: [
             'dimension'
         ],
 
         query_dimension: function () {
-            return this.getAPI().getDimension();
+            return this.$dep.getDimension();
         }
     });
 });
