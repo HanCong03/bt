@@ -33,6 +33,10 @@ define(function (require, exports, module) {
 
         getActiveHeap: function (module) {
             return this.__$workbook.getActiveHeap(module.__$mid);
+        },
+
+        getWorkbookHeap: function (module) {
+            return this.__$workbook.getActiveHeap(module.__$mid);
         }
     });
 });

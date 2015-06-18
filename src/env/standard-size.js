@@ -44,7 +44,7 @@ define(function (require, exports, module) {
          * 计算标准列宽和行高
          */
         recalculate: function () {
-            var heap = this.getActiveHeap();
+            var heap = this.getWorkbookHeap();
             var minorFont = this.queryCommandValue('minorfont');
 
             this.shadowBox.style.fontFamily = minorFont;
@@ -56,7 +56,7 @@ define(function (require, exports, module) {
         },
 
         getStandardSize: function () {
-            var heap = this.getActiveHeap();
+            var heap = this.getWorkbookHeap();
             return {
                 width: heap.width,
                 height: heap.height
@@ -64,11 +64,11 @@ define(function (require, exports, module) {
         },
 
         getStandardHeight: function () {
-            return this.getActiveHeap().height;
+            return this.getWorkbookHeap().height;
         },
 
         getStandardWidth: function () {
-            return this.getActiveHeap().width;
+            return this.getWorkbookHeap().width;
         }
     });
 });

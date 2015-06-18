@@ -10,14 +10,12 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('CommandManager', {
         __$commands: {
             exec: {
-                basic: {},
                 env: {},
                 core: {},
                 system: {},
                 ext: {}
             },
             query: {
-                basic: {},
                 env: {},
                 core: {},
                 system: {},
@@ -62,46 +60,6 @@ define(function (require, exports, module) {
             var args = [].slice.call(arguments, 2);
 
             return command.handler.apply(command.provider, args);
-        },
-
-        execBasicCommand: function (commandName) {
-            var command = this.__lookupBasicExecCommand(commandName);
-
-            if (!command) {
-                throw new Error('basic command is not found: ' + commandName);
-            }
-
-            var args = [].slice.call(arguments, 2);
-
-            return command.handler.apply(command.provider, args);
-        },
-
-        queryBasicCommandValue: function (commandName) {
-            var command = this.__lookupBasicQueryCommand(commandName);
-
-            if (!command) {
-                throw new Error('basic command is not found: ' + commandName);
-            }
-
-            var args = [].slice.call(arguments, 2);
-
-            return command.handler.apply(command.provider, args);
-        },
-
-        addBasicCommand: function (provider, commandMap) {
-            var command;
-
-            for (var key in commandMap) {
-                if (!commandMap.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                command = new commandMap[key];
-                command.$dep = provider;
-
-                this.__mountQueryCommand('basic', command);
-                this.__mountExecCommand('basic', command);
-            }
         },
 
         __scan: function (type) {

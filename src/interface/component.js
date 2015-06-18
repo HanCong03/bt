@@ -87,6 +87,10 @@ define(function (require, exports, module) {
             return this.__$module.getActiveHeap();
         },
 
+        getWorkbookHeap: function () {
+            return this.__$module.getWorkbookHeap();
+        },
+
         execCommand: function () {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);

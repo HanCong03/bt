@@ -99,6 +99,10 @@ define(function (require, exports, module) {
             return this.__$workbook.getActiveHeap(module);
         },
 
+        getWorkbookHeap: function (module) {
+            return this.__$workbook.getWorkbookHeap(module);
+        },
+
         /* --- 命令 start --- */
         execCommand: function () {
             var commandManager = this.__$components.commandManager;
@@ -108,16 +112,6 @@ define(function (require, exports, module) {
         queryCommandValue: function () {
             var commandManager = this.__$components.commandManager;
             return commandManager.queryCommandValue.apply(commandManager, arguments);
-        },
-
-        execBasicCommand: function () {
-            var commandManager = this.__$components.commandManager;
-            return commandManager.execBasicCommand.apply(commandManager, arguments);
-        },
-
-        queryBasicCommandValue: function () {
-            var commandManager = this.__$components.commandManager;
-            return commandManager.queryBasicCommandValue.apply(commandManager, arguments);
         },
         /* --- 命令 end --- */
 
