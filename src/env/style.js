@@ -15,7 +15,7 @@ define(function (require, exports, module) {
             this.__$api = this.getAPI();
         },
 
-        /* ---- 字体设置 ---- start */
+        /* ---- 字体 start ---- */
         setFont: function (fontName, start, end) {
             this.__$api.setStyle('name', fontName, start, end);
         },
@@ -43,7 +43,56 @@ define(function (require, exports, module) {
 
             return font;
         },
-        /* ---- 字体设置 ---- end */
+
+        isBold: function (row, col) {
+            return this.__$api.getStyle('bold', row, col);
+        },
+
+        toggleBold: function (start, end) {
+            var bold = this.__$api.getStyle('bold', start.row, start.col);
+            this.__$api.setStyle('bold', !bold, start, end);
+        },
+
+        isItalic: function (row, col) {
+            return this.__$api.getStyle('italic', row, col);
+        },
+
+        toggleItalic: function (start, end) {
+            var italic = this.__$api.getStyle('italic', start.row, start.col);
+            this.__$api.setStyle('italic', !italic, start, end);
+        },
+
+        setUnderline: function (line, start, end) {
+            this.__$api.setStyle('underline', line, start, end);
+        },
+
+        getUnderline: function (row, col) {
+            var underline = this.__$api.getStyle('underline', row, col);
+
+            if (underline === NONE) {
+                return null;
+            }
+
+            return underline;
+        },
+
+        toggleThroughline: function (start, end) {
+            var throughline = this.__$api.getStyle('throughline', start.row, start.col);
+            this.__$api.setStyle('throughline', !throughline, start, end);
+        },
+
+        hasThroughline: function (row, col) {
+            return this.__$api.getStyle('throughline', row, col);
+        },
+
+        setFontSize: function (fontsize, start, end) {
+            return this.__$api.setStyle('size', fontsize, start, end);
+        },
+
+        getFontSize: function (row, col) {
+            return this.__$api.getStyle('size', row, col);
+        },
+        /* ---- 字体 end ---- */
 
         /* ---- 颜色设置 ---- start */
         setColor: function (color, start, end) {
@@ -85,6 +134,50 @@ define(function (require, exports, module) {
             }
 
             return numfmt;
+        },
+        /* --- 格式化 end --- */
+
+        /* --- 填充 start --- */
+        setFill: function (val, start, end) {
+            this.__$api.setStyle('fill', val, start, end);
+        },
+
+        getFill: function (row, col) {
+            var fill = this.__$api.getStyle('fill', row, col);
+
+            if (fill === NONE) {
+                return null;
+            }
+
+            return fill;
+        },
+        /* --- 填充 end --- */
+
+        /* --- 对齐 start --- */
+        setHorizontalAlign: function (val, start, end) {
+            this.__$api.setStyle('horizontal', val, start, end);
+        },
+
+        getHorizontalAlign: function (row, col) {
+            return this.__$api.getStyle('horizontal', row, col);
+        },
+
+        setVerticalAlign: function (val, start, end) {
+            this.__$api.setStyle('vertical', val, start, end);
+        },
+
+        getVerticalAlign: function (row, col) {
+            return this.__$api.getStyle('vertical', row, col);
+        },
+
+        toggleWraptext: function (start, end) {
+            var wraptext = this.__$api.getStyle('wraptext', start.row, start.col);
+            this.__$api.setStyle('wraptext', !wraptext, start, end);
+        },
+
+        isWraptext: function (row, col) {
+            return this.__$api.getStyle('wraptext', row, col);
         }
+        /* --- 对齐 end --- */
     });
 });
