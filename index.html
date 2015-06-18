@@ -58,6 +58,16 @@
                 col: 3
             });
 
+            btable.execCommand('clearall', {
+                row: 0,
+                col: 0
+            }, {
+                row: Math.pow(2, 20),
+                col: Math.pow(2, 20)
+            });
+
+            console.log(btable.queryCommandValue('standardsize'));
+
             console.log(btable.queryCommandValue('font', 0, 0));
             console.log(btable.queryCommandValue('color', 0, 0));
             console.log(btable.queryCommandValue('numfmt', 0, 0));

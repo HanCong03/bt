@@ -24,7 +24,7 @@ define(function (require, exports, module) {
         },
 
         __eventHandler: function () {
-            console.log(arguments)
+            //console.log(arguments)
         },
 
         getAPI: function () {

@@ -6,11 +6,13 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
-            startardSize: require('./env/standard-size'),
+            standardSize: require('./env/standard-size'),
             theme: require('./env/theme'),
             style: require('./env/style'),
             userStyle: require('./env/user-style'),
-            border: require('./env/border')
+            border: require('./env/border'),
+            clear: require('./env/clear'),
+            comment: require('./env/comment')
         },
         core: {
             //visualData: require('./core/visual-data'),

@@ -5,7 +5,7 @@
 
 define(function (require) {
     return require('utils').createClass({
-        base: require('../i-command'),
+        $dep: 'clear',
 
         $exec: [
             'clearall'
@@ -13,7 +13,7 @@ define(function (require) {
 
         /* ---- gridline ---- */
         exec_clearall: function (start, end) {
-            this.getAPI().clearAll(start, end);
+            this.$dep.clearAll(start, end);
         }
     });
 });
