@@ -21,6 +21,12 @@ define(function (require, exports, module) {
             });
         },
 
+        getStyle: function (styleName, row, col) {
+            var styleValue = this.queryCommandValue(styleName, row, col);
+
+            console.log(styleValue)
+        },
+
         getFullStyle: function (row, col) {
             return this.queryCommandValue('fullstyle', row, col);
         }

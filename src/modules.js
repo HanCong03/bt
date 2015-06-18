@@ -14,6 +14,8 @@ define(function (require, exports, module) {
             rowData: require('./core/row-data'),
             style: require('./core/style'),
             cellContent: require('./core/cell/content'),
+            displayContent: require('./core/cell/display-content'),
+            formattedContent: require('./core/cell/formatted-content'),
             numfmt: require('./core/numfmt/numfmt')
         },
         system: {},

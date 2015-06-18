@@ -11,9 +11,18 @@ define(function (require, exports, module) {
         base: require('module'),
 
         init: function () {
-            console.log(NumfmtCode)
+            this.registerService({
+                'numfmt.format': this.format,
+                'numfmt.analyze': this.analyze
+            });
+        },
+
+        format: function (value, code) {
+            return NumfmtCode.format(value, code);
+        },
+
+        analyze: function (value, code) {
+            return NumfmtCode.analyze(value, code);
         }
-
-
     });
 });
