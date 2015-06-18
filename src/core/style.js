@@ -22,17 +22,7 @@ define(function (require, exports, module) {
         },
 
         getFullStyle: function (row, col) {
-            var styles = this.queryCommandValue('fullstyle', row, col);
-
-            if ($$.isNdef(styles)) {
-                return null;
-            }
-
-            return standardizeFullStyle(styles);
+            return this.queryCommandValue('fullstyle', row, col);
         }
     });
-
-    function standardizeFullStyle(styles) {
-        debugger
-    }
 });

@@ -6,13 +6,14 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
-            visualData: require('./env/visual-data'),
-            startardSize: require('./env/standard-size'),
-            cellSize: require('./env/cell-size'),
-            rowData: require('./env/row-data'),
-            style: require('./env/style')
+            startardSize: require('./env/standard-size')
         },
-        core: {},
+        core: {
+            visualData: require('./core/visual-data'),
+            cellSize: require('./core/cell-size'),
+            rowData: require('./core/row-data'),
+            style: require('./core/style')
+        },
         system: {},
         ext: {}
     };
