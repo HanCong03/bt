@@ -28,7 +28,7 @@ define(function (require, exports, module) {
         },
 
         setContent: function (content, row, col) {
-
+            debugger;
         }
     });
 });

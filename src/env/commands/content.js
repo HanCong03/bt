@@ -8,26 +8,16 @@ define(function (require) {
         $dep: 'content',
 
         $exec: [
-            'write', // 是“content”的同义词
-            'content'
+            'read' // 是“content”的同义词
         ],
 
         $query: [
-            'read', // 是“content”的同义词
             'content',
             'contenttype',
             'contentinfo'
         ],
 
-        exec_write: function (value, contentType, row, col) {
-            this.$dep.setContent(value, contentType, row, col);
-        },
-
-        exec_content: function (value, contentType, row, col) {
-            this.$dep.setContent(value, contentType, row, col);
-        },
-
-        query_read: function (row, col) {
+        exec_read: function (row, col) {
             return this.$dep.getContent(row, col);
         },
 

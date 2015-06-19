@@ -28,59 +28,61 @@
         jQuery(function ($) {
             var btable = new BTable(document.getElementById('container'));
 
-            btable.execCommand('color', 'blue', {
+            btable.execCommand('write', 'hancong', 3, 0);
+
+            btable.execCommand('fontsize', '24', {
                 row: 0,
                 col: 0
             }, {
                 row: 4,
                 col: 4
             });
-
-            btable.execCommand('border', {
-                style: 'thin',
-                color: '#000'
-            }, {
-                row: 0,
-                col: 0
-            }, {
-                row: 3,
-                col: 3
-            });
-
-            btable.execCommand('innerborder', {
-                style: 'thin',
-                color: '#ff0000'
-            }, {
-                row: 1,
-                col: 1
-            }, {
-                row: 3,
-                col: 3
-            });
-
-            btable.execCommand('clearall', {
-                row: 0,
-                col: 0
-            }, {
-                row: Math.pow(2, 20),
-                col: Math.pow(2, 20)
-            });
-
-            console.log(btable.queryCommandValue('standardsize'));
-
-            console.log(btable.queryCommandValue('font', 0, 0));
-            console.log(btable.queryCommandValue('color', 0, 0));
-            console.log(btable.queryCommandValue('numfmt', 0, 0));
-
-            console.log(btable.queryCommandValue('userfont', 0, 0))
-            console.log(btable.queryCommandValue('border', 0, 0))
-            console.log(btable.queryCommandValue('outerborder', {
-                row: 0,
-                col: 0
-            }, {
-                row: 1,
-                col: 1
-            }))
+//
+//            btable.execCommand('border', {
+//                style: 'thin',
+//                color: '#000'
+//            }, {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: 3,
+//                col: 3
+//            });
+//
+//            btable.execCommand('innerborder', {
+//                style: 'thin',
+//                color: '#ff0000'
+//            }, {
+//                row: 1,
+//                col: 1
+//            }, {
+//                row: 3,
+//                col: 3
+//            });
+//
+//            btable.execCommand('clearall', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: Math.pow(2, 20),
+//                col: Math.pow(2, 20)
+//            });
+//
+//            console.log(btable.queryCommandValue('standardsize'));
+//
+//            console.log(btable.queryCommandValue('font', 0, 0));
+//            console.log(btable.queryCommandValue('color', 0, 0));
+//            console.log(btable.queryCommandValue('numfmt', 0, 0));
+//
+//            console.log(btable.queryCommandValue('userfont', 0, 0))
+//            console.log(btable.queryCommandValue('border', 0, 0))
+//            console.log(btable.queryCommandValue('outerborder', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: 1,
+//                col: 1
+//            }))
 //            console.log(btable.queryCommandValue('topborder', 0, 0))
 
 

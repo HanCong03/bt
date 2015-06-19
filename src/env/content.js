@@ -11,6 +11,13 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__$api = this.getAPI();
+            this.__initService();
+        },
+
+        __initService: function () {
+            this.registerService({
+               'set.content.and.type': this.setContent
+            });
         },
 
         setContent: function (value, contentType, row, col) {

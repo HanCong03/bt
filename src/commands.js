@@ -6,7 +6,7 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
-            startardSize: require('./env/commands/standard-size'),
+            startard: require('./env/commands/standard'),
             theme: require('./env/commands/theme'),
             style: require('./env/commands/style'),
             userStyle: require('./env/commands/user-style'),
@@ -19,7 +19,9 @@ define(function (require, exports, module) {
             view: require('./env/commands/view'),
             content: require('./env/commands/content')
         },
-        core: {},
+        core: {
+            content: require('./core/commands/cell/content')
+        },
         system: {},
         ext: {}
     };

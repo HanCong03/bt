@@ -6,7 +6,7 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
 
-    module.exports = $$.createClass('CellSize', {
+    module.exports = $$.createClass('RowHeight', {
         base: require('module'),
 
         shadowBox: null,
@@ -14,7 +14,6 @@ define(function (require, exports, module) {
         init: function () {
             this.__initShadowBox();
             this.__initHeap();
-            this.__initEvent();
             this.__initService();
 
             var _self = this;
@@ -25,14 +24,7 @@ define(function (require, exports, module) {
 
         __initShadowBox: function () {
             this.shadowBox = document.createElement('span');
-            this.shadowBox.style.fontSize = '11pt';
-            this.shadowBox.innerHTML = '1234567890';
-
             this.getShadowContainer().appendChild(this.shadowBox);
-        },
-
-        __initEvent: function () {
-
         },
 
         __initService: function () {
@@ -44,20 +36,11 @@ define(function (require, exports, module) {
         __initHeap: function () {
             var heap = this.getActiveHeap();
 
-            if ($$.isDefined(heap.widths)) {
+            if ($$.isDefined(heap.heights)) {
                 return;
             }
 
-            heap.widths = [];
             heap.heights = [];
-        },
-
-        getColumnWidth: function (col) {
-            var heap = this.getActiveHeap();
-
-            if ($$.isDefined(heap.widths[col])) {
-                return heap.widths[col];
-            }
         },
 
         getRowHeight: function (row) {
@@ -88,15 +71,49 @@ define(function (require, exports, module) {
                 return rowHeight;
             }
 
-            // 否则，通过计算得到行高
-            var rowData = this.rs('get.row.data', row);
+            return this.__autoHeight(row);
+        },
 
-            // 该行无有效数据，则返回标准行高
-            if (!rowData) {
-                return this.rs('get.standard.height');
+        /**
+         * 计算指定行的自动高度
+         * @param row
+         * @returns {*}
+         * @private
+         */
+        __autoHeight: function (row) {
+            var dimension = this.queryCommandValue('dimension');
+            var standard = this.queryCommandValue('standard');
+
+            if (dimension.max.row < row || dimension.min.row > row) {
+                return standard.height;
             }
 
-            console.log(rowData)
+            var cells = this.__getCells(row, dimension.min.col, dimension.max.col);
+
+            return cells;
+        },
+
+        __getCells: function (row, startCol, endCol) {
+            var cells = [];
+            var font;
+            var fontsize;
+
+            for (var i = startCol; i <= endCol; i++) {
+                font = this.queryCommandValue('userfont', row, i);
+                fontsize = this.queryCommandValue('userfontsize', row, i);
+
+                cells[i] = {
+                    font: this.queryCommandValue('userfont', row, i),
+                    fontsize: this.queryCommandValue('userfontsize', row, i),
+                    content: this.rs('get.display.content', row, i)
+                };
+            }
+
+            if (cells.length === 0) {
+                return null;
+            }
+
+            return cells;
         }
     });
 });

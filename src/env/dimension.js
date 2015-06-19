@@ -14,7 +14,7 @@ define(function (require, exports, module) {
         },
 
         getDimension: function () {
-            this.__$api.getDimension();
+            return this.__$api.getDimension();
         }
     });
 });

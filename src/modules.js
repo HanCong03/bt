@@ -6,7 +6,7 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
-            standardSize: require('./env/standard-size'),
+            standard: require('./env/standard'),
             theme: require('./env/theme'),
             style: require('./env/style'),
             userStyle: require('./env/user-style'),
@@ -21,8 +21,11 @@ define(function (require, exports, module) {
         },
         core: {
             //visualData: require('./core/visual-data'),
-            //cellSize: require('./core/cell-size'),
-            //rowData: require('./core/row-data'),
+            rowHeight: require('./core/row-height'),
+            rowData: require('./core/row-data'),
+            content: require('./core/cell/content'),
+            formattedContent: require('./core/cell/formatted-content'),
+            displayContent: require('./core/cell/display-content')
             //style: require('./core/style'),
             //cellContent: require('./core/cell/content'),
             //displayContent: require('./core/cell/display-content'),

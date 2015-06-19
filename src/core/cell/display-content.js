@@ -11,25 +11,19 @@ define(function (require, exports, module) {
         base: require('module'),
 
         init: function () {
-            //this.__initHeap();
-            //this.__initEvent();
-            //this.__initService();
-            //
-            //var _self = this;
-            //window.setTimeout(function () {
-            //    _self.execCommand('color', 'red', {
-            //        row: 0,
-            //        col: 0
-            //    }, {
-            //        row: 4,
-            //        col: 4
-            //    });
-            //    console.log(_self.getRowHeight(3));
-            //}, 0);
+            this.__initService();
+        },
+
+        __initService: function () {
+            this.registerService({
+               'get.display.content': this.getDisplayContent
+            });
         },
 
         getDisplayContent: function (row, col) {
+            var formattedContent = this.rs('get.formatted.content', row, col);
 
+            debugger;
         }
     });
 });

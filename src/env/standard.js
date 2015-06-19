@@ -5,7 +5,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var STANDARD_SIZE = require('./definition/standard-size');
 
     module.exports = $$.createClass('StandardSize', {
         base: require('env-module'),
@@ -15,12 +14,12 @@ define(function (require, exports, module) {
         init: function () {
             this.__initShadowBox();
             this.__initEvent();
-            this.__initService();
         },
 
         __initShadowBox: function () {
             this.shadowBox = document.createElement('span');
             this.shadowBox.style.fontSize = '11pt';
+            this.shadowBox.style.fontFamily = this.getAPI().getStandardFont();
             this.shadowBox.innerHTML = '1234567890';
 
             this.getShadowContainer().appendChild(this.shadowBox);
@@ -29,14 +28,6 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'ready': this.recalculate
-            });
-        },
-
-        __initService: function () {
-            this.registerService({
-                'get.standard.size': this.getStandardSize,
-                'get.standard.height': this.getStandardHeight,
-                'get.standard.width': this.getStandardWidth
             });
         },
 
@@ -51,24 +42,38 @@ define(function (require, exports, module) {
 
             var unit = this.shadowBox.offsetWidth / 10;
 
-            heap.width = Math.round(STANDARD_SIZE.width * unit);
-            heap.height = Math.round(STANDARD_SIZE.height * 4 / 3);
+            heap.width = Math.round(this.getAPI().getStandardWidth() * unit);
+            heap.height = Math.round(this.getAPI().getStandardHeight() * 4 / 3);
         },
 
-        getStandardSize: function () {
-            var heap = this.getWorkbookHeap();
+        getStandard: function () {
             return {
-                width: heap.width,
-                height: heap.height
+                font: this.getStandardFont(),
+                fontsize: this.getStandardFontSize(),
+                color: this.getStandardColor(),
+                width: this.getStandardWidth(),
+                height: this.getStandardHeight()
             };
         },
 
-        getStandardHeight: function () {
-            return this.getWorkbookHeap().height;
+        getStandardFontSize: function () {
+            return this.getAPI().getStandardFontSize();
+        },
+
+        getStandardFont: function () {
+            return this.getAPI().getStandardFont();
+        },
+
+        getStandardColor: function () {
+            return this.getAPI().getStandardColor();
         },
 
         getStandardWidth: function () {
             return this.getWorkbookHeap().width;
+        },
+
+        getStandardHeight: function () {
+            return this.getWorkbookHeap().height;
         }
     });
 });

@@ -12,18 +12,9 @@ define(function (require, exports, module) {
         shadowBox: null,
 
         init: function () {
-            this.__initShadowBox();
             this.__initHeap();
             this.__initEvent();
             this.__initService();
-        },
-
-        __initShadowBox: function () {
-            this.shadowBox = document.createElement('span');
-            this.shadowBox.style.fontSize = '11pt';
-            this.shadowBox.innerHTML = '1234567890';
-
-            this.getShadowContainer().appendChild(this.shadowBox);
         },
 
         __initEvent: function () {
