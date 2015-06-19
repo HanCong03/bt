@@ -9,26 +9,12 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
 
-        init: function () {
-            //this.__initHeap();
-            //this.__initEvent();
-            //this.__initService();
-            //
-            //var _self = this;
-            //window.setTimeout(function () {
-            //    _self.execCommand('color', 'red', {
-            //        row: 0,
-            //        col: 0
-            //    }, {
-            //        row: 4,
-            //        col: 4
-            //    });
-            //    console.log(_self.getRowHeight(3));
-            //}, 0);
-        },
-
         setContent: function (content, row, col) {
-            debugger;
+            // 分析内容，获取其类型
+            var numfmt = this.queryCommandValue('numfmt');
+            var analyzeResult = this.rs('numfmt.analyze', content, numfmt);
+
+            this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
         }
     });
 });
