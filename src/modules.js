@@ -15,7 +15,9 @@ define(function (require, exports, module) {
             comment: require('./env/comment'),
             dimension: require('./env/dimension'),
             mergeCell: require('./env/merge-cell'),
-            rowColumn: require('./env/row-column')
+            rowColumn: require('./env/row-column'),
+            view: require('./env/view'),
+            content: require('./env/content')
         },
         core: {
             //visualData: require('./core/visual-data'),
