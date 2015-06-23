@@ -92,7 +92,7 @@ define(function (require, exports, module) {
                 return standard.height;
             }
 
-            return this.__calculateHeight(cells);
+            return Math.max(standard.height, this.__calculateHeight(cells));
         },
 
         __getCells: function (row, startCol, endCol) {

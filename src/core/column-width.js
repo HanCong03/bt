@@ -58,7 +58,6 @@ define(function (require, exports, module) {
             var dimension = this.queryCommandValue('dimension');
             var standard = this.queryCommandValue('standard');
 
-            console.log(dimension)
             if (dimension.max.col < col || dimension.min.col > col) {
                 return standard.width;
             }
@@ -70,7 +69,8 @@ define(function (require, exports, module) {
                 return standard.width;
             }
 
-            return this.__calculateWidth(cells);
+            // 返回自动计算的宽度和标准宽度中比较大的值
+            return Math.max(standard.width, this.__calculateWidth(cells));
         },
 
         __getCells: function (col, startRow, endRow) {
