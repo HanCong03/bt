@@ -89,7 +89,7 @@ define(function (require, exports, module) {
 
             // 当前行无有效数据，则返回标准高度
             if ($$.isNdef(cells)) {
-                return this.queryCommandValue('standardheight');
+                return standard.height;
             }
 
             return this.__calculateHeight(cells);

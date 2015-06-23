@@ -28,23 +28,23 @@
         jQuery(function ($) {
             var btable = new BTable(document.getElementById('container'));
 
-            btable.execCommand('write', 'hansdfoasdfasdf\nasdfasdfuaosidfuioads', 3, 0);
+            btable.execCommand('write', '123456', 3, 0);
 
-            btable.execCommand('fontsize', '24', {
-                row: 0,
-                col: 0
-            }, {
-                row: 4,
-                col: 4
-            });
+//            btable.execCommand('fontsize', '11', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: 4,
+//                col: 4
+//            });
 
-            btable.execCommand('wraptext', {
-                row: 3,
-                col: 0
-            }, {
-                row: 3,
-                col: 0
-            });
+//            btable.execCommand('wraptext', {
+//                row: 3,
+//                col: 0
+//            }, {
+//                row: 3,
+//                col: 0
+//            });
 
             console.log(btable.queryCommandValue('columnwidth', 0))
             console.log(btable.queryCommandValue('rowheight', 3))
