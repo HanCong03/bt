@@ -113,8 +113,8 @@ define(function (require, exports, module) {
             return this.__$ctx.getMiddleContainer();
         },
 
-        getBottoMContainer: function () {
-            return this.__$ctx.getBottoMContainer();
+        getBottomContainer: function () {
+            return this.__$ctx.getBottomContainer();
         },
 
         getContainerSize: function () {

@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var VTYPE = require('definition/vtype');
     var CELL_PADDING = require('definition/cell-padding');
-    var DOBULE_H_PADDIGN = 2 * CELL_PADDING.h;
+    var DOUBLE_H_PADDING = 2 * CELL_PADDING.h;
 
     module.exports = $$.createClass('ColumnWidth', {
         base: require('module'),
@@ -50,10 +50,10 @@ define(function (require, exports, module) {
             var userColumnWidth = this.rs('get.column.width', col);
 
             if ($$.isDefined(userColumnWidth)) {
-                return userColumnWidth + DOBULE_H_PADDIGN;
+                return userColumnWidth;
             }
 
-            return this.__autoWidth(col) + DOBULE_H_PADDIGN;
+            return this.__autoWidth(col);
         },
 
         __autoWidth: function (col) {
@@ -125,7 +125,7 @@ define(function (require, exports, module) {
                 }
             });
 
-            return Math.max.apply(null, widths);
+            return Math.max.apply(null, widths) + DOUBLE_H_PADDING;
         }
     });
 

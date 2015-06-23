@@ -7,6 +7,7 @@ define({
     // 编辑区域边框
     border: {
         width: 1,
-        color: '#333333'
+        lineColor: '#ababab',
+        fontColor: '#000000'
     }
 });

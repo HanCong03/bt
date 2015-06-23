@@ -12,16 +12,38 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initEvent();
+            this.__initService();
         },
 
         __initEvent: function () {
             this.on({
+                ready: this.__initHeap,
                 datachange: this.refresh
             });
         },
 
+        __initService: function () {
+            this.registerService({
+                'get.visual.data': this.getVisualData
+            });
+        },
+
+        __initHeap: function () {
+            var heap = this.getActiveHeap();
+
+            if (this.queryCommandValue('gridline')) {
+                heap.gridline = GRIDLINE;
+            } else {
+                heap.gridline = null;
+            }
+        },
+
+        getVisualData: function () {
+            return this.getActiveHeap();
+        },
+
         refresh: function () {
-            var vdata = this.getActiveHeap();
+            var heap = this.getActiveHeap();
 
             this.__refreshStart();
 
@@ -31,30 +53,32 @@ define(function (require, exports, module) {
             var rowInfo = this.__collectRowInfo(containerSize.height - headHeight);
 
             // 头部高度
-            vdata.headHeight = headHeight;
+            heap.headHeight = headHeight;
 
             // 行索引
-            vdata.rows = rowInfo.indexes;
+            heap.rows = rowInfo.indexes;
             // 行高列表
-            vdata.rowHeights = rowInfo.heights;
+            heap.rowHeights = rowInfo.heights;
             // 行网格线列表
-            vdata.rowPoints = rowInfo.points;
+            heap.rowPoints = rowInfo.points;
             // 可用空间高度
-            vdata.spaceHeight = rowInfo.space;
+            heap.spaceHeight = rowInfo.space;
 
             // 头部宽度
-            vdata.headWidth = this.__calculateHeadWidth(vdata.rows);
+            heap.headWidth = this.__calculateHeadWidth(heap.rows);
 
-            var colInfo = this.__collectColumnInfo(containerSize.width - vdata.headWidth);
+            var colInfo = this.__collectColumnInfo(containerSize.width - heap.headWidth);
 
             // 列索引
-            vdata.cols = colInfo.indexes;
+            heap.cols = colInfo.indexes;
             // 列宽列表
-            vdata.colWidths = colInfo.widths;
+            heap.colWidths = colInfo.widths;
             // 列网格线绘制点
-            vdata.colPoints = colInfo.points;
+            heap.colPoints = colInfo.points;
             // 可用空间宽度
-            vdata.spaceWidth = colInfo.space;
+            heap.spaceWidth = colInfo.space;
+
+            this.emit('refresh');
         },
 
         __refreshStart: function () {
@@ -82,7 +106,7 @@ define(function (require, exports, module) {
                 };
             }
 
-            var OFFSET = GRIDLINE.width;
+            var OFFSET = GRIDLINE.offset;
             var LINE_WIDTH = GRIDLINE.width;
 
             var heap = this.getActiveHeap();
@@ -133,7 +157,7 @@ define(function (require, exports, module) {
                 };
             }
 
-            var OFFSET = GRIDLINE.width;
+            var OFFSET = GRIDLINE.offset;
             var LINE_WIDTH = GRIDLINE.width;
 
             var heap = this.getActiveHeap();
@@ -184,6 +208,7 @@ define(function (require, exports, module) {
             }
 
             // 左右各增加一个字符，以放置padding空间
+            count += 2;
 
             return Math.round(this.rs('get.char.unit') * count);
         }

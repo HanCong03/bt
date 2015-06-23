@@ -22,14 +22,15 @@ define(function (require, exports, module) {
         core: {
             columnWidth: require('./core/column-width'),
             rowHeight: require('./core/row-height'),
-            rowData: require('./core/row-data'),
             content: require('./core/cell/content'),
             formattedContent: require('./core/cell/formatted-content'),
             displayContent: require('./core/cell/display-content'),
             numfmt: require('./core/numfmt/numfmt'),
             visualData: require('./core/visual-data/visual-data')
         },
-        system: {},
+        system: {
+            render: require('./system/render/render')
+        },
         ext: {}
     };
 });

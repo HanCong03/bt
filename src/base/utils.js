@@ -4,8 +4,8 @@
  */
 
 define(function (require, exports, module) {
-
     var clazz = require('./clazz');
+    var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
     var Utils = {
         createClass: function () {
@@ -108,6 +108,21 @@ define(function (require, exports, module) {
 
         getRect: function (node) {
             return node.getBoundingClientRect();
+        },
+
+        indexToTitle: function (index) {
+            var chars = [];
+
+            do {
+                chars.push(index % 26);
+                index = (index / 26) | 0;
+            } while (index !== 0);
+
+            for (var i = 0, len = chars.length; i < len; i++) {
+                chars[i] = CHARS[chars[i]];
+            }
+
+            return chars.reverse().join('');
         },
 
         calcThemeColor: require('./color/color')

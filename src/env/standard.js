@@ -5,6 +5,9 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var CELL_PADDING = require('definition/cell-padding');
+    var DOUBLE_V_PADDING = 2 * CELL_PADDING.v;
+    var DOUBLE_H_PADDING = 2 * CELL_PADDING.h;
 
     module.exports = $$.createClass('StandardSize', {
         base: require('env-module'),
@@ -58,8 +61,8 @@ define(function (require, exports, module) {
 
             this.charUnit = unit;
 
-            heap.width = Math.round(this.getAPI().getStandardWidth() * unit);
-            heap.height = Math.round(this.getAPI().getStandardHeight() * 4 / 3);
+            heap.width = Math.round(this.getAPI().getStandardWidth() * unit) + DOUBLE_H_PADDING;
+            heap.height = Math.round(this.getAPI().getStandardHeight() * 4 / 3) + DOUBLE_V_PADDING;
         },
 
         getStandard: function () {

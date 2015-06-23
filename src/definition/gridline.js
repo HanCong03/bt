@@ -6,5 +6,5 @@
 define({
     width: 1,
     offset: 0.5,
-    color: '#666666'
+    color: '#d4d4d4'
 });

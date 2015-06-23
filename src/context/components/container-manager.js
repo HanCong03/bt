@@ -24,13 +24,15 @@ define(function (require, exports, module) {
         },
 
         __init: function () {
-            var rect = $$.getRect(this.__rootNode);
+            var width = this.__rootNode.clientWidth;
+            var height = this.__rootNode.clientHeight;
+
             this.__size = {
-                width: rect.width,
-                height: rect.height
+                width: width,
+                height: height
             };
 
-            this.__rootNode.innerHTML = getHTML(rect.width, rect.height);
+            this.__rootNode.innerHTML = getHTML(width, height);
 
             this.shadowContainer = $('.btb-shadow', this.__rootNode)[0];
             this.bottomContainer = $('.btb-bottom-layer', this.__rootNode)[0];
@@ -42,7 +44,7 @@ define(function (require, exports, module) {
             return this.shadowContainer;
         },
 
-        getBottoMContainer: function () {
+        getBottomContainer: function () {
             return this.bottomContainer;
         },
 
