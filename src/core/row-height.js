@@ -14,23 +14,13 @@ define(function (require, exports, module) {
         init: function () {
             this.__initShadowBox();
             this.__initHeap();
-            this.__initService();
-
-            var _self = this;
-            window.setTimeout(function () {
-                console.log(_self.getRowHeight(3));
-            }, 0);
+            this.__initBoxSetting();
         },
 
         __initShadowBox: function () {
             this.shadowBox = document.createElement('span');
+            this.shadowBox.style.cssText = 'line-height: 1';
             this.getShadowContainer().appendChild(this.shadowBox);
-        },
-
-        __initService: function () {
-            this.registerService({
-
-            });
         },
 
         __initHeap: function () {
@@ -41,6 +31,18 @@ define(function (require, exports, module) {
             }
 
             heap.heights = [];
+        },
+
+        /**
+         * 在底层theme发生改变之后，需要重新初始化shadow-box的style
+         * @private
+         */
+        __initBoxSetting: function () {
+            //var standard = this.queryCommandValue('standard');
+            //$(this.shadowBox).css({
+            //    fontFamily: standard.font,
+            //    fontSize: standard.fontsize + 'pt'
+            //});
         },
 
         getRowHeight: function (row) {
@@ -59,13 +61,8 @@ define(function (require, exports, module) {
          * @private
          */
         __calculateRowHeight: function (row) {
-            // 当前行被隐藏，则直接返回
-            if (this.queryCommandValue('hiddenrow', row)) {
-                return 0;
-            }
-
             // 检查是否有显式设定的行高
-            var rowHeight = this.queryCommandValue('rowheight', row);
+            var rowHeight = this.rs('get.row.height', row);
 
             if ($$.isDefined(rowHeight)) {
                 return rowHeight;
@@ -90,23 +87,55 @@ define(function (require, exports, module) {
 
             var cells = this.__getCells(row, dimension.min.col, dimension.max.col);
 
-            return cells;
+            // 当前行无有效数据，则返回标准高度
+            if ($$.isNdef(cells)) {
+                return this.queryCommandValue('standardheight');
+            }
+
+            return this.__calculateHeight(cells);
         },
 
         __getCells: function (row, startCol, endCol) {
             var cells = [];
             var font;
             var fontsize;
+            var current;
+
+            var defaultFont = this.queryCommandValue('minorfont');
+            var defaultSize = this.queryCommandValue('basesize');
 
             for (var i = startCol; i <= endCol; i++) {
                 font = this.queryCommandValue('userfont', row, i);
                 fontsize = this.queryCommandValue('userfontsize', row, i);
 
-                cells[i] = {
+                current = {
                     font: this.queryCommandValue('userfont', row, i),
                     fontsize: this.queryCommandValue('userfontsize', row, i),
                     content: this.rs('get.display.content', row, i)
                 };
+
+                if (current.font === null
+                    && current.fontsize === null
+                    && current.content === null) {
+
+                    // 全为空，则跳过该单元格
+                    continue;
+                } else {
+                    if (current.font === null) {
+                        current.font = defaultFont;
+                    }
+
+                    if (current.fontsize === null) {
+                        current.fontsize = defaultSize;
+                    }
+
+                    // 默认内容
+                    if (current.content === null) {
+                        current.content = '0';
+                    }
+
+                    cells.push(current);
+                }
             }
 
             if (cells.length === 0) {
@@ -114,6 +143,43 @@ define(function (require, exports, module) {
             }
 
             return cells;
+        },
+
+        __calculateHeight: function (cells) {
+            var box = this.shadowBox;
+            var height = 0;
+
+            $$.forEach(cells, function (cell) {
+                box.innerHTML = buildHTML(cell);
+
+                var nodes = box.firstChild.children;
+                var rect;
+
+                for (var i = 0, len = nodes.length; i < len; i++) {
+                    rect = nodes[i].getBoundingClientRect();
+
+                    height += rect.height;
+                }
+            });
+
+            return height;
         }
     });
+
+    function buildHTML(cell) {
+        var contents = [];
+        var html = '<div style="font-family: ${font}; font-size: ${fontsize}pt;">${content}</div>';
+
+        if (cell.content) {
+            $$.forEach(cell.content, function (rowContent) {
+                contents.push('<span>' + rowContent + '</span>');
+            });
+        }
+
+        return $$.tpl(html, {
+            font: cell.font,
+            fontsize: cell.fontsize,
+            content: contents.join('')
+        });
+    }
 });

@@ -7,6 +7,7 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var NumfmtCode = require('./numfmt-code/src/numfmt');
     var TMAP = require('./definition/tmap');
+    var DEFAULT_CODE = require('./definition/default-code');
 
     module.exports = $$.createClass('Numfmt', {
         base: require('module'),
@@ -14,7 +15,8 @@ define(function (require, exports, module) {
         init: function () {
             this.registerService({
                 'numfmt.format': this.format,
-                'numfmt.analyze': this.analyze
+                'numfmt.analyze': this.analyze,
+                'numfmt.defaultcode': this.getDefaultCode
             });
         },
 
@@ -29,6 +31,10 @@ define(function (require, exports, module) {
                 type: TMAP[result.type],
                 value: result.value
             };
+        },
+
+        getDefaultCode: function (contentType) {
+            return DEFAULT_CODE[contentType];
         }
     });
 });

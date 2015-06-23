@@ -96,6 +96,16 @@ define(function (require, exports, module) {
             }
         },
 
+        tpl: function (str, data) {
+            return str.replace(/\$\{([^\}]+)\}/g, function (match, key) {
+                if (data[key] !== undefined) {
+                    return data[key];
+                }
+
+                return '';
+            });
+        },
+
         calcThemeColor: require('./color/color')
     };
 

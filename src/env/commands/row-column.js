@@ -17,8 +17,6 @@ define(function (require) {
         ],
 
         $query: [
-            'rowheight',
-            'columnwidth',
             'hiddenrow',
             'hiddencolumn'
         ],
@@ -49,14 +47,6 @@ define(function (require) {
         },
 
         /* ----  query ---- */
-        query_rowheight: function (row) {
-            return this.$dep.getRowHeight(row);
-        },
-
-        query_columnwidth: function (col) {
-            return this.$dep.getColWidth(col);
-        },
-
         query_hiddenrow: function (row) {
             return this.$dep.isHiddenRow(row);
         },

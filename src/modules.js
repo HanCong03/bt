@@ -20,16 +20,12 @@ define(function (require, exports, module) {
             content: require('./env/content')
         },
         core: {
-            //visualData: require('./core/visual-data'),
+            columnWidth: require('./core/column-width'),
             rowHeight: require('./core/row-height'),
             rowData: require('./core/row-data'),
             content: require('./core/cell/content'),
             formattedContent: require('./core/cell/formatted-content'),
             displayContent: require('./core/cell/display-content'),
-            //style: require('./core/style'),
-            //cellContent: require('./core/cell/content'),
-            //displayContent: require('./core/cell/display-content'),
-            //formattedContent: require('./core/cell/formatted-content'),
             numfmt: require('./core/numfmt/numfmt')
         },
         system: {},

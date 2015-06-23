@@ -69,11 +69,13 @@ define(function (require, exports, module) {
         },
 
         getStandardWidth: function () {
-            return this.getWorkbookHeap().width;
+            var heap = this.getWorkbookHeap();
+            return heap.width;
         },
 
         getStandardHeight: function () {
-            return this.getWorkbookHeap().height;
+            var heap = this.getWorkbookHeap();
+            return heap.height;
         }
     });
 });

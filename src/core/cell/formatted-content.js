@@ -50,15 +50,23 @@ define(function (require, exports, module) {
         __loadCell: function (row, col) {
             var content = this.execCommand('read', row, col);
 
-            debugger;
             if ($$.isNdef(content)) {
                 return null;
             }
 
-            debugger;
-            var fmt = this.rs('get.style', 'numfmt', row, col);
+            var fmt = this.queryCommandValue('usernumfmt', row, col);
 
-            console.log(fmt)
+            /* --- 如果未指定格式化代码，则根据内容类型获取默认格式化代码 --- */
+            if ($$.isNdef(fmt)) {
+                fmt = this.rs('numfmt.defaultcode', this.queryCommandValue('contenttype', row, col));
+            }
+
+            // 默认格式代码都不存在的情况下，则直接返回
+            if ($$.isNdef(fmt)) {
+                return content;
+            }
+
+            return this.rs('numfmt.format', content, fmt);
         }
     });
 });

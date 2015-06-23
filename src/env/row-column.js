@@ -1,5 +1,5 @@
 /**
- * @file 提供边框存取服务
+ * @file
  * @author hancong03@baiud.com
  */
 
@@ -11,6 +11,14 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__$api = this.getAPI();
+            this.__initService();
+        },
+
+        __initService: function () {
+            this.registerService({
+                'get.row.height': this.getRowHeight,
+                'get.column.width': this.getColumnWidth
+            });
         },
 
         setRowHeight: function (height, startIndex, endIndex) {
@@ -25,8 +33,8 @@ define(function (require, exports, module) {
             return this.__$api.getRowHeight(row);
         },
 
-        getColWidth: function (col) {
-            return this.__$api.getColWidth(col);
+        getColumnWidth: function (col) {
+            return this.__$api.getColumnWidth(col);
         },
 
         hideRow: function (startIndex, endIndex) {
