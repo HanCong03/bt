@@ -39,6 +39,15 @@ define(function (require, exports, module) {
             });
         },
 
+        postAll: function (topic) {
+            var type = 'env';
+            var subscribers = this.__lookupSubscriber(type, topic);
+
+            $$.forEach(subscribers, function (current) {
+                current.handler.call(current.subscriber);
+            });
+        },
+
         __subscribe: function (topic, subscriber, handler) {
             var type = subscriber.____$type;
             var pool = this.__$messages[type];

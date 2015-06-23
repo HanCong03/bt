@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             },
             build: {
                 files: {
-                    'dist/theme/btable.css': ["theme/**/*.less"]
+                    'assets/styles/btable.css': ["assets/styles/**/*.less"]
                 }
             }
         }

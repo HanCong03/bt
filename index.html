@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
 
+    <link rel="stylesheet" href="./assets/styles/btable.css">
+
     <script src="bower_components/modef/dist/modef.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
 
@@ -28,7 +30,15 @@
         jQuery(function ($) {
             var btable = new BTable(document.getElementById('container'));
 
-            btable.execCommand('write', '123456', 3, 0);
+            btable.execCommand('pane', {
+                row: 100,
+                col: 100
+            }, {
+                row: 101,
+                col: 100
+            });
+
+            btable.execCommand('content', '123456', 3, 0);
 
 //            btable.execCommand('fontsize', '11', {
 //                row: 0,

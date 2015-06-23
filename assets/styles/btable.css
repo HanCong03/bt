@@ -1,0 +1,25 @@
+.btb-main {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.btb-main .btb-bottom-layer,
+.btb-main .btb-middle-layer,
+.btb-main .btb-top-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.btb-main .btb-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  top: -9999999px;
+  left: -9999999px;
+}
+.btb-main * {
+  box-sizing: border-box;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFzc2V0cy9zdHlsZXMvbGVzcy9sYXlvdXQubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFNQTtFQUNFLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7O0FBSEYsU0FLRTtBQUxGLFNBS3FCO0FBTHJCLFNBS3dDO0VBVnRDLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RUFVRSxXQUFBO0VBQ0EsWUFBQTs7QUFSSixTQVdFO0VBaEJBLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RUFnQkUsZUFBQTtFQUNBLGdCQUFBOztBQWRKLFNBaUJFO0VBQ0Usc0JBQUEifQ== */

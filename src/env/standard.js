@@ -11,9 +11,13 @@ define(function (require, exports, module) {
 
         shadowBox: null,
 
+        // 单位字符的px大小值
+        charUnit: 0,
+
         init: function () {
             this.__initShadowBox();
             this.__initEvent();
+            this.__initService();
         },
 
         __initShadowBox: function () {
@@ -31,6 +35,16 @@ define(function (require, exports, module) {
             });
         },
 
+        __initService: function () {
+            this.registerService({
+                'get.char.unit': this.getCharUnit
+            });
+        },
+
+        getCharUnit: function () {
+            return this.charUnit;
+        },
+
         /**
          * 计算标准列宽和行高
          */
@@ -41,6 +55,8 @@ define(function (require, exports, module) {
             this.shadowBox.style.fontFamily = minorFont;
 
             var unit = this.shadowBox.offsetWidth / 10;
+
+            this.charUnit = unit;
 
             heap.width = Math.round(this.getAPI().getStandardWidth() * unit);
             heap.height = Math.round(this.getAPI().getStandardHeight() * 4 / 3);

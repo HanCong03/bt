@@ -5,6 +5,8 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var CELL_PADDING = require('definition/cell-padding');
+    var DOBULE_V_PADDIGN = 2 * CELL_PADDING.v;
 
     module.exports = $$.createClass('RowHeight', {
         base: require('module'),
@@ -65,10 +67,10 @@ define(function (require, exports, module) {
             var rowHeight = this.rs('get.row.height', row);
 
             if ($$.isDefined(rowHeight)) {
-                return rowHeight;
+                return rowHeight + DOBULE_V_PADDIGN;
             }
 
-            return this.__autoHeight(row);
+            return this.__autoHeight(row) + DOBULE_V_PADDIGN;
         },
 
         /**

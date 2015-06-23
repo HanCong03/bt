@@ -106,6 +106,10 @@ define(function (require, exports, module) {
             });
         },
 
+        getRect: function (node) {
+            return node.getBoundingClientRect();
+        },
+
         calcThemeColor: require('./color/color')
     };
 

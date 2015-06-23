@@ -23,16 +23,13 @@ define(function (require, exports, module) {
             this.__$rootNode = node;
 
             this.__boot();
-            this.__init();
             this.__startup();
+            this.__init();
             this.__ready();
         },
 
         __boot: function () {
             this.__$workbook = new Workbook(this);
-        },
-
-        __init: function () {
             this.__$components = {
                 containerManager: new ContainerManager(this),
                 moduleManager: new ModuleManager(this),
@@ -48,12 +45,17 @@ define(function (require, exports, module) {
             this.__$components.commandManager.startup();
         },
 
+        __init: function () {
+            this.__$components.moduleManager.init();
+        },
+
         __ready: function () {
             this.emitAll('ready');
         },
 
         emitAll: function (name) {
-            this.__$components.eventManager.emitAll(name);
+            var eventManager = this.__$components.eventManager;
+            eventManager.emitAll.apply(eventManager, arguments);
         },
 
         getRootNode: function () {
@@ -127,6 +129,22 @@ define(function (require, exports, module) {
 
         getShadowContainer: function () {
             return this.__$components.containerManager.getShadowContainer();
+        },
+
+        getTopContainer: function () {
+            return this.__$components.containerManager.getTopContainer();
+        },
+
+        getBottomContainer: function () {
+            return this.__$components.containerManager.getBottomContainer();
+        },
+
+        getMiddleContainer: function () {
+            return this.__$components.containerManager.getMiddleContainer();
+        },
+
+        getContainerSize: function () {
+            return this.__$components.containerManager.getContainerSize();
         }
         /* --- 模块接口 end --- */
     });

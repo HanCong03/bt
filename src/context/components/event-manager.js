@@ -31,18 +31,19 @@ define(function (require, exports, module) {
         },
 
         emitAll: function (name) {
-            this.__emit('env', name);
+            var args = [].slice(arguments, 1);
+            this.__emit('env', name, args);
         },
 
         emit: function (publisher, name) {
             var type = publisher.____$type;
-            this.__emit(type, name);
+            var args = [].slice(arguments, 2);
+
+            this.__emit(type, name, args);
         },
 
-        __emit: function (type, name) {
+        __emit: function (type, name, args) {
             var listeners = this.__lookupListener(type, name);
-
-            var args = [].slice.call(arguments, 2);
 
             $$.forEach(listeners, function (current) {
                 current.handler.apply(current.listener, args);

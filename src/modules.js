@@ -26,7 +26,8 @@ define(function (require, exports, module) {
             content: require('./core/cell/content'),
             formattedContent: require('./core/cell/formatted-content'),
             displayContent: require('./core/cell/display-content'),
-            numfmt: require('./core/numfmt/numfmt')
+            numfmt: require('./core/numfmt/numfmt'),
+            visualData: require('./core/visual-data/visual-data')
         },
         system: {},
         ext: {}

@@ -77,11 +77,11 @@ define(function (require) {
             return this.$dep.getPane();
         },
 
-        query_hideallrow: function () {
+        query_hiddenallrow: function () {
             return this.$dep.isHideAllRow();
         },
 
-        query_hideallcolumn: function () {
+        query_hiddenallcolumn: function () {
             return this.$dep.isHideAllColumn()
         }
     });

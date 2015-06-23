@@ -17,7 +17,7 @@ define(function (require, exports, module) {
 
         __$ctx: null,
 
-        __mid: 0,
+        __$mid: 0,
 
         constructor: function (ctx) {
             this.__$ctx = ctx;
@@ -28,6 +28,13 @@ define(function (require, exports, module) {
             this.__startup('core');
             this.__startup('system');
             this.__startup('ext');
+        },
+
+        init: function () {
+            this.__initModule('env');
+            this.__initModule('core');
+            this.__initModule('system');
+            this.__initModule('ext');
         },
 
         lookup: function (type, name) {
@@ -73,16 +80,24 @@ define(function (require, exports, module) {
                     module['$' + dep] = pool[dep];
                 });
             });
+        },
 
-            // 初始化
-            $$.forEach(moduleMap, function (module) {
-                pool[module.name].init();
-            });
+        __initModule: function (type) {
+            var pool = this.__$modules[type];
+
+            for (var key in pool) {
+                if (!pool.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                pool[key].init();
+            }
         },
 
         __load: function (ModuleClass) {
             var module = new ModuleClass(this.__$ctx);
-            module.__$mid = ++this.__$mid;
+            this.__$mid += 1;
+            module.__$mid = this.__$mid;
 
             return module;
         }

@@ -48,7 +48,7 @@ define(function (require, exports, module) {
         },
 
         __loadCell: function (row, col) {
-            var content = this.execCommand('read', row, col);
+            var content = this.queryCommandValue('content', row, col);
 
             if ($$.isNdef(content)) {
                 return null;

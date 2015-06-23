@@ -1,0 +1,27 @@
+.abs() {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.btb-main {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  .btb-bottom-layer, .btb-middle-layer, .btb-top-layer {
+    .abs();
+    width: 100%;
+    height: 100%;
+  }
+
+  .btb-shadow {
+    .abs();
+    top: -9999999px;
+    left: -9999999px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}

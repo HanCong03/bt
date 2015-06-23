@@ -103,6 +103,22 @@ define(function (require, exports, module) {
 
         getShadowContainer: function () {
             return this.__$ctx.getShadowContainer();
+        },
+
+        getTopContainer: function () {
+            return this.__$ctx.getTopContainer();
+        },
+
+        getMiddleContainer: function () {
+            return this.__$ctx.getMiddleContainer();
+        },
+
+        getBottoMContainer: function () {
+            return this.__$ctx.getBottoMContainer();
+        },
+
+        getContainerSize: function () {
+            return this.__$ctx.getContainerSize();
         }
     });
 });

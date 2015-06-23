@@ -23,6 +23,9 @@ define(function (require, exports, module) {
             }
         },
 
+        __$ctx: null,
+        __lock: 0,
+
         constructor: function (ctx) {
             this.__$ctx = ctx;
         },
@@ -38,8 +41,25 @@ define(function (require, exports, module) {
             this.__scan('ext');
         },
 
+        lock: function () {
+            this.__lock++;
+        },
+
+        unlock: function () {
+            this.__lock--;
+        },
+
+        trigger: function () {
+            if (this.__lock !== 0) {
+                return;
+            }
+
+            this.__$ctx.getManager('eventManager').emitAll('datachange');
+        },
+
         execCommand: function (customer, commandName) {
             var command = this.__lookupExecCommand(customer.____$type, commandName);
+            var result;
 
             if (!command) {
                 throw new Error('command is not found: ' + commandName);
@@ -47,11 +67,19 @@ define(function (require, exports, module) {
 
             var args = [].slice.call(arguments, 2);
 
+            this.lock();
+
             if (!command.handler) {
-                return command.provider['exec'].call(command.provider, commandName, args);
+                result = command.provider['exec'].call(command.provider, commandName, args);
             } else {
-                return command.handler.apply(command.provider, args);
+                result = command.handler.apply(command.provider, args);
             }
+
+            this.unlock();
+
+            this.trigger();
+
+            return result;
         },
 
         // 匿名调用
@@ -63,12 +91,21 @@ define(function (require, exports, module) {
             }
 
             var args = [].slice.call(arguments, 1);
+            var result;
+
+            this.lock();
 
             if (!command.handler) {
-                return command.provider['exec'].call(command.provider, commandName, args);
+                result = command.provider['exec'].call(command.provider, commandName, args);
             } else {
-                return command.handler.apply(command.provider, args);
+                result = command.handler.apply(command.provider, args);
             }
+
+            this.unlock();
+
+            this.trigger();
+
+            return result;
         },
 
         queryCommandValue: function (customer, commandName) {
