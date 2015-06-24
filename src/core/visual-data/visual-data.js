@@ -128,8 +128,8 @@ define(function (require, exports, module) {
                 }
 
                 currentHeight = this.queryCommandValue('rowheight', row);
-                offset += currentHeight;
-                currentPoint += currentHeight;
+                offset += currentHeight + LINE_WIDTH;
+                currentPoint += currentHeight + LINE_WIDTH;
 
                 heights.push(currentHeight);
                 points.push(currentPoint);
@@ -179,8 +179,8 @@ define(function (require, exports, module) {
                 }
 
                 currentWidth = this.queryCommandValue('columnwidth', col);
-                offset += currentWidth;
-                currentPoint += currentWidth;
+                offset += currentWidth + LINE_WIDTH;
+                currentPoint += currentWidth + LINE_WIDTH;
 
                 widths.push(currentWidth);
                 points.push(currentPoint);

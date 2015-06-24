@@ -177,7 +177,34 @@ define(function (require, exports, module) {
 
         isWraptext: function (row, col) {
             return this.__$api.getStyle('wraptext', row, col);
-        }
+        },
         /* --- 对齐 end --- */
+
+        getSettedCellStyle: function (styleName, row, col) {
+            return this.__$api.getSettedCellStyle(styleName, row, col);
+        },
+        /**
+         * 获取指定的行样式
+         * @param styleName
+         * @param row
+         * @returns {*}
+         */
+        getSettedRowStyle: function (styleName, row) {
+            return this.__$api.getSettedRowStyle(styleName, row);
+        },
+
+        /**
+         * 获取指定的列样式
+         * @param styleName
+         * @param col
+         * @returns {*}
+         */
+        getSettedColumnStyle: function (styleName, col) {
+            return this.__$api.getSettedColumnStyle(styleName, col);
+        },
+
+        getSettedGlobalStyle: function (styleName) {
+            return this.__$api.getSettedGlobalStyle(styleName);
+        }
     });
 });

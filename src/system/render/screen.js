@@ -120,6 +120,14 @@ define(function (require, exports, module) {
 
         strokeText: function (content, x, y) {
             this.invisibleCtx.strokeText(content + '', x, y);
+        },
+
+        fillRect: function (x, y, width, height) {
+            this.invisibleCtx.fillRect(x, y, width, height);
+        },
+
+        clearRect: function (x, y, width, height) {
+            this.invisibleCtx.clearRect(x, y, width, height);
         }
     });
 });

@@ -13,7 +13,8 @@ define(function (require, exports, module) {
 
         mixin: [
             require('./components/gridline'),
-            require('./components/header')
+            require('./components/header'),
+            require('./components/fill')
         ],
 
         visibleScreen: null,
@@ -33,6 +34,7 @@ define(function (require, exports, module) {
         __init: function () {
             var size = this.getContainerSize();
             this.gridlineScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
+            this.contentScreen = new Screen(this.getTopContainer(), size.width, size.height);
         },
 
         refresh: function () {
@@ -44,6 +46,7 @@ define(function (require, exports, module) {
             this.__refreshVisualData();
             this.__drawGridLine();
             this.__drawHeader();
+            this.__fill();
         },
 
         __refreshVisualData: function () {
@@ -52,6 +55,7 @@ define(function (require, exports, module) {
 
         __toggleScreen: function () {
             this.gridlineScreen.toggle();
+            this.contentScreen.toggle();
         }
     });
 });

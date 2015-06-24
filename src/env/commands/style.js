@@ -37,7 +37,11 @@ define(function (require) {
             'fill',
             'halign',
             'valign',
-            'wraptext'
+            'wraptext',
+            'settedcellstyle',
+            'settedrowstyle',
+            'settedcolumnstyle',
+            'settedglobalstyle'
         ],
 
         exec_font: function (font, start, end) {
@@ -139,6 +143,22 @@ define(function (require) {
                 case 'wraptext':
                     return this.$dep.isWraptext(args[0], args[1]);
             }
+        },
+
+        query_settedcellstyle: function (styleName, row, col) {
+            return this.$dep.getSettedCellStyle(styleName, row, col);
+        },
+
+        query_settedrowstyle: function (styleName, row) {
+            return this.$dep.getSettedRowStyle(styleName, row);
+        },
+
+        query_settedcolumnstyle: function (styleName, col) {
+            return this.$dep.getSettedColumnStyle(styleName, col);
+        },
+
+        query_settedglobalstyle: function (styleName) {
+            return this.$dep.getSettedGlobalStyle(styleName);
         }
     });
 });

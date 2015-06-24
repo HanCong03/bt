@@ -29,6 +29,23 @@
     <script>
         jQuery(function ($) {
             var btable = new BTable(document.getElementById('container'));
+            window.btable = btable;
+
+            btable.execCommand('fill', 'green', {
+                row: 106,
+                col: 0
+            }, {
+                row: 106,
+                col: Math.pow(2, 20)
+            });
+
+            btable.execCommand('fill', 'yellow', {
+                row: 0,
+                col: 0
+            }, {
+                row: Math.pow(2, 20),
+                col: 103
+            });
 
             btable.execCommand('pane', {
                 row: 100,
@@ -36,6 +53,14 @@
             }, {
                 row: 101,
                 col: 100
+            });
+
+            btable.execCommand('fill', 'red', {
+                row: 103,
+                col: 103
+            }, {
+                row: 103,
+                col: 103
             });
 
             btable.execCommand('content', '123456', 3, 0);
