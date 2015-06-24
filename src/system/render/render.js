@@ -14,7 +14,8 @@ define(function (require, exports, module) {
         mixin: [
             require('./components/gridline'),
             require('./components/header'),
-            require('./components/fill')
+            require('./components/fill'),
+            require('./components/content')
         ],
 
         visibleScreen: null,

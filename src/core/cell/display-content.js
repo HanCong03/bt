@@ -6,6 +6,7 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var CELL_PADDING = require('definition/cell-padding');
 
     module.exports = $$.createClass('DisplayContent', {
         base: require('module'),
@@ -85,7 +86,7 @@ define(function (require, exports, module) {
                 contents.push(rowContent);
             });
 
-            var width = this.queryCommandValue('columnwidth', col);
+            var width = this.queryCommandValue('columnwidth', col) - 2 * CELL_PADDING.h;
 
             this.shadowBox.style.width = width + 'px';
             this.shadowBox.innerHTML = contents.join('<br>');

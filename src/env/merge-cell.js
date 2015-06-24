@@ -23,6 +23,10 @@ define(function (require, exports, module) {
 
         toggleMergeCell: function (start, end) {
             this.__$api.toggleMergeCell(start, end);
+        },
+
+        getMergeCells: function (start, end) {
+            return this.__$api.getMergeCells(start, end);
         }
     });
 });
