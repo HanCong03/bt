@@ -12,11 +12,15 @@ define(function (require, exports, module) {
         base: require('module'),
 
         mixin: [
+            require('./components/layout'),
             require('./components/gridline'),
             require('./components/header'),
             require('./components/fill'),
             require('./components/content')
         ],
+
+        visualData: null,
+        layoutData: null,
 
         visibleScreen: null,
         invisibleScreen: null,
@@ -39,19 +43,20 @@ define(function (require, exports, module) {
         },
 
         refresh: function () {
+            this.__refreshData();
             this.__render();
             this.__toggleScreen();
         },
 
+        __refreshData: function () {
+            this.visualData = this.rs('get.visual.data');
+            this.layoutData = this.__getLayout();
+        },
+
         __render: function () {
-            this.__refreshVisualData();
             this.__drawGridLine();
             this.__drawHeader();
             this.__fill();
-        },
-
-        __refreshVisualData: function () {
-            this.visualData = this.rs('get.visual.data');
         },
 
         __toggleScreen: function () {

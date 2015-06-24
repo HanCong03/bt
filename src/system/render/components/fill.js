@@ -11,246 +11,140 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var WIDTH = GRIDLINE_CONFIG.width;
 
+    var DEFAULT_FILL = require('definition/face-theme').fill;
+
     module.exports = {
         __fill: function () {
             var visualData = this.visualData;
             var screen = this.contentScreen;
 
-            if ($$.isNdef(visualData.cols) || $$.isNdef(visualData.rows)) {
+            if (visualData.rowCount === 0 || visualData.colCount === 0) {
                 return;
             }
 
             screen.save();
-
             screen.translate(visualData.headWidth, visualData.headHeight);
 
-            this.__fillGlobal();
-            this.__fillColumn();
-            this.__fillRow();
-            this.__fillCell();
+            this.__doFill();
 
             screen.restore();
         },
 
-        __fillGlobal: function () {
-            var visualData = this.visualData;
-            var screen = this.contentScreen;
+        __doFill: function () {
+            var layoutData = this.layoutData;
+            var fixRows = {};
 
-            var fill = this.queryCommandValue('settedglobalstyle', 'fill');
-
-            if (!fill || fill === NONE) {
-                return;
-            }
-
-            var width = visualData.spaceWidth;
-            var height = visualData.spaceHeight;
-
-            screen.fillColor(fill);
-            screen.fillRect(0, 0, width, height);
-        },
-
-        __fillColumn: function () {
-            var visualData = this.visualData;
-            var screen = this.contentScreen;
-
-            $$.forEach(visualData.cols, function (col, index) {
-                var fill = this.queryCommandValue('settedcolumnstyle', 'fill', col);
-
-                if (!fill) {
-                    return;
-                }
-
-                var x;
-                var y;
-                var width;
-                var height;
-
-                if (fill === NONE) {
-                    x = visualData.colPoints[index] + GRIDLINE_CONFIG.offset;
-                    y = 0;
-                    width = visualData.colWidths[index];
-                    height = visualData.spaceHeight;
-
-                    screen.clearRect(x, y, width, height);
-                } else {
-                    x = visualData.colPoints[index] - GRIDLINE_CONFIG.offset;
-                    y = 0;
-                    width = visualData.colWidths[index] + 2 * WIDTH;
-                    height = visualData.spaceHeight;
-
-                    screen.fillColor(fill);
-                    screen.fillRect(x, y, width, height);
-                }
-            }, this);
-        },
-
-        __fillRow: function () {
-            var visualData = this.visualData;
-            var screen = this.contentScreen;
-
-            $$.forEach(visualData.rows, function (row, index) {
-                var fill = this.queryCommandValue('settedrowstyle', 'fill', row);
-
-                if (!fill) {
-                    return;
-                }
-
-                var x;
-                var y;
-                var width;
-                var height;
-
-                if (fill === NONE) {
-                    x = 0;
-                    y = visualData.rowPoints[index] + GRIDLINE_CONFIG.offset;
-                    width = visualData.spaceWidth;
-                    height = visualData.rowHeights[index];
-
-                    screen.clearRect(x, y, width, height);
-                } else {
-                    x = 0;
-                    y = visualData.rowPoints[index] - GRIDLINE_CONFIG.offset;
-                    width = visualData.spaceWidth;
-                    height = visualData.rowHeights[index] + 2 * WIDTH;
-
-                    screen.fillColor(fill);
-                    screen.fillRect(x, y, width, height);
-                }
-            }, this);
-        },
-
-        __fillCell: function () {
-            var visualData = this.visualData;
-            var screen = this.contentScreen;
-
-            $$.forEach(visualData.rows, function (row, i) {
-                $$.forEach(visualData.cols, function (col, j) {
-                    var fill = this.queryCommandValue('settedcellstyle', 'fill', row, col);
+            $$.forEach(layoutData, function (currentRow, r) {
+                $$.forEach(currentRow, function (currentCell) {
+                    var fill = this.queryCommandValue('userfill', currentCell.row, currentCell.col);
+                    var result;
+                    var er;
 
                     if (!fill) {
                         return;
                     }
 
-                    var rect;
+                    if ($$.isDefined(currentCell.mergecell)) {
+                        result = this.__fillMergeCell(currentCell, fill)
 
-                    if (fill === NONE) {
-                        rect = this.__getClearRect(i, j);
+                        if (!result) {
+                            return;
+                        }
 
-                        screen.clearRect(rect.x, rect.y, rect.width, rect.height);
+                        er = currentCell.mergecell.er;
+
+                        if (!fixRows[currentCell.mergecell.er]) {
+                            fixRows[er] = [];
+                        }
+
+                        fixRows[er].push(result);
                     } else {
-                        rect = this.__getFillRect(i, j);
-
-                        screen.fillColor(fill);
-                        screen.fillRect(rect.x, rect.y, rect.width, rect.height);
+                        this.__fillNormalCell(currentCell, fill);
                     }
                 }, this);
+
+                // 如果存在需要修复的合并单元格，则进行修复
+                if (fixRows[r]) {
+                    this.__fixMergeCells(fixRows[r]);
+                }
             }, this);
         },
 
-        __getClearRect: function (i, j) {
+        __fillNormalCell: function (cellInfo, fill) {
+            if (fill === NONE) {
+                return;
+            }
+
+            var screen = this.contentScreen;
             var visualData = this.visualData;
-            var rows = visualData.rows;
-            var cols = visualData.cols;
 
-            var topFill;
-            var rightFill;
-            var bottomFill;
-            var leftFill;
+            var r = cellInfo.r;
+            var c = cellInfo.c;
 
-            // top
-            if (i === 0) {
-                topFill = false;
-            } else {
-                topFill = this.queryCommandValue('userfill', rows[i - 1], cols[j]);
+            var x = visualData.colPoints[c] - OFFSET;
+            var y = visualData.rowPoints[r] - OFFSET;
+            var width = visualData.colWidths[c] + 2 * WIDTH;
+            var height = visualData.rowHeights[r] + 2 * WIDTH;
+
+            screen.fillColor(fill);
+            screen.fillRect(x, y, width, height);
+        },
+
+        __fillMergeCell: function (cellInfo, fill) {
+            var visualData = this.visualData;
+            var screen = this.contentScreen;
+
+            var x;
+            var y;
+            var width;
+            var height;
+
+            if (fill === NONE) {
+                x = visualData.colPoints[cellInfo.c] + OFFSET;
+                y = visualData.rowPoints[cellInfo.r] + OFFSET;
+                width = this.getWidths(cellInfo.c, cellInfo.mergecell.ec);
+                height = this.getHeights(cellInfo.r, cellInfo.mergecell.er);
+
+                screen.fillColor(DEFAULT_FILL);
+                screen.fillRect(x, y, width, height);
+
+                return null;
             }
 
-            // right
-            if (j === cols.length - 1) {
-                rightFill = false;
-            } else {
-                rightFill = this.queryCommandValue('userfill', rows[i], cols[j + 1]);
-            }
+            x = visualData.colPoints[cellInfo.c] - OFFSET;
+            y = visualData.rowPoints[cellInfo.r] - OFFSET;
+            width = this.getWidths(cellInfo.c, cellInfo.mergecell.ec) + 2 * WIDTH;
+            height = this.getHeights(cellInfo.r, cellInfo.mergecell.er) + 2 * WIDTH;
 
-            // bottom
-            if (i === rows.length - 1) {
-                bottomFill = false;
-            } else {
-                bottomFill = this.queryCommandValue('userfill', rows[i + 1], cols[j]);
-            }
-
-            // left
-            if (j === 0) {
-                leftFill = false;
-            } else {
-                leftFill = this.queryCommandValue('userfill', rows[i], cols[j - 1]);
-            }
-
-            /* ---- rect 计算 ---- */
-            var x = visualData.colPoints[j] + OFFSET;
-            var y = visualData.rowPoints[i] + OFFSET;
-            var width = visualData.colWidths[j];
-            var height = visualData.rowHeights[i];
-
-            var topDiff = topFill ? 0 : WIDTH;
-            var bottomDiff = bottomFill ? 0 : WIDTH;
-            var leftDiff = leftFill ? 0 : WIDTH;
-            var rightDiff = rightFill ? 0 : WIDTH;
+            screen.fillColor(fill);
+            screen.fillRect(x, y, width, height);
 
             return {
-                x: x - leftDiff,
-                y: y - topDiff,
-                width: width + leftDiff + rightDiff,
-                height: height + topDiff + bottomDiff
+                fill: fill,
+                x: x,
+                y: y,
+                width: WIDTH,
+                height: height
             };
         },
 
-        /**
-         * 获取指定单元格的填充范围
-         * @param i 单元格在visual-data中的行编号，注意，这不是实际的行索引。
-         * @param j 单元格在visual-data中的列编号，注意，这不是实际的列索引。
-         * @returns {{x: number, y: number, width: *, height: *}}
-         * @private
-         */
-        __getFillRect: function (i, j) {
-            /*
-                填充区域的左边和上边是一定要覆盖的，所以不需要计算。
-             */
+        __fixMergeCells: function (fixInfos) {
+            var screen = this.contentScreen;
+
+            $$.forEach(fixInfos, function (info) {
+                screen.fillColor(info.fill);
+                screen.fillRect(info.x, info.y, info.width, info.height);
+            });
+        },
+
+        getWidths: function (sc, ec) {
             var visualData = this.visualData;
-            var rows = visualData.rows;
-            var cols = visualData.cols;
+            return visualData.colPoints[ec + 1] - visualData.colPoints[sc] - WIDTH;
+        },
 
-            var rightFill;
-            var bottomFill;
-
-            // right
-            if (j === cols.length - 1) {
-                rightFill = false;
-            } else {
-                rightFill = this.queryCommandValue('userfill', rows[i], cols[j + 1]);
-            }
-
-            // bottom
-            if (i === rows.length - 1) {
-                bottomFill = false;
-            } else {
-                bottomFill = this.queryCommandValue('userfill', rows[i + 1], cols[j]);
-            }
-
-            /* ---- rect 计算 ---- */
-            var x = visualData.colPoints[j] - OFFSET;
-            var y = visualData.rowPoints[i] - OFFSET;
-            var width = visualData.colWidths[j] + WIDTH;
-            var height = visualData.rowHeights[i] + WIDTH;
-
-            var bottomDiff = bottomFill ? 0 : WIDTH;
-            var rightDiff = rightFill ? 0 : WIDTH;
-
-            return {
-                x: x,
-                y: y,
-                width: width + rightDiff,
-                height: height + bottomDiff
-            };
+        getHeights: function (sr, er) {
+            var visualData = this.visualData;
+            return visualData.rowPoints[er + 1] - visualData.rowPoints[sr] - WIDTH;
         }
     };
 });

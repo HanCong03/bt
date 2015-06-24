@@ -205,6 +205,43 @@ define(function (require, exports, module) {
 
         getSettedGlobalStyle: function (styleName) {
             return this.__$api.getSettedGlobalStyle(styleName);
+        },
+
+        getDefaultFonts: function () {
+            var result = this.getDefaultClassifyStyle('fonts');
+
+            result = $$.clone(result);
+            result.name = result.name.value;
+            result.color = result.color.value;
+
+            for (var key in result) {
+                if (!result.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                if (result[key] === NONE) {
+                    result[key] = null;
+                }
+            }
+
+            return result;
+        },
+
+        getDefaultAlignments: function () {
+            var result = this.getDefaultClassifyStyle('alignments');
+            result = $$.clone(result);
+
+            for (var key in result) {
+                if (!result.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                if (result[key] === NONE) {
+                    result[key] = null;
+                }
+            }
+
+            return result;
         }
     });
 });

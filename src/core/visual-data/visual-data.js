@@ -63,6 +63,8 @@ define(function (require, exports, module) {
             heap.rowPoints = rowInfo.points;
             // 可用空间高度
             heap.spaceHeight = rowInfo.space;
+            // 行数
+            heap.rowCount = rowInfo.count;
 
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);
@@ -77,6 +79,8 @@ define(function (require, exports, module) {
             heap.colPoints = colInfo.points;
             // 可用空间宽度
             heap.spaceWidth = colInfo.space;
+            // 列数
+            heap.colCount = colInfo.count;
 
             this.emit('refresh');
         },
@@ -102,7 +106,8 @@ define(function (require, exports, module) {
                     space: spaceHeight,
                     heights: null,
                     points: null,
-                    indexes: null
+                    indexes: null,
+                    count: 0
                 };
             }
 
@@ -142,7 +147,8 @@ define(function (require, exports, module) {
                 space: spaceHeight,
                 heights: heights,
                 points: points,
-                indexes: indexes
+                indexes: indexes,
+                count: indexes.length
             };
         },
 
@@ -153,7 +159,8 @@ define(function (require, exports, module) {
                     space: spaceWidth,
                     widths: null,
                     points: null,
-                    indexes: null
+                    indexes: null,
+                    count: 0
                 };
             }
 
@@ -193,7 +200,8 @@ define(function (require, exports, module) {
                 space: spaceWidth,
                 widths: widths,
                 points: points,
-                indexes: indexes
+                indexes: indexes,
+                count: indexes.length
             };
         },
 

@@ -31,8 +31,10 @@
             var btable = new BTable(document.getElementById('container'));
             window.btable = btable;
 
+            var startTime = Date.now();
+
             btable.execCommand('fill', 'green', {
-                row: 106,
+                row: 103,
                 col: 0
             }, {
                 row: 106,
@@ -55,6 +57,18 @@
                 col: 100
             });
 
+            btable.execCommand('content', 'hancong', 103, 103);
+
+            btable.execCommand('mergecell', {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
+            console.log(btable.queryCommandValue('content', 103, 103));
+
             btable.execCommand('fill', 'red', {
                 row: 103,
                 col: 103
@@ -63,7 +77,7 @@
                 col: 103
             });
 
-            btable.execCommand('content', '123456', 3, 0);
+//            btable.execCommand('content', '123456', 3, 0);
 
 //            btable.execCommand('fontsize', '11', {
 //                row: 0,
@@ -80,9 +94,9 @@
 //                row: 3,
 //                col: 0
 //            });
-
-            console.log(btable.queryCommandValue('columnwidth', 0))
-            console.log(btable.queryCommandValue('rowheight', 3))
+//
+//            console.log(btable.queryCommandValue('columnwidth', 0))
+//            console.log(btable.queryCommandValue('rowheight', 3))
 //
 //            btable.execCommand('border', {
 //                style: 'thin',
@@ -131,6 +145,7 @@
 //            }))
 //            console.log(btable.queryCommandValue('topborder', 0, 0))
 
+            console.log('time: ' + (Date.now() - startTime) + 'ms')
 
         });
     </script>

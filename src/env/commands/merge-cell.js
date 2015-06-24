@@ -14,7 +14,7 @@ define(function (require) {
         ],
 
         $query: [
-            'merge'
+            'mergecell'
         ],
 
         exec_mergecell: function (start, end) {
@@ -34,7 +34,7 @@ define(function (require) {
          * @param start
          * @param end
          */
-        query_merge: function (start, end) {
+        query_mergecell: function (start, end) {
             return this.$dep.getMergeCells(start, end);
         }
     });

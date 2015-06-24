@@ -41,7 +41,9 @@ define(function (require) {
             'settedcellstyle',
             'settedrowstyle',
             'settedcolumnstyle',
-            'settedglobalstyle'
+            'settedglobalstyle',
+            'defaultfonts',
+            'defaultalignments'
         ],
 
         exec_font: function (font, start, end) {
@@ -159,6 +161,14 @@ define(function (require) {
 
         query_settedglobalstyle: function (styleName) {
             return this.$dep.getSettedGlobalStyle(styleName);
+        },
+
+        query_defaultfonts: function () {
+            return this.$dep.getDefaultFonts();
+        },
+
+        query_defaultalignments: function () {
+            return this.$dep.getDefaultAlignments();
         }
     });
 });
