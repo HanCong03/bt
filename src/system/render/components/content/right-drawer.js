@@ -77,13 +77,13 @@ define(function (require, exports, module) {
             var contents = cellInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
-            screen.textBaseline('top');
+            screen.textBaseline('middle');
 
             var offset = rect.y + (rect.height - fontSize * contents.length) / 2;
             var x = rect.x + rect.width;
 
             for (var i = 0, len = contents.length; i < len; i++) {
-                screen.fillText(contents[i], x, offset);
+                screen.fillText(contents[i], x, offset  + fontSize / 2);
                 offset += fontSize;
             }
         }

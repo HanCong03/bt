@@ -53,7 +53,7 @@ define(function (require, exports, module) {
             var visibleRect = this.__getVisibleMergeCellRect(cellInfo);
             var screen = this.contentScreen;
 
-            if (!mergeCellRect || !visibleRect) {
+            if (!mergeCellRect) {
                 return;
             }
 
@@ -84,30 +84,25 @@ define(function (require, exports, module) {
 
         __getVisibleMergeCellRect: function (cellInfo) {
             var visualData = this.visualData;
-            var rows = visualData.rows;
-            var cols = visualData.cols;
-            var startRow = rows[cellInfo.r];
-            var startCol = cols[cellInfo.c];
-            var endRow = rows[cellInfo.mergecell.er];
-            var endCol = rows[cellInfo.mergecell.ec];
 
-            var rect = this.__getRangeRect({
-                row: startRow,
-                col: startCol
-            }, {
-                row: endRow,
-                col: endCol
-            });
+            var width = -WIDTH;
+            var height = -WIDTH;
 
-            if (rect.width === 0 || rect.height === 0) {
-                return null;
+            // height
+            for (var i = cellInfo.r, limit = cellInfo.mergecell.er; i <= limit; i++) {
+                height += visualData.rowHeights[i] + WIDTH;
+            }
+
+            // width
+            for (var i = cellInfo.c, limit = cellInfo.mergecell.ec; i <= limit; i++) {
+                width += visualData.colWidths[i] + WIDTH;
             }
 
             return {
                 x: visualData.colPoints[cellInfo.c] + OFFSET + CELL_PADDING.h,
                 y: visualData.rowPoints[cellInfo.r] + OFFSET + CELL_PADDING.v,
-                width: rect.width - 2 * CELL_PADDING.h,
-                height: rect.height - 2 * CELL_PADDING.v
+                width: width - 2 * CELL_PADDING.h,
+                height: height - 2 * CELL_PADDING.v
             };
         },
 
@@ -118,7 +113,8 @@ define(function (require, exports, module) {
                 x: visualData.colPoints[cellInfo.c] + OFFSET + CELL_PADDING.h,
                 y: visualData.rowPoints[cellInfo.r] + OFFSET + CELL_PADDING.v,
                 width: visualData.colWidths[cellInfo.c] - 2 * CELL_PADDING.h,
-                height: visualData.rowHeights[cellInfo.r] - 2 * CELL_PADDING.v
+                height: visualData.rowHeights[cellInfo.r] - 2 * CELL_PADDING.v,
+                centerX: visualData.colPoints[cellInfo.c] + OFFSET + visualData.colWidths[cellInfo.c] / 2
             };
         },
 
@@ -318,11 +314,17 @@ define(function (require, exports, module) {
                 return null;
             }
 
+            var x = this.__calculateMergeCellX(cellInfo) + CELL_PADDING.h;
+            var y = this.__calculateMergeCellY(cellInfo) + CELL_PADDING.v;
+            var width = rect.width - 2 * CELL_PADDING.h;
+            var height = rect.height - 2 * CELL_PADDING.v;
+
             return {
-                x: this.__calculateMergeCellX(cellInfo) + CELL_PADDING.h,
-                y: this.__calculateMergeCellY(cellInfo) + CELL_PADDING.v,
-                width: rect.width - 2 * CELL_PADDING.h,
-                height: rect.height - 2 * CELL_PADDING.v
+                x: x,
+                y: y,
+                width: width,
+                height: height,
+                centerX: x + width / 2
             };
         },
 
@@ -347,7 +349,7 @@ define(function (require, exports, module) {
             var mergeInfo = cellInfo.mergecell;
             var x = visualData.colPoints[cellInfo.c] + OFFSET;
 
-            for (var i = col, min = mergeInfo.start.col; i >= min; i--) {
+            for (var i = col - 1, min = mergeInfo.start.col; i >= min; i--) {
                 if (this.queryCommandValue('hiddencolumn', i)) {
                     continue;
                 }
@@ -365,7 +367,7 @@ define(function (require, exports, module) {
             var mergeInfo = cellInfo.mergecell;
             var y = visualData.rowPoints[cellInfo.r] + OFFSET;
 
-            for (var i = row, min = mergeInfo.start.row; i >= min; i--) {
+            for (var i = row - 1, min = mergeInfo.start.row; i >= min; i--) {
                 if (this.queryCommandValue('hiddenrow', i)) {
                     continue;
                 }
