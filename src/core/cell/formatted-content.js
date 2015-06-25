@@ -13,6 +13,7 @@ define(function (require, exports, module) {
         init: function () {
             this.__initHeap();
             this.__initService();
+            this.__initEvent();
         },
 
         __initHeap: function () {
@@ -26,6 +27,24 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                'get.formatted.content': this.getFormattedContent
+            });
+        },
+
+        __initEvent: function () {
+            this.on({
+                'contentchange': this.onContentChange
+            });
+        },
+
+        onContentChange: function (start, end) {
+            var contents = this.getActiveHeap().contents;
+
+            $$.iterator(start, end, function (row, col) {
+                if ($$.isNdef(contents[row])) {
+                    return;
+                }
+
+                delete contents[row][col];
             });
         },
 

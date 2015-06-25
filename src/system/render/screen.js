@@ -65,6 +65,14 @@ define(function (require, exports, module) {
             this.visibleCtx = tmp;
         },
 
+        beginPath: function () {
+            this.invisibleCtx.beginPath();
+        },
+
+        closePath: function () {
+            this.invisibleCtx.closePath();
+        },
+
         save: function () {
             this.invisibleCtx.save();
         },
@@ -124,6 +132,22 @@ define(function (require, exports, module) {
 
         fillRect: function (x, y, width, height) {
             this.invisibleCtx.fillRect(x, y, width, height);
+        },
+
+        measureText: function (text) {
+            return this.invisibleCtx.measureText(text);
+        },
+
+        rect: function (x, y, width, height) {
+            this.invisibleCtx.rect(x, y, width, height);
+        },
+
+        font: function (font) {
+            this.invisibleCtx.font = font;
+        },
+
+        clip: function () {
+            this.invisibleCtx.clip();
         },
 
         clearRect: function (x, y, width, height) {

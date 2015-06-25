@@ -31,13 +31,13 @@ define(function (require, exports, module) {
         },
 
         emitAll: function (name) {
-            var args = [].slice(arguments, 1);
+            var args = [].slice.call(arguments, 1);
             this.__emit('env', name, args);
         },
 
         emit: function (publisher, name) {
             var type = publisher.____$type;
-            var args = [].slice(arguments, 2);
+            var args = [].slice.call(arguments, 2);
 
             this.__emit(type, name, args);
         },

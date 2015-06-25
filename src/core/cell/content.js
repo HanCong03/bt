@@ -15,6 +15,14 @@ define(function (require, exports, module) {
             var analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
             this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
+
+            this.emit('contentchange', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
         }
     });
 });

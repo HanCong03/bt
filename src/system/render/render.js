@@ -16,7 +16,7 @@ define(function (require, exports, module) {
             require('./components/gridline'),
             require('./components/header'),
             require('./components/fill'),
-            require('./components/content')
+            require('./components/content/content')
         ],
 
         visualData: null,
@@ -39,7 +39,8 @@ define(function (require, exports, module) {
         __init: function () {
             var size = this.getContainerSize();
             this.gridlineScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
-            this.contentScreen = new Screen(this.getTopContainer(), size.width, size.height);
+            this.contentScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
+            this.borderScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
         },
 
         refresh: function () {
@@ -57,6 +58,7 @@ define(function (require, exports, module) {
             this.__drawGridLine();
             this.__drawHeader();
             this.__fill();
+            this.__drawContent();
         },
 
         __toggleScreen: function () {

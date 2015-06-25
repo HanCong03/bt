@@ -36,6 +36,10 @@ define(function (require, exports, module) {
 
             $$.forEach(layoutData, function (currentRow, r) {
                 $$.forEach(currentRow, function (currentCell) {
+                    if (!currentCell) {
+                        return;
+                    }
+
                     var fill = this.queryCommandValue('userfill', currentCell.row, currentCell.col);
                     var result;
                     var er;

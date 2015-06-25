@@ -17,6 +17,7 @@ define(function (require, exports, module) {
             this.__initHeap();
             this.__initService();
             this.__initShadowBox();
+            this.__initEvent();
         },
 
         __initService: function () {
@@ -37,6 +38,24 @@ define(function (require, exports, module) {
             this.shadowBox = document.createElement('div');
             this.shadowBox.style.cssText = 'word-wrap: break-word; word-break: break-all; line-height: 1;';
             this.getShadowContainer().appendChild(this.shadowBox);
+        },
+
+        __initEvent: function () {
+            this.on({
+                'contentchange': this.onContentChange
+            });
+        },
+
+        onContentChange: function (start, end) {
+            var contents = this.getActiveHeap().contents;
+
+            $$.iterator(start, end, function (row, col) {
+                if ($$.isNdef(contents[row])) {
+                    return;
+                }
+
+                delete contents[row][col];
+            });
         },
 
         getDisplayContent: function (row, col) {

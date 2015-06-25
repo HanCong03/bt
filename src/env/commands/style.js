@@ -43,7 +43,9 @@ define(function (require) {
             'settedcolumnstyle',
             'settedglobalstyle',
             'defaultfonts',
-            'defaultalignments'
+            'defaultalignments',
+            'fonts',
+            'alignments'
         ],
 
         exec_font: function (font, start, end) {
@@ -169,6 +171,14 @@ define(function (require) {
 
         query_defaultalignments: function () {
             return this.$dep.getDefaultAlignments();
+        },
+
+        query_fonts: function (row, col) {
+            return this.$dep.getFonts(row, col);
+        },
+
+        query_alignments: function (row, col) {
+            return this.$dep.getAlignments(row, col);
         }
     });
 });

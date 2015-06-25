@@ -34,6 +34,9 @@ define(function (require, exports, module) {
             var visualData = this.visualData;
             var result = [];
 
+            var sysDefaultFonts = this.queryCommandValue('defaultfonts');
+            var sysDefaultAligns = this.queryCommandValue('defaultalignments');
+
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
                 result.push(currentRow);
@@ -46,7 +49,9 @@ define(function (require, exports, module) {
                         r: i,
                         c: j,
                         // display-content
-                        content: this.rs('get.display.content', row, col)
+                        content: this.rs('get.display.content', row, col),
+                        alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
+                        fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts
                     });
                 }, this);
             }, this);
@@ -59,6 +64,8 @@ define(function (require, exports, module) {
             var result = [];
 
             var mergeMap = mergeToMap(mergecells);
+            var sysDefaultFonts = this.queryCommandValue('defaultfonts');
+            var sysDefaultAligns = this.queryCommandValue('defaultalignments');
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -76,11 +83,14 @@ define(function (require, exports, module) {
                             r: i,
                             c: j,
                             // display-content
-                            content: this.rs('get.display.content', row, col)
+                            content: this.rs('get.display.content', row, col),
+                            alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
+                            fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts
                         });
                     } else {
                         // 标记已被激活，则忽略该标记，否则，激活该标记。
                         if (mergeFlag.active) {
+                            currentRow.push(null);
                             return;
                         }
 
@@ -104,7 +114,9 @@ define(function (require, exports, module) {
                             r: i,
                             c: j,
                             // display-content
-                            content: this.rs('get.display.content', row, col)
+                            content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
+                            alignments: this.queryCommandValue('alignments', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultAligns,
+                            fonts: this.queryCommandValue('fonts', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultFonts
                         });
                     }
                 }, this);
