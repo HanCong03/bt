@@ -12,18 +12,18 @@ define(function (require, exports, module) {
             var styles = [];
 
             if (fonts.italic) {
-                styles.push('font-style: italic');
+                styles.push('italic');
             }
 
             if (fonts.bold) {
-                styles.push('font-weight: bold');
+                styles.push('bold');
             }
 
-            styles.push('font-size: ' + fonts.size + 'pt');
-            styles.push('line-height: 1');
-            styles.push('font-family: ' + fonts.name);
+            styles.push(fonts.size + 'pt/1');
+            styles.push('"' + fonts.name + '"');
 
-            return styles.join(';');
+
+            return styles.join(' ');
         }
     };
 });

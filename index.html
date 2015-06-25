@@ -59,14 +59,6 @@
 
 //            btable.execCommand('rowheight', 50, 103);
 
-            btable.execCommand('halign', 'center', {
-                row: 103,
-                col: 103
-            }, {
-                row: 103,
-                col: 103
-            });
-
             btable.execCommand('content', 'asdfjaskdlfjaskldfjxakdfs', 103, 103);
 
             btable.execCommand('mergecell', {
@@ -77,6 +69,17 @@
                 col: 105
             });
 
+            btable.execCommand('border', {
+                style: 'thin',
+                color: 'red'
+            }, {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
             btable.execCommand('halign', 'center', {
                 row: 103,
                 col: 103
@@ -85,7 +88,23 @@
                 col: 105
             });
 
-            btable.execCommand('valign', 'middle', {
+            btable.execCommand('underline', 'double', {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
+            btable.execCommand('fontsize', 40, {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
+            btable.execCommand('valign', 'bottom', {
                 row: 103,
                 col: 103
             }, {
