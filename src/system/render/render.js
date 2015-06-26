@@ -16,6 +16,7 @@ define(function (require, exports, module) {
             require('./components/gridline'),
             require('./components/header'),
             require('./components/fill'),
+            require('./components/border/border'),
             require('./components/content/content')
         ],
 
@@ -58,12 +59,14 @@ define(function (require, exports, module) {
             this.__drawGridLine();
             this.__drawHeader();
             this.__fill();
+            this.__drawBorder();
             this.__drawContent();
         },
 
         __toggleScreen: function () {
             this.gridlineScreen.toggle();
             this.contentScreen.toggle();
+            this.borderScreen.toggle();
         }
     });
 });

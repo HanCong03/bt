@@ -134,8 +134,20 @@ define(function (require, exports, module) {
             this.invisibleCtx.fillRect(x, y, width, height);
         },
 
+        setLineDashOffset: function (val) {
+            this.invisibleCtx.lineDashOffset = val;
+        },
+
+        setLineWidth: function (val) {
+            this.invisibleCtx.lineWidth = val;
+        },
+
         measureText: function (text) {
             return this.invisibleCtx.measureText(text);
+        },
+
+        setLineDash: function (val) {
+            this.invisibleCtx.setLineDash(val);
         },
 
         rect: function (x, y, width, height) {

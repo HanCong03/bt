@@ -33,21 +33,21 @@
 
             var startTime = Date.now();
 
-            btable.execCommand('fill', 'green', {
-                row: 103,
-                col: 0
-            }, {
-                row: 106,
-                col: Math.pow(2, 20)
-            });
-
-            btable.execCommand('fill', 'yellow', {
-                row: 0,
-                col: 0
-            }, {
-                row: Math.pow(2, 20),
-                col: 103
-            });
+//            btable.execCommand('fill', 'green', {
+//                row: 103,
+//                col: 0
+//            }, {
+//                row: 106,
+//                col: Math.pow(2, 20)
+//            });
+//
+//            btable.execCommand('fill', 'yellow', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: Math.pow(2, 20),
+//                col: 103
+//            });
 
             btable.execCommand('pane', {
                 row: 100,
@@ -70,7 +70,7 @@
             });
 
             btable.execCommand('border', {
-                style: 'thin',
+                style: 'medium',
                 color: 'red'
             }, {
                 row: 103,
@@ -79,6 +79,14 @@
                 row: 105,
                 col: 105
             });
+
+//            btable.execCommand('fill', 'blue', {
+//                row: 103,
+//                col: 103
+//            }, {
+//                row: 105,
+//                col: 105
+//            });
 
             btable.execCommand('halign', 'center', {
                 row: 103,

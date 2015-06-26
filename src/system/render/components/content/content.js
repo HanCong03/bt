@@ -436,7 +436,7 @@ define(function (require, exports, module) {
         __cleanContentArea: function (rect) {
             var visualData = this.visualData;
 
-            cleanScreen(this.borderScreen);
+            //cleanScreen(this.borderScreen);
             cleanScreen(this.gridlineScreen);
 
             function cleanScreen(screen) {

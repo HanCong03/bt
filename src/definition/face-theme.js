@@ -8,7 +8,8 @@ define({
     border: {
         width: 1,
         lineColor: '#ababab',
-        fontColor: '#000000',
-        fill: '#ffffff'
-    }
+        fontColor: '#000000'
+    },
+
+    fill: '#ffffff'
 });

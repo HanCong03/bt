@@ -51,7 +51,8 @@ define(function (require, exports, module) {
                         // display-content
                         content: this.rs('get.display.content', row, col),
                         alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
-                        fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts
+                        fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts,
+                        border: this.queryCommandValue('border', row, col)
                     });
                 }, this);
             }, this);
@@ -85,7 +86,8 @@ define(function (require, exports, module) {
                             // display-content
                             content: this.rs('get.display.content', row, col),
                             alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
-                            fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts
+                            fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts,
+                            border: this.queryCommandValue('border', row, col)
                         });
                     } else {
                         // 标记已被激活，则忽略该标记，否则，激活该标记。
@@ -116,7 +118,8 @@ define(function (require, exports, module) {
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
                             alignments: this.queryCommandValue('alignments', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultAligns,
-                            fonts: this.queryCommandValue('fonts', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultFonts
+                            fonts: this.queryCommandValue('fonts', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultFonts,
+                            border: this.queryCommandValue('border', mergeFlag.start.row, mergeFlag.start.col)
                         });
                     }
                 }, this);
