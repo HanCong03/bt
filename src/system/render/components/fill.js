@@ -44,10 +44,6 @@ define(function (require, exports, module) {
                     var result;
                     var er;
 
-                    if (!fill) {
-                        return;
-                    }
-
                     if ($$.isDefined(currentCell.mergecell)) {
                         result = this.__fillMergeCell(currentCell, fill)
 
@@ -62,9 +58,14 @@ define(function (require, exports, module) {
                         }
 
                         fixRows[er].push(result);
-                    } else {
-                        this.__fillNormalCell(currentCell, fill);
+                        return;
                     }
+
+                    if (!fill) {
+                        return;
+                    }
+
+                    this.__fillNormalCell(currentCell, fill);
                 }, this);
 
                 // 如果存在需要修复的合并单元格，则进行修复
@@ -103,7 +104,7 @@ define(function (require, exports, module) {
             var width;
             var height;
 
-            if (fill === NONE) {
+            if (!fill || fill === NONE) {
                 x = visualData.colPoints[cellInfo.c] + OFFSET;
                 y = visualData.rowPoints[cellInfo.r] + OFFSET;
                 width = this.getWidths(cellInfo.c, cellInfo.mergecell.ec);
