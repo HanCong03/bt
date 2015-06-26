@@ -21,8 +21,6 @@ define(function (require, exports, module) {
 
             var fonts = StyleHelper.getCssFont(cellInfo.fonts);
 
-            console.log(fonts)
-
             screen.save();
             screen.fillColor(cellInfo.fonts.color);
             screen.strokeColor(cellInfo.fonts.color);

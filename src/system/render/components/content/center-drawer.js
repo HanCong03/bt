@@ -68,7 +68,6 @@ define(function (require, exports, module) {
         },
 
         __drawBottomText: function (screen, cellInfo, rect) {
-            console.log(rect)
             var contents = cellInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 

@@ -64,7 +64,7 @@ define(function (require, exports, module) {
             screen.closePath();
             screen.clip();
 
-            this.__drawText(cellInfo, mergeCellRect);
+            this.__drawMergeCellText(cellInfo, mergeCellRect);
 
             screen.restore();
         },
@@ -433,10 +433,35 @@ define(function (require, exports, module) {
             this.__cleanContentArea(rect);
         },
 
+        __drawMergeCellText: function (cellInfo, rect) {
+            var textAlign = cellInfo.alignments.horizontal;
+            var screen = this.contentScreen;
+
+            if ($$.isNdef(textAlign)) {
+                textAlign = DEFAULTS.horizontal;
+            }
+
+            switch (textAlign) {
+                case 'left':
+                    LeftDrawer.draw(screen, cellInfo, rect);
+                    break;
+
+                case 'right':
+                    RightDrawer.draw(screen, cellInfo, rect);
+                    break;
+
+                case 'center':
+                    CenterDrawer.draw(screen, cellInfo, rect);
+                    break;
+            }
+
+            /* mergecell 不用清理内容区域 */
+        },
+
         __cleanContentArea: function (rect) {
             var visualData = this.visualData;
 
-            //cleanScreen(this.borderScreen);
+            cleanScreen(this.borderScreen);
             cleanScreen(this.gridlineScreen);
 
             function cleanScreen(screen) {
