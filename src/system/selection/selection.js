@@ -6,7 +6,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var FACE_THEME = require('definition/face-theme');
     var SystemUtils = require('system/utils/utils');
 
     var Screen = require('../screen/screen');
@@ -14,9 +13,6 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('Selection', {
         base: require('module'),
 
-        selectionWrap: null,
-        selectionNode: null,
-        selectionCover: null,
         coverScreen: null,
 
         mixin: [
@@ -30,27 +26,13 @@ define(function (require, exports, module) {
         },
 
         __initSelection: function () {
-            var selectionWrap = document.createElement('div');
-            selectionWrap.className = 'btb-selection-wrap';
-
-            selectionWrap.innerHTML = '<div class="btb-selection" style="border-color: ' + FACE_THEME.color + '"><div class="btb-selection-cover"></div></div>'
-
-            this.selectionCover = $(".btb-selection-cover", selectionWrap)[0];
-            this.selectionNode = $(".btb-selection", selectionWrap)[0];
-
-            this.getMiddleContainer().appendChild(selectionWrap);
-
             var size = this.getContainerSize();
             this.coverScreen = new Screen(this.getMiddleContainer(), size.width, size.height)
-
-            this.selectionWrap = selectionWrap;
         },
 
         __initEvent: function () {
             this.on({
                 'ready': this.__reset,
-                'refresh': this.__refresh,
-                'viewchange': this.__refresh,
                 'controlstatuschange': this.__reselection
             });
         },
@@ -62,17 +44,6 @@ define(function (require, exports, module) {
             }, {
                 row: 0,
                 col: 0
-            });
-        },
-
-        __refresh: function () {
-            var visualData = this.rs('get.visual.data');
-
-            $(this.selectionWrap).css({
-                width: visualData.spaceWidth,
-                height: visualData.spaceHeight,
-                top: visualData.headHeight,
-                left: visualData.headWidth
             });
         },
 
@@ -92,53 +63,8 @@ define(function (require, exports, module) {
 
             var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), start, end);
 
-            // 当前区域不可见
-            if (!rect) {
-                this.selectionNode.style.display = 'none';
-                return;
-            }
-
-            var selectionNode = this.selectionNode;
-            var selectionCover = this.selectionCover;
-
-            var borders = [
-                'solid', 'solid', 'solid', 'solid'
-            ];
-
-            var translate = ['-2px', '-2px'];
-
-            if (rect.ot) {
-                borders[0] = 'none';
-                translate[0] = '0';
-            }
-
-            if (rect.or) {
-                borders[1] = 'none';
-            }
-
-            if (rect.ob) {
-                borders[2] = 'none';
-            }
-
-            if (rect.ol) {
-                borders[3] = 'none';
-                translate[1] = '0';
-            }
-
-            borders = borders.join('');
-
-            this.__drawCover(originalStart, originalEnd, start, end, rect);
+            this.__draw(originalStart, originalEnd, start, end, rect);
             this.coverScreen.toggle();
-
-            selectionNode.style.borderStyle = borders;
-            selectionCover.style.borderStyle = borders;
-
-            selectionCover.style.width = rect.width + 'px';
-            selectionCover.style.height = rect.height + 'px';
-
-            selectionNode.style.top = rect.y + 'px';
-            selectionNode.style.left = rect.x + 'px';
-            selectionNode.style.transform = 'translate(' + translate.join(',') + ')';
         },
 
         __getFullRange: function (start, end) {

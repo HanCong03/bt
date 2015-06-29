@@ -13,5 +13,10 @@ define({
 
     color: '#217346',
 
+    focus: {
+        cover: 'rgba(0, 0, 0, 0.2)',
+        space: '#ffffff'
+    },
+
     fill: '#ffffff'
 });

@@ -7,15 +7,19 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
     var OFFSET = GRIDLINE_CONFIG.offset;
+    var LINE_WIDTH = GRIDLINE_CONFIG.width;
+    var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
+
+    var FACE_THEME = require('definition/face-theme');
+    var FOCUS_COVER_COLOR = FACE_THEME.focus.cover;
+    var FOCUS_SPACE_COLOR = FACE_THEME.focus.space;
+
+    var THEME_COLOR = FACE_THEME.color;
 
     var SystemUtils = require('system/utils/utils');
 
     module.exports = {
-        __drawCover: function (originalStart, originalEnd, start, end, rect) {
-            if (start.row === end.row && start.col === end.col) {
-                return;
-            }
-
+        __draw: function (originalStart, originalEnd, start, end, rect) {
             var mergecells = this.queryCommandValue('mergecell', start, end);
 
             if ($$.isNdef(mergecells)) {
@@ -32,10 +36,13 @@ define(function (require, exports, module) {
             screen.save();
             screen.translate(visualData.headWidth, visualData.headHeight);
 
-            screen.fillColor('rgba(0, 0, 0, 0.2)');
+            screen.fillColor(FOCUS_COVER_COLOR);
             screen.fillRect(rect.x, rect.y, rect.width, rect.height);
 
             this.__clearCellFocus(originalStart.row, originalStart.col);
+
+            this.__drawBorder(rect);
+            this.__drawSpace(rect);
 
             screen.restore();
         },
@@ -47,12 +54,132 @@ define(function (require, exports, module) {
             screen.save();
             screen.translate(visualData.headWidth, visualData.headHeight);
 
-            screen.fillColor('rgba(0, 0, 0, 0.2)');
+            screen.fillColor(FOCUS_COVER_COLOR);
             screen.fillRect(rect.x, rect.y, rect.width, rect.height);
 
             this.__clearMergeCellFocus(mergecells, originalStart, originalEnd);
 
+            this.__drawBorder(rect);
+            this.__drawSpace(rect);
+
             screen.restore();
+        },
+
+        __drawSpace: function (rect) {
+            var screen = this.coverScreen;
+
+            var x = rect.x;
+            var y = rect.y;
+            var width = rect.width;
+            var height = rect.height;
+
+            screen.setLineWidth(1);
+            screen.strokeColor(FOCUS_SPACE_COLOR);
+
+            screen.beginPath();
+
+            if (!rect.ot) {
+                screen.hline(x, y + OFFSET, width);
+            }
+
+            if (!rect.ol) {
+                screen.vline(x + OFFSET, y, height);
+            }
+
+            if (!rect.or) {
+                screen.vline(x + width - OFFSET, y, height);
+            }
+
+            if (!rect.ob) {
+                screen.hline(x, y + height - OFFSET, width);
+            }
+
+            screen.stroke();
+        },
+
+        __drawBorder: function (rect) {
+            var screen = this.coverScreen;
+
+            screen.beginPath();
+
+            screen.setLineWidth(2);
+            screen.strokeColor(THEME_COLOR);
+
+            var x = rect.x;
+            var y = rect.y;
+            var width = rect.width;
+            var height = rect.height;
+
+            var dx;
+            var dy;
+            var dw;
+            var dh;
+
+            if (!rect.ot) {
+                if (rect.ol) {
+                    dx = 0;
+                    dw = 0;
+                } else {
+                    dx = -DOUBLE_LINE_WIDTH;
+                    dw = DOUBLE_LINE_WIDTH;
+                }
+
+                if (!rect.or) {
+                    dw += DOUBLE_LINE_WIDTH;
+                }
+
+                screen.hline(x + dx, y - LINE_WIDTH, width + dw);
+            }
+
+            if (!rect.ol) {
+                if (rect.ot) {
+                    dy = 0;
+                    dh = 0;
+                } else {
+                    dy = -DOUBLE_LINE_WIDTH;
+                    dh = DOUBLE_LINE_WIDTH;
+                }
+
+                if (!rect.ob) {
+                    dh += DOUBLE_LINE_WIDTH;
+                }
+
+                screen.vline(x - LINE_WIDTH, y + dy, height + dh);
+            }
+
+            if (!rect.or) {
+                if (rect.ot) {
+                    dy = 0;
+                    dh = 0;
+                } else {
+                    dy = -DOUBLE_LINE_WIDTH;
+                    dh = DOUBLE_LINE_WIDTH;
+                }
+
+                if (!rect.ob) {
+                    dh += DOUBLE_LINE_WIDTH;
+                }
+
+                screen.vline(x + width + LINE_WIDTH, y + dy, height + dh);
+            }
+
+            if (!rect.ob) {
+                if (rect.ol) {
+                    dx = 0;
+                    dw = 0;
+                } else {
+                    dx = -DOUBLE_LINE_WIDTH;
+                    dw = DOUBLE_LINE_WIDTH;
+                }
+
+                if (!rect.or) {
+                    dw += DOUBLE_LINE_WIDTH;
+                }
+
+                screen.hline(x + dx, y + height + LINE_WIDTH, width + dw);
+            }
+
+            screen.stroke();
         },
 
         __clearCellFocus: function (row, col) {

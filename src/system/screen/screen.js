@@ -134,6 +134,10 @@ define(function (require, exports, module) {
             this.invisibleCtx.fillRect(x, y, width, height);
         },
 
+        strokeRect: function (x, y, width, height) {
+            this.invisibleCtx.strokeRect(x, y, width, height);
+        },
+
         setLineDashOffset: function (val) {
             this.invisibleCtx.lineDashOffset = val;
         },
