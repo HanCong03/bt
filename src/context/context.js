@@ -80,8 +80,8 @@ define(function (require, exports, module) {
             this.__$components.messageManager.on(subscriber, topic, handler);
         },
 
-        postMessage: function (publisher, topic) {
-            this.__$components.messageManager.post(publisher, topic);
+        postMessage: function (publisher, topic, args) {
+            this.__$components.messageManager.post(publisher, topic, args);
         },
 
         on: function (listener, name, handler) {

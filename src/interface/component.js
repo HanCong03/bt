@@ -60,7 +60,8 @@ define(function (require, exports, module) {
         },
 
         postMessage: function (topic) {
-            this.__$ctx.postMessage(this, topic);
+            var args = [].slice.call(arguments, 1);
+            this.__$ctx.postMessage(this, topic, args);
         },
 
         on: function (name, handler) {

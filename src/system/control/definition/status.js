@@ -6,5 +6,6 @@
 define({
     NORMAL: 1,
     MOUSE_DOWN: 2,
-    MOUSE_MOVE: 4
+    MOUSE_MOVE: 4,
+    WRITE: 8
 });

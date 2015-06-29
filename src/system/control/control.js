@@ -12,18 +12,23 @@ define(function (require, exports, module) {
         base: require('module'),
 
         init: function () {
-            this.__initEvent();
+            this.__initMessage();
+            this.__initMask();
         },
 
-        __initEvent: function () {
-            this.on({
-                'ready': this.__init
+        __initMessage: function () {
+            this.onMessage({
+                'depute.input.control': this.addInput
             });
         },
 
-        __init: function () {
+        __initMask: function () {
             this.mask = this.createComponent(Mask);
             this.mask.appendTo(this.getTopContainer());
+        },
+
+        addInput: function (inputNode) {
+            this.mask.addInput(inputNode);
         }
     });
 });

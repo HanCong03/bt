@@ -31,7 +31,8 @@ define(function (require, exports, module) {
         system: {
             render: require('./system/render/render'),
             control: require('./system/control/control'),
-            selection: require('./system/selection/selection')
+            selection: require('./system/selection/selection'),
+            input: require('./system/input/input')
         },
         ext: {}
     };

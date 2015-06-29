@@ -21,8 +21,9 @@ define(function (require, exports, module) {
         end: null,
 
         mixin: [
-            require('./handlers/mousedown'),
-            require('./handlers/outer')
+            require('./handlers/mouse'),
+            require('./handlers/outer'),
+            require('./handlers/key')
         ],
 
         init: function () {
@@ -31,14 +32,27 @@ define(function (require, exports, module) {
             this.__initDomEvent();
         },
 
+        __initEvent: function () {
+            this.on({
+                'refresh': this.refresh
+            });
+        },
+
         appendTo: function (container) {
             this.container = container;
             container.appendChild(this.maskNode);
         },
 
-        __initEvent: function () {
-            this.on({
-                'refresh': this.refresh
+        addInput: function (inputNode) {
+            var _self = this;
+
+            this.inputNode = inputNode;
+
+            $(this.inputNode).on('keydown', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                _self['__' + evt.type](evt);
             });
         },
 
@@ -71,7 +85,6 @@ define(function (require, exports, module) {
 
             $(this.maskNode).on('mousedown mousemove mouseup mouseleave mouseenter', function (evt) {
                 evt.stopPropagation();
-                evt.preventDefault();
 
                 _self['__' + evt.type](evt);
             });

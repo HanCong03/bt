@@ -30,12 +30,12 @@ define(function (require, exports, module) {
             this.__subscribe(topic, subscriber, handler);
         },
 
-        post: function (publisher, topic) {
+        post: function (publisher, topic, args) {
             var type = publisher.____$type;
             var subscribers = this.__lookupSubscriber(type, topic);
 
             $$.forEach(subscribers, function (current) {
-                current.handler.call(current.subscriber);
+                current.handler.apply(current.subscriber, args);
             });
         },
 
