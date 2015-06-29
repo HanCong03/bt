@@ -6,7 +6,7 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var Screen = require('./screen');
+    var Screen = require('../screen/screen');
 
     module.exports = $$.createClass('Render', {
         base: require('module'),

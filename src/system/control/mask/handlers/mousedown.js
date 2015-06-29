@@ -2,6 +2,8 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
 
+    var SystemUtils = require('system/utils/utils');
+
     var STATUS = require('../../definition/status');
 
     module.exports = {
@@ -42,8 +44,6 @@ define(function (require, exports, module) {
         },
 
         __mouseenter: function () {
-            console.log('enter');
-
             this.__stopOuterScroll();
         }
     };

@@ -9,12 +9,19 @@ define(function (require, exports, module) {
     var FACE_THEME = require('definition/face-theme');
     var SystemUtils = require('system/utils/utils');
 
+    var Screen = require('../screen/screen');
+
     module.exports = $$.createClass('Selection', {
         base: require('module'),
 
         selectionWrap: null,
         selectionNode: null,
         selectionCover: null,
+        coverScreen: null,
+
+        mixin: [
+            require('./components/cover')
+        ],
 
         init: function () {
             this.__initEvent();
@@ -31,6 +38,9 @@ define(function (require, exports, module) {
             this.selectionNode = $(".btb-selection", selectionWrap)[0];
 
             this.getMiddleContainer().appendChild(selectionWrap);
+
+            var size = this.getContainerSize();
+            this.coverScreen = new Screen(this.getMiddleContainer(), size.width, size.height)
 
             this.selectionWrap = selectionWrap;
         },
@@ -65,6 +75,15 @@ define(function (require, exports, module) {
         },
 
         __reselection: function (start, end) {
+            var originalStart = start;
+            var originalEnd = end;
+
+            // 获取完整的range对象，处理合并后的单元格
+            var range = this.__getFullRange(start, end);
+
+            start = range.start;
+            end = range.end;
+
             var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), start, end);
 
             // 当前区域不可见
@@ -102,16 +121,11 @@ define(function (require, exports, module) {
 
             borders = borders.join('');
 
+            this.__drawCover(originalStart, originalEnd, start, end, rect);
+            this.coverScreen.toggle();
+
             selectionNode.style.borderStyle = borders;
             selectionCover.style.borderStyle = borders;
-
-            if (start.row === end.row && start.col === end.col) {
-                selectionCover.style.background = 'none';
-            } else {
-                selectionCover.style.background = '';
-            }
-
-            console.log(rect)
 
             selectionCover.style.width = rect.width + 'px';
             selectionCover.style.height = rect.height + 'px';
@@ -119,6 +133,52 @@ define(function (require, exports, module) {
             selectionNode.style.top = rect.y + 'px';
             selectionNode.style.left = rect.x + 'px';
             selectionNode.style.transform = 'translate(' + translate.join(',') + ')';
+        },
+
+        __getFullRange: function (start, end) {
+            var range = SystemUtils.standardRange(start, end);
+            start = range.start;
+            end = range.end;
+
+            var mergecells = this.queryCommandValue('mergecell', start, end);
+
+            if ($$.isNdef(mergecells)) {
+                return {
+                    start: start,
+                    end: end
+                };
+            }
+
+            var startRow = start.row;
+            var startCol = start.col;
+            var endRow = end.row;
+            var endCol = end.col;
+
+            var current;
+
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                current = mergecells[key];
+
+                startRow = Math.min(startRow, current.start.row);
+                startCol = Math.min(startCol, current.start.col);
+                endRow = Math.max(endRow, current.end.row);
+                endCol = Math.max(endCol, current.end.col);
+            }
+
+            return {
+                start: {
+                    row: startRow,
+                    col: startCol
+                },
+                end: {
+                    row: endRow,
+                    col: endCol
+                }
+            };
         }
     });
 });
