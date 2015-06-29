@@ -26,7 +26,9 @@ define(function (require, exports, module) {
             formattedContent: require('./core/cell/formatted-content'),
             displayContent: require('./core/cell/display-content'),
             numfmt: require('./core/numfmt/numfmt'),
-            visualData: require('./core/visual-data/visual-data')
+            visualData: require('./core/visual-data/visual-data'),
+            selection: require('./core/selection/selection'),
+            rowColumn: require('./core/row-column')
         },
         system: {
             render: require('./system/render/render'),

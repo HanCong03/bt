@@ -23,7 +23,8 @@ define(function (require, exports, module) {
             content: require('./core/commands/cell/content'),
             columnWidth: require('./core/commands/column-width'),
             rowHeight: require('./core/commands/row-height'),
-            scroll: require('./core/commands/scroll')
+            scroll: require('./core/commands/scroll'),
+            selection: require('./core/commands/selection')
         },
         system: {},
         ext: {}

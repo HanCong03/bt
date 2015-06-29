@@ -50,7 +50,6 @@ define(function (require, exports, module) {
 
             $(this.inputNode).on('keydown', function (evt) {
                 evt.stopPropagation();
-                evt.preventDefault();
 
                 _self['__' + evt.type](evt);
             });
@@ -85,6 +84,7 @@ define(function (require, exports, module) {
 
             $(this.maskNode).on('mousedown mousemove mouseup mouseleave mouseenter', function (evt) {
                 evt.stopPropagation();
+                evt.preventDefault();
 
                 _self['__' + evt.type](evt);
             });

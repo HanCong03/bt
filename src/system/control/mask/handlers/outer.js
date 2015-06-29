@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 
             this.__timer = setInterval(function () {
                 _self.__scroll();
-            }, 50);
+            }, 100);
 
             $doc.on('mousemove.btable mouseup.btable', function (evt) {
                 evt.preventDefault();

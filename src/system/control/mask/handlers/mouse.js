@@ -15,6 +15,7 @@ define(function (require, exports, module) {
 
             // control status change
             this.emit('controlstatuschange', this.start, this.end);
+            this.emit('control');
         },
 
         __mousemove: function (evt) {
@@ -31,7 +32,6 @@ define(function (require, exports, module) {
             this.status = STATUS.NORMAL;
             this.end = this.getIndex(evt.clientX, evt.clientY);
 
-            this.emit('controlstatuschange', this.start, this.end);
             this.emit('controlcomplete', this.start, this.end);
         },
 

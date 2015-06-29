@@ -13,7 +13,9 @@ define(function (require, exports, module) {
         base: require('module'),
 
         mixin: [
-            require('./scroll')
+            require('./scroll'),
+            require('./scroll-in'),
+            require('./scroll-to')
         ],
 
         init: function () {
@@ -30,7 +32,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.visual.data': this.getVisualData
+                'get.visual.data': this.getVisualData,
+                'scrollin': this.scrollIn
             });
         },
 

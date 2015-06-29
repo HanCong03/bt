@@ -180,7 +180,6 @@ define(function (require, exports, module) {
         },
 
         __getDownViewRow: function (row, count) {
-
             while (count-- > 0 && row < MAX_ROW_INDEX) {
                 row++;
 

@@ -40,8 +40,6 @@ define(function (require, exports, module) {
                     break;
             }
 
-
-
             //this.start = this.getIndex(evt.clientX, evt.clientY);
             //this.end = this.start;
 
@@ -52,19 +50,33 @@ define(function (require, exports, module) {
         __keyLeft: function (evt) {
             evt.preventDefault();
 
+            if (!evt.shiftKey && !evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+                this.execCommand('move', 0, -1);
+            }
         },
 
         __keyRight: function (evt) {
             evt.preventDefault();
 
+            if (!evt.shiftKey && !evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+                this.execCommand('move', 0, 1);
+            }
         },
 
         __keyUp: function (evt) {
             evt.preventDefault();
+
+            if (!evt.shiftKey && !evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+                this.execCommand('move', -1, 0);
+            }
         },
 
         __keyDown: function (evt) {
             evt.preventDefault();
+
+            if (!evt.shiftKey && !evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+                this.execCommand('move', 1, 0);
+            }
         }
     };
 });

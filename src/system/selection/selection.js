@@ -32,8 +32,21 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'controlstatuschange': this.__reselection
+                'controlstatuschange': this.__reselection,
+                'controlcomplete': this.__completeSelection,
+                'viewchange': this.__viewchange
             });
+        },
+
+        __completeSelection: function (start, end) {
+            this.execCommand('range', start, end);
+        },
+
+        __viewchange: function () {
+            var ranges = this.queryCommandValue('allrange');
+            var lastRange = ranges[ranges.length - 1];
+
+            this.__reselection(lastRange.start, lastRange.end);
         },
 
         __reselection: function (start, end) {

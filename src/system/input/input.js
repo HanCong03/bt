@@ -32,13 +32,18 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'ready': this.__ready
+                'ready': this.__ready,
+                'control': this.focus
             });
         },
 
         __ready: function () {
             // 将input的控制权交给感兴趣的模块
             this.postMessage('depute.input.control', this.inputNode);
+        },
+
+        focus: function () {
+            this.inputNode.focus();
         }
 
     });
