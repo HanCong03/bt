@@ -11,5 +11,7 @@ define({
         fontColor: '#000000'
     },
 
+    color: '#217346',
+
     fill: '#ffffff'
 });

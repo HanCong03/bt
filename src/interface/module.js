@@ -16,7 +16,7 @@ define(function (require, exports, module) {
         init: function () {},
 
         createComponent: function (Clazz) {
-            return new Clazz(this.__$ctx);
+            return new Clazz(this.__$ctx, this);
         },
 
         registerService: function (name, handler) {

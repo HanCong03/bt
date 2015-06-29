@@ -12,6 +12,7 @@ define(function (require, exports, module) {
 
         constructor: function (ctx, module) {
             this.__$ctx = ctx;
+            this.____$type = module.____$type;
             this.__$module = module;
 
             this.init();
@@ -20,7 +21,7 @@ define(function (require, exports, module) {
         init: function () {},
 
         createComponent: function (Clazz) {
-            return new Clazz(this.__$ctx);
+            return new Clazz(this.__$ctx, this.__$module);
         },
 
         registerService: function (name, handler) {

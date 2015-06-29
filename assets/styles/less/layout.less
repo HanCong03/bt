@@ -1,8 +1,4 @@
-.abs() {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+@import "common";
 
 .btb-main {
   position: relative;
@@ -13,6 +9,18 @@
     .abs();
     width: 100%;
     height: 100%;
+  }
+
+  .btb-bottom-layer {
+    z-index: 1;
+  }
+
+  .btb-middle-layer {
+    z-index: 2;
+  }
+
+  .btb-top-layer {
+    z-index: 3;
   }
 
   .btb-shadow {
@@ -27,5 +35,12 @@
 
   * {
     box-sizing: border-box;
+  }
+
+  .btb-mask {
+    .abs();
+
+    width: 100%;
+    height: 100%;
   }
 }

@@ -36,6 +36,8 @@ define(function (require, exports, module) {
             } else {
                 heap.gridline = null;
             }
+
+            this.__refresh();
         },
 
         getVisualData: function () {
@@ -43,6 +45,12 @@ define(function (require, exports, module) {
         },
 
         refresh: function () {
+            this.__refresh();
+
+            this.emit('refresh');
+        },
+
+        __refresh: function () {
             var heap = this.getActiveHeap();
 
             this.__refreshStart();
@@ -81,8 +89,6 @@ define(function (require, exports, module) {
             heap.spaceWidth = colInfo.space;
             // 列数
             heap.colCount = colInfo.count;
-
-            this.emit('refresh');
         },
 
         __refreshStart: function () {

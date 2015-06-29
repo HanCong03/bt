@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var Screen = require('./screen');
 
-    module.exports = $$.createClass('Screen', {
+    module.exports = $$.createClass('Render', {
         base: require('module'),
 
         mixin: [

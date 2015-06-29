@@ -29,7 +29,9 @@ define(function (require, exports, module) {
             visualData: require('./core/visual-data/visual-data')
         },
         system: {
-            render: require('./system/render/render')
+            render: require('./system/render/render'),
+            control: require('./system/control/control'),
+            selection: require('./system/selection/selection')
         },
         ext: {}
     };
