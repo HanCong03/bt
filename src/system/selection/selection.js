@@ -32,18 +32,7 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'ready': this.__reset,
                 'controlstatuschange': this.__reselection
-            });
-        },
-
-        __reset: function () {
-            this.__reselection({
-                row: 0,
-                col: 0
-            }, {
-                row: 0,
-                col: 0
             });
         },
 

@@ -17,11 +17,17 @@ define(function (require, exports, module) {
             x -= visualData.headWidth;
             y -= visualData.headHeight;
 
-            // 绘制点比行列数多1，所以和len比较时使用 <=
-            for (var i = 0, len = visualData.colCount; i <= len; i++) {
+            for (var i = 0, len = visualData.colCount; i < len; i++) {
                 if (x <= colPoints[i]) {
                     c = i - 1;
                     break;
+                }
+            }
+
+            // 由于绘制点比行列数多1，但是最后一个绘制点有可能会溢出到可视区域外，所以需要做校正
+            if ($$.isNdef(c)) {
+                if (x <= visualData.spaceWidth) {
+                    c = visualData.colCount - 1;
                 }
             }
 
@@ -30,11 +36,17 @@ define(function (require, exports, module) {
                 c = -2;
             }
 
-            // 绘制点比行列数多1，所以和len比较时使用 <=
-            for (var i = 0, len = visualData.rowCount; i <= len; i++) {
+            for (var i = 0, len = visualData.rowCount; i < len; i++) {
                 if (y <= rowPoints[i]) {
                     r = i - 1;
                     break;
+                }
+            }
+
+            // 由于绘制点比行列数多1，但是最后一个绘制点有可能会溢出到可视区域外，所以需要做校正
+            if ($$.isNdef(r)) {
+                if (y <= visualData.spaceHeight) {
+                    r = visualData.rowCount - 1;
                 }
             }
 

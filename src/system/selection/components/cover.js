@@ -20,6 +20,10 @@ define(function (require, exports, module) {
 
     module.exports = {
         __draw: function (originalStart, originalEnd, start, end, rect) {
+            if (!rect) {
+                return;
+            }
+
             var mergecells = this.queryCommandValue('mergecell', start, end);
 
             if ($$.isNdef(mergecells)) {

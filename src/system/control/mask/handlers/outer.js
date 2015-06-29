@@ -1,7 +1,4 @@
 define(function (require, exports, module) {
-    var $$ = require('utils');
-    var GRIDLINE_CONFIG = require('definition/gridline');
-
     var STATUS = require('../../definition/status');
 
     module.exports = {
@@ -12,8 +9,6 @@ define(function (require, exports, module) {
         },
 
         __stopOuterScroll: function () {
-            console.log('enter');
-
             clearInterval(this.__timer);
             this.__timer = null;
 
@@ -28,7 +23,7 @@ define(function (require, exports, module) {
                 _self.__scroll();
             }, 50);
 
-            $doc.on('mousemove mouseup', function (evt) {
+            $doc.on('mousemove.btable mouseup.btable', function (evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
 

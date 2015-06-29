@@ -28,17 +28,17 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initEvent();
+            this.__initScreen();
         },
 
         __initEvent: function () {
             this.on({
-                'ready': this.__init,
                 'viewchange': this.refresh,
                 'refresh': this.refresh
             });
         },
 
-        __init: function () {
+        __initScreen: function () {
             var size = this.getContainerSize();
             this.gridlineScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
             this.contentScreen = new Screen(this.getMiddleContainer(), size.width, size.height);

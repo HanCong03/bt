@@ -38,6 +38,7 @@ define(function (require, exports, module) {
             this.invisibleCtx = this.invisibleCanvas.getContext('2d');
 
             this.parent = container;
+            container.appendChild(this.visibleCanvas);
         },
 
         clear: function () {
@@ -46,11 +47,7 @@ define(function (require, exports, module) {
         },
 
         toggle: function () {
-            this.parent.appendChild(this.invisibleCanvas);
-
-            if (this.visibleCanvas.parentNode) {
-                this.parent.removeChild(this.visibleCanvas);
-            }
+            this.parent.replaceChild(this.invisibleCanvas, this.visibleCanvas);
 
             // 擦除换下来的画布内容
             this.visibleCanvas.width = this.width;
