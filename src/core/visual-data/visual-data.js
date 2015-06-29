@@ -5,10 +5,16 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var GRIDLINE = require('definition/gridline');
+    var GRIDLINE_CONFIG = require('definition/gridline');
+    var OFFSET = GRIDLINE_CONFIG.offset;
+    var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
     module.exports = $$.createClass('VisualData', {
         base: require('module'),
+
+        mixin: [
+            require('./scroll')
+        ],
 
         init: function () {
             this.__initEvent();
@@ -31,11 +37,8 @@ define(function (require, exports, module) {
         __initHeap: function () {
             var heap = this.getActiveHeap();
 
-            if (this.queryCommandValue('gridline')) {
-                heap.gridline = GRIDLINE;
-            } else {
-                heap.gridline = null;
-            }
+            heap.row = 0;
+            heap.col = 0;
 
             this.__refresh();
         },
@@ -52,16 +55,32 @@ define(function (require, exports, module) {
 
         __refresh: function () {
             var heap = this.getActiveHeap();
-
-            this.__refreshStart();
-
-            var headHeight = this.queryCommandValue('standardheight');
             var containerSize = this.getContainerSize();
 
-            var rowInfo = this.__collectRowInfo(containerSize.height - headHeight);
+            heap.pane = this.queryCommandValue('pane');
 
             // 头部高度
-            heap.headHeight = headHeight;
+            heap.headHeight = this.queryCommandValue('standardheight');
+            this.__refreshRow(containerSize.height - heap.headHeight);
+
+            // 头部宽度
+            heap.headWidth = this.__calculateHeadWidth(heap.rows);
+            this.__refreshColumn(containerSize.width - heap.headWidth);
+        },
+
+        /**
+         * 必须先计算行，才能计算列
+         * @private
+         */
+        __refreshRow: function (spaceHeight) {
+            var heap = this.getActiveHeap();
+            var start = this.__getMinStart();
+
+            if (heap.row < start.row) {
+                heap.row = start.row;
+            }
+
+            var rowInfo = this.__collectRowInfo(spaceHeight);
 
             // 行索引
             heap.rows = rowInfo.indexes;
@@ -73,11 +92,23 @@ define(function (require, exports, module) {
             heap.spaceHeight = rowInfo.space;
             // 行数
             heap.rowCount = rowInfo.count;
+            // 行结束索引
+            heap.endRow = heap.row + heap.rowCount - 1;
+        },
 
-            // 头部宽度
-            heap.headWidth = this.__calculateHeadWidth(heap.rows);
+        /**
+         * 必须先计算行，才能计算列
+         * @private
+         */
+        __refreshColumn: function (spaceWidth) {
+            var heap = this.getActiveHeap();
+            var start = this.__getMinStart();
 
-            var colInfo = this.__collectColumnInfo(containerSize.width - heap.headWidth);
+            if (heap.col < start.col) {
+                heap.col = start.col;
+            }
+
+            var colInfo = this.__collectColumnInfo(spaceWidth);
 
             // 列索引
             heap.cols = colInfo.indexes;
@@ -89,21 +120,24 @@ define(function (require, exports, module) {
             heap.spaceWidth = colInfo.space;
             // 列数
             heap.colCount = colInfo.count;
+            // 列结束索引
+            heap.endCol = heap.col + heap.colCount - 1;
         },
 
-        __refreshStart: function () {
-            var heap = this.getActiveHeap();
+        __getMinStart: function () {
             var pane = this.queryCommandValue('pane');
 
             if ($$.isNdef(pane)) {
-                heap.row = 0;
-                heap.col = 0;
+                return {
+                    row: 0,
+                    col: 0
+                };
             } else {
-                heap.row = pane.start.row;
-                heap.col = pane.start.col;
+                return {
+                    row: pane.start.row,
+                    col: pane.start.col
+                };
             }
-
-            heap.pane = pane;
         },
 
         __collectRowInfo: function (spaceHeight) {
@@ -116,9 +150,6 @@ define(function (require, exports, module) {
                     count: 0
                 };
             }
-
-            var OFFSET = GRIDLINE.offset;
-            var LINE_WIDTH = GRIDLINE.width;
 
             var heap = this.getActiveHeap();
             var heights = [];
@@ -169,9 +200,6 @@ define(function (require, exports, module) {
                     count: 0
                 };
             }
-
-            var OFFSET = GRIDLINE.offset;
-            var LINE_WIDTH = GRIDLINE.width;
 
             var heap = this.getActiveHeap();
             var widths = [];

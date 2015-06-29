@@ -20,7 +20,8 @@ define(function (require, exports, module) {
         coverScreen: null,
 
         mixin: [
-            require('./components/cover')
+            require('./components/cover'),
+            require('./components/outer')
         ],
 
         init: function () {
@@ -49,6 +50,7 @@ define(function (require, exports, module) {
             this.on({
                 'ready': this.__reset,
                 'refresh': this.__refresh,
+                'viewchange': this.__refresh,
                 'controlstatuschange': this.__reselection
             });
         },
@@ -75,6 +77,10 @@ define(function (require, exports, module) {
         },
 
         __reselection: function (start, end) {
+            if (end.row < 0 || end.col < 0) {
+                return this.__outerReselection(start, end);
+            }
+
             var originalStart = start;
             var originalEnd = end;
 

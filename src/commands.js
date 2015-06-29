@@ -22,7 +22,8 @@ define(function (require, exports, module) {
         core: {
             content: require('./core/commands/cell/content'),
             columnWidth: require('./core/commands/column-width'),
-            rowHeight: require('./core/commands/row-height')
+            rowHeight: require('./core/commands/row-height'),
+            scroll: require('./core/commands/scroll')
         },
         system: {},
         ext: {}

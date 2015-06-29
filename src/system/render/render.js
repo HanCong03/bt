@@ -33,6 +33,7 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'ready': this.__init,
+                'viewchange': this.refresh,
                 'refresh': this.refresh
             });
         },

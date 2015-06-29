@@ -6,15 +6,15 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
+    var FACE_THEME = require('definition/face-theme');
 
     module.exports = {
         __drawHeader: function () {
-            var visualData = this.visualData;
             var screen = this.gridlineScreen;
 
             screen.save();
 
-            screen.fillColor(visualData.gridline.fontColor);
+            screen.fillColor(FACE_THEME.fontColor);
 
             screen.textBaseline('middle');
             screen.textAlign('center');

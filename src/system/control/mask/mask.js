@@ -49,9 +49,20 @@ define(function (require, exports, module) {
         getIndex: function (x, y) {
             var index = MaskUtils.calculateCellIndex(this.container, this.visualData, x, y);
 
+            var row = index.r;
+            var col = index.c;
+
+            if (row >= 0) {
+                row = this.visualData.rows[row];
+            }
+
+            if (col >= 0) {
+                col = this.visualData.cols[col];
+            }
+
             return {
-                row: this.visualData.rows[index.r],
-                col: this.visualData.cols[index.c]
+                row: row,
+                col: col
             };
         },
 

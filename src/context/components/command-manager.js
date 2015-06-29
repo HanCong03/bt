@@ -77,7 +77,9 @@ define(function (require, exports, module) {
 
             this.unlock();
 
-            this.trigger();
+            if (command.provider.$datachange !== false) {
+                this.trigger();
+            }
 
             return result;
         },
@@ -103,7 +105,9 @@ define(function (require, exports, module) {
 
             this.unlock();
 
-            this.trigger();
+            if (command.provider.$datachange !== false) {
+                this.trigger();
+            }
 
             return result;
         },

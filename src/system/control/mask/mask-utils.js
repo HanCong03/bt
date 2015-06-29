@@ -17,7 +17,8 @@ define(function (require, exports, module) {
             x -= visualData.headWidth;
             y -= visualData.headHeight;
 
-            for (var i = 0, len = visualData.colCount; i < len; i++) {
+            // 绘制点比行列数多1，所以和len比较时使用 <=
+            for (var i = 0, len = visualData.colCount; i <= len; i++) {
                 if (x <= colPoints[i]) {
                     c = i - 1;
                     break;
@@ -29,7 +30,8 @@ define(function (require, exports, module) {
                 c = -2;
             }
 
-            for (var i = 0, len = visualData.rowCount; i < len; i++) {
+            // 绘制点比行列数多1，所以和len比较时使用 <=
+            for (var i = 0, len = visualData.rowCount; i <= len; i++) {
                 if (y <= rowPoints[i]) {
                     r = i - 1;
                     break;
@@ -37,7 +39,7 @@ define(function (require, exports, module) {
             }
 
             // 底部无单元格的位置
-            if ($$.isNdef(c)) {
+            if ($$.isNdef(r)) {
                 r = -2;
             }
 

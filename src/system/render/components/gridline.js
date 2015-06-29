@@ -12,7 +12,7 @@ define(function (require, exports, module) {
             var visualData = this.visualData;
             var screen = this.gridlineScreen;
 
-            if ($$.isNdef(visualData.gridline)) {
+            if (!this.queryCommandValue('gridline')) {
                 return;
             }
 
