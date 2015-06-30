@@ -35,19 +35,35 @@ define(function (require, exports, module) {
         },
 
         __mousemove: function (evt) {
+            // 不处理all的情况
+            if ((this.status & (STATUS.CELL | STATUS.ROW | STATUS.COLUMN)) === 0) {
+                return;
+            }
+
+            var index = this.getIndex(evt.clientX, evt.clientY);
+
+            // 交给外部处理器处理
+            if (index.row < 0 || index.col < 0) {
+                return this.__outerProcess(index);
+            }
+
+            // 未发生改变
+            if (this.end.row === index.row && this.end.col === index.col) {
+                return;
+            }
+
+            this.end = index;
+
             switch (this.status) {
                 case STATUS.CELL:
-                    this.end = this.getIndex(evt.clientX, evt.clientY);
                     this.emit('control.cell.select', this.start, this.end);
                     break;
 
                 case STATUS.ROW:
-                    this.end = this.getIndex(evt.clientX, evt.clientY);
                     this.emit('control.row.select', this.start.row, this.end.row);
                     break;
 
                 case STATUS.COLUMN:
-                    this.end = this.getIndex(evt.clientX, evt.clientY);
                     this.emit('control.column.select', this.start.col, this.end.col);
                     break;
             }
@@ -76,19 +92,22 @@ define(function (require, exports, module) {
                     break;
             }
 
-            this.status = STATUS.NORMAL;
+            this.__reset();
         },
 
         __mouseleave: function (evt) {
-            //if (this.status !== STATUS.MOUSE_DOWN) {
-            //    return;
-            //}
-            //
-            //this.__startOuterScroll();
+            $(document).on('mousemove', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+
+            });
+
+            this.__outerProcess();
         },
 
         __mouseenter: function () {
-            //this.__stopOuterScroll();
+            this.__stopOuterProcess();
         }
     };
 });

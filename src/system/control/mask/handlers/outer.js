@@ -4,8 +4,45 @@ define(function (require, exports, module) {
     module.exports = {
         __timer: null,
 
-        __startOuterScroll: function (evt) {
-            this.__listenDocument();
+        __outerProcess: function (index) {
+            console.log('处理')
+            // 未发生改变，则由交由循环处理器处理
+            if (this.end.row === index.row && this.end.col === index.col) {
+                return;
+            }
+
+            switch (this.status) {
+                case STATUS.CELL:
+                    this.end = index;
+                    this.emit('control.outer.cell.select', this.start, this.end);
+                    break;
+
+                case STATUS.ROW:
+                    // 行未发生变化
+                    if (this.end.row === index.row) {
+                        this.end = index;
+                        return;
+                    }
+
+                    this.end = index;
+                    this.emit('control.outer.row.select', this.start.row, this.end.row);
+                    break;
+
+                case STATUS.COLUMN:
+                    // 列未发生变化
+                    if (this.end.col === index.col) {
+                        this.end = index;
+                        return;
+                    }
+
+                    this.end = index;
+                    this.emit('control.outer.column.select', this.start.col, this.end.col);
+                    break;
+            }
+        },
+
+        __stopOuterProcess: function () {
+            console.log('stop')
         },
 
         __stopOuterScroll: function () {

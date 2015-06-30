@@ -39,6 +39,7 @@ define(function (require, exports, module) {
                 'control.row.select': this.__rowSelect,
                 'control.column.select': this.__columnSelect,
                 'control.all.select': this.__allSelect,
+                'control.outer.cell.select': this.__scrollCellSelect,
                 'viewchange': this.__viewchange
             });
         },
@@ -229,6 +230,10 @@ define(function (require, exports, module) {
 
             this.__draw(originalStart, originalEnd, start, end, rect);
             this.coverScreen.toggle();
+        },
+
+        __scrollCellSelect: function (start, end) {
+            console.log(start, end)
         },
 
         __getFullRange: function (start, end) {

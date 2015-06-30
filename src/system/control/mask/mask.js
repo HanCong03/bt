@@ -27,9 +27,9 @@ define(function (require, exports, module) {
         ],
 
         init: function () {
-            this.status = STATUS.NORMAL;
             this.maskNode = this.__createMaskNode();
 
+            this.__reset();
             this.__initEvent();
             this.__initDomEvent();
         },
@@ -79,6 +79,12 @@ define(function (require, exports, module) {
                 row: row,
                 col: col
             };
+        },
+
+        __reset: function () {
+            this.status = STATUS.NORMAL;
+            this.start = null;
+            this.end = null;
         },
 
         __initDomEvent: function () {
