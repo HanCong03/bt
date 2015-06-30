@@ -29,6 +29,10 @@ define(function (require, exports, module) {
                 case KEY_CODE.BOTTOM:
                     this.__keyBottom(evt);
                     break;
+
+                case KEY_CODE.ENTER:
+                    this.__keyEnter(evt);
+                    break;
             }
         },
 
@@ -102,6 +106,33 @@ define(function (require, exports, module) {
             }
 
             // EDIT状态下交由系统处理
+        },
+
+        __keyEnter: function (evt) {
+            evt.preventDefault();
+
+            // up move
+            if (evt.shiftKey) {
+                // 推送写入消息
+                this.postMessage('control.write');
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+                // 执行上移
+                this.execCommand('move', -1, 0);
+
+            // 换行
+            } else if (evt.altKey) {
+                this.postMessage('control.newline');
+
+            // down move
+            } else {
+                // 推送写入消息
+                this.postMessage('control.write');
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+                // 执行下移
+                this.execCommand('move', 1, 0);
+            }
         }
     };
 });

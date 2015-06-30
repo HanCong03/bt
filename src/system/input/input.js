@@ -69,7 +69,9 @@ define(function (require, exports, module) {
                 'controle.input': this.__input,
                 'control.write': this.__write,
 
-                'control.input.inactive': this.__reset
+                'control.input.inactive': this.__reset,
+
+                'control.newline': this.__newLine
             });
         },
 

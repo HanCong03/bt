@@ -38,6 +38,26 @@ define(function (require, exports, module) {
             return content.replace(/<br\s*\/?>/g, '\n')
                         .replace(/[\uFEFF]/g, '')
                         .replace(/<[^>]+?>/g, '');
+        },
+
+        __newLine: function () {
+            var docSelection = window.getSelection();
+            var range = docSelection.getRangeAt(0);
+            var placeholder = document.createTextNode('\uFEFF');
+
+            range = range.cloneRange();
+
+            range.deleteContents();
+            range.insertNode(placeholder);
+            range.insertNode(document.createElement('br'));
+            range.selectNode(placeholder);
+            range.collapse(false);
+
+            docSelection.removeAllRanges();
+            docSelection.addRange(range);
+
+            /* --- 由于手动修改的内容不触发事件，所以需要主动调用以便同步输入框大小 --- */
+            this.__input();
         }
     };
 });
