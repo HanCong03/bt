@@ -24,8 +24,10 @@ define(function (require, exports, module) {
         ],
 
         init: function () {
-            this.__initEvent();
             this.__initSelection();
+
+            this.__initEvent();
+            this.__initMessage();
         },
 
         __initSelection: function () {
@@ -35,12 +37,16 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'control.cell.select': this.__cellSelect,
-                'control.row.select': this.__rowSelect,
-                'control.column.select': this.__columnSelect,
-                'control.all.select': this.__allSelect,
-                'control.outer.cell.select': this.__scrollCellSelect,
                 'viewchange': this.__viewchange
+            });
+        },
+
+        __initMessage: function () {
+            this.onMessage({
+                'control.cell.selection': this.__cellSelect,
+                'control.row.selection': this.__rowSelect,
+                'control.column.selection': this.__columnSelect,
+                'control.all.selection': this.__allSelect
             });
         },
 

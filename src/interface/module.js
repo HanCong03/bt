@@ -102,6 +102,10 @@ define(function (require, exports, module) {
             return this.__$ctx.internalQueryCommandValue.apply(this.__$ctx, args);
         },
 
+        getMainContainer: function () {
+            return this.__$ctx.getRootNode();
+        },
+
         getShadowContainer: function () {
             return this.__$ctx.getShadowContainer();
         },

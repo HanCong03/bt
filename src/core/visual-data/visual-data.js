@@ -9,6 +9,10 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
+
     module.exports = $$.createClass('VisualData', {
         base: require('module'),
 
@@ -97,6 +101,8 @@ define(function (require, exports, module) {
             heap.rowCount = rowInfo.count;
             // 行结束索引
             heap.endRow = heap.row + heap.rowCount - 1;
+            // 可见内容区域高度
+            heap.boundaryHeight = rowInfo.boundary;
         },
 
         /**
@@ -125,6 +131,8 @@ define(function (require, exports, module) {
             heap.colCount = colInfo.count;
             // 列结束索引
             heap.endCol = heap.col + heap.colCount - 1;
+            // 可见内容区域宽度
+            heap.boundaryWidth = colInfo.boundary;
         },
 
         __getMinStart: function () {
@@ -150,7 +158,8 @@ define(function (require, exports, module) {
                     heights: null,
                     points: null,
                     indexes: null,
-                    count: 0
+                    count: 0,
+                    boundary: 0
                 };
             }
 
@@ -181,14 +190,15 @@ define(function (require, exports, module) {
                 indexes.push(row);
 
                 row++;
-            } while (spaceHeight > offset);
+            } while (spaceHeight > offset && row <= MAX_ROW_INDEX);
 
             return {
                 space: spaceHeight,
                 heights: heights,
                 points: points,
                 indexes: indexes,
-                count: indexes.length
+                count: indexes.length,
+                boundary: Math.min(spaceHeight, offset)
             };
         },
 
@@ -200,7 +210,8 @@ define(function (require, exports, module) {
                     widths: null,
                     points: null,
                     indexes: null,
-                    count: 0
+                    count: 0,
+                    boundary: 0
                 };
             }
 
@@ -231,14 +242,15 @@ define(function (require, exports, module) {
                 indexes.push(col);
 
                 col++;
-            } while (spaceWidth > offset);
+            } while (spaceWidth > offset && col <= MAX_COLUMN_INDEX);
 
             return {
                 space: spaceWidth,
                 widths: widths,
                 points: points,
                 indexes: indexes,
-                count: indexes.length
+                count: indexes.length,
+                boundary: Math.min(spaceWidth, offset)
             };
         },
 

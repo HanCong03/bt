@@ -16,6 +16,7 @@ define(function (require, exports, module) {
         init: function () {
             this.__initInput();
             this.__initEvent();
+            this.__initMessage();
         },
 
         __initInput: function () {
@@ -32,7 +33,12 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'ready': this.__ready,
+                'ready': this.__ready
+            });
+        },
+
+        __initMessage: function () {
+            this.onMessage({
                 'control': this.focus
             });
         },

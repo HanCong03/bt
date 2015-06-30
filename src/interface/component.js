@@ -111,6 +111,10 @@ define(function (require, exports, module) {
             return this.__$ctx.getShadowContainer();
         },
 
+        getMainContainer: function () {
+            return this.__$ctx.getRootNode();
+        },
+
         getTopContainer: function () {
             return this.__$ctx.getTopContainer();
         },

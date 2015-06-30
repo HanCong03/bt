@@ -8,6 +8,5 @@ define({
     CELL: 2,
     ROW: 4,
     COLUMN: 8,
-    ALL: 16,
-    WRITE: 1024
+    ALL: 16
 });
