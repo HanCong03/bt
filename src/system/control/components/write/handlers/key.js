@@ -2,22 +2,15 @@
  * @file
  * @author hancong03@baiud.com
  */
-/**
- * @file
- * @author hancong03@baiud.com
- */
 
 define(function (require, exports, module) {
     var STATUS = require('../definition/status');
     var KEY_CODE = require('definition/key-code');
 
     module.exports = {
-        timer: null,
-
         __onkeydown: function (evt) {
-            if (this.status !== STATUS.NORMAL) {
-                // 终止所有操作
-                this.__abort();
+            if (this.status === STATUS.NORMAL) {
+                return;
             }
 
             switch (evt.keyCode) {
@@ -40,41 +33,33 @@ define(function (require, exports, module) {
         },
 
         __keyLeft: function (evt) {
-            if (evt.shiftKey) {
+            // 输入状态
+            if (this.status === STATUS.INPUT) {
+                evt.preventDefault();
 
-            } else {
-                // move
+                // 推送写入消息
+                this.postMessage('control.write');
+
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+
+                // 执行左移
                 this.execCommand('move', 0, -1);
             }
+
+            // EDIT状态下交由系统处理
         },
 
         __keyTop: function (evt) {
-            if (evt.shiftKey) {
-
-            } else {
-                // move
-                this.execCommand('move', -1, 0);
-            }
+            evt.preventDefault();
         },
 
         __keyRight: function (evt) {
-            if (evt.shiftKey) {
-
-            } else {
-                // move
-                this.execCommand('move', 0, 1);
-            }
+            evt.preventDefault();
         },
 
         __keyBottom: function (evt) {
-            if (evt.shiftKey) {
-
-            } else {
-                // move
-                this.execCommand('move', 1, 0);
-            }
-        },
-
-        __abortKey: function () {}
+            evt.preventDefault();
+        }
     };
 });

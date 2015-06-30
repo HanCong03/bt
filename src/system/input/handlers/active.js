@@ -8,8 +8,6 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
-    var STATUS = require('../definition/status');
-
     module.exports = {
         // 当前单元格的起始位置
         __cellStart: null,
@@ -32,6 +30,9 @@ define(function (require, exports, module) {
             this.__wraptext = null;
             this.__textAling = null;
             this.__baseLocation = null;
+
+            // 移除活动样式
+            $(this.inputWrap).removeClass('btb-active');
         },
 
         __activeNormalCell: function (row, col) {

@@ -48,6 +48,8 @@ define(function (require, exports, module) {
                 'control.column.selection': this.__columnSelect,
                 'control.all.selection': this.__allSelect,
 
+                'controle.move.left': this.__leftMove,
+
                 'control.compolete.cell.selection': this.__cellSelectComplete,
                 'control.compolete.row.selection': this.__rowSelectComplete,
                 'control.compolete.column.selection': this.__columnSelectComplete,

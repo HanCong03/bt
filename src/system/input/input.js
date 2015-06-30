@@ -29,7 +29,6 @@ define(function (require, exports, module) {
         init: function () {
             this.__initInput();
             this.__initEvent();
-            this.__initDomEvent();
             this.__initMessage();
             this.__initShadowBox();
             this.__reset();
@@ -50,11 +49,6 @@ define(function (require, exports, module) {
         },
 
         __reset: function () {
-            if (this.status === STATUS.NORMAL) {
-                return;
-            }
-
-            this.status = STATUS.NORMAL;
             this.__resetActive();
         },
 
@@ -65,18 +59,16 @@ define(function (require, exports, module) {
             });
         },
 
-        __initDomEvent: function () {
-            var _self = this;
-
-            $(this.inputNode).on('input', function (evt) {
-                _self.__input();
-            });
-        },
-
         __initMessage: function () {
             this.onMessage({
                 'control': this.focus,
-                'control.input.mouse.active': this.mouseActive
+                'control.input.mouse.active': this.mouseActive,
+                'control.input.input.active': this.inputActive,
+
+                'controle.input': this.__input,
+                'control.write': this.__write,
+
+                'control.input.inactive': this.__reset
             });
         },
 
@@ -119,6 +111,30 @@ define(function (require, exports, module) {
             var keys = Object.keys(mergecells);
             this.__activeMergeCell(mergecells[keys[0]]);
             this.__syncContent();
+        },
+
+        /**
+         * 输入（内容）激活
+         * 注：激活过程大致与mouseActive()一致，区别在于该激活方式不同步内容。
+         * @param row
+         * @param col
+         */
+        inputActive: function (row, col) {
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
+
+            if ($$.isNdef(mergecells)) {
+                this.__activeNormalCell(row, col);
+                return;
+            }
+
+            var keys = Object.keys(mergecells);
+            this.__activeMergeCell(mergecells[keys[0]]);
         }
     });
 });

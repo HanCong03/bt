@@ -15,7 +15,9 @@ define(function (require, exports, module) {
         status: null,
 
         mixin: [
-            require('./handlers/active')
+            require('./handlers/active'),
+            require('./handlers/input'),
+            require('./handlers/key')
         ],
 
         init: function () {
@@ -27,7 +29,8 @@ define(function (require, exports, module) {
 
         // 模式切换时的收尾工作。
         exit: function () {
-            //this.__abort();
+            // 发送退出消息
+            this.postMessage('control.input.inactive');
         },
 
         __initEvent: function () {
@@ -42,12 +45,6 @@ define(function (require, exports, module) {
 
         __refresh: function () {
             this.visualData = this.rs('get.visual.data');
-        },
-
-        __abort: function () {
-            //this.__abortMouse();
-            //this.__abortKey();
-            //this.__reset();
         },
 
         __getIndex: function (evt) {

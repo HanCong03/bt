@@ -8,8 +8,6 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
-    var STATUS = require('../definition/status');
-
     module.exports = {
         __syncContent: function () {
             var row = this.__cellStart.row;
@@ -27,6 +25,15 @@ define(function (require, exports, module) {
             var rect = this.__calculateContentRect(formattedContent);
 
             this.__relocation(rect);
+        },
+
+        __getUserContent: function () {
+            var content = this.inputNode.innerHTML;
+
+            // 格式化
+            return content.replace(/<br\s*\/?>/g, '\n')
+                        .replace(/[\uFEFF]/g, '')
+                        .replace(/<[^>]+?>/g, '');
         }
     };
 });

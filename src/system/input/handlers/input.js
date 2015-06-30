@@ -14,6 +14,14 @@ define(function (require, exports, module) {
             var rect = this.__calculateContentRect(content);
 
             this.__relocation(rect);
+        },
+
+        __write: function () {
+            var cell = this.__cellStart;
+            var content = this.__getUserContent();
+
+            // 写入
+            this.execCommand('content', content, cell.row, cell.col);
         }
     };
 });

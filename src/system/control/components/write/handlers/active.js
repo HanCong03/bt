@@ -19,6 +19,16 @@ define(function (require, exports, module) {
 
             this.status = STATUS.INPUT;
             this.postMessage('control.input.mouse.active', row, col);
+        },
+
+        inputActive: function (row, col) {
+            if (this.status !== STATUS.NORMAL) {
+                return;
+            }
+
+            // 激活状态
+            this.status = STATUS.INPUT;
+            this.postMessage('control.input.input.active', row, col);
         }
     };
 });

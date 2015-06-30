@@ -28,7 +28,7 @@ define(function (require, exports, module) {
 
             this.inputNode = inputNode;
 
-            $(this.inputNode).on('keydown', function (evt) {
+            $(this.inputNode).on('keydown input', function (evt) {
                 evt.stopPropagation();
 
                 _self.listener(evt.type, evt);

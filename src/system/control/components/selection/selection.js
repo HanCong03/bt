@@ -31,6 +31,19 @@ define(function (require, exports, module) {
             this.__abort();
         },
 
+        // 请求选区变化，新的选区将更改为给定的单元格
+        // 如果给定的单元格是一个合并单元格，则选区的变更将包含该合并单元格的所有部分。
+        // 注：该接口提供给主控模块，以满足在用户通过输入内容激活write模块时使用。
+        change: function (row, col) {
+            this.postMessage('control.compolete.cell.selection', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
+        },
+
         __initEvent: function () {
             this.on({
                'refresh': this.__refresh

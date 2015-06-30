@@ -23,7 +23,8 @@ define(function (require, exports, module) {
         controllers: null,
 
         mixin: [
-            require('./handlers/dblclick')
+            require('./handlers/dblclick'),
+            require('./handlers/input')
         ],
 
         init: function () {
@@ -50,7 +51,8 @@ define(function (require, exports, module) {
 
         __initMessage: function () {
             this.onMessage({
-                'depute.input.control': this.addInput
+                'depute.input.control': this.__addInput,
+                'control.free': this.__freeControl
             });
         },
 
@@ -84,8 +86,23 @@ define(function (require, exports, module) {
             }
         },
 
-        addInput: function (inputNode) {
+        __addInput: function (inputNode) {
             this.mask.addInput(inputNode);
+        },
+
+        /**
+         * 子组件主动请求释放控制权
+         */
+        __freeControl: function () {
+            var controllers = this.controllers;
+
+            switch (this.mode) {
+                case MODE.WRITE:
+                    controllers[MODE.WRITE].exit();
+                    // 切换到选区模式
+                    this.mode = MODE.SELECTION;
+                    break;
+            }
         },
 
         __getIndex: function (evt) {
