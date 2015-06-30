@@ -145,7 +145,7 @@ define(function (require, exports, module) {
             };
         },
 
-        __getNormalCellMinSize: function (content, fonts, alignments, row, col) {
+        __getNormalCellMinSize: function (row, col) {
             return {
                 width: this.queryCommandValue('columnwidth', col),
                 height: this.queryCommandValue('rowheight', row)
