@@ -16,12 +16,17 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-               'set.content.and.type': this.setContent
+                'set.content.and.type': this.setContent,
+                'clear.content': this.clearContent
             });
         },
 
         setContent: function (value, contentType, row, col) {
             this.__$api.setContent(value, contentType, row, col);
+        },
+
+        clearContent: function (start, end) {
+            this.__$api.clearContent(start, end);
         },
 
         getContent: function (row, col) {
