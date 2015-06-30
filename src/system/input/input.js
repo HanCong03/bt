@@ -7,6 +7,7 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var FACE_THEME = require('definition/face-theme');
+    var STATUS = require('./definition/status');
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
@@ -14,14 +15,23 @@ define(function (require, exports, module) {
         inputWrap: null,
         inputNode: null,
 
+        // 当前的激活状态: normal -> 未激活；active -> 激活
+        status: null,
+
         mixin: [
-            require('./handlers/active')
+            require('./handlers/active'),
+            require('./handlers/input'),
+            require('./handlers/shadow'),
+            require('./handlers/left-rect')
         ],
 
         init: function () {
             this.__initInput();
             this.__initEvent();
+            this.__initDomEvent();
             this.__initMessage();
+            this.__initShadowBox();
+            this.__reset();
         },
 
         __initInput: function () {
@@ -30,7 +40,7 @@ define(function (require, exports, module) {
 
             this.inputWrap.style.borderColor = 'red' || FACE_THEME.color;
 
-            this.inputWrap.innerHTML = '<div contenteditable="true" class="btb-input"></div>';
+            this.inputWrap.innerHTML = '<div contenteditable="true" spellcheck="false" class="btb-input"></div>';
             this.inputNode = $('.btb-input', this.inputWrap)[0];
 
             this.getTopContainer().appendChild(this.inputWrap);
@@ -38,10 +48,27 @@ define(function (require, exports, module) {
             this.inputNode.focus();
         },
 
+        __reset: function () {
+            if (this.status === STATUS.NORMAL) {
+                return;
+            }
+
+            this.status = STATUS.NORMAL;
+            this.__resetActive();
+        },
+
         __initEvent: function () {
             this.on({
                 'ready': this.__ready,
                 'refresh': this.__refresh
+            });
+        },
+
+        __initDomEvent: function () {
+            var _self = this;
+
+            $(this.inputNode).on('input', function (evt) {
+                _self.__input();
             });
         },
 

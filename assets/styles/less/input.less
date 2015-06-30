@@ -1,6 +1,19 @@
 @import "common";
 
 .btb-main {
+  .input() {
+    border: 1px solid #fff!important;
+    outline: none;
+    line-height: 1;
+    border: none;
+    padding: 1px;
+    margin: 0;
+    text-align: left;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
   .btb-input-wrap {
     .abs();
     box-sizing: content-box;
@@ -8,18 +21,9 @@
     border: 2px solid transparent;
 
     .btb-input {
-      border: 1px solid #fff!important;
-      width: 100px;
-      height: 100px;
-      outline: none;
-      line-height: 1;
-      border: none;
-      padding: 1px;
-      margin: 0;
-      text-align: left;
-      word-break: break-all;
-      word-wrap: break-word;
-      overflow: scroll;
+      display: block;
+      background: #fff;
+      .input();
     }
 
     opacity: 0;
@@ -30,5 +34,10 @@
       opacity: 1;
       z-index: 999;
     }
+  }
+
+  .btb-input-shadow {
+    display: inline-block;
+    .input();
   }
 }

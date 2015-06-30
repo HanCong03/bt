@@ -8,15 +8,36 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
+    var STATUS = require('../definition/status');
+
     module.exports = {
+        // 当前单元格的起始位置
+        __cellStart: null,
+        // 当前激活的单元格的类型：normal -> 普通单元格；mergecell -> 合并单元格
+        __activeCellType: null,
+        // 单元格内无内容时的大小
+        __minSize: null,
+        // 当前单元格是否是自动换行
+        __wraptext: false,
+        // 当前单元格的水平对齐属性
+        __textAling: null,
+        // 单元格未扩展时的基础位置
+        __baseLocation: null,
+
+        __resetActive: function () {
+            this.__cellStart = null;
+            this.__activeCellType = null;
+            this.__cellStart = null;
+            this.__minSize = null;
+            this.__wraptext = null;
+            this.__textAling = null;
+            this.__baseLocation = null;
+        },
+
         __activeNormalCell: function (row, col) {
-            var fonts = this.queryCommandValue('fonts', row, col);
-            var alignments = this.queryCommandValue('alignments', row, col);
-            var fill = this.queryCommandValue('fill', row, col);
-
-            var formattedContent = this.rs('get.formatted.content', row, col);
-
-            var size = this.__getNormalCellSize(formattedContent, fonts, alignments, row, col);
+            if (this.status !== STATUS.NORMAL) {
+                return;
+            }
 
             var start = {
                 row: row,
@@ -24,14 +45,37 @@ define(function (require, exports, module) {
             };
             var end = start;
 
+            // 滚动单元格到视图内
             this.execCommand('scrollin', start, end);
 
-            var location = this.__getLocation(row, col);
+            var fonts = this.queryCommandValue('fonts', row, col);
+            var alignments = this.queryCommandValue('alignments', row, col);
+            var fill = this.queryCommandValue('fill', row, col);
+            var formattedContent = this.rs('get.formatted.content', row, col);
 
-            this.__relocation(location.x, location.y);
+            this.__activeCellType = 'normal';
+            this.__cellStart = {
+                row: row,
+                col: col
+            };
+            this.__minSize = this.__getNormalCellMinSize(row, col);
+            this.__wraptext = !!alignments.wraptext;
+            this.__textAling = alignments.horizontal || 'left';
+            this.__baseLocation = this.__getBaseLocation(row, col);
+
+            // 注意，该方法会清除所有样式。所以需要先调用。
             this.__applyStyle(fonts, alignments, fill);
-            this.__resize(size);
 
+            // 如果设置了自动换行，则要限制宽度。
+            if (this.__wraptext) {
+                this.__setShadowWidth(this.__minSize.width);
+            }
+
+            var rect = this.__calculateContentRect(formattedContent);
+
+            this.__relocation(rect);
+
+            // 挂上激活样式
             $(this.inputWrap).addClass('btb-active');
         },
 
@@ -40,23 +84,29 @@ define(function (require, exports, module) {
         __applyStyle: function (fonts, alignments) {
             var cssText = toCssText(fonts, alignments);
 
-            console.log(cssText)
-
             this.inputNode.style.cssText = cssText;
+            this.shadow.style.cssText = cssText;
         },
 
-        __resize: function (size) {
-            $(this.inputNode).css(size);
-        },
-
-        __relocation: function (x, y) {
+        __relocation: function (rect) {
             $(this.inputWrap).css({
-                top: y - 2,
-                left: x - 2
+                top: rect.y - 2,
+                left: rect.x - 2
             });
+
+            $(this.inputNode).css({
+                width: rect.width,
+                height: rect.height
+            });
+
+            if (rect.overflow) {
+                this.inputNode.style.overflow = 'scroll';
+            } else {
+                this.inputNode.style.overflow = '';
+            }
         },
 
-        __getLocation: function (row, col) {
+        __getBaseLocation: function (row, col) {
             var visualData = this.visualData;
             var startViewRow = visualData.row;
             var startViewCol = visualData.col;
@@ -98,28 +148,11 @@ define(function (require, exports, module) {
             };
         },
 
-        __inView: function (visualData, row, col) {
-            var startViewRow = visualData.row;
-            var startViewCol = visualData.col;
-            var endViewRow = visualData.endRow;
-            var endViewCol = visualData.endCol;
-
-            return row >= startViewRow && row <= endViewRow
-                && col >= startViewCol && col <= endViewCol;
-        },
-
-        __getNormalCellSize: function (content, fonts, alignments, row, col) {
-            var width = 0;
-            var height = 0;
-
-            if (!content) {
-                return {
-                    width: this.queryCommandValue('columnwidth', col),
-                    height: this.queryCommandValue('rowheight', row)
-                };
-            }
-
-
+        __getNormalCellMinSize: function (content, fonts, alignments, row, col) {
+            return {
+                width: this.queryCommandValue('columnwidth', col),
+                height: this.queryCommandValue('rowheight', row)
+            };
         }
     };
 

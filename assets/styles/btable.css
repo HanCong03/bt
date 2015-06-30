@@ -11,9 +11,9 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 .btb-main .btb-input-wrap .btb-input {
+  display: block;
+  background: #fff;
   border: 1px solid #fff!important;
-  width: 100px;
-  height: 100px;
   outline: none;
   line-height: 1;
   border: none;
@@ -22,13 +22,26 @@
   text-align: left;
   word-break: break-all;
   word-wrap: break-word;
-  overflow: scroll;
+  overflow: hidden;
 }
 .btb-main .btb-input-wrap.btb-active {
   opacity: 1;
   z-index: 999;
 }
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFzc2V0cy9zdHlsZXMvbGVzcy9pbnB1dC5sZXNzIiwiYXNzZXRzL3N0eWxlcy9sZXNzL2NvbW1vbi5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBLFNBQ0U7RUNGQSxrQkFBQTtFQUNBLE1BQUE7RUFDQSxPQUFBO0VERUUsdUJBQUE7RUFDQSxxQkFBQTtFQUNBLDZCQUFBO0VBaUJBLFVBQUE7RUFDQSxVQUFBO0VBQ0Esd0NBQUE7O0FBeEJKLFNBQ0UsZ0JBTUU7RUFDRSxnQ0FBQTtFQUNBLFlBQUE7RUFDQSxhQUFBO0VBQ0EsYUFBQTtFQUNBLGNBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLFNBQUE7RUFDQSxnQkFBQTtFQUNBLHFCQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQTs7QUFPRixTQXpCRixnQkF5Qkc7RUFDQyxVQUFBO0VBQ0EsWUFBQSJ9 */
+.btb-main .btb-input-shadow {
+  display: inline-block;
+  border: 1px solid #fff!important;
+  outline: none;
+  line-height: 1;
+  border: none;
+  padding: 1px;
+  margin: 0;
+  text-align: left;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFzc2V0cy9zdHlsZXMvbGVzcy9pbnB1dC5sZXNzIiwiYXNzZXRzL3N0eWxlcy9sZXNzL2NvbW1vbi5sZXNzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBLFNBY0U7RUNmQSxrQkFBQTtFQUNBLE1BQUE7RUFDQSxPQUFBO0VEZUUsdUJBQUE7RUFDQSxxQkFBQTtFQUNBLDZCQUFBO0VBUUEsVUFBQTtFQUNBLFVBQUE7RUFDQSx3Q0FBQTs7QUE1QkosU0FjRSxnQkFNRTtFQUNFLGNBQUE7RUFDQSxnQkFBQTtFQXBCRixnQ0FBQTtFQUNBLGFBQUE7RUFDQSxjQUFBO0VBQ0EsWUFBQTtFQUNBLFlBQUE7RUFDQSxTQUFBO0VBQ0EsZ0JBQUE7RUFDQSxxQkFBQTtFQUNBLHFCQUFBO0VBQ0EsZ0JBQUE7O0FBbUJBLFNBaEJGLGdCQWdCRztFQUNDLFVBQUE7RUFDQSxZQUFBOztBQWhDTixTQW9DRTtFQUNFLHFCQUFBO0VBbkNBLGdDQUFBO0VBQ0EsYUFBQTtFQUNBLGNBQUE7RUFDQSxZQUFBO0VBQ0EsWUFBQTtFQUNBLFNBQUE7RUFDQSxnQkFBQTtFQUNBLHFCQUFBO0VBQ0EscUJBQUE7RUFDQSxnQkFBQSJ9 */
 .btb-main {
   position: relative;
   top: 0;

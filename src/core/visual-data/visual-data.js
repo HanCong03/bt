@@ -103,6 +103,8 @@ define(function (require, exports, module) {
             heap.endRow = heap.row + heap.rowCount - 1;
             // 可见内容区域高度
             heap.boundaryHeight = rowInfo.boundary;
+            // 行映射
+            heap.rMap = rowInfo.rMap;
         },
 
         /**
@@ -133,6 +135,8 @@ define(function (require, exports, module) {
             heap.endCol = heap.col + heap.colCount - 1;
             // 可见内容区域宽度
             heap.boundaryWidth = colInfo.boundary;
+            // 列映射
+            heap.cMap = colInfo.cMap;
         },
 
         __getMinStart: function () {
@@ -158,6 +162,7 @@ define(function (require, exports, module) {
                     heights: null,
                     points: null,
                     indexes: null,
+                    rMap: null,
                     count: 0,
                     boundary: 0
                 };
@@ -171,6 +176,7 @@ define(function (require, exports, module) {
             var currentPoint = points[0];
             var offset = LINE_WIDTH;
             var indexes = [];
+            var rMap = {};
 
             var row = heap.row;
 
@@ -185,6 +191,7 @@ define(function (require, exports, module) {
                 offset += currentHeight + LINE_WIDTH;
                 currentPoint += currentHeight + LINE_WIDTH;
 
+                rMap[row] = indexes.length;
                 heights.push(currentHeight);
                 points.push(currentPoint);
                 indexes.push(row);
@@ -197,6 +204,7 @@ define(function (require, exports, module) {
                 heights: heights,
                 points: points,
                 indexes: indexes,
+                rMap: rMap,
                 count: indexes.length,
                 boundary: Math.min(spaceHeight, offset)
             };
@@ -210,6 +218,7 @@ define(function (require, exports, module) {
                     widths: null,
                     points: null,
                     indexes: null,
+                    cMap: null,
                     count: 0,
                     boundary: 0
                 };
@@ -223,6 +232,7 @@ define(function (require, exports, module) {
             var currentPoint = points[0];
             var offset = LINE_WIDTH;
             var indexes = [];
+            var cMap = {};
 
             var col = heap.col;
 
@@ -237,6 +247,7 @@ define(function (require, exports, module) {
                 offset += currentWidth + LINE_WIDTH;
                 currentPoint += currentWidth + LINE_WIDTH;
 
+                cMap[col] = indexes.length;
                 widths.push(currentWidth);
                 points.push(currentPoint);
                 indexes.push(col);
@@ -249,6 +260,7 @@ define(function (require, exports, module) {
                 widths: widths,
                 points: points,
                 indexes: indexes,
+                cMap: cMap,
                 count: indexes.length,
                 boundary: Math.min(spaceWidth, offset)
             };
