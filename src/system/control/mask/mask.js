@@ -27,7 +27,9 @@ define(function (require, exports, module) {
         ],
 
         init: function () {
+            this.status = STATUS.NORMAL;
             this.maskNode = this.__createMaskNode();
+
             this.__initEvent();
             this.__initDomEvent();
         },

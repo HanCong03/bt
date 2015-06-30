@@ -37,7 +37,7 @@ define(function (require, exports, module) {
         },
 
         __scroll: function () {
-            this.emit('controlstatuschange', this.start, this.end);
+            this.emit('outercontrolstatuschange', this.start, this.end);
         }
     };
 });

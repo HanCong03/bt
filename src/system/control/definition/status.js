@@ -5,7 +5,9 @@
 
 define({
     NORMAL: 1,
-    MOUSE_DOWN: 2,
-    MOUSE_MOVE: 4,
-    WRITE: 8
+    CELL: 2,
+    ROW: 4,
+    COLUMN: 8,
+    ALL: 16,
+    WRITE: 1024
 });

@@ -7,6 +7,9 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var SystemUtils = require('system/utils/utils');
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     var Screen = require('../screen/screen');
 
@@ -32,28 +35,22 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'controlstatuschange': this.__reselection,
-                'controlcomplete': this.__completeSelection,
+                'control.cell.select': this.__cellSelect,
+                'control.row.select': this.__rowSelect,
+                'control.column.select': this.__columnSelect,
+                'control.all.select': this.__allSelect,
                 'viewchange': this.__viewchange
             });
-        },
-
-        __completeSelection: function (start, end) {
-            this.execCommand('range', start, end);
         },
 
         __viewchange: function () {
             var ranges = this.queryCommandValue('allrange');
             var lastRange = ranges[ranges.length - 1];
 
-            this.__reselection(lastRange.start, lastRange.end);
+            //this.__reselection(lastRange.start, lastRange.end);
         },
 
-        __reselection: function (start, end) {
-            if (end.row < 0 || end.col < 0) {
-                return this.__outerReselection(start, end);
-            }
-
+        __cellSelect: function (start, end) {
             var originalStart = start;
             var originalEnd = end;
 
@@ -64,6 +61,171 @@ define(function (require, exports, module) {
             end = range.end;
 
             var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), start, end);
+
+            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.coverScreen.toggle();
+        },
+
+        __rowSelect: function (startRow, endRow) {
+            var visualData = this.rs('get.visual.data');
+            var col;
+
+            var keys;
+            var mergecells;
+
+            // 找到适合作为焦点的独立单元格
+            for (var i = visualData.col; i <= MAX_COLUMN_INDEX; i++) {
+                mergecells = this.queryCommandValue('mergecell', {
+                    row: startRow,
+                    col: i
+                }, {
+                    row: startRow,
+                    col: i
+                });
+
+                if (!mergecells) {
+                    col = i;
+                    break;
+                }
+
+                keys = Object.keys(mergecells);
+                i = mergecells[keys[0]].end.col;
+            }
+
+            var originalStart;
+            var originalEnd;
+
+            // 整行都被合并
+            if ($$.isNdef(col)) {
+                originalStart = {
+                    row: startRow,
+                    col: 0
+                };
+
+                originalEnd = {
+                    row: startRow,
+                    col: MAX_COLUMN_INDEX
+                };
+            } else {
+                originalStart = {
+                    row: startRow,
+                    col: col
+                };
+
+                originalEnd = {
+                    row: startRow,
+                    col: col
+                };
+            }
+
+            var start = {
+                row: Math.min(startRow, endRow),
+                col: 0
+            };
+
+            var end = {
+                row: Math.max(startRow, endRow),
+                col: MAX_COLUMN_INDEX
+            };
+
+            var rect = SystemUtils.getVisibleRect(visualData, start, end);
+
+            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.coverScreen.toggle();
+        },
+
+        __columnSelect: function (startCol, endCol) {
+            var visualData = this.rs('get.visual.data');
+            var row;
+
+            var keys;
+            var mergecells;
+
+            // 找到适合作为焦点的独立单元格
+            for (var i = visualData.row; i <= MAX_ROW_INDEX; i++) {
+                mergecells = this.queryCommandValue('mergecell', {
+                    row: i,
+                    col: startCol
+                }, {
+                    row: i,
+                    col: startCol
+                });
+
+                if (!mergecells) {
+                    row = i;
+                    break;
+                }
+
+                keys = Object.keys(mergecells);
+                i = mergecells[keys[0]].end.row;
+            }
+
+            var originalStart;
+            var originalEnd;
+
+            // 整行都被合并
+            if ($$.isNdef(row)) {
+                originalStart = {
+                    row: 0,
+                    col: startCol
+                };
+
+                originalEnd = {
+                    row: MAX_ROW_INDEX,
+                    col: endCol
+                };
+            } else {
+                originalStart = {
+                    row: row,
+                    col: startCol
+                };
+
+                originalEnd = {
+                    row: row,
+                    col: startCol
+                };
+            }
+
+            var start = {
+                row: 0,
+                col: Math.min(startCol, endCol)
+            };
+
+            var end = {
+                row: MAX_ROW_INDEX,
+                col: Math.max(startCol, endCol)
+            };
+
+            var rect = SystemUtils.getVisibleRect(visualData, start, end);
+
+            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.coverScreen.toggle();
+        },
+
+        __allSelect: function () {
+            var visualData = this.rs('get.visual.data');
+
+            var originalStart = {
+                row: visualData.row,
+                col: visualData.col
+            };
+
+            var originalEnd = {
+                row: visualData.row,
+                col: visualData.col
+            };
+
+            var start = {
+                row: 0,
+                col: 0
+            };
+
+            var end = {
+                row: MAX_ROW_INDEX,
+                col: MAX_COLUMN_INDEX
+            };
+
+            var rect = SystemUtils.getVisibleRect(visualData, start, end);
 
             this.__draw(originalStart, originalEnd, start, end, rect);
             this.coverScreen.toggle();
