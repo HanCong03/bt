@@ -29,6 +29,7 @@ define(function (require, exports, module) {
 
         // 模式切换时的收尾工作。
         exit: function () {
+            this.__reset();
             // 发送退出消息
             this.postMessage('control.input.inactive');
         },

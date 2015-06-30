@@ -27,6 +27,10 @@ define(function (require, exports, module) {
             this.__relocation(rect);
         },
 
+        __resetUserContent: function () {
+            this.inputNode.innerHTML = '';
+        },
+
         __getUserContent: function () {
             var content = this.inputNode.innerHTML;
 

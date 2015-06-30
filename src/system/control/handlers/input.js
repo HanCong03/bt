@@ -23,9 +23,7 @@ define(function (require, exports, module) {
 
         __inputForSelection: function () {
             var range = this.queryCommandValue('range');
-
             var entry = range.entry;
-
             var controlers = this.controllers;
 
             // 通知selection控制器当前选区发生变化。

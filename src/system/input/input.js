@@ -50,6 +50,7 @@ define(function (require, exports, module) {
 
         __reset: function () {
             this.__resetActive();
+            this.__resetUserContent();
         },
 
         __initEvent: function () {

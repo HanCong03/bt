@@ -51,15 +51,57 @@ define(function (require, exports, module) {
         },
 
         __keyTop: function (evt) {
-            evt.preventDefault();
+            // 输入状态
+            if (this.status === STATUS.INPUT) {
+                evt.preventDefault();
+
+                // 推送写入消息
+                this.postMessage('control.write');
+
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+
+                // 执行上移
+                this.execCommand('move', -1, 0);
+            }
+
+            // EDIT状态下交由系统处理
         },
 
         __keyRight: function (evt) {
-            evt.preventDefault();
+            // 输入状态
+            if (this.status === STATUS.INPUT) {
+                evt.preventDefault();
+
+                // 推送写入消息
+                this.postMessage('control.write');
+
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+
+                // 执行右移
+                this.execCommand('move', 0, 1);
+            }
+
+            // EDIT状态下交由系统处理
         },
 
         __keyBottom: function (evt) {
-            evt.preventDefault();
+            // 输入状态
+            if (this.status === STATUS.INPUT) {
+                evt.preventDefault();
+
+                // 推送写入消息
+                this.postMessage('control.write');
+
+                // 主动释放控制，返回控制权到主控模块。
+                this.postMessage('control.free');
+
+                // 执行下移
+                this.execCommand('move', 1, 0);
+            }
+
+            // EDIT状态下交由系统处理
         }
     };
 });
