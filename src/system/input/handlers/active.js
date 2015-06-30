@@ -35,10 +35,6 @@ define(function (require, exports, module) {
         },
 
         __activeNormalCell: function (row, col) {
-            if (this.status !== STATUS.NORMAL) {
-                return;
-            }
-
             var start = {
                 row: row,
                 col: col
@@ -51,7 +47,6 @@ define(function (require, exports, module) {
             var fonts = this.queryCommandValue('fonts', row, col);
             var alignments = this.queryCommandValue('alignments', row, col);
             var fill = this.queryCommandValue('fill', row, col);
-            var formattedContent = this.rs('get.formatted.content', row, col);
 
             this.__activeCellType = 'normal';
             this.__cellStart = {
@@ -71,7 +66,8 @@ define(function (require, exports, module) {
                 this.__setShadowWidth(this.__minSize.width);
             }
 
-            var rect = this.__calculateContentRect(formattedContent);
+            // 获取默认rect
+            var rect = this.__calculateContentRect(null);
 
             this.__relocation(rect);
 

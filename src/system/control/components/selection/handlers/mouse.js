@@ -9,20 +9,6 @@ define(function (require, exports, module) {
     module.exports = {
         timer: null,
 
-        __ondblclick: function (evt) {
-            if (this.status !== STATUS.NORMAL) {
-                return;
-            }
-
-            var index = this.__getIndex(evt);
-
-            if (index.row < 0 || index.col < 0) {
-                return;
-            }
-
-            this.postMessage('control.active', index.row, index.col);
-        },
-
         __onmousedown: function (evt) {
             if (this.status !== STATUS.NORMAL) {
                 return;

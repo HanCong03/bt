@@ -22,6 +22,7 @@ define(function (require, exports, module) {
             require('./handlers/active'),
             require('./handlers/input'),
             require('./handlers/shadow'),
+            require('./handlers/content'),
             require('./handlers/left-rect')
         ],
 
@@ -38,7 +39,7 @@ define(function (require, exports, module) {
             this.inputWrap = document.createElement('div');
             this.inputWrap.className = 'btb-input-wrap';
 
-            this.inputWrap.style.borderColor = 'red' || FACE_THEME.color;
+            this.inputWrap.style.borderColor = FACE_THEME.color;
 
             this.inputWrap.innerHTML = '<div contenteditable="true" spellcheck="false" class="btb-input"></div>';
             this.inputNode = $('.btb-input', this.inputWrap)[0];
@@ -75,7 +76,7 @@ define(function (require, exports, module) {
         __initMessage: function () {
             this.onMessage({
                 'control': this.focus,
-                'control.active': this.active
+                'control.input.mouse.active': this.mouseActive
             });
         },
 
@@ -95,7 +96,12 @@ define(function (require, exports, module) {
             this.inputNode.focus();
         },
 
-        active: function (row, col) {
+        /**
+         * 鼠标（双击）激活
+         * @param row
+         * @param col
+         */
+        mouseActive: function (row, col) {
             var mergecells = this.queryCommandValue('mergecell', {
                 row: row,
                 col: col
@@ -106,11 +112,13 @@ define(function (require, exports, module) {
 
             if ($$.isNdef(mergecells)) {
                 this.__activeNormalCell(row, col);
+                this.__syncContent();
                 return;
             }
 
             var keys = Object.keys(mergecells);
             this.__activeMergeCell(mergecells[keys[0]]);
+            this.__syncContent();
         }
     });
 });

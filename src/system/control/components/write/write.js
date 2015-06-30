@@ -1,5 +1,5 @@
 /**
- * @file 选区控制器
+ * @file 写入控制器
  * @author hancong03@baiud.com
  */
 
@@ -8,15 +8,14 @@ define(function (require, exports, module) {
     var STATUS = require('./definition/status');
     var ControlUtils = require('system/control/utils');
 
-    module.exports = $$.createClass('SelectionController', {
+    module.exports = $$.createClass('WriteController', {
         base: require('component'),
 
         container: null,
         status: null,
 
         mixin: [
-            require('./handlers/key'),
-            require('./handlers/mouse')
+            require('./handlers/active')
         ],
 
         init: function () {
@@ -28,12 +27,12 @@ define(function (require, exports, module) {
 
         // 模式切换时的收尾工作。
         exit: function () {
-            this.__abort();
+            //this.__abort();
         },
 
         __initEvent: function () {
             this.on({
-               'refresh': this.__refresh
+                'refresh': this.__refresh
             });
         },
 
@@ -46,9 +45,9 @@ define(function (require, exports, module) {
         },
 
         __abort: function () {
-            this.__abortMouse();
-            this.__abortKey();
-            this.__reset();
+            //this.__abortMouse();
+            //this.__abortKey();
+            //this.__reset();
         },
 
         __getIndex: function (evt) {

@@ -9,7 +9,10 @@ define(function (require, exports, module) {
     var Mask = require('./mask/mask');
     var MODE = require('./definition/mode');
 
+    var ControlUtils = require('system/control/utils');
+
     var SelectionController = require('./components/selection/selection');
+    var WriteContorller = require('./components/write/write');
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
@@ -19,7 +22,12 @@ define(function (require, exports, module) {
 
         controllers: null,
 
+        mixin: [
+            require('./handlers/dblclick')
+        ],
+
         init: function () {
+            this.container = this.getMainContainer();
             this.__initMode();
             this.__initComponents();
             this.__initMask();
@@ -35,6 +43,7 @@ define(function (require, exports, module) {
             var controllers = {};
 
             controllers[MODE.SELECTION] = this.createComponent(SelectionController);
+            controllers[MODE.WRITE] = this.createComponent(WriteContorller);
 
             this.controllers = controllers;
         },
@@ -52,14 +61,52 @@ define(function (require, exports, module) {
             this.mask.appendTo(this.getTopContainer());
 
             this.mask.setListener(function (type, evt) {
-                if (_self.controllers[_self.mode]['__on' + type]) {
-                    _self.controllers[_self.mode]['__on' + type](evt);
-                }
+                _self.__filter(type, evt);
             });
+        },
+
+        __filter: function (type, evt) {
+            var isContinue = true;
+            var handlerName = '__on' + type;
+
+            // 如果主控模块对该事件感兴趣，则先交由主控模块处理。
+            if (this[handlerName]) {
+                isContinue = this[handlerName](evt);
+            }
+
+            // 不能再继续
+            if (!isContinue) {
+                return;
+            }
+
+            if (this.controllers[this.mode][handlerName]) {
+                this.controllers[this.mode][handlerName](evt);
+            }
         },
 
         addInput: function (inputNode) {
             this.mask.addInput(inputNode);
+        },
+
+        __getIndex: function (evt) {
+            var visualData = this.rs('get.visual.data');
+            var index = ControlUtils.calculateCellIndex(this.container, visualData, evt.clientX, evt.clientY);
+
+            var row = index.r;
+            var col = index.c;
+
+            if (index.r >= 0) {
+                row = visualData.rows[index.r];
+            }
+
+            if (index.c >= 0) {
+                col = visualData.cols[index.c];
+            }
+
+            return {
+                row: row,
+                col: col
+            };
         }
     });
 });
