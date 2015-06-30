@@ -4,10 +4,6 @@
  */
 
 define(function (require, exports, module) {
-    var GRIDLINE_CONFIG = require('definition/gridline');
-    var OFFSET = GRIDLINE_CONFIG.offset;
-    var LINE_WIDTH = GRIDLINE_CONFIG.width;
-
     module.exports = {
         __syncContent: function () {
             var row = this.__cellStart.row;

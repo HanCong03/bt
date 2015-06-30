@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         init: function () {
             this.__initHeap();
             this.__initShadowBox();
+            this.__initEvent();
         },
 
         __initHeap: function () {
@@ -35,6 +36,12 @@ define(function (require, exports, module) {
             this.getShadowContainer().appendChild(this.shadowBox);
         },
 
+        __initEvent: function () {
+            this.on({
+                'contentchange': this.__onContentChange
+            })
+        },
+
         getColumnWidth: function (col) {
             var heap = this.getActiveHeap();
 
@@ -43,6 +50,16 @@ define(function (require, exports, module) {
             }
 
             return heap.widths[col];
+        },
+
+        __onContentChange: function (start, end) {
+            var heap = this.getActiveHeap();
+
+            for (var i = start.col, limit = end.col; i <= limit; i++) {
+                if (heap.widths[i] !== undefined) {
+                    delete heap.widths[i];
+                }
+            }
         },
 
         __calculateColumnWidth: function (col) {

@@ -17,6 +17,7 @@ define(function (require, exports, module) {
             this.__initShadowBox();
             this.__initHeap();
             this.__initBoxSetting();
+            this.__initEvent();
         },
 
         __initShadowBox: function () {
@@ -33,6 +34,12 @@ define(function (require, exports, module) {
             }
 
             heap.heights = [];
+        },
+
+        __initEvent: function () {
+            this.on({
+                'contentchange': this.__onContentChange
+            });
         },
 
         /**
@@ -55,6 +62,16 @@ define(function (require, exports, module) {
             }
 
             return heap.heights[row];
+        },
+
+        __onContentChange: function (start, end) {
+            var heap = this.getActiveHeap();
+
+            for (var i = start.row, limit = end.row; i <= limit; i++) {
+                if (heap.heights[i] !== undefined) {
+                    delete heap.heights[i];
+                }
+            }
         },
 
         /**
