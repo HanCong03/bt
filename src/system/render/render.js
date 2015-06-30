@@ -17,7 +17,8 @@ define(function (require, exports, module) {
             require('./components/header'),
             require('./components/fill'),
             require('./components/border/border'),
-            require('./components/content/content')
+            require('./components/content/content'),
+            require('./components/box')
         ],
 
         visualData: null,
@@ -62,6 +63,7 @@ define(function (require, exports, module) {
             this.__fill();
             this.__drawBorder();
             this.__drawContent();
+            this.__drawBox();
         },
 
         __toggleScreen: function () {

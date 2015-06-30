@@ -28,11 +28,11 @@ define(function (require, exports, module) {
 
             this.inputNode = inputNode;
 
-            //$(this.inputNode).on('keydown', function (evt) {
-            //    evt.stopPropagation();
-            //
-            //    _self['__' + evt.type](evt);
-            //});
+            $(this.inputNode).on('keydown', function (evt) {
+                evt.stopPropagation();
+
+                _self.listener(evt.type, evt);
+            });
         },
 
         setListener: function (listener) {

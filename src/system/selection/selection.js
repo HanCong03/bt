@@ -46,7 +46,12 @@ define(function (require, exports, module) {
                 'control.cell.selection': this.__cellSelect,
                 'control.row.selection': this.__rowSelect,
                 'control.column.selection': this.__columnSelect,
-                'control.all.selection': this.__allSelect
+                'control.all.selection': this.__allSelect,
+
+                'control.compolete.cell.selection': this.__cellSelectComplete,
+                'control.compolete.row.selection': this.__rowSelectComplete,
+                'control.compolete.column.selection': this.__columnSelectComplete,
+                'control.compolete.all.selection': this.__allSelectComplete
             });
         },
 
@@ -54,12 +59,14 @@ define(function (require, exports, module) {
             var ranges = this.queryCommandValue('allrange');
             var lastRange = ranges[ranges.length - 1];
 
-            //this.__reselection(lastRange.start, lastRange.end);
+            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), lastRange.start, lastRange.end);
+
+            this.__draw(lastRange.entry, lastRange.start, lastRange.end, rect);
+            this.coverScreen.toggle();
         },
 
         __cellSelect: function (start, end) {
             var originalStart = start;
-            var originalEnd = end;
 
             // 获取完整的range对象，处理合并后的单元格
             var range = this.__getFullRange(start, end);
@@ -69,8 +76,20 @@ define(function (require, exports, module) {
 
             var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), start, end);
 
-            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
+        },
+
+        __cellSelectComplete: function (start, end) {
+            var originalStart = start;
+
+            // 获取完整的range对象，处理合并后的单元格
+            var range = this.__getFullRange(start, end);
+
+            start = range.start;
+            end = range.end;
+
+            this.execCommand('range', start, end, originalStart);
         },
 
         __rowSelect: function (startRow, endRow) {
@@ -100,7 +119,6 @@ define(function (require, exports, module) {
             }
 
             var originalStart;
-            var originalEnd;
 
             // 整行都被合并
             if ($$.isNdef(col)) {
@@ -108,18 +126,8 @@ define(function (require, exports, module) {
                     row: startRow,
                     col: 0
                 };
-
-                originalEnd = {
-                    row: startRow,
-                    col: MAX_COLUMN_INDEX
-                };
             } else {
                 originalStart = {
-                    row: startRow,
-                    col: col
-                };
-
-                originalEnd = {
                     row: startRow,
                     col: col
                 };
@@ -137,8 +145,58 @@ define(function (require, exports, module) {
 
             var rect = SystemUtils.getVisibleRect(visualData, start, end);
 
-            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
+        },
+
+        __rowSelectComplete: function (startRow, endRow) {
+            var visualData = this.rs('get.visual.data');
+            var col;
+
+            var keys;
+            var mergecells;
+
+            // 找到适合作为焦点的独立单元格
+            for (var i = visualData.col; i <= MAX_COLUMN_INDEX; i++) {
+                mergecells = this.queryCommandValue('mergecell', {
+                    row: startRow,
+                    col: i
+                }, {
+                    row: startRow,
+                    col: i
+                });
+
+                if (!mergecells) {
+                    col = i;
+                    break;
+                }
+
+                keys = Object.keys(mergecells);
+                i = mergecells[keys[0]].end.col;
+            }
+
+            var originalStart;
+
+            // 整行都被合并
+            if ($$.isNdef(col)) {
+                originalStart = {
+                    row: startRow,
+                    col: 0
+                };
+            } else {
+                originalStart = {
+                    row: startRow,
+                    col: col
+                };
+            }
+
+            this.execCommand('range', {
+                row: Math.min(startRow, endRow),
+                col: 0
+            }, {
+                row: Math.max(startRow, endRow),
+                col: MAX_COLUMN_INDEX
+            }, originalStart);
         },
 
         __columnSelect: function (startCol, endCol) {
@@ -168,7 +226,6 @@ define(function (require, exports, module) {
             }
 
             var originalStart;
-            var originalEnd;
 
             // 整行都被合并
             if ($$.isNdef(row)) {
@@ -176,18 +233,8 @@ define(function (require, exports, module) {
                     row: 0,
                     col: startCol
                 };
-
-                originalEnd = {
-                    row: MAX_ROW_INDEX,
-                    col: endCol
-                };
             } else {
                 originalStart = {
-                    row: row,
-                    col: startCol
-                };
-
-                originalEnd = {
                     row: row,
                     col: startCol
                 };
@@ -205,19 +252,64 @@ define(function (require, exports, module) {
 
             var rect = SystemUtils.getVisibleRect(visualData, start, end);
 
-            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
+        },
+
+        __columnSelectComplete: function (startCol, endCol) {
+            var visualData = this.rs('get.visual.data');
+            var row;
+
+            var keys;
+            var mergecells;
+
+            // 找到适合作为焦点的独立单元格
+            for (var i = visualData.row; i <= MAX_ROW_INDEX; i++) {
+                mergecells = this.queryCommandValue('mergecell', {
+                    row: i,
+                    col: startCol
+                }, {
+                    row: i,
+                    col: startCol
+                });
+
+                if (!mergecells) {
+                    row = i;
+                    break;
+                }
+
+                keys = Object.keys(mergecells);
+                i = mergecells[keys[0]].end.row;
+            }
+
+            var originalStart;
+
+            // 整行都被合并
+            if ($$.isNdef(row)) {
+                originalStart = {
+                    row: 0,
+                    col: startCol
+                };
+            } else {
+                originalStart = {
+                    row: row,
+                    col: startCol
+                };
+            }
+
+            this.execCommand('range', {
+                row: 0,
+                col: Math.min(startCol, endCol)
+            }, {
+                row: MAX_ROW_INDEX,
+                col: Math.max(startCol, endCol)
+            }, originalStart);
         },
 
         __allSelect: function () {
             var visualData = this.rs('get.visual.data');
 
             var originalStart = {
-                row: visualData.row,
-                col: visualData.col
-            };
-
-            var originalEnd = {
                 row: visualData.row,
                 col: visualData.col
             };
@@ -234,12 +326,29 @@ define(function (require, exports, module) {
 
             var rect = SystemUtils.getVisibleRect(visualData, start, end);
 
-            this.__draw(originalStart, originalEnd, start, end, rect);
+            this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
         },
 
-        __scrollCellSelect: function (start, end) {
-            console.log(start, end)
+        __allSelectComplete: function () {
+            var visualData = this.rs('get.visual.data');
+
+            var originalStart = {
+                row: visualData.row,
+                col: visualData.col
+            };
+
+            var start = {
+                row: 0,
+                col: 0
+            };
+
+            var end = {
+                row: MAX_ROW_INDEX,
+                col: MAX_COLUMN_INDEX
+            };
+
+            this.execCommand('range', start, end, originalStart);
         },
 
         __getFullRange: function (start, end) {

@@ -19,7 +19,7 @@ define(function (require, exports, module) {
     var SystemUtils = require('system/utils/utils');
 
     module.exports = {
-        __draw: function (originalStart, originalEnd, start, end, rect) {
+        __draw: function (originalStart, start, end, rect) {
             if (!rect) {
                 return;
             }
@@ -27,13 +27,13 @@ define(function (require, exports, module) {
             var mergecells = this.queryCommandValue('mergecell', start, end);
 
             if ($$.isNdef(mergecells)) {
-                this.__drawNormalCover(originalStart, originalEnd, start, end, rect);
+                this.__drawNormalCover(originalStart, start, end, rect);
             } else {
-                this.__drawMergeCellCover(mergecells, originalStart, originalEnd, start, end, rect);
+                this.__drawMergeCellCover(mergecells, originalStart, start, end, rect);
             }
         },
 
-        __drawNormalCover: function (originalStart, originalEnd, start, end, rect) {
+        __drawNormalCover: function (originalStart, start, end, rect) {
             var screen = this.coverScreen;
             var visualData = this.rs('get.visual.data');
 
@@ -51,7 +51,7 @@ define(function (require, exports, module) {
             screen.restore();
         },
 
-        __drawMergeCellCover: function (mergecells, originalStart, originalEnd, start, end, rect) {
+        __drawMergeCellCover: function (mergecells, originalStart, start, end, rect) {
             var screen = this.coverScreen;
             var visualData = this.rs('get.visual.data');
 
@@ -61,7 +61,7 @@ define(function (require, exports, module) {
             screen.fillColor(FOCUS_COVER_COLOR);
             screen.fillRect(rect.x, rect.y, rect.width, rect.height);
 
-            this.__clearMergeCellFocus(mergecells, originalStart, originalEnd);
+            this.__clearMergeCellFocus(mergecells, originalStart);
 
             this.__drawBorder(rect);
             this.__drawSpace(rect);
@@ -205,7 +205,7 @@ define(function (require, exports, module) {
             screen.clearRect(x, y, width, height);
         },
 
-        __clearMergeCellFocus: function (mergecells, start, end) {
+        __clearMergeCellFocus: function (mergecells, start) {
             var mergeInfo = SystemUtils.findMergeCell(mergecells, start.row, start.col);
 
             // 当前起始单元格不是合并单元格

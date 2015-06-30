@@ -16,8 +16,8 @@ define(function (require) {
             'allrange', 'range'
         ],
 
-        exec_range: function (start, end) {
-            this.$dep.setRange(start, end);
+        exec_range: function (start, end, entry) {
+            this.$dep.setRange(start, end, entry);
         },
 
         exec_move: function (rowCount, colCount) {
