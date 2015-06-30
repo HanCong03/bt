@@ -33,14 +33,16 @@ define(function (require, exports, module) {
 
             switch (verticalAlign) {
                 case 'top':
-                    return this.__drawTopText(screen, cellInfo, rect);
+                    this.__drawTopText(screen, cellInfo, rect);
                     break;
 
                 case 'bottom':
-                    return this.__drawBottomText(screen, cellInfo, rect);
+                    this.__drawBottomText(screen, cellInfo, rect);
+                    break;
 
                 case 'middle':
-                    return this.__drawMiddleText(screen, cellInfo, rect);
+                   this.__drawMiddleText(screen, cellInfo, rect);
+                    break;
             }
 
             screen.restore();
