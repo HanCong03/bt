@@ -166,9 +166,10 @@ define(function (require, exports, module) {
 
         __calculateHeight: function (cells) {
             var box = this.shadowBox;
-            var height = 0;
+            var heights = [];
 
             $$.forEach(cells, function (cell) {
+                var height = 0;
                 box.innerHTML = buildHTML(cell);
 
                 var nodes = box.firstChild.children;
@@ -176,12 +177,13 @@ define(function (require, exports, module) {
 
                 for (var i = 0, len = nodes.length; i < len; i++) {
                     rect = nodes[i].getBoundingClientRect();
-
                     height += rect.height;
                 }
+
+                heights.push(height);
             });
 
-            return height + DOUBLE_V_PADDIGN;
+            return Math.round(Math.max.apply(null, heights)) + DOUBLE_V_PADDIGN;
         }
     });
 
