@@ -42,7 +42,7 @@ define(function (require, exports, module) {
         __initDomEvent: function () {
             var _self = this;
 
-            $(this.maskNode).on('mousedown mousemove mouseup mouseleave mouseenter', function (evt) {
+            $(this.maskNode).on('mousedown dblclick mousemove mouseup mouseleave mouseenter', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
 

@@ -9,11 +9,16 @@ define(function (require) {
         $datachange: false,
 
         $exec: [
-            'scroll'
+            'scroll',
+            'scrollin'
         ],
 
         exec_scroll: function (rowCount, colCount) {
             this.$dep.scroll(rowCount, colCount);
+        },
+
+        exec_scrollin: function (start, end) {
+            this.$dep.scrollIn(start, end);
         }
     });
 });

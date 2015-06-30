@@ -6,12 +6,17 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var FACE_THEME = require('definition/face-theme');
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
 
         inputWrap: null,
         inputNode: null,
+
+        mixin: [
+            require('./handlers/active')
+        ],
 
         init: function () {
             this.__initInput();
@@ -23,7 +28,9 @@ define(function (require, exports, module) {
             this.inputWrap = document.createElement('div');
             this.inputWrap.className = 'btb-input-wrap';
 
-            this.inputWrap.innerHTML = '<input type="text" class="btb-input">';
+            this.inputWrap.style.borderColor = 'red' || FACE_THEME.color;
+
+            this.inputWrap.innerHTML = '<div contenteditable="true" class="btb-input"></div>';
             this.inputNode = $('.btb-input', this.inputWrap)[0];
 
             this.getTopContainer().appendChild(this.inputWrap);
@@ -33,14 +40,23 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'ready': this.__ready
+                'ready': this.__ready,
+                'refresh': this.__refresh
             });
         },
 
         __initMessage: function () {
             this.onMessage({
-                'control': this.focus
+                'control': this.focus,
+                'control.active': this.active
             });
+        },
+
+        __refresh: function () {
+            var visualData = this.rs('get.visual.data');
+            this.inputWrap.style.transform = 'translate(' + visualData.headWidth + 'px, ' + visualData.headHeight + 'px)';
+
+            this.visualData = visualData;
         },
 
         __ready: function () {
@@ -50,7 +66,24 @@ define(function (require, exports, module) {
 
         focus: function () {
             this.inputNode.focus();
-        }
+        },
 
+        active: function (row, col) {
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
+
+            if ($$.isNdef(mergecells)) {
+                this.__activeNormalCell(row, col);
+                return;
+            }
+
+            var keys = Object.keys(mergecells);
+            this.__activeMergeCell(mergecells[keys[0]]);
+        }
     });
 });

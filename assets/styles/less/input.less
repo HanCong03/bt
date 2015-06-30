@@ -3,10 +3,31 @@
 .btb-main {
   .btb-input-wrap {
     .abs();
+    box-sizing: content-box;
+    display: inline-block;
+    border: 2px solid transparent;
 
+    .btb-input {
+      border: 1px solid #fff!important;
+      width: 100px;
+      height: 100px;
+      outline: none;
+      line-height: 1;
+      border: none;
+      padding: 1px;
+      margin: 0;
+      text-align: left;
+      word-break: break-all;
+      word-wrap: break-word;
+      overflow: scroll;
+    }
+
+    opacity: 0;
     z-index: 9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 
     &.btb-active {
+      opacity: 1;
       z-index: 999;
     }
   }
