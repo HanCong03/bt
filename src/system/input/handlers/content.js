@@ -15,10 +15,11 @@ define(function (require, exports, module) {
                 return;
             }
 
-            this.inputNode.innerHTML = formattedContent.replace(/\n/g, '<br/>\uFEFF');
+            var userContent = formattedContent.replace(/\n/g, '<br/>\uFEFF');
+            this.inputNode.innerHTML = userContent;
 
             // 根据内容获取大小
-            var rect = this.__calculateContentRect(formattedContent);
+            var rect = this.__calculateContentRect(userContent);
 
             this.__relocation(rect);
         },

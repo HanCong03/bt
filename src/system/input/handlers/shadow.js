@@ -23,7 +23,7 @@ define(function (require, exports, module) {
         },
 
         __calculateContentRect: function (content) {
-            this.shadow.innerHTML = content;
+            this.shadow.innerHTML = content || '';
             var width = this.shadow.offsetWidth;
             var height = this.shadow.offsetHeight;
 

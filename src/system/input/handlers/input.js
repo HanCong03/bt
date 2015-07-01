@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     module.exports = {
         __input: function () {
             var content = this.inputNode.innerHTML;
+            console.log(content)
             var rect = this.__calculateContentRect(content);
 
             this.__relocation(rect);
