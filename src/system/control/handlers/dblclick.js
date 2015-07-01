@@ -28,6 +28,8 @@ define(function (require, exports, module) {
 
             var controlers = this.controllers;
 
+            // 通知selection控制器当前选区发生变化。
+            controlers[MODE.SELECTION].change(index.row, index.col);
             // 通知selection控制器退出。
             controlers[MODE.SELECTION].exit();
             // 切换模式
