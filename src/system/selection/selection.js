@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         },
 
         __initSelection: function () {
-            var size = this.getContainerSize();
+            var size = this.getContentContainerSize();
             this.coverScreen = new Screen(this.getMiddleContainer(), size.width, size.height)
         },
 

@@ -47,7 +47,7 @@ define(function (require, exports, module) {
          */
         __scrollRow: function (rowCount) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             heap.headHeight = this.queryCommandValue('standardheight');
             var spaceHeight = containerSize.height - heap.headHeight;
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
          */
         __scrollColumn: function (colCount) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);

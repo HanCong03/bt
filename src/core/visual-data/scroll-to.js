@@ -16,7 +16,7 @@ define(function (require, exports, module) {
     module.exports = {
         __scrollRowToStart: function (row) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             heap.headHeight = this.queryCommandValue('standardheight');
             var spaceHeight = containerSize.height - heap.headHeight;
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
 
         __scrollRowToEnd: function (row) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             heap.headHeight = this.queryCommandValue('standardheight');
             heap.endRow = row;
@@ -40,7 +40,7 @@ define(function (require, exports, module) {
 
         __scrollColumnToStart: function (col) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 
         __scrollColumnToEnd: function (col) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);

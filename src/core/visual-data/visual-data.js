@@ -63,7 +63,7 @@ define(function (require, exports, module) {
 
         __refresh: function () {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContainerSize();
+            var containerSize = this.getContentContainerSize();
 
             heap.pane = this.queryCommandValue('pane');
 

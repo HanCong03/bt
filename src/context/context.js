@@ -143,8 +143,16 @@ define(function (require, exports, module) {
             return this.__$components.containerManager.getMiddleContainer();
         },
 
-        getContainerSize: function () {
-            return this.__$components.containerManager.getContainerSize();
+        getBarContainer: function () {
+            return this.__$components.containerManager.getBarContainer();
+        },
+
+        getMainContainerSize: function () {
+            return this.__$components.containerManager.getMainContainerSize();
+        },
+
+        getContentContainerSize: function () {
+            return this.__$components.containerManager.getContentContainerSize();
         }
         /* --- 模块接口 end --- */
     });

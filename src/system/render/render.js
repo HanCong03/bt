@@ -40,7 +40,7 @@ define(function (require, exports, module) {
         },
 
         __initScreen: function () {
-            var size = this.getContainerSize();
+            var size = this.getContentContainerSize();
             this.gridlineScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
             this.contentScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
             this.borderScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
