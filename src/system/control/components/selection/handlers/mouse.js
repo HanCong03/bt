@@ -171,7 +171,7 @@ define(function (require, exports, module) {
                 /* --- 计算滚动步长 end --- */
 
                 // 执行滚动
-                this.execCommand('scroll', step.row, step.col);
+                this.execCommand('directivityscroll', step.row, step.col);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;
@@ -234,7 +234,7 @@ define(function (require, exports, module) {
                 /* --- 计算滚动步长 end --- */
 
                 // 执行滚动
-                this.execCommand('scroll', step, 0);
+                this.execCommand('directivityscroll', step, 0);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;
@@ -288,8 +288,8 @@ define(function (require, exports, module) {
                 }
                 /* --- 计算滚动步长 end --- */
 
-                // 执行滚动
-                this.execCommand('scroll', 0, step);
+                // 执行明确的指向性滚动
+                this.execCommand('directivityscroll', 0, step);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;

@@ -19,7 +19,8 @@ define(function (require, exports, module) {
         mixin: [
             require('./scroll'),
             require('./scroll-in'),
-            require('./scroll-to')
+            require('./scroll-to'),
+            require('./directivity-scroll')
         ],
 
         init: function () {

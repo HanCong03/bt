@@ -10,7 +10,8 @@ define(function (require) {
 
         $exec: [
             'scroll',
-            'scrollin'
+            'scrollin',
+            'directivityscroll'
         ],
 
         exec_scroll: function (rowCount, colCount) {
@@ -19,6 +20,10 @@ define(function (require) {
 
         exec_scrollin: function (start, end) {
             this.$dep.scrollIn(start, end);
+        },
+
+        exec_directivityscroll: function (rowCount, colCount) {
+            this.$dep.directivityScroll(rowCount, colCount);
         }
     });
 });

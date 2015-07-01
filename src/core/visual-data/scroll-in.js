@@ -29,11 +29,11 @@ define(function (require, exports, module) {
         __scrollRowInView: function (startRow, endRow) {
             var heap = this.getActiveHeap();
 
-            // 区域的其实行在可视区域起始行之上，则直接把区域定位到起始位置即可
+            // 区域的起始行在可视区域起始行之上，则直接把区域定位到起始位置即可
             if (startRow < heap.row) {
                 this.__scrollRowToStart(startRow);
 
-                // 否则，其他情况下，则先把区域的结束行定位到可视区域底部，然后检查区域的起始行是否在可视区域内，
+                // 如果区域的起始行在可视区域的结束行之下，则先把区域的结束行定位到可视区域底部，然后检查区域的起始行是否在可视区域内，
                 // 如果在，则成功。 否则，需要把区域的起始行定位到可视区域的开头处。
             } else if (startRow >= heap.endRow) {
                 this.__scrollRowToEnd(endRow);
