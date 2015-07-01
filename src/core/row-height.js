@@ -8,6 +8,9 @@ define(function (require, exports, module) {
     var CELL_PADDING = require('definition/cell-padding');
     var DOUBLE_V_PADDIGN = 2 * CELL_PADDING.v;
 
+    var LIMIT = require('definition/limit');
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
+
     module.exports = $$.createClass('RowHeight', {
         base: require('module'),
 
@@ -128,6 +131,8 @@ define(function (require, exports, module) {
                 fontsize = this.queryCommandValue('userfontsize', row, i);
 
                 current = {
+                    // 当前单元格的列索引
+                    col: i,
                     font: this.queryCommandValue('userfont', row, i),
                     fontsize: this.queryCommandValue('userfontsize', row, i),
                     content: this.rs('get.display.content', row, i)
@@ -161,7 +166,68 @@ define(function (require, exports, module) {
                 return null;
             }
 
-            return cells;
+            return this.__filterMergeCell(row, cells);
+        },
+
+        /**
+         * 过滤单元格集合中的合并单元格。
+         * 计算行高时需要忽略合并后的单元格。
+         * @param mergecells
+         * @param cells
+         * @private
+         */
+        __filterMergeCell: function (row, cells) {
+            // 获取当前行所包含的合并单元格
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: row,
+                col: 0
+            }, {
+                row: row,
+                col: MAX_COLUMN_INDEX
+            });
+
+            if ($$.isNdef(mergecells)) {
+                return cells;
+            }
+
+            var mergeCols = [];
+            var current;
+
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                current = mergecells[key];
+
+                mergeCols.push({
+                    min: current.start.col,
+                    max: current.end.col
+                });
+            }
+
+            var result = [];
+
+            $$.forEach(cells, function (cell) {
+                var col = cell.col;
+                var current;
+
+                for (var i = 0, len = mergeCols.length; i < len; i++) {
+                    current = mergeCols[i];
+
+                    if (col >= current.min && col <= current.max) {
+                        return;
+                    }
+                }
+
+                result.push(cell);
+            });
+
+            if (result.length === 0) {
+                return null;
+            }
+
+            return result;
         },
 
         __calculateHeight: function (cells) {
