@@ -6,10 +6,9 @@
 define(function (require) {
     return require('utils').createClass({
         $dep: 'selection',
-        $datachange: false,
 
         $exec: [
-            'move', 'range'
+            'move', 'range', 'uprange', 'downrange', 'updatefocus'
         ],
 
         $query: [
@@ -20,12 +19,24 @@ define(function (require) {
             this.$dep.setRange(start, end, entry);
         },
 
+        exec_uprange: function () {
+            this.$dep.upRange();
+        },
+
+        exec_downrange: function () {
+            this.$dep.downRange();
+        },
+
+        exec_updatefocus: function (row, col) {
+            this.$dep.updateFocus(row, col);
+        },
+
         exec_move: function (rowCount, colCount) {
             this.$dep.move(rowCount, colCount);
         },
 
         query_range: function () {
-            return this.$dep.getRange();
+            return this.$dep.getActiveRange();
         },
 
         query_allrange: function () {

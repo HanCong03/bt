@@ -5,9 +5,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var VTYPE = require('definition/vtype');
-    var CELL_PADDING = require('definition/cell-padding');
-    var DOUBLE_H_PADDING = 2 * CELL_PADDING.h;
 
     module.exports = $$.createClass('Selection', {
         base: require('module'),
@@ -49,6 +46,62 @@ define(function (require, exports, module) {
             this.emit('viewchange');
         },
 
+        /**
+         * 提升选区操作
+         * 注1：提升选区会使得最老的选区被提升为活动选区。
+         * 注2：如果当前仅有一个选区，则该操作什么也不做。
+         */
+        upRange: function () {
+            var heap = this.getActiveHeap();
+            var ranges = heap.ranges;
+
+            if (ranges.length === 1) {
+                return;
+            }
+
+            var oldRange = ranges.shift();
+            ranges.push(oldRange);
+        },
+
+        /**
+         * 更新当前的焦点单元格。
+         * 注：如果新的焦点单元格不在活动选区内，则操作无效。
+         * @param row
+         * @param col
+         */
+        updateFocus: function (row, col) {
+            var heap = this.getActiveHeap();
+            var ranges = heap.ranges;
+            var range = ranges[ranges.length - 1];
+            var rangeStart = range.start;
+            var rangeEnd = range.end;
+
+            if (row >= rangeStart.row && col >= rangeStart.col
+                && row <= rangeEnd.row && col <= rangeEnd.col) {
+                range.entry = {
+                    row: row,
+                    col: col
+                };
+            }
+        },
+
+        /**
+         * 降低选区操作
+         * 注1：降低选区会使得当前的活动选区成为最老的选区，同时，次新的选区将成为活动选区。
+         * 注2：如果当前仅有一个选区，则该操作什么也不做。
+         */
+        downRange: function () {
+            var heap = this.getActiveHeap();
+            var ranges = heap.ranges;
+
+            if (ranges.length === 1) {
+                return;
+            }
+
+            var activeRange = ranges.pop();
+            ranges.unshift(activeRange);
+        },
+
         __setRange: function (start, end, entry) {
             var heap = this.getActiveHeap();
 
@@ -59,7 +112,7 @@ define(function (require, exports, module) {
             }];
         },
 
-        getRange: function () {
+        getActiveRange: function () {
             var ranges = this.getActiveHeap().ranges;
             return ranges[ranges.length - 1];
         },
@@ -95,7 +148,7 @@ define(function (require, exports, module) {
         },
 
         __moveRow: function (count) {
-            var mainRange = this.getRange();
+            var mainRange = this.getActiveRange();
 
             if (count === 0) {
                 return mainRange.entry.row;
@@ -111,7 +164,7 @@ define(function (require, exports, module) {
         },
 
         __moveColumn: function (count) {
-            var mainRange = this.getRange();
+            var mainRange = this.getActiveRange();
 
             if (count === 0) {
                 return mainRange.entry.col;

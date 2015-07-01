@@ -37,6 +37,7 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
+                'refresh': this.__viewchange,
                 'viewchange': this.__viewchange
             });
         },
@@ -58,12 +59,10 @@ define(function (require, exports, module) {
         },
 
         __viewchange: function () {
-            var ranges = this.queryCommandValue('allrange');
-            var lastRange = ranges[ranges.length - 1];
+            var range = this.queryCommandValue('range');
+            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), range.start, range.end);
 
-            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), lastRange.start, lastRange.end);
-
-            this.__draw(lastRange.entry, lastRange.start, lastRange.end, rect);
+            this.__draw(range.entry, range.start, range.end, rect);
             this.coverScreen.toggle();
         },
 

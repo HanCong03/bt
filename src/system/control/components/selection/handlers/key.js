@@ -2,10 +2,6 @@
  * @file
  * @author hancong03@baiud.com
  */
-/**
- * @file
- * @author hancong03@baiud.com
- */
 
 define(function (require, exports, module) {
     var STATUS = require('../definition/status');
@@ -36,6 +32,9 @@ define(function (require, exports, module) {
                 case KEY_CODE.BOTTOM:
                     this.__keyBottom(evt);
                     break;
+
+                case KEY_CODE.ENTER:
+                    this.__keyEnter(evt);
             }
         },
 
