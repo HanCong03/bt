@@ -8,13 +8,13 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var TIME_STEP = 50;
 
-    // 步长
-    var ROW_STEP = 20;
-    var COLUMNE_STEP = 20;
+    // 缓冲阈值
+    var ROW_HRESHOLD = 50;
+    var COLUMN_HRESHOLD = 50;
 
     var ROW_UNIT = 100;
     // 列滚动单位
-    var COLUMN_UNIT = 20;
+    var COLUMN_UNIT = 100;
 
     module.exports = $$.createClass('Scroll', {
         base: require('module'),
@@ -55,12 +55,12 @@ define(function (require, exports, module) {
             var x = Math.abs(this.bufferX);
             var y = Math.abs(this.bufferY);
 
-            if (x >= COLUMNE_STEP) {
+            if (x >= COLUMN_HRESHOLD) {
                 col = -1 * xDirection * Math.ceil(x / COLUMN_UNIT);
                 this.bufferX = 0;
             }
 
-            if (y >= ROW_STEP) {
+            if (y >= ROW_HRESHOLD) {
                 row = -1 * yDirection * Math.ceil(y / ROW_UNIT);
                 this.bufferY = 0;
             }
@@ -69,8 +69,7 @@ define(function (require, exports, module) {
                 return;
             }
 
-            console.log(row, col)
-            this.execCommand('scroll', 1, 0);
+            this.execCommand('scroll', row, col);
         }
     });
 });

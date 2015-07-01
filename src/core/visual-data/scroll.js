@@ -18,7 +18,7 @@ define(function (require, exports, module) {
 
             // 更新起始行列
             heap.row = this.__getStartRow(rowCount);
-            heap.col = this.__getStartColumn(rowCount);
+            heap.col = this.__getStartColumn(colCount);
 
             // 刷新
             this.__refresh();
@@ -33,11 +33,11 @@ define(function (require, exports, module) {
             }
         },
 
-        __getStartColumn: function (rowCount) {
-            if (rowCount < 0) {
-                return this.__getLessStartColumn(-rowCount);
+        __getStartColumn: function (colCount) {
+            if (colCount < 0) {
+                return this.__getLessStartColumn(-colCount);
             } else {
-                return this.__getMoreStartColumn(rowCount);
+                return this.__getMoreStartColumn(colCount);
             }
         },
 
