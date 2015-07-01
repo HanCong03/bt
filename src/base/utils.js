@@ -118,8 +118,11 @@ define(function (require, exports, module) {
                 index = (index / 26) | 0;
             } while (index !== 0);
 
-            for (var i = 0, len = chars.length; i < len; i++) {
-                chars[i] = CHARS[chars[i]];
+            chars[0] = CHARS[chars[0]];
+
+            // 非个位数，映射关系 -1
+            for (var i = 1, len = chars.length; i < len; i++) {
+                chars[i] = CHARS[chars[i] - 1];
             }
 
             return chars.reverse().join('');
