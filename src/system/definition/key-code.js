@@ -9,5 +9,6 @@ define({
     RIGHT: 39,
     BOTTOM: 40,
 
-    ENTER: 13
+    ENTER: 13,
+    ESC: 27
 });

@@ -5,7 +5,7 @@
 
 define(function (require, exports, module) {
     var STATUS = require('../definition/status');
-    var KEY_CODE = require('definition/key-code');
+    var KEY_CODE = require('system/definition/key-code');
 
     module.exports = {
         __onkeydown: function (evt) {
@@ -32,6 +32,10 @@ define(function (require, exports, module) {
 
                 case KEY_CODE.ENTER:
                     this.__keyEnter(evt);
+                    break;
+
+                case KEY_CODE.ESC:
+                    this.__keyEsc(evt);
                     break;
             }
         },
@@ -133,6 +137,12 @@ define(function (require, exports, module) {
                 // 执行下移
                 this.execCommand('move', 1, 0);
             }
+        },
+
+        __keyEsc: function (evt) {
+            evt.preventDefault();
+            // 主动释放控制，返回控制权到主控模块。
+            this.postMessage('control.free');
         }
     };
 });

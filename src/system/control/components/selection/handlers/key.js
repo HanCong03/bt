@@ -9,7 +9,7 @@
 
 define(function (require, exports, module) {
     var STATUS = require('../definition/status');
-    var KEY_CODE = require('definition/key-code');
+    var KEY_CODE = require('system/definition/key-code');
 
     module.exports = {
         timer: null,
