@@ -127,6 +127,10 @@ define(function (require, exports, module) {
             return this.__$ctx.getBottoMContainer();
         },
 
+        getBarContainer: function () {
+            return this.__$ctx.getBarContainer();
+        },
+
         getMainContainerSize: function () {
             return this.__$ctx.getMainContainerSize();
         },

@@ -1,5 +1,5 @@
 /**
- * @file 控制模块
+ * @file 工作表滚动控制模块
  * @author hancong03@baiud.com
  */
 
@@ -18,6 +18,7 @@ define(function (require, exports, module) {
 
     module.exports = $$.createClass('Scroll', {
         base: require('module'),
+
         lastTime: 0,
         bufferX: 0,
         bufferY: 0,

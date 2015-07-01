@@ -122,6 +122,10 @@ define(function (require, exports, module) {
             return this.__$ctx.getBottomContainer();
         },
 
+        getBarContainer: function () {
+            return this.__$ctx.getBarContainer();
+        },
+
         getMainContainerSize: function () {
             return this.__$ctx.getMainContainerSize();
         },

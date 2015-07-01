@@ -1,0 +1,86 @@
+@import "common";
+
+.btb-main {
+
+  .btb-scrollbar-wrap {
+    .btb-scrollbar-h {
+      .abs();
+      top: auto;
+      bottom: 0;
+    }
+
+    .btb-scrollbar-v {
+      .abs();
+      left: auto;
+      right: 0;
+    }
+  }
+
+  /* slide */
+  .btb-scrollbar-slide {
+    .abs();
+    background: #eaeaea;
+  }
+
+
+  /* slider */
+  .btb-scrollbar-slider {
+    .abs();
+    border: 1px solid #ababab;
+    background: #fff;
+
+    &:HOVER {
+      background: #f0f0f0;
+    }
+  }
+
+
+  /* button */
+  .btb-scrollbar-btn {
+    .abs();
+    background: #fff;
+    border: 1px solid #ababab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:HOVER {
+      border-color: #000000;
+    }
+  }
+
+  .btb-scrollbar-rbtn {
+    left: auto;
+  }
+
+  .btb-scrollbar-bbtn {
+    top: auto;
+  }
+
+  /* button icon */
+  .btb-scrollbar-icon {
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+  }
+
+  .btb-scrollbar-licon {
+    border-right-color: #777777;
+    margin-left: -5px;
+  }
+
+  .btb-scrollbar-ricon {
+    border-left-color: #777777;
+    margin-left: 5px;
+  }
+
+  .btb-scrollbar-ticon {
+    border-bottom-color: #777777;
+    margin-top: -5px;
+  }
+
+  .btb-scrollbar-bicon {
+    border-top-color: #777777;
+    margin-top: 5px;
+  }
+}
