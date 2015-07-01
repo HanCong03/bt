@@ -24,6 +24,7 @@ define(function (require, exports, module) {
 
         mixin: [
             require('./handlers/dblclick'),
+            require('./handlers/mousedown'),
             require('./handlers/input')
         ],
 

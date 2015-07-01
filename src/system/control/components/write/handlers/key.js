@@ -45,9 +45,8 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 推送写入消息
-                this.postMessage('control.write');
-
+                // 执行同步，触发内容的写入
+                this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
 
@@ -63,8 +62,8 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 推送写入消息
-                this.postMessage('control.write');
+                // 执行同步，触发内容的写入
+                this.__sync();
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -81,8 +80,8 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 推送写入消息
-                this.postMessage('control.write');
+                // 执行同步，触发内容的写入
+                this.__sync();
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -99,8 +98,8 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 推送写入消息
-                this.postMessage('control.write');
+                // 执行同步，触发内容的写入
+                this.__sync();
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -117,8 +116,8 @@ define(function (require, exports, module) {
 
             // up move
             if (evt.shiftKey) {
-                // 推送写入消息
-                this.postMessage('control.write');
+                // 执行同步，触发内容的写入
+                this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
                 // 执行上移
@@ -130,8 +129,8 @@ define(function (require, exports, module) {
 
             // down move
             } else {
-                // 推送写入消息
-                this.postMessage('control.write');
+                // 执行同步，触发内容的写入
+                this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
                 // 执行下移
@@ -141,6 +140,8 @@ define(function (require, exports, module) {
 
         __keyEsc: function (evt) {
             evt.preventDefault();
+            // 更改同步状态，防止退出时，写入脏内容
+            this.syncStatus = true;
             // 主动释放控制，返回控制权到主控模块。
             this.postMessage('control.free');
         }
