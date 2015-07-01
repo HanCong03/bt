@@ -61,6 +61,11 @@ define(function (require, exports, module) {
             this.emit('refresh');
         },
 
+        /**
+         * 刷新操作
+         * 注：最终所有的滚动操作都会调用该操作刷新可视化数据对象
+         * @private
+         */
         __refresh: function () {
             var heap = this.getActiveHeap();
             var containerSize = this.getContentContainerSize();

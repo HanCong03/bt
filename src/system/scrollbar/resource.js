@@ -8,8 +8,18 @@ define(function (require, exports, module) {
     var SCROLLBAR_CONFIG = require('definition/scrollbar');
     var SCROLLBAR_SIZE = SCROLLBAR_CONFIG.size;
     var SCROLLBAR_MARGIN = SCROLLBAR_CONFIG.margin;
+    // 滑块大小
+    var REAL_SIZE = SCROLLBAR_SIZE - 2 * SCROLLBAR_MARGIN;
 
     module.exports = {
+        __hSlider: null,
+        __vSlider: null,
+
+        // 垂直滑道总高度
+        __vHeight: 0,
+        // 水平滑道总宽度
+        __hWidth: 0,
+
         __initBar: function () {
             var container = this.getBarContainer();
 
@@ -18,12 +28,25 @@ define(function (require, exports, module) {
 
             barNode.innerHTML = this.__getTpl();
 
+            this.__findNodes(barNode);
+
             container.appendChild(barNode);
+        },
+
+        __findNodes: function (rootNode) {
+            this.__hSlider = $('.btb-scrollbar-hslider', rootNode)[0];
+            this.__vSlider = $('.btb-scrollbar-vslider', rootNode)[0];
         },
 
         __getTpl: function () {
             var size = this.getMainContainerSize();
-            return getHorizontalTpl(size) + getVerticalTpl(size);
+            var hInfo = getHorizontalTpl(size);
+            var vInfo = getVerticalTpl(size);
+
+            this.__hWidth = hInfo.width;
+            this.__vHeight = vInfo.height;
+
+            return hInfo.html + vInfo.html;
         }
     };
 
@@ -41,19 +64,24 @@ define(function (require, exports, module) {
             '</div>';
 
         var mainWidth = size.width;
-        var realSize = SCROLLBAR_SIZE - 2 * SCROLLBAR_MARGIN;
 
-        return $$.tpl(tpl, {
+        var slideWidth = mainWidth - SCROLLBAR_SIZE - 2 * REAL_SIZE;
+        var html = $$.tpl(tpl, {
             margin: SCROLLBAR_MARGIN,
             width: mainWidth - SCROLLBAR_SIZE,
-            height: realSize,
-            btnWidth: realSize,
-            btnHeight: realSize,
-            slideWidth: mainWidth - SCROLLBAR_SIZE - 2 * realSize,
-            slideHeight: realSize,
-            sliderWidth: 100,
-            sliderHeight: realSize
+            height: REAL_SIZE,
+            btnWidth: REAL_SIZE,
+            btnHeight: REAL_SIZE,
+            slideWidth: slideWidth,
+            slideHeight: REAL_SIZE,
+            sliderWidth: REAL_SIZE,
+            sliderHeight: REAL_SIZE
         });
+
+        return {
+            width: slideWidth,
+            html: html
+        };
     }
 
     function getVerticalTpl(size) {
@@ -70,18 +98,23 @@ define(function (require, exports, module) {
             '</div>';
 
         var mainHeight = size.height;
-        var realSize = SCROLLBAR_SIZE - 2 * SCROLLBAR_MARGIN;
 
-        return $$.tpl(tpl, {
+        var slideHeight = mainHeight - SCROLLBAR_SIZE - 2 * REAL_SIZE;
+        var html = $$.tpl(tpl, {
             margin: SCROLLBAR_MARGIN,
-            width: realSize,
+            width: REAL_SIZE,
             height: mainHeight - SCROLLBAR_SIZE,
-            btnWidth: realSize,
-            btnHeight: realSize,
-            slideWidth: realSize,
-            slideHeight: mainHeight - SCROLLBAR_SIZE - 2 * realSize,
-            sliderWidth: realSize,
-            sliderHeight: 100
+            btnWidth: REAL_SIZE,
+            btnHeight: REAL_SIZE,
+            slideWidth: REAL_SIZE,
+            slideHeight: slideHeight,
+            sliderWidth: REAL_SIZE,
+            sliderHeight: REAL_SIZE
         });
+
+        return {
+            height: slideHeight,
+            html: html
+        };
     }
 });

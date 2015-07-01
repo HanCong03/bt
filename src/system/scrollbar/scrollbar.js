@@ -10,8 +10,12 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('Scrollbar', {
         base: require('module'),
 
+        visualData: null,
+
         mixin: [
-            require('./resource')
+            require('./resource'),
+            require('./collector'),
+            require('./update')
         ],
 
         init: function () {
@@ -26,8 +30,10 @@ define(function (require, exports, module) {
             });
         },
 
-        __refresh: function (evt) {
+        __refresh: function () {
+            this.visualData = this.rs('get.visual.data');
 
+            this.__update(this.__collectInfo());
         }
     });
 });
