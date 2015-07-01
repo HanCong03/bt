@@ -142,7 +142,7 @@ define(function (require, exports, module) {
                 }
             });
 
-            return Math.max.apply(null, widths) + DOUBLE_H_PADDING;
+            return Math.round(Math.max.apply(null, widths)) + DOUBLE_H_PADDING;
         }
     });
 

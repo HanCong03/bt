@@ -40,6 +40,8 @@ define(function (require, exports, module) {
         },
 
         __keyLeft: function (evt) {
+            evt.preventDefault();
+
             if (evt.shiftKey) {
 
             } else {
@@ -49,6 +51,8 @@ define(function (require, exports, module) {
         },
 
         __keyTop: function (evt) {
+            evt.preventDefault();
+
             if (evt.shiftKey) {
 
             } else {
@@ -58,6 +62,8 @@ define(function (require, exports, module) {
         },
 
         __keyRight: function (evt) {
+            evt.preventDefault();
+
             if (evt.shiftKey) {
 
             } else {
@@ -67,6 +73,8 @@ define(function (require, exports, module) {
         },
 
         __keyBottom: function (evt) {
+            evt.preventDefault();
+
             if (evt.shiftKey) {
 
             } else {
