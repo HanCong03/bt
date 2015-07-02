@@ -17,6 +17,8 @@ define(function (require, exports, module) {
         base: require('module'),
 
         mixin: [
+            require('./collector/row'),
+            require('./collector/col'),
             require('./scroll'),
             require('./scroll-in'),
             require('./scroll-to'),
@@ -106,7 +108,7 @@ define(function (require, exports, module) {
             // 行数
             heap.rowCount = rowInfo.count;
             // 行结束索引
-            heap.endRow = heap.row + heap.rowCount - 1;
+            heap.endRow = rowInfo.indexes[rowInfo.count - 1];
             // 可见内容区域高度
             heap.boundaryHeight = rowInfo.boundary;
             // 行映射
@@ -138,7 +140,7 @@ define(function (require, exports, module) {
             // 列数
             heap.colCount = colInfo.count;
             // 列结束索引
-            heap.endCol = heap.col + heap.colCount - 1;
+            heap.endCol = colInfo.indexes[colInfo.count - 1];
             // 可见内容区域宽度
             heap.boundaryWidth = colInfo.boundary;
             // 列映射
@@ -159,117 +161,6 @@ define(function (require, exports, module) {
                     col: pane.start.col
                 };
             }
-        },
-
-        __collectRowInfo: function (spaceHeight) {
-            if (this.queryCommandValue('hiddenallrow')) {
-                return {
-                    space: spaceHeight,
-                    heights: null,
-                    points: null,
-                    indexes: null,
-                    rMap: null,
-                    count: 0,
-                    boundary: 0
-                };
-            }
-
-            var heap = this.getActiveHeap();
-            var heights = [];
-            var points = [OFFSET];
-
-            var currentHeight;
-            var currentPoint = points[0];
-            var offset = LINE_WIDTH;
-            var indexes = [];
-            var rMap = {};
-
-            var row = heap.row;
-
-            do {
-                // 被隐藏的列
-                if (this.queryCommandValue('hiddenrow', row)) {
-                    row++;
-                    continue;
-                }
-
-                currentHeight = this.queryCommandValue('rowheight', row);
-                offset += currentHeight + LINE_WIDTH;
-                currentPoint += currentHeight + LINE_WIDTH;
-
-                rMap[row] = indexes.length;
-                heights.push(currentHeight);
-                points.push(currentPoint);
-                indexes.push(row);
-
-                row++;
-            } while (spaceHeight > offset && row <= MAX_ROW_INDEX);
-
-            return {
-                space: spaceHeight,
-                heights: heights,
-                points: points,
-                indexes: indexes,
-                rMap: rMap,
-                count: indexes.length,
-                boundary: Math.min(spaceHeight, offset)
-            };
-        },
-
-        __collectColumnInfo: function (spaceWidth) {
-            // 如果所有列都被隐藏，则直接返回
-            if (this.queryCommandValue('hiddenallcolumn')) {
-                return {
-                    space: spaceWidth,
-                    widths: null,
-                    points: null,
-                    indexes: null,
-                    cMap: null,
-                    count: 0,
-                    boundary: 0
-                };
-            }
-
-            var heap = this.getActiveHeap();
-            var widths = [];
-            var points = [OFFSET];
-
-            var currentWidth;
-            var currentPoint = points[0];
-            var offset = LINE_WIDTH;
-            var indexes = [];
-            var cMap = {};
-
-            var col = heap.col;
-
-            do {
-                // 被隐藏的列
-                if (this.queryCommandValue('hiddencolumn', col)) {
-                    col++;
-                    continue;
-                }
-
-                currentWidth = this.queryCommandValue('columnwidth', col);
-                offset += currentWidth + LINE_WIDTH;
-                currentPoint += currentWidth + LINE_WIDTH;
-
-                cMap[col] = indexes.length;
-                widths.push(currentWidth);
-                points.push(currentPoint);
-                indexes.push(col);
-
-                col++;
-            } while (spaceWidth > offset && col <= MAX_COLUMN_INDEX);
-
-            return {
-                space: spaceWidth,
-                widths: widths,
-                points: points,
-                indexes: indexes,
-                cMap: cMap,
-                count: indexes.length,
-                boundary: Math.min(spaceWidth, offset)
-            };
         },
 
         __calculateHeadWidth: function (rowIndex) {
