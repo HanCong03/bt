@@ -26,8 +26,8 @@ define(function (require, exports, module) {
                     this.__keyRight(evt);
                     break;
 
-                case KEY_CODE.BOTTOM:
-                    this.__keyBottom(evt);
+                case KEY_CODE.DOWN:
+                    this.__keyDown(evt);
                     break;
 
                 case KEY_CODE.ENTER:
@@ -93,7 +93,7 @@ define(function (require, exports, module) {
             // EDIT状态下交由系统处理
         },
 
-        __keyBottom: function (evt) {
+        __keyDown: function (evt) {
             // 输入状态
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();

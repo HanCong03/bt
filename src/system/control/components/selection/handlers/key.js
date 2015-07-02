@@ -29,8 +29,8 @@ define(function (require, exports, module) {
                     this.__keyRight(evt);
                     break;
 
-                case KEY_CODE.BOTTOM:
-                    this.__keyBottom(evt);
+                case KEY_CODE.DOWN:
+                    this.__keyDown(evt);
                     break;
 
                 case KEY_CODE.ENTER:
@@ -42,7 +42,7 @@ define(function (require, exports, module) {
             evt.preventDefault();
 
             if (evt.shiftKey) {
-
+                this.__shiftLeft(evt);
             } else {
                 // move
                 this.execCommand('move', 0, -1);
@@ -53,7 +53,7 @@ define(function (require, exports, module) {
             evt.preventDefault();
 
             if (evt.shiftKey) {
-
+                this.__shiftTop(evt);
             } else {
                 // move
                 this.execCommand('move', -1, 0);
@@ -64,18 +64,18 @@ define(function (require, exports, module) {
             evt.preventDefault();
 
             if (evt.shiftKey) {
-
+                this.__shiftRight(evt);
             } else {
                 // move
                 this.execCommand('move', 0, 1);
             }
         },
 
-        __keyBottom: function (evt) {
+        __keyDown: function (evt) {
             evt.preventDefault();
 
             if (evt.shiftKey) {
-
+                this.__shiftDown(evt);
             } else {
                 // move
                 this.execCommand('move', 1, 0);

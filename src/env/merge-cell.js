@@ -27,6 +27,23 @@ define(function (require, exports, module) {
 
         getMergeCells: function (start, end) {
             return this.__$api.getMergeCells(start, end);
+        },
+
+        getMergeCell: function (row, col) {
+            var mergecells = this.getMergeCells({
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
+
+            if ($$.isNdef(mergecells)) {
+                return null;
+            }
+
+            var keys = Object.keys(mergecells);
+            return mergecells[keys[0]];
         }
     });
 });

@@ -35,6 +35,10 @@ define(function (require) {
          * @param end
          */
         query_mergecell: function (start, end) {
+            if (typeof start === 'number') {
+                return this.$dep.getMergeCell(start, end);
+            }
+
             return this.$dep.getMergeCells(start, end);
         }
     });

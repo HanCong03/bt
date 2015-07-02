@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         mixin: [
             require('./handlers/key'),
             require('./handlers/key-enter'),
+            require('./handlers/shift-move'),
             require('./handlers/mouse')
         ],
 

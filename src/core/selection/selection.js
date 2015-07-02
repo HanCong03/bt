@@ -10,7 +10,8 @@ define(function (require, exports, module) {
         base: require('module'),
 
         mixin: [
-            require('./scroll')
+            require('./scroll'),
+            require('./expand')
         ],
 
         init: function () {
