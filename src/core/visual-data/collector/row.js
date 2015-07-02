@@ -137,7 +137,7 @@ define(function (require, exports, module) {
                 rMap: rMap,
                 count: indexes.length,
                 boundary: Math.min(spaceHeight, offset),
-                paneCount: pane.end.row - pane.start.row - 1,
+                paneCount: pane.end.row - pane.start.row + 1,
                 paneHeight: Math.min(spaceHeight, offset)
             };
         }

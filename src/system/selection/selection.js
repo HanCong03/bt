@@ -60,7 +60,7 @@ define(function (require, exports, module) {
 
         __viewchange: function () {
             var range = this.queryCommandValue('range');
-            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), range.start, range.end);
+            var rect = this.rs('get.visialbe.rect', range.start, range.end);
 
             this.__draw(range.entry, range.start, range.end, rect);
             this.coverScreen.toggle();
@@ -75,7 +75,7 @@ define(function (require, exports, module) {
             start = range.start;
             end = range.end;
 
-            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), start, end);
+            var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
@@ -144,7 +144,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            var rect = SystemUtils.getVisibleRect(visualData, start, end);
+            var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
@@ -251,7 +251,7 @@ define(function (require, exports, module) {
                 col: Math.max(startCol, endCol)
             };
 
-            var rect = SystemUtils.getVisibleRect(visualData, start, end);
+            var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();
@@ -325,7 +325,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            var rect = SystemUtils.getVisibleRect(visualData, start, end);
+            var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
             this.coverScreen.toggle();

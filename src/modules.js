@@ -31,6 +31,7 @@ define(function (require, exports, module) {
             rowColumn: require('./core/row-column')
         },
         system: {
+            rect: require('./system/rect'),
             render: require('./system/render/render'),
             control: require('./system/control/control'),
             selection: require('./system/selection/selection'),

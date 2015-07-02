@@ -214,7 +214,7 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var rect = SystemUtils.getVisibleRect(this.rs('get.visual.data'), mergeInfo.start, mergeInfo.end);
+            var rect = this.rs('get.visialbe.rect', mergeInfo.start, mergeInfo.end);
 
             if ($$.isNdef(rect)) {
                 return;
