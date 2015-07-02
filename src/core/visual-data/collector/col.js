@@ -22,7 +22,9 @@ define(function (require, exports, module) {
                     indexes: null,
                     cMap: null,
                     count: 0,
-                    boundary: 0
+                    boundary: 0,
+                    paneWidth: 0,
+                    paneCount: 0
                 };
             }
 
@@ -45,13 +47,7 @@ define(function (require, exports, module) {
             var indexes = info.indexes;
             var offset = indexes.length ? 0 : LINE_WIDTH;
             var cMap = info.cMap;
-
-            var pane = heap.pane;
-            var paneCount = 0;
-
-            if (pane && pane.start.col !== -1) {
-                paneCount = pane.end.col - pane.start.col + 1;
-            }
+            var paneCount = info.paneCount;
 
             // 非窗格部分的可视起始行。
             var col = heap.col + paneCount;
@@ -73,7 +69,7 @@ define(function (require, exports, module) {
                 indexes.push(col);
 
                 col++;
-            } while (spaceWidth > offset && col <= MAX_COLUMN_INDEX);
+            } while (availableSpaceWidth > offset && col <= MAX_COLUMN_INDEX);
 
             info.boundary += Math.min(availableSpaceWidth, offset)
             info.count = indexes.length;
@@ -82,19 +78,6 @@ define(function (require, exports, module) {
         },
 
         __collectPaneColumn: function (spaceWidth) {
-            // 如果所有列都被隐藏，则直接返回
-            if (this.queryCommandValue('hiddenallcolumn')) {
-                return {
-                    space: spaceWidth,
-                    widths: null,
-                    points: null,
-                    indexes: null,
-                    cMap: null,
-                    count: 0,
-                    boundary: 0
-                };
-            }
-
             var heap = this.getActiveHeap();
             var widths = [];
             var points = [OFFSET];
@@ -115,7 +98,9 @@ define(function (require, exports, module) {
                     indexes: indexes,
                     cMap: cMap,
                     count: 0,
-                    boundary: 0
+                    boundary: 0,
+                    paneWidth: 0,
+                    paneCount: 0
                 };
             }
 
@@ -148,7 +133,9 @@ define(function (require, exports, module) {
                 indexes: indexes,
                 cMap: cMap,
                 count: indexes.length,
-                boundary: Math.min(spaceWidth, offset)
+                boundary: Math.min(spaceWidth, offset),
+                paneWidth: Math.min(spaceWidth, offset),
+                paneCount: pane.end.col - pane.start.col + 1
             };
         }
     };

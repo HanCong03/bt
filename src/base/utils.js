@@ -112,6 +112,7 @@ define(function (require, exports, module) {
 
         indexToTitle: function (index) {
             var chars = [];
+            return index + 1;
 
             do {
                 chars.push(index % 26);

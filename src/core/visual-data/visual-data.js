@@ -5,13 +5,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var GRIDLINE_CONFIG = require('definition/gridline');
-    var OFFSET = GRIDLINE_CONFIG.offset;
-    var LINE_WIDTH = GRIDLINE_CONFIG.width;
-
-    var LIMIT = require('definition/limit');
-    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
-    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = $$.createClass('VisualData', {
         base: require('module'),
@@ -113,6 +106,10 @@ define(function (require, exports, module) {
             heap.boundaryHeight = rowInfo.boundary;
             // 行映射
             heap.rMap = rowInfo.rMap;
+            // 窗格所占空间高度
+            heap.paneHeight = rowInfo.paneHeight;
+            // 行窗格条数
+            heap.rowPaneCount = rowInfo.paneCount;
         },
 
         /**
@@ -145,6 +142,10 @@ define(function (require, exports, module) {
             heap.boundaryWidth = colInfo.boundary;
             // 列映射
             heap.cMap = colInfo.cMap;
+            // 窗格所占空间宽度
+            heap.paneWidth = colInfo.paneWidth;
+            // 列窗格条数
+            heap.colPaneCount = colInfo.paneCount;
         },
 
         __getMinStart: function () {

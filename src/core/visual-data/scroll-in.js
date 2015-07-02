@@ -20,10 +20,10 @@ define(function (require, exports, module) {
          * @param end
          */
         scrollIn: function (start, end) {
-            this.__scrollRowInView(start.row, end.row);
-            this.__scrollColumnInView(start.col, end.col);
-
-            this.emit('viewchange');
+            //this.__scrollRowInView(start.row, end.row);
+            //this.__scrollColumnInView(start.col, end.col);
+            //
+            //this.emit('viewchange');
         },
 
         __scrollRowInView: function (startRow, endRow) {

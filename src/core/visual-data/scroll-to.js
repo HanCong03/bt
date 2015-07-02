@@ -6,61 +6,105 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
-    var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
-
-    var LIMIT = require('definition/limit');
-    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
-    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = {
         __scrollRowToStart: function (row) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContentContainerSize();
-
-            heap.headHeight = this.queryCommandValue('standardheight');
-            var spaceHeight = containerSize.height - heap.headHeight;
 
             heap.row = row;
-            this.__refreshRow(spaceHeight);
+            this.__refreshRow(heap.spaceHeight);
         },
 
         __scrollRowToEnd: function (row) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContentContainerSize();
+            // 通过指定结束行来计算新的起始行
+            row = this.__calculateStartRowByEndRow(row);
 
-            heap.headHeight = this.queryCommandValue('standardheight');
-            heap.endRow = row;
+            if ($$.isNdef(row)) {
+                return;
+            }
 
-            var spaceHeight = containerSize.height - heap.headHeight;
-
-            heap.row = this.__calculateStartRow(spaceHeight);
-            this.__refreshRow(spaceHeight);
+            heap.row = row;
+            this.__refreshRow(heap.spaceHeight);
         },
 
         __scrollColumnToStart: function (col) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContentContainerSize();
-
-            // 头部宽度
-            heap.headWidth = this.__calculateHeadWidth(heap.rows);
-            var spaceWidth = containerSize.width - heap.headWidth;
 
             heap.col = col;
-            this.__refreshColumn(spaceWidth);
+            this.__refreshColumn(heap.spaceWidth);
         },
 
         __scrollColumnToEnd: function (col) {
             var heap = this.getActiveHeap();
-            var containerSize = this.getContentContainerSize();
+            col = this.__calculateStartColumnByEndColumn(col);
 
-            // 头部宽度
-            heap.headWidth = this.__calculateHeadWidth(heap.rows);
-            var spaceWidth = containerSize.width - heap.headWidth;
+            if ($$.isNdef(col)) {
+                return;
+            }
 
-            heap.endCol = col;
-            heap.col = this.__calculateStartColumn(spaceWidth);
-            this.__refreshColumn(spaceWidth);
+            heap.col = col;
+            this.__refreshColumn(heap.spaceWidth);
+        },
+
+        /**
+         * 以给定行作为最末一条完全可见的行，计算出满足该情况下的可视化数据对象的起始行。
+         * @private
+         */
+        __calculateStartRowByEndRow: function (row) {
+            var heap = this.getActiveHeap();
+            // 去除窗格区域后剩余的可用空间
+            var spaceHeight = heap.spaceHeight - heap.paneHeight;
+
+            // 可视区域全被窗格占据，则直接返回
+            if (spaceHeight <= 0) {
+                return;
+            }
+
+            spaceHeight -= LINE_WIDTH + this.queryCommandValue('rowheight', row);
+
+            var offset = 0;
+
+            while (row > 0) {
+                offset += LINE_WIDTH + this.queryCommandValue('rowheight', row - 1);
+
+                if (spaceHeight < offset) {
+                    break;
+                }
+
+                row--;
+            }
+
+            return row - heap.rowPaneCount;
+        },
+
+        __calculateStartColumnByEndColumn: function (col) {
+            var heap = this.getActiveHeap();
+
+            // 去除窗格区域后剩余的可用空间
+            var spaceWidth = heap.spaceWidth - heap.paneWidth;
+
+            // 可视区域全被窗格占据，则直接返回。
+            if (spaceWidth <= 0) {
+                return;
+            }
+
+            spaceWidth -= LINE_WIDTH + this.queryCommandValue('columnwidth', col);
+
+            var offset = 0;
+
+            while (col > 0) {
+                offset += LINE_WIDTH + this.queryCommandValue('columnwidth', col - 1);
+
+                if (spaceWidth < offset) {
+                    break;
+                }
+
+                col--;
+            }
+
+            return col - heap.colPaneCount;
         }
     };
 });

@@ -21,7 +21,9 @@ define(function (require, exports, module) {
                     indexes: null,
                     rMap: null,
                     count: 0,
-                    boundary: 0
+                    boundary: 0,
+                    paneCount: 0,
+                    paneHeight: 0
                 };
             }
 
@@ -44,13 +46,7 @@ define(function (require, exports, module) {
             var indexes = info.indexes;
             var offset = indexes.length ? 0 : LINE_WIDTH;
             var rMap = info.rMap;
-
-            var pane = heap.pane;
-            var paneCount = 0;
-
-            if (pane && pane.start.row !== -1) {
-                paneCount = pane.end.row - pane.start.row + 1;
-            }
+            var paneCount = info.paneCount;
 
             // 非窗格部分的可视起始行。
             var row = heap.row + paneCount;
@@ -105,7 +101,9 @@ define(function (require, exports, module) {
                     indexes: indexes,
                     rMap: rMap,
                     count: 0,
-                    boundary: 0
+                    boundary: 0,
+                    paneCount: 0,
+                    paneHeight: 0
                 };
             }
 
@@ -138,7 +136,9 @@ define(function (require, exports, module) {
                 indexes: indexes,
                 rMap: rMap,
                 count: indexes.length,
-                boundary: Math.min(spaceHeight, offset)
+                boundary: Math.min(spaceHeight, offset),
+                paneCount: pane.end.row - pane.start.row - 1,
+                paneHeight: Math.min(spaceHeight, offset)
             };
         }
     };

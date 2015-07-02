@@ -171,7 +171,7 @@ define(function (require, exports, module) {
                 /* --- 计算滚动步长 end --- */
 
                 // 执行滚动
-                this.execCommand('directivityscroll', step.row, step.col);
+                this.execCommand('scroll', step.row, step.col);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;
@@ -180,13 +180,13 @@ define(function (require, exports, module) {
                 if (step.row === -1) {
                     row = visualData.rows[0];
                 } else if (step.row === 1) {
-                    row = Math.max(visualData.endRow - 1, visualData.rows[0]);
+                    row = visualData.rows[visualData.rowCount - 2] || visualData.rows[0];
                 }
 
                 if (step.col === -1) {
                     col = visualData.cols[0];
                 } else if (step.col === 1) {
-                    col = Math.max(visualData.endCol - 1, visualData.cols[0]);
+                    col = visualData.cols[visualData.colCount - 2] || visualData.cols[0];
                 }
 
                 index = {
@@ -234,7 +234,7 @@ define(function (require, exports, module) {
                 /* --- 计算滚动步长 end --- */
 
                 // 执行滚动
-                this.execCommand('directivityscroll', step, 0);
+                this.execCommand('scroll', step, 0);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;
@@ -243,7 +243,7 @@ define(function (require, exports, module) {
                 if (step === -1) {
                     row = visualData.rows[0];
                 } else if (step === 1) {
-                    row = Math.max(visualData.endRow - 1, visualData.rows[0]);
+                    row = visualData.rows[visualData.rowCount - 2] || visualData.rows[0];
                 }
 
                 return {
@@ -289,7 +289,7 @@ define(function (require, exports, module) {
                 /* --- 计算滚动步长 end --- */
 
                 // 执行明确的指向性滚动
-                this.execCommand('directivityscroll', 0, step);
+                this.execCommand('scroll', 0, step);
 
                 // 此时的可视化数据对象已经更新。
                 var visualData = this.visualData;
@@ -298,7 +298,7 @@ define(function (require, exports, module) {
                 if (step === -1) {
                     col = visualData.cols[0];
                 } else if (step === 1) {
-                    col = Math.max(visualData.endCol - 1, visualData.cols[0]);
+                    col = visualData.cols[visualData.colCount - 2] || visualData.cols[0];
                 }
 
                 return {
