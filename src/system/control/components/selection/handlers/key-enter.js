@@ -167,7 +167,16 @@ define(function (require, exports, module) {
             var rangeCount = ranges.length;
             var range = ranges[rangeCount - 1];
 
+            var mergeInfo;
+
+            // 相邻行仍在选区内
             if (newRow <= range.end.row) {
+                mergeInfo = this.__getMergeCell(newRow, col);
+
+                if ($$.isDefined(mergeInfo) && mergeInfo.start.col !== col) {
+                    return this.__getIncTargetCell(ranges, mergeInfo.end.row, col);
+                }
+
                 return {
                     row: newRow,
                     col: col
@@ -178,7 +187,6 @@ define(function (require, exports, module) {
             newRow = range.start.row;
 
             var newCol = col + 1;
-            var mergeInfo;
 
             // 新的列还在当前选区内
             if (newCol <= range.end.col) {
@@ -192,8 +200,8 @@ define(function (require, exports, module) {
                     };
                 } else {
                     // 该合并后单元格不满足要求，则递归搜索下一个单元格。
-                    if (mergeInfo.start.col <= col) {
-                        return this.__getIncTargetCell(mergeInfo.end.row, newCol);
+                    if (mergeInfo.start.col !== newCol) {
+                        return this.__getIncTargetCell(ranges, mergeInfo.end.row, newCol);
 
                         // 该合并单元格满足要求,返回该单元格的起始位置。
                     } else {
@@ -211,12 +219,65 @@ define(function (require, exports, module) {
         },
 
         __getDecTargetCell: function (ranges, row, col) {
-            console.log('未实现')
-            debugger;
+            var newRow = row - 1;
+            var rangeCount = ranges.length;
+            var range = ranges[rangeCount - 1];
+
+            if (newRow >= range.start.row) {
+                mergeInfo = this.__getMergeCell(newRow, col);
+
+                if ($$.isDefined(mergeInfo) && mergeInfo.start.col !== col) {
+                    return this.__getDecTargetCell(ranges, mergeInfo.start.row, col);
+                }
+
+                return {
+                    row: newRow,
+                    col: col
+                };
+            }
+
+            // 行超出选区范围，列更新
+            newRow = range.end.row;
+
+            var newCol = col - 1;
+            var mergeInfo;
+
+            // 新的列还在当前选区内
+            if (newCol >= range.start.col) {
+                mergeInfo = this.__getMergeCell(newRow, newCol);
+
+                if ($$.isNdef(mergeInfo)) {
+                    // 新的行和列满足要求
+                    return {
+                        row: newRow,
+                        col: newCol
+                    };
+                } else {
+                    // 该合并后单元格不满足要求，则递归搜索下一个单元格。
+                    if (mergeInfo.start.col !== newCol) {
+                        return this.__getDecTargetCell(ranges, mergeInfo.start.row, newCol);
+
+                        // 该合并单元格满足要求,返回该单元格的起始位置。
+                    } else {
+                        return mergeInfo.start;
+                    }
+                }
+            }
+
+            this.execCommand('downrange');
+
+            // 获取新的活动选区的结束位置作为结果
+            return ranges[rangeCount - 1].end;
         },
 
         __getMergeCell: function (row, col) {
-            var mergecells = this.queryCommandValue('mergecell', row, col);
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
 
             if ($$.isNdef(mergecells)) {
                 return null;
