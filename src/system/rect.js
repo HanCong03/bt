@@ -49,79 +49,151 @@ define(function (require, exports, module) {
             var height = -LINE_WIDTH;
 
             // 非隐藏行列索引
-            var rows = [];
-            var cols = [];
+            var rows = visualData.rows;
+            var cols = visualData.cols;
             var rMap = visualData.rMap;
             var cMap = visualData.cMap;
             var colWidths = visualData.colWidths;
-            var rowHeight = visualData.rowHeights;
+            var rowHeights = visualData.rowHeights;
 
             var r;
             var c;
 
-            // 可见行列序号
-            var rList = [];
-            var cList = [];
+            // 有效范围
+            var validStartRow = Math.max(startRow, visualData.startRow);
+            var validStartCol = Math.max(startCol, visualData.startCol);
+            var validEndRow = Math.min(endRow, visualData.endRow);
+            var validEndCol = Math.min(endCol, visualData.endCol);
 
+            /* ---- 计算宽高 start ---- */
+            var currentRow;
+            var currentCol;
+
+            var x;
+            var y;
+
+            for (var i = 0, len = visualData.rowCount; i <= len; i++) {
+                currentRow = rows[i];
+
+                if (currentRow < validStartRow) {
+                    continue;
+                }
+
+                // 后续索引持续增大
+                if (currentRow > validEndRow) {
+                    break;
+                }
+
+                r = rMap[currentRow];
+
+                if (r !== undefined) {
+                    height += rowHeights[r] + LINE_WIDTH;
+                    if (y === undefined) {
+                        y = visualData.rowPoints[r] + OFFSET;
+                    }
+                }
+            }
+
+            if (height < 0) {
+                return null;
+            }
+
+            for (var i = 0, len = visualData.colCount; i <= len; i++) {
+                currentCol = cols[i];
+
+                if (currentCol < validStartCol) {
+                    continue;
+                }
+
+                // 后续索引持续增大
+                if (currentCol > validEndCol) {
+                    break;
+                }
+
+                c = cMap[currentCol];
+
+                if (c !== undefined) {
+                    width += colWidths[c] + LINE_WIDTH;
+
+                    if (x === undefined) {
+                        x = visualData.colPoints[c] + OFFSET;
+                    }
+                }
+            }
+
+            if (width < 0) {
+                return null;
+            }
+            /* ---- 计算宽高 end ---- */
+
+            /* ---- 溢出检测 start ---- */
+            var ot = false;
+            var or = false;
+            var ob = false;
+            var ol = false;
+
+            // overflow top
             for (var i = startRow; i <= endRow; i++) {
                 if (this.queryCommandValue('hiddenrow', i)) {
                     continue;
                 }
 
-                rows.push(i);
+                if (rMap[i] === undefined) {
+                    ot = true;
+                }
+
+                break;
             }
 
+            // overflow right
+            for (var i = endCol; i >= startCol; i--) {
+                if (this.queryCommandValue('hiddencolumn', i)) {
+                    continue;
+                }
+
+                if (cMap[i] === undefined) {
+                    or = true;
+                }
+
+                break;
+            }
+
+            // overflow bottom
+            for (var i = endRow; i >= startRow; i--) {
+                if (this.queryCommandValue('hiddenrow', i)) {
+                    continue;
+                }
+
+                if (rMap[i] === undefined) {
+                    ob = true;
+                }
+
+                break;
+            }
+
+            // overflow left
             for (var i = startCol; i <= endCol; i++) {
                 if (this.queryCommandValue('hiddencolumn', i)) {
                     continue;
                 }
 
-                cols.push(i);
-            }
-
-            // 高度计算
-            for (var i = 0, len = rows.length; i < len; i++) {
-                r = rMap[rows[i]];
-
-                if (r === undefined) {
-                    continue;
+                if (cMap[i] === undefined) {
+                    ol = true;
                 }
 
-                height += rowHeight[r] + LINE_WIDTH;
-                rList.push(r);
+                break;
             }
-
-            // 不可见
-            if (height < 0) {
-                return null;
-            }
-
-            // 宽度计算
-            for (var i = 0, len = cols.length; i < len; i++) {
-                c = cMap[cols[i]];
-
-                if (c === undefined) {
-                    continue;
-                }
-
-                width += colWidths[c] + LINE_WIDTH;
-                cList.push(c);
-            }
-
-            // 不可见
-            if (width < 0) {
-                return null;
-            }
+            /* ---- 溢出检测 end ---- */
 
             return {
-                x: visualData.colPoints[cList[0]] + OFFSET,
-                y: visualData.rowPoints[rList[0]] + OFFSET,
+                x: x,
+                y: y,
                 width: width,
                 height: height,
-                ot: rMap[rows[0]] === undefined,
-                ob: rMap[rows[rows.length - 1]] === undefined,
-                ol: cMap[cols[0]] === undefined,
-                or: cMap[cols[cols.length - 1]] === undefined
+                ot: ot,
+                ob: ob,
+                ol: ol,
+                or: or
             };
         }
     });

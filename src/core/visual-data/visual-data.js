@@ -14,8 +14,7 @@ define(function (require, exports, module) {
             require('./collector/col'),
             require('./scroll'),
             require('./scroll-in'),
-            require('./scroll-to'),
-            require('./directivity-scroll')
+            require('./scroll-to')
         ],
 
         init: function () {
@@ -100,6 +99,8 @@ define(function (require, exports, module) {
             heap.spaceHeight = rowInfo.space;
             // 行数
             heap.rowCount = rowInfo.count;
+            // 行开始索引
+            heap.startRow = rowInfo.indexes[0];
             // 行结束索引
             heap.endRow = rowInfo.indexes[rowInfo.count - 1];
             // 可见内容区域高度
@@ -136,6 +137,8 @@ define(function (require, exports, module) {
             heap.spaceWidth = colInfo.space;
             // 列数
             heap.colCount = colInfo.count;
+            // 列开始索引
+            heap.startCol = colInfo.indexes[0];
             // 列结束索引
             heap.endCol = colInfo.indexes[colInfo.count - 1];
             // 可见内容区域宽度
