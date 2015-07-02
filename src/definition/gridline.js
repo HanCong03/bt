@@ -6,5 +6,6 @@
 define({
     width: 1,
     offset: 0.5,
-    color: '#d4d4d4'
+    color: '#d4d4d4',
+    pane: '#9b9b9b'
 });
