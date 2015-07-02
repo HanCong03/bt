@@ -12,8 +12,8 @@ define(function (require, exports, module) {
     module.exports = {
         /**
          * 按指定的方向扩展选区
-         * @param rowDir 大于零表示向下扩展行，小于零表示向上扩展行，零表示不扩展行
-         * @param colDir
+         * @param rowDir 大于零表示向下扩展行，小于零表示向上扩展行，零表示不扩展。
+         * @param colDir 大于零表示向右扩展列，小于零表示向左扩展列，零表示不扩展。
          */
         expand: function (rowDir, colDir) {
             var row = this.__expandRow(rowDir);
@@ -68,10 +68,30 @@ define(function (require, exports, module) {
             if (dir === 0) {
                 return range.end.col;
             }
+
+            var entry = range.entry;
+            var mergeInfo = this.queryCommandValue('mergecell', entry.row, entry.col);
+
+            var start;
+            var end;
+
+            if (!mergeInfo) {
+                start = entry;
+                end = entry;
+            } else {
+                start = mergeInfo.start;
+                end = mergeInfo.end;
+            }
+
+            if (dir > 0) {
+                return this.__expandColumnToRight(start, end);
+            } else {
+                return this.__expandColumnToLeft(start, end);
+            }
         },
 
         /**
-         * 向下扩展活动选区指定数量的行
+         * 向下扩展活动选区的行
          * @param count
          * @private
          */
@@ -189,6 +209,125 @@ define(function (require, exports, module) {
             return row;
         },
 
+
+        /**
+         * 向右扩展列
+         * @private
+         */
+        __expandColumnToRight: function (start, end) {
+            var range = this.getActiveRange();
+            var rangeStart = range.start;
+            var rangeEnd = range.end;
+
+            // 目标列
+            var col;
+
+            // 收缩起始列
+            if (rangeStart.col < start.col) {
+                col = this.__getNextColumn(rangeStart.col);
+
+                // 获取到的列满足要求，则修改选区的起始列
+                if (col <= start.col) {
+                    rangeStart.col = col;
+                    // 结束操作
+                    return col;
+                }
+
+                /* 获取到的列已经超出焦点位置，则执行向右扩展 */
+            }
+
+            col = rangeEnd.col + 1;
+
+            // 右溢出
+            if (col > MAX_COLUMN_INDEX) {
+                return rangeEnd.col;
+            }
+
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: 0,
+                col: col
+            }, {
+                row: MAX_ROW_INDEX,
+                col: col
+            });
+
+            // 新列不包含合并单元格，则更新选区结束列即可。
+            if ($$.isNdef(mergecells)) {
+                rangeEnd.col = col;
+                return col;
+            }
+
+            // 否则，需要更新行，使其包含所有的合并单元格。
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                col = Math.max(col, mergecells[key].end.col);
+            }
+
+            rangeEnd.col = col;
+
+            return col;
+        },
+
+        __expandColumnToLeft: function (start, end) {
+            var range = this.getActiveRange();
+            var rangeStart = range.start;
+            var rangeEnd = range.end;
+
+            // 目标列
+            var col;
+
+            // 收缩结束列
+            if (rangeEnd.col > end.col) {
+                col = this.__getPrevColumn(rangeEnd.col);
+
+                // 获取到的列满足要求，则修改选区的结束列
+                if (col >= end.col) {
+                    rangeEnd.col = col;
+                    // 结束操作
+                    return col;
+                }
+
+                /* 获取到的列已经超出焦点位置，则执行向左扩展 */
+            }
+
+            col = rangeStart.col - 1;
+
+            // 左溢出
+            if (col < 0) {
+                return rangeStart.col;
+            }
+
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: 0,
+                col: col
+            }, {
+                row: MAX_ROW_INDEX,
+                col: col
+            });
+
+            // 新列不包含合并单元格，则更新选区起始列即可。
+            if ($$.isNdef(mergecells)) {
+                rangeStart.col = col;
+                return col;
+            }
+
+            // 否则，需要更新列，使其包含所有的合并单元格。
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                col = Math.min(col, mergecells[key].start.col);
+            }
+
+            rangeStart.col = col;
+
+            return col;
+        },
+
         /**
          * 获取给定行之后的完整行。
          * 获取到的行，要么不存在合并单元格，要么所有的合并单元格的其实点都在该行上。
@@ -229,7 +368,7 @@ define(function (require, exports, module) {
         },
 
         /**
-         * __getNextRow()的方向操作
+         * __getNextRow()的反方向操作
          * @param row
          * @private
          */
@@ -264,6 +403,83 @@ define(function (require, exports, module) {
             }
 
             return row;
+        },
+
+        /**
+         * 获取指定列之后的完整列。
+         * @param col
+         * @private
+         */
+        __getNextColumn: function (col) {
+            col += 1;
+
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: 0,
+                col: col
+            }, {
+                row: MAX_ROW_INDEX,
+                col: col
+            });
+
+            if ($$.isNdef(mergecells)) {
+                return col;
+            }
+
+            var mergeInfo;
+
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                mergeInfo = mergecells[key];
+
+                // 递归获取
+                if (mergeInfo.start.col < col) {
+                    return this.__getNextColumn(mergeInfo.end.col);
+                }
+            }
+
+            return col;
+        },
+
+        /**
+         * __getNextColumn()的反方向操作
+         * @param col
+         * @returns {*}
+         * @private
+         */
+        __getPrevColumn: function (col) {
+            col -= 1;
+
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: 0,
+                col: col
+            }, {
+                row: MAX_ROW_INDEX,
+                col: col
+            });
+
+            if ($$.isNdef(mergecells)) {
+                return col;
+            }
+
+            var mergeInfo;
+
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                mergeInfo = mergecells[key];
+
+                // 递归获取
+                if (mergeInfo.end.col > col) {
+                    return this.__getPrevColumn(mergeInfo.start.col);
+                }
+            }
+
+            return col;
         }
     };
 });
