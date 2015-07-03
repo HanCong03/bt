@@ -23,7 +23,10 @@ define(function (require, exports, module) {
                     count: 0,
                     boundary: 0,
                     paneCount: 0,
-                    paneHeight: 0
+                    paneRows: null,
+                    normalRows: null,
+                    paneHeight: 0,
+                    lastFullRow: -1
                 };
             }
 
@@ -42,6 +45,7 @@ define(function (require, exports, module) {
             var points = info.points;
 
             var currentHeight;
+            var normalRows = [];
             var currentPoint = points[points.length - 1];
             var indexes = info.indexes;
             var offset = indexes.length ? 0 : LINE_WIDTH;
@@ -66,12 +70,24 @@ define(function (require, exports, module) {
                 heights.push(currentHeight);
                 points.push(currentPoint);
                 indexes.push(row);
+                normalRows.push(row);
 
                 row++;
             } while (availableSpaceHeight > offset && row <= MAX_ROW_INDEX);
 
             info.boundary += Math.min(availableSpaceHeight, offset)
             info.count = indexes.length;
+            info.normalRows = normalRows;
+
+            var lastFullRow;
+
+            if (availableSpaceHeight > offset) {
+                lastFullRow = indexes[indexes.length - 1];
+            } else {
+                lastFullRow = indexes[indexes.length - 2] || indexes[0];
+            }
+
+            info.lastFullRow = lastFullRow;
 
             return info;
         },
@@ -89,6 +105,7 @@ define(function (require, exports, module) {
             var currentPoint = points[0];
             var offset = LINE_WIDTH;
             var indexes = [];
+            var paneRows = [];
             var rMap = {};
 
             var pane = heap.pane;
@@ -103,7 +120,9 @@ define(function (require, exports, module) {
                     count: 0,
                     boundary: 0,
                     paneCount: 0,
-                    paneHeight: 0
+                    paneRows: paneRows,
+                    paneHeight: 0,
+                    lastFullRow: -1
                 };
             }
 
@@ -124,10 +143,19 @@ define(function (require, exports, module) {
                 rMap[row] = indexes.length;
                 heights.push(currentHeight);
                 points.push(currentPoint);
+                paneRows.push(row);
                 indexes.push(row);
 
                 row++;
             } while (spaceHeight > offset && row <= paneEndRow);
+
+            var lastFullRow;
+
+            if (spaceHeight > offset) {
+                lastFullRow = indexes[indexes.length - 1];
+            } else {
+                lastFullRow = indexes[indexes.length - 2] || indexes[0];
+            }
 
             return {
                 space: spaceHeight,
@@ -138,7 +166,9 @@ define(function (require, exports, module) {
                 count: indexes.length,
                 boundary: Math.min(spaceHeight, offset),
                 paneCount: pane.end.row - pane.start.row + 1,
-                paneHeight: Math.min(spaceHeight, offset)
+                paneRows: paneRows,
+                paneHeight: Math.min(spaceHeight, offset),
+                lastFullRow: lastFullRow
             };
         }
     };

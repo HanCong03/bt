@@ -24,7 +24,10 @@ define(function (require, exports, module) {
                     count: 0,
                     boundary: 0,
                     paneWidth: 0,
-                    paneCount: 0
+                    normalCols: null,
+                    normalCols: null,
+                    paneCount: 0,
+                    lastFullCol: -1
                 };
             }
 
@@ -48,6 +51,7 @@ define(function (require, exports, module) {
             var offset = indexes.length ? 0 : LINE_WIDTH;
             var cMap = info.cMap;
             var paneCount = info.paneCount;
+            var normalCols = [];
 
             // 非窗格部分的可视起始行。
             var col = heap.col + paneCount;
@@ -67,12 +71,25 @@ define(function (require, exports, module) {
                 widths.push(currentWidth);
                 points.push(currentPoint);
                 indexes.push(col);
+                normalCols.push(col);
 
                 col++;
             } while (availableSpaceWidth > offset && col <= MAX_COLUMN_INDEX);
 
             info.boundary += Math.min(availableSpaceWidth, offset)
             info.count = indexes.length;
+            info.normalCols = normalCols;
+
+            // 更新lastFullCol
+            var lastFullCol;
+
+            if (availableSpaceWidth > offset) {
+                lastFullCol  = indexes[indexes.length - 1];
+            } else {
+                lastFullCol = indexes[indexes.length - 2] || indexes[0];
+            }
+
+            info.lastFullCol = lastFullCol;
 
             return info;
         },
@@ -100,12 +117,15 @@ define(function (require, exports, module) {
                     count: 0,
                     boundary: 0,
                     paneWidth: 0,
-                    paneCount: 0
+                    paneCols: null,
+                    paneCount: 0,
+                    lastFullCol: -1
                 };
             }
 
             var col = pane.start.col;
             var paneEndCol = pane.end.col;
+            var paneCols = [];
 
             do {
                 // 被隐藏的列
@@ -126,6 +146,14 @@ define(function (require, exports, module) {
                 col++;
             } while (spaceWidth > offset && col <= paneEndCol);
 
+            var lastFullCol;
+
+            if (spaceWidth > offset) {
+                lastFullCol  = indexes[indexes.length - 1];
+            } else {
+                lastFullCol = indexes[indexes.length - 2] || indexes[0];
+            }
+
             return {
                 space: spaceWidth,
                 widths: widths,
@@ -133,9 +161,11 @@ define(function (require, exports, module) {
                 indexes: indexes,
                 cMap: cMap,
                 count: indexes.length,
+                paneCols: paneCols,
                 boundary: Math.min(spaceWidth, offset),
                 paneWidth: Math.min(spaceWidth, offset),
-                paneCount: pane.end.col - pane.start.col + 1
+                paneCount: pane.end.col - pane.start.col + 1,
+                lastFullCol: lastFullCol
             };
         }
     };

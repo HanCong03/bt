@@ -62,52 +62,57 @@ define(function (require, exports, module) {
          * @private
          */
         __singleEnterKeyMove: function (evt, ranges) {
-            var range = ranges[0];
-            var entry = range.entry;
-            var row;
-            var col = entry.col;
-
-            // up move
             if (evt.shiftKey) {
-                row = entry.row - 1;
+                this.execCommand('move', -1, 0);
             } else {
-                row = entry.row + 1;
+                this.execCommand('move', 1, 0);
             }
-
-            if (row < 0) {
-                row = 0;
-            } else if (row > MAX_ROW_INDEX) {
-                row = MAX_ROW_INDEX;
-            }
-
-            var mergeInfo = this.__getMergeCell(row, col);
-
-            if ($$.isNdef(mergeInfo)) {
-                this.execCommand('range', {
-                    row: row,
-                    col: col
-                }, {
-                    row: row,
-                    col: col
-                });
-
-                // 把新的选区滚动到视图内
-                this.execCommand('scrollin', {
-                    row: row,
-                    col: col
-                }, {
-                    row: row,
-                    col: col
-                });
-            } else {
-                this.execCommand('range', mergeInfo.start, mergeInfo.end, {
-                    row: row,
-                    col: col
-                });
-
-                // 把新的选区滚动到视图内
-                this.execCommand('scrollin', mergeInfo.start, mergeInfo.end);
-            }
+            //var range = ranges[0];
+            //var entry = range.entry;
+            //var row;
+            //var col = entry.col;
+            //
+            //// up move
+            //if (evt.shiftKey) {
+            //    row = entry.row - 1;
+            //} else {
+            //    row = entry.row + 1;
+            //}
+            //
+            //if (row < 0) {
+            //    row = 0;
+            //} else if (row > MAX_ROW_INDEX) {
+            //    row = MAX_ROW_INDEX;
+            //}
+            //
+            //var mergeInfo = this.__getMergeCell(row, col);
+            //
+            //if ($$.isNdef(mergeInfo)) {
+            //    this.execCommand('range', {
+            //        row: row,
+            //        col: col
+            //    }, {
+            //        row: row,
+            //        col: col
+            //    });
+            //
+            //    // 把新的选区滚动到视图内
+            //    this.execCommand('scrollin', {
+            //        row: row,
+            //        col: col
+            //    }, {
+            //        row: row,
+            //        col: col
+            //    });
+            //} else {
+            //    this.execCommand('range', mergeInfo.start, mergeInfo.end, {
+            //        row: row,
+            //        col: col
+            //    });
+            //
+            //    // 把新的选区滚动到视图内
+            //    this.execCommand('scrollin', mergeInfo.start, mergeInfo.end);
+            //}
         },
 
         /**

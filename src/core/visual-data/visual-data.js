@@ -13,7 +13,7 @@ define(function (require, exports, module) {
             require('./collector/row'),
             require('./collector/col'),
             require('./scroll'),
-            require('./scroll-in'),
+            require('./scroll-in/scroll-in'),
             require('./scroll-to')
         ],
 
@@ -111,6 +111,12 @@ define(function (require, exports, module) {
             heap.paneHeight = rowInfo.paneHeight;
             // 行窗格条数
             heap.rowPaneCount = rowInfo.paneCount;
+            // 正常显示行索引
+            heap.normalRows = rowInfo.normalRows;
+            // 窗格显示行索引
+            heap.paneRows = rowInfo.paneRows;
+            // 最后一条可完整显示的行索引
+            heap.lastFullRow = rowInfo.lastFullRow;
         },
 
         /**
@@ -149,6 +155,12 @@ define(function (require, exports, module) {
             heap.paneWidth = colInfo.paneWidth;
             // 列窗格条数
             heap.colPaneCount = colInfo.paneCount;
+            // 正常显示列索引
+            heap.normalCols = colInfo.normalCols;
+            // 窗格显示列索引
+            heap.paneCols = colInfo.paneRows;
+            // 最后一条可完整显示的列索引
+            heap.lastFullCol = colInfo.lastFullCol;
         },
 
         __getMinStart: function () {
