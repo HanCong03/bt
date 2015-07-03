@@ -27,7 +27,7 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 ready: this.__initHeap,
-                datachange: this.refresh
+                datachange: this.__refresh
             });
         },
 
@@ -51,14 +51,6 @@ define(function (require, exports, module) {
 
         getVisualData: function () {
             return this.getActiveHeap();
-        },
-
-        refresh: function () {
-            this.__refresh();
-
-            if (this.__lockCount === 0) {
-                this.emit('refresh');
-            }
         },
 
         __lock: function () {
@@ -92,6 +84,10 @@ define(function (require, exports, module) {
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);
             this.__refreshColumn(containerSize.width - heap.headWidth);
+
+            if (this.__lockCount === 0) {
+                this.emit('refresh');
+            }
         },
 
         /**
