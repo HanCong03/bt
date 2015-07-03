@@ -45,6 +45,7 @@ define(function (require, exports, module) {
             this.gridlineScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
             this.contentScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
             this.borderScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
+            this.paneScreen = new Screen(this.getTopContainer(), size.width, size.height);
         },
 
         refresh: function () {
@@ -72,6 +73,7 @@ define(function (require, exports, module) {
             this.gridlineScreen.toggle();
             this.contentScreen.toggle();
             this.borderScreen.toggle();
+            this.paneScreen.toggle();
         }
     });
 });

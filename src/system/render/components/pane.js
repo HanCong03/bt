@@ -9,7 +9,7 @@ define(function (require, exports, module) {
 
     module.exports = {
         __drawPaneLine: function () {
-            var screen = this.borderScreen;
+            var screen = this.paneScreen;
             var visualData = this.visualData;
 
             var pane = this.queryCommandValue('pane');

@@ -15,7 +15,7 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('Selection', {
         base: require('module'),
 
-        coverScreen: null,
+        selectionScreen: null,
 
         mixin: [
             require('./components/cover'),
@@ -31,7 +31,7 @@ define(function (require, exports, module) {
 
         __initSelection: function () {
             var size = this.getContentContainerSize();
-            this.coverScreen = new Screen(this.getMiddleContainer(), size.width, size.height)
+            this.selectionScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
         },
 
         __initEvent: function () {
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
             var rect = this.rs('get.visialbe.rect', range.start, range.end);
 
             this.__draw(range.entry, range.start, range.end, rect);
-            this.coverScreen.toggle();
+            this.selectionScreen.toggle();
         },
 
         __cellSelect: function (start, end) {
@@ -77,7 +77,7 @@ define(function (require, exports, module) {
             var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
-            this.coverScreen.toggle();
+            this.selectionScreen.toggle();
         },
 
         __cellSelectComplete: function (start, end) {
@@ -146,7 +146,7 @@ define(function (require, exports, module) {
             var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
-            this.coverScreen.toggle();
+            this.selectionScreen.toggle();
         },
 
         __rowSelectComplete: function (startRow, endRow) {
@@ -253,7 +253,7 @@ define(function (require, exports, module) {
             var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
-            this.coverScreen.toggle();
+            this.selectionScreen.toggle();
         },
 
         __columnSelectComplete: function (startCol, endCol) {
@@ -327,7 +327,7 @@ define(function (require, exports, module) {
             var rect = this.rs('get.visialbe.rect', start, end);
 
             this.__draw(originalStart, start, end, rect);
-            this.coverScreen.toggle();
+            this.selectionScreen.toggle();
         },
 
         __allSelectComplete: function () {

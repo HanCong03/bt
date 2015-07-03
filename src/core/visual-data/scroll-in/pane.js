@@ -75,8 +75,6 @@ define(function (require, exports, module) {
                 return;
             }
 
-            console.log(startCol)
-
             // 都不属于窗格
             var col;
 

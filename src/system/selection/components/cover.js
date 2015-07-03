@@ -34,7 +34,7 @@ define(function (require, exports, module) {
         },
 
         __drawNormalCover: function (originalStart, start, end, rect) {
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
             var visualData = this.rs('get.visual.data');
 
             screen.save();
@@ -52,7 +52,7 @@ define(function (require, exports, module) {
         },
 
         __drawMergeCellCover: function (mergecells, originalStart, start, end, rect) {
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
             var visualData = this.rs('get.visual.data');
 
             screen.save();
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
         },
 
         __drawSpace: function (rect) {
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
 
             var x = rect.x;
             var y = rect.y;
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
         },
 
         __drawBorder: function (rect) {
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
 
             screen.beginPath();
 
@@ -187,7 +187,7 @@ define(function (require, exports, module) {
         },
 
         __clearCellFocus: function (row, col) {
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
             var visualData = this.rs('get.visual.data');
 
             var r = visualData.rows.indexOf(row);
@@ -220,7 +220,7 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var screen = this.coverScreen;
+            var screen = this.selectionScreen;
             screen.clearRect(rect.x, rect.y, rect.width, rect.height);
         }
     };
