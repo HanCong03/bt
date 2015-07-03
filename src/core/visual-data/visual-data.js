@@ -13,8 +13,7 @@ define(function (require, exports, module) {
             require('./collector/row'),
             require('./collector/col'),
             require('./scroll'),
-            require('./scroll-in/scroll-in'),
-            require('./scroll-to')
+            require('./scroll-in/scroll-in')
         ],
 
         init: function () {

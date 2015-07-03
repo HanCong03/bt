@@ -40,7 +40,7 @@ define(function (require, exports, module) {
                 return;
             }
 
-                // 其他情况下，定位结束列到右侧，并检查起始列是否可见。
+            // 其他情况下，定位结束列到右侧，并检查起始列是否可见。
             heap.col = this.__checkColumnToEndInNormalView(startCol, endCol);
         },
 
