@@ -19,6 +19,13 @@ define(function (require, exports, module) {
             var row = this.__expandRow(rowDir);
             var col = this.__expandColumn(colDir);
 
+            // 由于扩展操作会导致选区不完整，所以需要执行完整化操作。
+            var range = this.getActiveRange();
+            var newRange = this.__getFullRange(range.start, range.end);
+
+            range.start = newRange.start;
+            range.end = newRange.end
+
             this.execCommand('scrollin', {
                 row: row,
                 col: col
@@ -118,6 +125,9 @@ define(function (require, exports, module) {
             }
 
             row = rangeEnd.row + 1;
+            while (row <= MAX_ROW_INDEX && this.queryCommandValue('hiddenrow', row)) {
+                row += 1;
+            }
 
             // 下溢出
             if (row > MAX_ROW_INDEX) {
@@ -126,10 +136,10 @@ define(function (require, exports, module) {
 
             var mergecells = this.queryCommandValue('mergecell', {
                 row: row,
-                col: 0
+                col: start.col
             }, {
                 row: row,
-                col: MAX_COLUMN_INDEX
+                col: end.col
             });
 
             // 新行不包含合并单元格，则更新选区结束行即可。
@@ -175,6 +185,9 @@ define(function (require, exports, module) {
             }
 
             row = rangeStart.row - 1;
+            while (row >= 0 && this.queryCommandValue('hiddenrow', row)) {
+                row -= 1;
+            }
 
             // 上溢出
             if (row < 0) {
@@ -183,10 +196,10 @@ define(function (require, exports, module) {
 
             var mergecells = this.queryCommandValue('mergecell', {
                 row: row,
-                col: 0
+                col: start.col
             }, {
                 row: row,
-                col: MAX_COLUMN_INDEX
+                col: end.col
             });
 
             // 新行不包含合并单元格，则更新选区起始行即可。
@@ -208,7 +221,6 @@ define(function (require, exports, module) {
 
             return row;
         },
-
 
         /**
          * 向右扩展列
@@ -237,6 +249,9 @@ define(function (require, exports, module) {
             }
 
             col = rangeEnd.col + 1;
+            while (col <= MAX_COLUMN_INDEX && this.queryCommandValue('hiddencolumn', col)) {
+                col += 1;
+            }
 
             // 右溢出
             if (col > MAX_COLUMN_INDEX) {
@@ -244,10 +259,10 @@ define(function (require, exports, module) {
             }
 
             var mergecells = this.queryCommandValue('mergecell', {
-                row: 0,
+                row: start.row,
                 col: col
             }, {
-                row: MAX_ROW_INDEX,
+                row: end.row,
                 col: col
             });
 
@@ -294,6 +309,9 @@ define(function (require, exports, module) {
             }
 
             col = rangeStart.col - 1;
+            while (col >= 0 && this.queryCommandValue('hiddencolumn', col)) {
+                col -= 1;
+            }
 
             // 左溢出
             if (col < 0) {
@@ -301,10 +319,10 @@ define(function (require, exports, module) {
             }
 
             var mergecells = this.queryCommandValue('mergecell', {
-                row: 0,
+                row: start.row,
                 col: col
             }, {
-                row: MAX_ROW_INDEX,
+                row: end.row,
                 col: col
             });
 

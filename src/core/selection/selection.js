@@ -16,6 +16,7 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initHeap();
+            this.__initService();
         },
 
         __initHeap: function () {
@@ -39,6 +40,12 @@ define(function (require, exports, module) {
                     col: 0
                 }
             }];
+        },
+
+        __initService: function () {
+            this.registerService({
+                'get.full.range': this.__getFullRange
+            });
         },
 
         setRange: function (start, end, entry) {
@@ -103,14 +110,81 @@ define(function (require, exports, module) {
             ranges.unshift(activeRange);
         },
 
+        /**
+         * 根据给定的区域，获取一个完整的选区。
+         * @param start
+         * @param end
+         * @returns {*}
+         * @private
+         */
+        __getFullRange: function (start, end) {
+            var range = $$.standardRange(start, end);
+            start = range.start;
+            end = range.end;
+
+            var mergecells = this.queryCommandValue('mergecell', start, end);
+
+            if ($$.isNdef(mergecells)) {
+                return {
+                    start: start,
+                    end: end
+                };
+            }
+
+            var startRow = start.row;
+            var startCol = start.col;
+            var endRow = end.row;
+            var endCol = end.col;
+
+            var current;
+
+            for (var key in mergecells) {
+                if (!mergecells.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                current = mergecells[key];
+
+                startRow = Math.min(startRow, current.start.row);
+                startCol = Math.min(startCol, current.start.col);
+                endRow = Math.max(endRow, current.end.row);
+                endCol = Math.max(endCol, current.end.col);
+            }
+
+            // 递归查找
+            if (startRow !== start.row
+                || startCol !== start.col
+                || endRow !== end.row
+                || endCol !== end.col) {
+                return this.__getFullRange({
+                    row: startRow,
+                    col: startCol
+                }, {
+                    row: endRow,
+                    col: endCol
+                });
+            }
+
+            return {
+                start: {
+                    row: startRow,
+                    col: startCol
+                },
+                end: {
+                    row: endRow,
+                    col: endCol
+                }
+            };
+        },
+
         __setRange: function (start, end, entry) {
             var heap = this.getActiveHeap();
 
-            heap.ranges = [{
+            heap.ranges = [$$.clone({
                 start: start,
                 end: end,
                 entry: entry || start
-            }];
+            })];
         },
 
         getActiveRange: function () {

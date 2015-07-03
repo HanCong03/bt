@@ -6,7 +6,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var SystemUtils = require('system/utils/utils');
     var LIMIT = require('definition/limit');
     var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
     var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
@@ -70,7 +69,7 @@ define(function (require, exports, module) {
             var originalStart = start;
 
             // 获取完整的range对象，处理合并后的单元格
-            var range = this.__getFullRange(start, end);
+            var range = this.rs('get.full.range', start, end);
 
             start = range.start;
             end = range.end;
@@ -85,7 +84,7 @@ define(function (require, exports, module) {
             var originalStart = start;
 
             // 获取完整的range对象，处理合并后的单元格
-            var range = this.__getFullRange(start, end);
+            var range = this.rs('get.full.range', start, end);
 
             start = range.start;
             end = range.end;
@@ -350,52 +349,6 @@ define(function (require, exports, module) {
             };
 
             this.execCommand('range', start, end, originalStart);
-        },
-
-        __getFullRange: function (start, end) {
-            var range = SystemUtils.standardRange(start, end);
-            start = range.start;
-            end = range.end;
-
-            var mergecells = this.queryCommandValue('mergecell', start, end);
-
-            if ($$.isNdef(mergecells)) {
-                return {
-                    start: start,
-                    end: end
-                };
-            }
-
-            var startRow = start.row;
-            var startCol = start.col;
-            var endRow = end.row;
-            var endCol = end.col;
-
-            var current;
-
-            for (var key in mergecells) {
-                if (!mergecells.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                current = mergecells[key];
-
-                startRow = Math.min(startRow, current.start.row);
-                startCol = Math.min(startCol, current.start.col);
-                endRow = Math.max(endRow, current.end.row);
-                endCol = Math.max(endCol, current.end.col);
-            }
-
-            return {
-                start: {
-                    row: startRow,
-                    col: startCol
-                },
-                end: {
-                    row: endRow,
-                    col: endCol
-                }
-            };
         }
     });
 });

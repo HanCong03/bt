@@ -110,6 +110,24 @@ define(function (require, exports, module) {
             return node.getBoundingClientRect();
         },
 
+        standardRange: function (start, end) {
+            var startRow = start.row;
+            var startCol = start.col;
+            var endRow = end.row;
+            var endCol = end.col;
+
+            return {
+                start: {
+                    row: Math.min(startRow, endRow),
+                    col: Math.min(startCol, endCol)
+                },
+                end: {
+                    row: Math.max(startRow, endRow),
+                    col: Math.max(startCol, endCol)
+                }
+            };
+        },
+
         indexToTitle: function (index) {
             var chars = [];
             return index + 1;
