@@ -59,7 +59,7 @@ define(function (require, exports, module) {
 
         __scrollColumnInPaneView: function (startCol, endCol) {
             var heap = this.getActiveHeap();
-            var paneRows = heap.paneRows;
+            var paneCols = heap.paneCols;
 
             // 超出窗格左侧，则直接设置该列为起始列
             if (startCol < heap.startCol) {
@@ -67,13 +67,15 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var isStartColInPane = paneRows.indexOf(startCol) !== -1;
-            var isEndColInPane = paneRows.indexOf(endCol) !== -1;
+            var isStartColInPane = paneCols.indexOf(startCol) !== -1;
+            var isEndColInPane = paneCols.indexOf(endCol) !== -1;
 
             // 区域处于窗格内部，则不滚动
             if (isStartColInPane && isEndColInPane) {
                 return;
             }
+
+            console.log(startCol)
 
             // 都不属于窗格
             var col;

@@ -55,23 +55,6 @@ define(function (require, exports, module) {
         },
 
         /**
-         * 提升选区操作
-         * 注1：提升选区会使得最老的选区被提升为活动选区。
-         * 注2：如果当前仅有一个选区，则该操作什么也不做。
-         */
-        upRange: function () {
-            var heap = this.getActiveHeap();
-            var ranges = heap.ranges;
-
-            if (ranges.length === 1) {
-                return;
-            }
-
-            var oldRange = ranges.shift();
-            ranges.push(oldRange);
-        },
-
-        /**
          * 更新当前的焦点单元格。
          * 注：如果新的焦点单元格不在活动选区内，则操作无效。
          * @param row
@@ -94,6 +77,23 @@ define(function (require, exports, module) {
         },
 
         /**
+         * 提升选区操作
+         * 注1：提升选区会使得最老的选区被提升为活动选区。
+         * 注2：如果当前仅有一个选区，则该操作什么也不做。
+         */
+        upRange: function () {
+            var heap = this.getActiveHeap();
+            var ranges = heap.ranges;
+
+            if (ranges.length === 1) {
+                return;
+            }
+
+            var oldRange = ranges.shift();
+            ranges.push(oldRange);
+        },
+
+        /**
          * 降低选区操作
          * 注1：降低选区会使得当前的活动选区成为最老的选区，同时，次新的选区将成为活动选区。
          * 注2：如果当前仅有一个选区，则该操作什么也不做。
@@ -108,6 +108,41 @@ define(function (require, exports, module) {
 
             var activeRange = ranges.pop();
             ranges.unshift(activeRange);
+        },
+
+        getActiveRange: function () {
+            var ranges = this.getActiveHeap().ranges;
+            return ranges[ranges.length - 1];
+        },
+
+        getRanges: function () {
+            return this.getActiveHeap().ranges;
+        },
+
+        move: function (rowCount, colCount) {
+            var row = this.__moveRow(rowCount);
+            var col = this.__moveColumn(colCount);
+
+            // 检查新的单元格是否处于一个合并的单元格内
+            var mergecells = this.queryCommandValue('mergecell', {
+                row: row,
+                col: col
+            }, {
+                row: row,
+                col: col
+            });
+
+            var keys;
+            var mergeInfo;
+
+            if ($$.isNdef(mergecells)) {
+                this.__moveToNormalCell(row, col);
+            } else {
+                keys = Object.keys(mergecells);
+                mergeInfo = mergecells[keys[0]];
+
+                this.__moveToMergeCell(mergeInfo, row, col);
+            }
         },
 
         /**
@@ -185,41 +220,6 @@ define(function (require, exports, module) {
                 end: end,
                 entry: entry || start
             })];
-        },
-
-        getActiveRange: function () {
-            var ranges = this.getActiveHeap().ranges;
-            return ranges[ranges.length - 1];
-        },
-
-        getRanges: function () {
-            return this.getActiveHeap().ranges;
-        },
-
-        move: function (rowCount, colCount) {
-            var row = this.__moveRow(rowCount);
-            var col = this.__moveColumn(colCount);
-
-            // 检查新的单元格是否处于一个合并的单元格内
-            var mergecells = this.queryCommandValue('mergecell', {
-                row: row,
-                col: col
-            }, {
-                row: row,
-                col: col
-            });
-
-            var keys;
-            var mergeInfo;
-
-            if ($$.isNdef(mergecells)) {
-                this.__moveToNormalCell(row, col);
-            } else {
-                keys = Object.keys(mergecells);
-                mergeInfo = mergecells[keys[0]];
-
-                this.__moveToMergeCell(mergeInfo, row, col);
-            }
         },
 
         __moveRow: function (count) {
