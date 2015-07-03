@@ -25,6 +25,14 @@ define(function (require, exports, module) {
             this.emit('viewchange');
         },
 
+        scrollRow: function (rowCount) {
+            this.scroll(rowCount, 0);
+        },
+
+        scrollColumn: function (colCount) {
+            this.scroll(0, colCount);
+        },
+
         __getStartRow: function (rowCount) {
             if (rowCount < 0) {
                 return this.__getLessStartRow(-rowCount);

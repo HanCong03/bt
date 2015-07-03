@@ -141,6 +141,7 @@ define(function (require, exports, module) {
                 cMap[col] = indexes.length;
                 widths.push(currentWidth);
                 points.push(currentPoint);
+                paneCols.push(col);
                 indexes.push(col);
 
                 col++;

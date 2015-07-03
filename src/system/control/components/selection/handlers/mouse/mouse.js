@@ -4,9 +4,9 @@
  */
 
 define(function (require, exports, module) {
-    var STATUS = require('../definition/status');
+    var STATUS = require('../../definition/status');
 
-    module.exports = {
+    module.exports = $.extend({
         timer: null,
 
         __onmousedown: function (evt) {
@@ -21,6 +21,9 @@ define(function (require, exports, module) {
 
             this.start = index;
             this.end = index;
+            // 重置锁
+            this.__rowIndexLock = false;
+            this.__colIndexLock = false;
 
             if (index.row === -1 && index.col === -1) {
                 this.status = STATUS.ALL;
@@ -136,68 +139,45 @@ define(function (require, exports, module) {
 
             if (newIndex.scroll) {
                 this.__startTimer();
-                this.postMessage('control.cell.selection', this.start, newIndex.index);
             } else {
                 this.__stopTimer();
-                this.postMessage('control.cell.selection', this.start, newIndex.index);
             }
+
+            this.postMessage('control.cell.selection', this.start, newIndex.index);
         },
 
+        /**
+         * 该接口的调用要区分带pane的视图和不待pane的视图。
+         * @param index
+         * @returns {{scroll: boolean, index: *}}
+         * @private
+         */
         __getIndexForCell: function (index) {
-            var row = index.row;
-            var col = index.col;
+            var visualData = this.visualData;
+            var rowInfo;
+            var colInfo;
 
-            var step = {
-                row: 0,
-                col: 0
-            };
-            var isScroll = row < 0 || col < 0;
-
-            if (isScroll) {
-                /* --- 计算滚动步长 start --- */
-                if (row === -1 || row === -2) {
-                    step.row = -1;
-
-                    // -3条件不用判断
-                } else if (row === -4) {
-                    step.row = 1;
-                }
-
-                if (col === -1 || col === -2) {
-                    step.col = -1;
-                } else if (col === -4) {
-                    step.col = 1;
-                }
-                /* --- 计算滚动步长 end --- */
-
-                // 执行滚动
-                this.execCommand('scroll', step.row, step.col);
-
-                // 此时的可视化数据对象已经更新。
-                var visualData = this.visualData;
-
-                // 计算end
-                if (step.row === -1) {
-                    row = visualData.rows[0];
-                } else if (step.row === 1) {
-                    row = visualData.rows[visualData.rowCount - 2] || visualData.rows[0];
-                }
-
-                if (step.col === -1) {
-                    col = visualData.cols[0];
-                } else if (step.col === 1) {
-                    col = visualData.cols[visualData.colCount - 2] || visualData.cols[0];
-                }
-
-                index = {
-                    row: row,
-                    col: col
-                };
+            // 列窗格有效
+            if (visualData.colPaneCount) {
+                rowInfo = this.__getNewRowInPaneView(index);
+            } else {
+                rowInfo = this.__getNewRowInNormalView(index);
             }
 
+            if (visualData.colPaneCount) {
+                colInfo = this.__getNewColumnInPaneView(index);
+            } else {
+                colInfo = this.__getNewColumnInNormalView(index);
+            }
+
+            var scroll = rowInfo.scroll || colInfo.scroll;
+
             return {
-                scroll: isScroll,
-                index: index
+                scroll: scroll,
+                index: {
+                    row: rowInfo.row,
+                    col: colInfo.col
+                }
             };
         },
 
@@ -331,7 +311,7 @@ define(function (require, exports, module) {
                         _self.__moveForColumn(_self.end);
                         break;
                 }
-            }, 100);
+            }, 50);
         },
 
         __stopTimer: function () {
@@ -340,5 +320,5 @@ define(function (require, exports, module) {
                 this.timer = null;
             }
         }
-    };
+    }, require('./pane'));
 });

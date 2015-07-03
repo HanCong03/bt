@@ -13,8 +13,11 @@ define(function (require, exports, module) {
             require('./collector/row'),
             require('./collector/col'),
             require('./scroll'),
-            require('./scroll-in/scroll-in')
+            require('./scroll-in/scroll-in'),
+            require('./scroll-to')
         ],
+
+        __lockCount: 0,
 
         init: function () {
             this.__initEvent();
@@ -31,6 +34,8 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                 'get.visual.data': this.getVisualData,
+                'lock.refresh': this.__lock,
+                'unlock.refresh': this.__unlock,
                 'scrollin': this.scrollIn
             });
         },
@@ -51,7 +56,22 @@ define(function (require, exports, module) {
         refresh: function () {
             this.__refresh();
 
-            this.emit('refresh');
+            if (this.__lockCount === 0) {
+                this.emit('refresh');
+            }
+        },
+
+        __lock: function () {
+            this.__lockCount++;
+        },
+
+        __unlock: function () {
+            this.__lockCount--;
+
+            // 解锁之后，如果有必要，则触发刷新事件。
+            if (this.__lockCount === 0) {
+                this.emit('refresh');
+            }
         },
 
         /**
@@ -157,7 +177,7 @@ define(function (require, exports, module) {
             // 正常显示列索引
             heap.normalCols = colInfo.normalCols;
             // 窗格显示列索引
-            heap.paneCols = colInfo.paneRows;
+            heap.paneCols = colInfo.paneCols;
             // 最后一条可完整显示的列索引
             heap.lastFullCol = colInfo.lastFullCol;
         },

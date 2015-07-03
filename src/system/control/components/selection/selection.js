@@ -18,7 +18,7 @@ define(function (require, exports, module) {
             require('./handlers/key'),
             require('./handlers/key-enter'),
             require('./handlers/shift-move'),
-            require('./handlers/mouse')
+            require('./handlers/mouse/mouse')
         ],
 
         init: function () {
@@ -82,6 +82,8 @@ define(function (require, exports, module) {
             }
 
             return {
+                r: index.r,
+                c: index.c,
                 row: row,
                 col: col
             };
