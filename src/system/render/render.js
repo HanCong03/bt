@@ -35,7 +35,6 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'viewchange': this.refresh,
                 'refresh': this.refresh
             });
         },

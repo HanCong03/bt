@@ -30,7 +30,6 @@ define(function (require, exports, module) {
 
             // 刷新
             this.__refresh();
-            this.emit('viewchange');
         },
 
         scrollRowTo: function (row) {

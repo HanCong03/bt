@@ -36,8 +36,8 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'refresh': this.__viewchange,
-                'viewchange': this.__viewchange
+                'refresh': this.__refresh,
+                'rangechange': this.__refresh
             });
         },
 
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
             });
         },
 
-        __viewchange: function () {
+        __refresh: function () {
             var range = this.queryCommandValue('range');
             var rect = this.rs('get.visialbe.rect', range.start, range.end);
 

@@ -51,7 +51,7 @@ define(function (require, exports, module) {
         setRange: function (start, end, entry) {
             this.__setRange(start, end, entry);
 
-            this.emit('viewchange');
+            this.emit('rangechange');
         },
 
         /**
