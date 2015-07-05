@@ -31,7 +31,7 @@ define(function (require, exports, module) {
 
         __initSelection: function () {
             var size = this.getContentContainerSize();
-            this.selectionScreen = new Screen(this.getMiddleContainer(), size.width, size.height);
+            this.selectionScreen = new Screen('btb-sel-screen', this.getMiddleContainer(), size.width, size.height);
         },
 
         __initEvent: function () {

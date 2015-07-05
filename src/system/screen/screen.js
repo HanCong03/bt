@@ -20,14 +20,14 @@ define(function (require, exports, module) {
         width: -1,
         height: -1,
 
-        constructor: function (container, width, height) {
+        constructor: function (className, container, width, height) {
             this.visibleCanvas = document.createElement('canvas');
-            this.visibleCanvas.className = 'btb-canvas btb-s1';
+            this.visibleCanvas.className = 'btb-screen ' + className;
             this.visibleCanvas.width = width;
             this.visibleCanvas.height = height;
 
             this.invisibleCanvas = document.createElement('canvas');
-            this.invisibleCanvas.className = 'btb-canvas btb-s2';
+            this.invisibleCanvas.className = 'btb-screen ' + className;
             this.invisibleCanvas.width = width;
             this.invisibleCanvas.height = height;
 

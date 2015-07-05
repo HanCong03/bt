@@ -13,6 +13,15 @@ define({
 
     color: '#217346',
 
+    header: {
+        // 头部选区反白色
+        color: '#e1e1e1',
+        // 行列选中时选区反白色
+        fullColor: '#d3f0e0',
+        // 头部hover色
+        hover: '#9fd5b7'
+    },
+
     focus: {
         cover: 'rgba(0, 0, 0, 0.2)',
         space: '#ffffff'
