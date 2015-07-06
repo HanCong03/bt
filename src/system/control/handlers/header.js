@@ -30,7 +30,7 @@ define(function (require, exports, module) {
             var controlers = this.controllers;
 
             // 通知selection控制器退出。
-            controlers[MODE.SELECTION].exit();
+            controlers[this.mode].exit();
             // 切换模式
             this.mode = MODE.ROW_COLUMN;
             // 激活行列控制器
@@ -41,7 +41,18 @@ define(function (require, exports, module) {
         },
 
         __onvheaderbtn: function (evt) {
-            console.log(4)
+            var r = +evt.target.getAttribute('data-index');
+            var controlers = this.controllers;
+
+            // 通知selection控制器退出。
+            controlers[this.mode].exit();
+            // 切换模式
+            this.mode = MODE.ROW_COLUMN;
+            // 激活行列控制器
+            controlers[MODE.ROW_COLUMN].activeVertical(r);
+
+            // 阻止后续事件处理
+            return false;
         }
     };
 });

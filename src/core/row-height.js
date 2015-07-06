@@ -67,10 +67,25 @@ define(function (require, exports, module) {
             return heap.heights[row];
         },
 
+        setRowHeight: function (height, startRow, endRow) {
+            height = +(height * 3 / 4).toFixed(2);
+
+            if (height < 0) {
+                height = 0;
+            }
+
+            this.rs('set.row.height', height, startRow, endRow);
+            this.__clearCache(startRow, endRow);
+        },
+
         __onContentChange: function (start, end) {
+            this.__clearCache(start.row, end.row);
+        },
+
+        __clearCache: function (startRow, endRow) {
             var heap = this.getActiveHeap();
 
-            for (var i = start.row, limit = end.row; i <= limit; i++) {
+            for (var i = startRow; i <= endRow; i++) {
                 if (heap.heights[i] !== undefined) {
                     delete heap.heights[i];
                 }
@@ -87,7 +102,7 @@ define(function (require, exports, module) {
             var rowHeight = this.rs('get.row.height', row);
 
             if ($$.isDefined(rowHeight)) {
-                return rowHeight;
+                return Math.round(rowHeight * 4 / 3);
             }
 
             return this.__autoHeight(row);

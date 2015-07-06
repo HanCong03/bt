@@ -64,13 +64,22 @@ define(function (require, exports, module) {
             };
         },
 
-        activeHorizontal: function (index) {
-            this.__c = index;
+        activeHorizontal: function (c) {
+            this.__c = c;
 
             this.status = STATUS.H;
 
             this.rs('ignore.header.control');
             this.__showHorizontalLine();
+        },
+
+        activeVertical: function (r) {
+            this.__r = r;
+
+            this.status = STATUS.V;
+
+            this.rs('ignore.header.control');
+            this.__showVerticalLine();
         },
 
         exit: function () {
@@ -87,7 +96,7 @@ define(function (require, exports, module) {
             if (this.status === STATUS.H) {
                 this.__updateHorizontalLine(index.x, index.c);
             } else {
-
+                this.__updateVerticalLine(index.y, index.r);
             }
         },
 
@@ -107,7 +116,7 @@ define(function (require, exports, module) {
                 this.rs('recover.header.control');
                 this.execCommand('columnwidth', this.__x - start, col, col);
             } else {
-                start = visualData.rowPoints[this.__r] + OFFSET;
+                start = visualData.rowPoints[this.__r] + visualData.headHeight + OFFSET;
                 row = visualData.rows[this.__r];
 
                 this.rs('recover.header.control');
@@ -144,7 +153,30 @@ define(function (require, exports, module) {
             screen.restore();
 
             screen.toggle();
+        },
 
+        __showVerticalLine: function () {
+            var r = this.__r;
+            var visualData = this.rs('get.visual.data');
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
+            var screen = this.screen;
+
+            screen.save();
+            // 辅助线颜色和pane-lien颜色一致
+            screen.strokeColor(PANE_LINE);
+
+            screen.hline(0, visualData.rowPoints[r] + headHeight, headWidth + visualData.spaceWidth);
+            screen.hline(0, visualData.rowPoints[r + 1] + headHeight, headWidth + visualData.spaceWidth);
+
+            this.__y = visualData.colPoints[r + 1] + headHeight - OFFSET;
+
+            screen.stroke();
+
+            screen.restore();
+
+            screen.toggle();
         },
 
         __updateHorizontalLine: function (x, c) {
@@ -172,6 +204,40 @@ define(function (require, exports, module) {
             } else {
                 this.__x = Math.max((x | 0), visualData.colPoints[this.__c] - OFFSET);
                 screen.vline(this.__x + OFFSET, 0, headHeight + visualData.spaceHeight);
+            }
+
+            screen.stroke();
+
+            screen.restore();
+
+            screen.toggle();
+        },
+
+        __updateVerticalLine: function (y, r) {
+            var visualData = this.rs('get.visual.data');
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
+            var sr = this.__r;
+
+            var screen = this.screen;
+
+            screen.save();
+            // 辅助线颜色和pane-lien颜色一致
+            screen.strokeColor(PANE_LINE);
+
+            screen.hline(0, visualData.rowPoints[sr] + headHeight, headWidth + visualData.spaceWidth);
+
+            if (r === -1 || r === -2) {
+                // do nothing
+            } else if (r === -4) {
+                screen.hline(0, visualData.spaceHeight + headHeight - OFFSET, headWidth + visualData.spaceWidth);
+                this.__y = visualData.spaceHeight + headHeight - LINE_WIDTH;
+            } else if (r !== -3 && r < sr) {
+                // do nothing
+            } else {
+                this.__y = Math.max((y | 0), visualData.rowPoints[this.__r] - OFFSET);
+                screen.hline(0, this.__y + OFFSET, headWidth + visualData.spaceWidth);
             }
 
             screen.stroke();
