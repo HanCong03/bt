@@ -13,6 +13,7 @@ define(function (require, exports, module) {
 
     var SelectionController = require('./components/selection/selection');
     var WriteContorller = require('./components/write/write');
+    var RowColumnController = require('./components/row-column/row-column')
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
@@ -48,6 +49,7 @@ define(function (require, exports, module) {
 
             controllers[MODE.SELECTION] = this.createComponent(SelectionController);
             controllers[MODE.WRITE] = this.createComponent(WriteContorller);
+            controllers[MODE.ROW_COLUMN] = this.createComponent(RowColumnController);
 
             this.controllers = controllers;
         },
@@ -99,13 +101,9 @@ define(function (require, exports, module) {
         __freeControl: function () {
             var controllers = this.controllers;
 
-            switch (this.mode) {
-                case MODE.WRITE:
-                    controllers[MODE.WRITE].exit();
-                    // 切换到选区模式
-                    this.mode = MODE.SELECTION;
-                    break;
-            }
+            controllers[this.mode].exit();
+            // 切换到选区模式
+            this.mode = MODE.SELECTION;
         },
 
         __getIndex: function (evt) {

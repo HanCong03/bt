@@ -52,10 +52,25 @@ define(function (require, exports, module) {
             return heap.widths[col];
         },
 
+        setColumnWidth: function (width, startCol, endCol) {
+            width = +(width / this.rs('get.char.unit')).toFixed(2);
+
+            if (width < 0) {
+                width = 0;
+            }
+
+            this.rs('set.column.width', width, startCol, endCol);
+            this.__clearCache(startCol, endCol);
+        },
+
         __onContentChange: function (start, end) {
+            this.__clearCache(start.col, end.col);
+        },
+
+        __clearCache: function (startCol, endCol) {
             var heap = this.getActiveHeap();
 
-            for (var i = start.col, limit = end.col; i <= limit; i++) {
+            for (var i = startCol; i <= endCol; i++) {
                 if (heap.widths[i] !== undefined) {
                     delete heap.widths[i];
                 }
@@ -67,7 +82,7 @@ define(function (require, exports, module) {
             var userColumnWidth = this.rs('get.column.width', col);
 
             if ($$.isDefined(userColumnWidth)) {
-                return userColumnWidth;
+                return Math.round(this.rs('get.char.unit') * userColumnWidth);
             }
 
             return this.__autoWidth(col);

@@ -8,8 +8,6 @@ define(function (require) {
         $dep: 'rowColumn',
 
         $exec: [
-            'rowheight',
-            'columnwidth',
             'hiderow',
             'hidecolumn',
             'showrow',
@@ -22,14 +20,6 @@ define(function (require) {
         ],
 
         /* ----- exec ------ */
-        exec_rowheight: function (height, startIndex, endIndex) {
-            this.$dep.setRowHeight(height, startIndex, endIndex);
-        },
-
-        exec_columnwidth: function (width, startIndex, endIndex) {
-            this.$dep.setColWidth(width, startIndex, endIndex);
-        },
-
         exec_hiderow: function (startIndex, endIndex) {
             return this.$dep.hideRow(startIndex, endIndex);
         },

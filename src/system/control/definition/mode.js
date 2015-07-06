@@ -6,5 +6,6 @@
 define({
     SELECTION: 1,
     WRITE: 2,
-    FORMULA: 4
+    FORMULA: 4,
+    ROW_COLUMN: 8
 });

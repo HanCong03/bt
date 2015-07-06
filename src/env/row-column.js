@@ -17,7 +17,10 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                 'get.row.height': this.getRowHeight,
-                'get.column.width': this.getColumnWidth
+                'get.column.width': this.getColumnWidth,
+
+                'set.row.height': this.setRowHeight,
+                'set.column.width': this.setColumnWidth
             });
         },
 
@@ -25,8 +28,8 @@ define(function (require, exports, module) {
             this.__$api.setRowHeight(height, startIndex, endIndex);
         },
 
-        setColWidth: function (width, startIndex, endIndex) {
-            this.__$api.setColWidth(width, startIndex, endIndex);
+        setColumnWidth: function (width, startIndex, endIndex) {
+            this.__$api.setColumnWidth(width, startIndex, endIndex);
         },
 
         getRowHeight: function (row) {

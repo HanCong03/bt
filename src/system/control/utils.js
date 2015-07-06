@@ -24,6 +24,11 @@ define(function (require, exports, module) {
             x -= Math.round(position.left);
             y -= Math.round(position.top);
 
+            var result = {
+                x: x,
+                y: y
+            };
+
             /* --- 计算点击处的行列索引 start --- */
             var r;
             var c;
@@ -78,10 +83,10 @@ define(function (require, exports, module) {
                 }
             }
 
-            return {
-                r: r,
-                c: c
-            };
+            result.r = r;
+            result.c = c;
+
+            return result;
             /* --- 计算点击处的行列索引 end --- */
         }
     };

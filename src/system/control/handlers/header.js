@@ -9,7 +9,6 @@
 
 define(function (require, exports, module) {
     var MODE = require('../definition/mode');
-    var ControlUtils = require('system/control/utils');
 
     module.exports = {
         __onheaderover: function (evt) {
@@ -27,7 +26,18 @@ define(function (require, exports, module) {
         },
 
         __onhheaderbtn: function (evt) {
-            console.log(3)
+            var c = +evt.target.getAttribute('data-index');
+            var controlers = this.controllers;
+
+            // 通知selection控制器退出。
+            controlers[MODE.SELECTION].exit();
+            // 切换模式
+            this.mode = MODE.ROW_COLUMN;
+            // 激活行列控制器
+            controlers[MODE.ROW_COLUMN].activeHorizontal(c);
+
+            // 阻止后续事件处理
+            return false;
         },
 
         __onvheaderbtn: function (evt) {

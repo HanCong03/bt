@@ -9,6 +9,11 @@ define(function (require, exports, module) {
     var GRIDLINE_CONFIG = require('definition/gridline');
     var OFFSET = GRIDLINE_CONFIG.offset;
 
+    var STATUS = {
+        NORMAL: 1,
+        HEADER: 2
+    };
+
     module.exports = $$.createClass('Mask', {
         base: require('component'),
 
@@ -59,7 +64,7 @@ define(function (require, exports, module) {
         __initDomEvent: function () {
             var _self = this;
 
-            $(this.maskNode).on('mousedown dblclick mousemove mouseup mouseleave mouseenter mousewheel DOMMouseScroll', function (evt) {
+            $(this.maskNode).on('mousedown dblclick mousemove mouseleave mouseenter mousewheel DOMMouseScroll', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
@@ -69,6 +74,12 @@ define(function (require, exports, module) {
                 }
 
                 _self.listener(evt.type, evt);
+            }).on('mouseup', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                _self.listener('mouseup', evt);
+                _self.status = STATUS.NORMAL;
             });
 
             $(this.hHeader).on('mouseenter', function (evt) {
@@ -86,6 +97,7 @@ define(function (require, exports, module) {
                 evt.preventDefault();
 
                 _self.listener('hheaderbtn', evt);
+                _self.__startGlobalListen();
             });
 
             $(this.vHeader).on('mouseenter', function () {
@@ -146,7 +158,7 @@ define(function (require, exports, module) {
             var btns = [];
 
             for (var i = 1, len = colPoints.length; i < len; i++) {
-                btns.push('<div class="btb-h-header-btn" style="left: ' + (colPoints[i] - OFFSET) + 'px;"></div>')
+                btns.push('<div class="btb-h-header-btn" data-index="' + (i - 1) + '" style="left: ' + (colPoints[i] - OFFSET) + 'px;"></div>')
             }
 
             this.hBtns.innerHTML = btns.join('');
@@ -162,7 +174,7 @@ define(function (require, exports, module) {
             var btns = [];
 
             for (var i = 1, len = rowPoints.length; i < len; i++) {
-                btns.push('<div class="btb-v-header-btn" style="top: ' + (rowPoints[i] - OFFSET) + 'px;"></div>')
+                btns.push('<div class="btb-v-header-btn" data-index="' + (i - 1) + '" style="top: ' + (rowPoints[i] - OFFSET) + 'px;"></div>')
             }
 
             this.vBtns.innerHTML = btns.join('');
@@ -184,6 +196,26 @@ define(function (require, exports, module) {
 
             this.__headerShow = true;
             this.headers.style.display = 'block';
+        },
+
+        __startGlobalListen: function () {
+            var _self = this;
+
+            $(document).on('mousemove.btbMask', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                _self.listener('mousemove', evt);
+
+            }).one('mouseup.btbMask', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                $(this).off('mousemove.btbMask');
+
+                _self.listener('mouseup', evt);
+                _self.status = STATUS.NORMAL;
+            });
         },
 
         __createMaskNode: function () {
