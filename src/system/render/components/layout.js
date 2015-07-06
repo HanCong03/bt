@@ -34,12 +34,30 @@ define(function (require, exports, module) {
         __getNormalLayout: function () {
             var visualData = this.visualData;
             var result = [];
+            var cells = [];
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
                 result.push(currentRow);
 
                 $$.forEach(visualData.cols, function (col, j) {
+                    cells.push({
+                        row: row,
+                        col: col
+                    });
+                }, this);
+            }, this);
+
+            var fonts = this.__getFonts(cells);
+            var alignments = this.__getAlignments(cells);
+
+            $$.forEach(visualData.rows, function (row, i) {
+                var currentRow = [];
+                result.push(currentRow);
+
+                $$.forEach(visualData.cols, function (col, j) {
+                    var key = row + ',' + col;
+
                     currentRow.push({
                         row: row,
                         col: col,
@@ -48,8 +66,8 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: this.__getAlignments(row, col),
-                        fonts: this.__getFonts(row, col),
+                        alignments: alignments[key],
+                        fonts: fonts[key],
                         border: this.queryCommandValue('border', row, col)
                     });
                 }, this);
@@ -61,6 +79,7 @@ define(function (require, exports, module) {
         __getMergeCellLayout: function (mergecells) {
             var visualData = this.visualData;
             var result = [];
+            var cells = [];
 
             var mergeMap = mergeToMap(mergecells);
 
@@ -70,9 +89,43 @@ define(function (require, exports, module) {
 
                 $$.forEach(visualData.cols, function (col, j) {
                     var mergeFlag = mergeMap[row + ',' + col];
-                    var index;
 
                     if ($$.isNdef(mergeFlag)) {
+                        cells.push({
+                            row: row,
+                            col: col
+                        });
+                    } else {
+                        // 标记已被激活，则忽略该标记，否则，激活该标记。
+                        if (mergeFlag.active) {
+                            return;
+                        }
+
+                        mergeFlag.active = 1;
+
+                        cells.push({
+                            row: row,
+                            col: col
+                        });
+                    }
+                }, this);
+            }, this);
+
+            var fonts = this.__getFonts(cells);
+            var alignments = this.__getAlignments(cells);
+
+            $$.forEach(visualData.rows, function (row, i) {
+                var currentRow = [];
+                result.push(currentRow);
+
+                $$.forEach(visualData.cols, function (col, j) {
+                    var mergeFlag = mergeMap[row + ',' + col];
+                    var index;
+                    var key;
+
+                    if ($$.isNdef(mergeFlag)) {
+                        key = row + ',' + col;
+
                         currentRow.push({
                             row: row,
                             col: col,
@@ -81,19 +134,21 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: this.__getAlignments(row, col),
-                            fonts: this.__getFonts(row, col),
+                            alignments: alignments[key],
+                            fonts: fonts[key],
                             border: this.queryCommandValue('border', row, col)
                         });
                     } else {
                         // 标记已被激活，则忽略该标记，否则，激活该标记。
-                        if (mergeFlag.active) {
+                        if (mergeFlag.active > 1) {
                             currentRow.push(null);
                             return;
                         }
 
-                        mergeFlag.active = 1;
+                        mergeFlag.active = 2;
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
+
+                        key = mergeFlag.start.row + ',' + mergeFlag.start.col;
 
                         currentRow.push({
                             row: row,
@@ -111,8 +166,8 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: this.__getAlignments(mergeFlag.start.row, mergeFlag.start.col),
-                            fonts: this.__getFonts(mergeFlag.start.row, mergeFlag.start.col),
+                            alignments: alignments[key],
+                            fonts: fonts[key],
                             border: this.queryCommandValue('border', mergeFlag.start.row, mergeFlag.start.col)
                         });
                     }
@@ -126,12 +181,12 @@ define(function (require, exports, module) {
          * 获取计算后的对齐属性
          * @private
          */
-        __getAlignments: function (row, col) {
-            return this.queryCommandValue('finalaligments', row, col);
+        __getAlignments: function (cells) {
+            return this.queryCommandValue('alignments', cells);
         },
 
-        __getFonts: function (row, col) {
-            return this.queryCommandValue('finalfonts', row, col);
+        __getFonts: function (cells) {
+            return this.queryCommandValue('fonts', cells);
         },
 
         __getEndRC: function (start, end) {

@@ -10,7 +10,6 @@ define(function (require, exports, module) {
             theme: require('./env/theme'),
             style: require('./env/style'),
             userStyle: require('./env/user-style'),
-            finalStyle: require('./env/final-style'),
             border: require('./env/border'),
             clear: require('./env/clear'),
             comment: require('./env/comment'),

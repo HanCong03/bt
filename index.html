@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title></title>
 
+    <style>
+        html, body {
+            width: 100%;
+            height: 700px;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
     <link rel="stylesheet" href="./assets/styles/btable.css">
 
     <script src="bower_components/modef/dist/modef.min.js"></script>
@@ -69,13 +78,13 @@
 
 //            btable.execCommand('content', 'asdfjaskdlfjaskldfjxakdfs', 103, 103);
 //
-//            btable.execCommand('mergecell', {
-//                row: 103,
-//                col: 103
-//            }, {
-//                row: 105,
-//                col: 105
-//            });
+            btable.execCommand('mergecell', {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
 //
 //            btable.execCommand('border', {
 //                style: 'medium',
@@ -205,12 +214,13 @@
 //            console.log(btable.queryCommandValue('topborder', 0, 0))
 
             console.log('time: ' + (Date.now() - startTime) + 'ms')
-
         });
     </script>
 </head>
 <body>
-<div id="container" style="border: 1px solid #ababab; border-style: none solid solid none; margin: 50px; position: relative; top: 0; left: 0;width: 800px; height: 500px;">
+<button onclick="console.profile('a');">开始</button>
+<button onclick="console.profileEnd('a')">结束</button>
+<div id="container" style="border: 1px solid #ababab; border-style: none solid solid none; position: relative; top: 0; left: 0;width: 100%; height: 100%;">
 </div>
 </body>
 </html>

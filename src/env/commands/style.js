@@ -173,12 +173,12 @@ define(function (require) {
             return this.$dep.getDefaultAlignments();
         },
 
-        query_fonts: function (row, col) {
-            return this.$dep.getFonts(row, col);
+        query_fonts: function (cells) {
+            return this.$dep.getFonts(cells);
         },
 
-        query_alignments: function (row, col) {
-            return this.$dep.getAlignments(row, col);
+        query_alignments: function (cells) {
+            return this.$dep.getAlignments(cells);
         }
     });
 });

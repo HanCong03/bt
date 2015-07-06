@@ -207,50 +207,12 @@ define(function (require, exports, module) {
             return this.__$api.getSettedGlobalStyle(styleName);
         },
 
-        getFonts: function (row, col) {
-            var result = this.__$api.getClassifyStyle('fonts', row, col);
-
-            if ($$.isNdef(result)) {
-                return null;
-            }
-
-            result = $$.clone(result);
-            result.name = result.name.value;
-            result.color = result.color.value;
-
-            for (var key in result) {
-                if (!result.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                if (result[key] === NONE) {
-                    result[key] = null;
-                }
-            }
-
-            return result;
+        getFonts: function(cells) {
+            return this.__$api.getBatchClassifyStyle('fonts', cells);
         },
 
-        getAlignments: function (row, col) {
-            var result = this.__$api.getClassifyStyle('alignments', row, col);
-
-            if ($$.isNdef(result)) {
-                return null;
-            }
-
-            result = $$.clone(result);
-
-            for (var key in result) {
-                if (!result.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                if (result[key] === NONE) {
-                    result[key] = null;
-                }
-            }
-
-            return result;
+        getAlignments: function (cells) {
+            return this.__$api.getBatchClassifyStyle('alignments', cells);
         },
 
         getDefaultFonts: function () {

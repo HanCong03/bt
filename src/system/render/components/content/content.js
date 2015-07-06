@@ -5,6 +5,8 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var NONE = require('NONE');
+
     var GRIDLINE_CONFIG = require('definition/gridline');
     var WIDTH = GRIDLINE_CONFIG.width;
     var OFFSET = GRIDLINE_CONFIG.offset;
@@ -121,7 +123,7 @@ define(function (require, exports, module) {
         __getCellRect: function (cellInfo) {
             var textAlign = cellInfo.alignments.horizontal;
 
-            if ($$.isNdef(textAlign)) {
+            if (textAlign === NONE) {
                 textAlign = DEFAULTS.horizontal;
             }
 
