@@ -170,7 +170,7 @@ define(function (require, exports, module) {
             screen.hline(0, visualData.rowPoints[r] + headHeight, headWidth + visualData.spaceWidth);
             screen.hline(0, visualData.rowPoints[r + 1] + headHeight, headWidth + visualData.spaceWidth);
 
-            this.__y = visualData.colPoints[r + 1] + headHeight - OFFSET;
+            this.__y = visualData.rowPoints[r + 1] + headHeight - OFFSET;
 
             screen.stroke();
 

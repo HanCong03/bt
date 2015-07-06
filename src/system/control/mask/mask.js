@@ -20,13 +20,14 @@ define(function (require, exports, module) {
         maskNode: null,
         hHeader: null,
         vHeader: null,
-        headers: null,
+        $headers: null,
         hSpace: null,
         vSpace: null,
         hBtns: null,
         vBtns: null,
 
-        __headerShow: true,
+        __ignore: false,
+
         __hRefreshed: false,
         __vRefreshed: false,
 
@@ -37,7 +38,7 @@ define(function (require, exports, module) {
             this.maskNode = this.__createMaskNode();
             this.hHeader = $('.btb-h-header', this.maskNode)[0];
             this.vHeader = $('.btb-v-header', this.maskNode)[0];
-            this.headers = $('.btb-headers', this.maskNode)[0];
+            this.$headers = $('.btb-headers', this.maskNode);
             this.hSpace = $('.btb-h-header-space', this.maskNode)[0];
             this.vSpace = $('.btb-v-header-space', this.maskNode)[0];
             this.hBtns = $('.btb-h-header-btns', this.maskNode)[0];
@@ -56,8 +57,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'ignore.header.control': this.__hideHeader,
-                'recover.header.control': this.__showHeader
+                'ignore.header.control': this.__ignoreHeader,
+                'recover.header.control': this.__recoverHeader
             })
         },
 
@@ -97,17 +98,25 @@ define(function (require, exports, module) {
                 _self.status = STATUS.NORMAL;
             });
 
-            $(this.hHeader).on('mouseenter', function (evt) {
-                _self.__refreshHBtns();
-            });
-
             $([this.hSpace, this.vSpace]).on('mousemove', function (evt) {
+                if (_self.__ignore) {
+                    return;
+                }
+
                 _self.listener('headerover', evt);
             }).on('mouseout', function (evt) {
+                if (_self.__ignore) {
+                    return;
+                }
+
                 _self.listener('headerout', evt);
             });
 
             $(this.hHeader).on('mousedown', '.btb-h-header-btn', function (evt) {
+                if (_self.__ignore) {
+                    return;
+                }
+
                 evt.stopPropagation();
                 evt.preventDefault();
 
@@ -115,11 +124,11 @@ define(function (require, exports, module) {
                 _self.__startGlobalListen();
             });
 
-            $(this.vHeader).on('mouseenter', function () {
-                _self.__refreshVBtns();
-            });
-
             $(this.vHeader).on('mousedown', '.btb-v-header-btn', function (evt) {
+                if (_self.__ignore) {
+                    return;
+                }
+
                 evt.stopPropagation();
                 evt.preventDefault();
 
@@ -149,8 +158,8 @@ define(function (require, exports, module) {
         },
 
         __refresh: function () {
-            this.__hRefreshed = true;
-            this.__vRefreshed = true;
+            this.__refreshHBtns();
+            this.__refreshVBtns();
 
             var visualData = this.rs('get.visual.data');
             var headWidth = visualData.headWidth;
@@ -164,10 +173,6 @@ define(function (require, exports, module) {
         },
 
         __refreshHBtns: function () {
-            if (!this.__hRefreshed) {
-                return;
-            }
-
             var visualData = this.rs('get.visual.data');
             var colPoints = visualData.colPoints;
             var btns = [];
@@ -180,10 +185,6 @@ define(function (require, exports, module) {
         },
 
         __refreshVBtns: function () {
-            if (!this.__vRefreshed) {
-                return;
-            }
-
             var visualData = this.rs('get.visual.data');
             var rowPoints = visualData.rowPoints;
             var btns = [];
@@ -195,22 +196,22 @@ define(function (require, exports, module) {
             this.vBtns.innerHTML = btns.join('');
         },
 
-        __hideHeader: function () {
-            if (!this.__headerShow) {
+        __ignoreHeader: function () {
+            if (this.__ignore) {
                 return;
             }
 
-            this.__headerShow = false;
-            this.headers.style.display = 'none';
+            this.$headers.addClass('btb-ignored');
+            this.__ignore = true;
         },
 
-        __showHeader: function () {
-            if (this.__headerShow) {
+        __recoverHeader: function () {
+            if (!this.__ignore) {
                 return;
             }
 
-            this.__headerShow = true;
-            this.headers.style.display = 'block';
+            this.$headers.removeClass('btb-ignored');
+            this.__ignore = false;
         },
 
         __startGlobalListen: function () {
