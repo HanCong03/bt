@@ -320,5 +320,5 @@ define(function (require, exports, module) {
                 this.timer = null;
             }
         }
-    }, require('./pane'));
+    }, require('./pane'), require('./normal'));
 });
