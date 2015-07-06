@@ -135,6 +135,12 @@ define(function (require, exports, module) {
             return node.innerText;
         },
 
+        encodeHTML: function (str) {
+            var node = document.createElement('div');
+            node.innerText = str;
+            return node.innerHTML;
+        },
+
         indexToTitle: function (index) {
             var chars = [];
             return index + 1;

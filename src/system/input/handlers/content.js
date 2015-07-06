@@ -4,6 +4,8 @@
  */
 
 define(function (require, exports, module) {
+    var $$ = require('utils');
+
     module.exports = {
         __syncContent: function () {
             var row = this.__cellStart.row;
@@ -15,8 +17,8 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var userContent = formattedContent.replace(/\n/g, '<br/>\uFEFF');
-            this.inputNode.innerText = userContent;
+            var userContent = $$.encodeHTML(formattedContent).replace(/\n/g, '<br/>\uFEFF');
+            this.inputNode.innerHTML = userContent;
 
             // 根据内容获取大小
             var rect = this.__calculateContentRect(userContent);
