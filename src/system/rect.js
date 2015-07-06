@@ -201,6 +201,7 @@ define(function (require, exports, module) {
         getVisibleRectLayout: function (start, end) {
             var hLayout = this.__getHorizontalLayout(start, end);
             var vLayout = this.__getVerticalLayout(start, end);
+            var overflow = this.__getOverflow(start, end);
 
             if (!hLayout && !vLayout) {
                 return null;
@@ -208,7 +209,87 @@ define(function (require, exports, module) {
 
             return {
                 h: hLayout,
-                v: vLayout
+                v: vLayout,
+                overflow: overflow
+            };
+        },
+
+        __getOverflow: function (start, end) {
+            var visualData = this.visualData;
+
+            var startRow = start.row;
+            var startCol = start.col;
+            var endRow = end.row;
+            var endCol = end.col;
+
+            // 非隐藏行列索引
+            var rMap = visualData.rMap;
+            var cMap = visualData.cMap;
+
+            /* ---- 溢出检测 start ---- */
+            var ot = false;
+            var or = false;
+            var ob = false;
+            var ol = false;
+
+            // overflow top
+            for (var i = startRow; i <= endRow; i++) {
+                if (this.queryCommandValue('hiddenrow', i)) {
+                    continue;
+                }
+
+                if (rMap[i] === undefined) {
+                    ot = true;
+                }
+
+                break;
+            }
+
+            // overflow right
+            for (var i = endCol; i >= startCol; i--) {
+                if (this.queryCommandValue('hiddencolumn', i)) {
+                    continue;
+                }
+
+                if (cMap[i] === undefined) {
+                    or = true;
+                }
+
+                break;
+            }
+
+            // overflow bottom
+            for (var i = endRow; i >= startRow; i--) {
+                if (this.queryCommandValue('hiddenrow', i)) {
+                    continue;
+                }
+
+                if (rMap[i] === undefined) {
+                    ob = true;
+                }
+
+                break;
+            }
+
+            // overflow left
+            for (var i = startCol; i <= endCol; i++) {
+                if (this.queryCommandValue('hiddencolumn', i)) {
+                    continue;
+                }
+
+                if (cMap[i] === undefined) {
+                    ol = true;
+                }
+
+                break;
+            }
+            /* ---- 溢出检测 end ---- */
+
+            return {
+                ot: ot,
+                ob: ob,
+                ol: ol,
+                or: or
             };
         },
 
@@ -261,42 +342,9 @@ define(function (require, exports, module) {
                 return null;
             }
 
-            /* ---- 溢出检测 start ---- */
-            var ot = false;
-            var ob = false;
-
-            // overflow top
-            for (var i = startRow; i <= endRow; i++) {
-                if (this.queryCommandValue('hiddenrow', i)) {
-                    continue;
-                }
-
-                if (rMap[i] === undefined) {
-                    ot = true;
-                }
-
-                break;
-            }
-
-            // overflow bottom
-            for (var i = endRow; i >= startRow; i--) {
-                if (this.queryCommandValue('hiddenrow', i)) {
-                    continue;
-                }
-
-                if (rMap[i] === undefined) {
-                    ob = true;
-                }
-
-                break;
-            }
-            /* ---- 溢出检测 end ---- */
-
             return {
                 y: y,
-                height: height,
-                ot: ot,
-                ob: ob
+                height: height
             };
         },
 
@@ -322,7 +370,6 @@ define(function (require, exports, module) {
             var currentCol;
 
             var x;
-            var y;
 
             for (var i = 0, len = visualData.colCount; i <= len; i++) {
                 currentCol = cols[i];
@@ -352,42 +399,9 @@ define(function (require, exports, module) {
             }
             /* ---- 计算宽高 end ---- */
 
-            /* ---- 溢出检测 start ---- */
-            var or = false;
-            var ol = false;
-
-            // overflow right
-            for (var i = endCol; i >= startCol; i--) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
-                    continue;
-                }
-
-                if (cMap[i] === undefined) {
-                    or = true;
-                }
-
-                break;
-            }
-
-            // overflow left
-            for (var i = startCol; i <= endCol; i++) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
-                    continue;
-                }
-
-                if (cMap[i] === undefined) {
-                    ol = true;
-                }
-
-                break;
-            }
-            /* ---- 溢出检测 end ---- */
-
             return {
                 x: x,
-                width: width,
-                ol: ol,
-                or: or
+                width: width
             };
         }
     });

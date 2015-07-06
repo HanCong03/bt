@@ -85,15 +85,15 @@ define(function (require, exports, module) {
                     return;
                 }
 
-                _self.__drawHorizontal(layout.h);
-                _self.__drawVertical(layout.v);
+                _self.__drawHorizontal(layout.h, layout.overflow);
+                _self.__drawVertical(layout.v, layout.overflow);
             });
 
             this.bgScreen.restore();
             this.lineScreen.restore();
         },
 
-        __drawHorizontal: function (rect) {
+        __drawHorizontal: function (rect, overflow) {
             if (!rect) {
                 return;
             }
@@ -110,14 +110,14 @@ define(function (require, exports, module) {
             bgScreen.fillRect(headWidth + rect.x, 0, rect.width, headHeight);
 
             /* ---- line ---- */
-            if (!rect.ot) {
+            if (!overflow.ot) {
                 lineScreen.hline(headWidth + rect.x - LINE_WIDTH, headHeight, rect.width + DOUBLE_LINE_WIDTH);
             }
 
             lineScreen.stroke();
         },
 
-        __drawVertical: function (rect) {
+        __drawVertical: function (rect, overflow) {
             if (!rect) {
                 return;
             }
@@ -134,7 +134,7 @@ define(function (require, exports, module) {
             bgScreen.fillRect(0, headHeight + rect.y, headWidth, rect.height);
 
             /* ---- line ---- */
-            if (!rect.ol) {
+            if (!overflow.ol) {
                 lineScreen.vline(headWidth, headHeight + rect.y - LINE_WIDTH, rect.height + DOUBLE_LINE_WIDTH);
             }
 
