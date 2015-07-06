@@ -25,6 +25,9 @@ define(function (require, exports, module) {
             this.__rowIndexLock = false;
             this.__colIndexLock = false;
 
+            // 请求主控模块暂停对header的控制
+            this.rs('ignore.header.control');
+
             if (index.row === -1 && index.col === -1) {
                 this.status = STATUS.ALL;
                 this.postMessage('control.all.selection');
@@ -77,6 +80,9 @@ define(function (require, exports, module) {
             }
 
             var index;
+
+            // 请求主控模块恢复对header的控制
+            this.rs('recover.header.control');
 
             this.__stopTimer();
 

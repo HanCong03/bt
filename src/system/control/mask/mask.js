@@ -40,12 +40,20 @@ define(function (require, exports, module) {
 
             this.__initDomEvent();
             this.__initEvent();
+            this.__initService();
         },
 
         __initEvent: function () {
             this.on({
                 'refresh': this.__refresh
             });
+        },
+
+        __initService: function () {
+            this.registerService({
+                'ignore.header.control': this.__hideHeader,
+                'recover.header.control': this.__showHeader
+            })
         },
 
         __initDomEvent: function () {
@@ -55,13 +63,7 @@ define(function (require, exports, module) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                if (evt.type === 'mousedown') {
-                    _self.__hideHeader();
-                }
-
-                if (evt.type === 'mouseup') {
-                    _self.__showHeader();
-                } else if (evt.type === 'DOMMouseScroll') {
+                if (evt.type === 'DOMMouseScroll') {
                     _self.listener('mosuewheel', evt);
                     return;
                 }
@@ -83,7 +85,6 @@ define(function (require, exports, module) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                _self.__hideHeader();
                 _self.listener('hheaderbtn', evt);
             });
 
@@ -95,7 +96,6 @@ define(function (require, exports, module) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                _self.__hideHeader();
                 _self.listener('vheaderbtn', evt);
             });
         },
@@ -124,8 +124,6 @@ define(function (require, exports, module) {
         __refresh: function () {
             this.__hRefreshed = true;
             this.__vRefreshed = true;
-
-            this.__showHeader();
 
             var visualData = this.rs('get.visual.data');
             var headWidth = visualData.headWidth;
