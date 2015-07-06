@@ -73,7 +73,7 @@ define(function (require, exports, module) {
                 x: baseLocation.x,
                 y: baseLocation.y,
                 width: minSize.width,
-                height: heightInfo.height
+                height: Math.max(heightInfo.height, minSize.height)
             };
         },
 

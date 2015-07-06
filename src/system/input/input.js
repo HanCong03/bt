@@ -97,22 +97,14 @@ define(function (require, exports, module) {
          * @param col
          */
         mouseActive: function (row, col) {
-            var mergecells = this.queryCommandValue('mergecell', {
-                row: row,
-                col: col
-            }, {
-                row: row,
-                col: col
-            });
+            var mergeInfo = this.queryCommandValue('mergecell', row, col);
 
-            if ($$.isNdef(mergecells)) {
+            if ($$.isNdef(mergeInfo)) {
                 this.__activeNormalCell(row, col);
-                this.__syncContent();
-                return;
+            } else {
+                this.__activeMergeCell(mergeInfo);
             }
 
-            var keys = Object.keys(mergecells);
-            this.__activeMergeCell(mergecells[keys[0]]);
             this.__syncContent();
         },
 
@@ -123,21 +115,13 @@ define(function (require, exports, module) {
          * @param col
          */
         inputActive: function (row, col) {
-            var mergecells = this.queryCommandValue('mergecell', {
-                row: row,
-                col: col
-            }, {
-                row: row,
-                col: col
-            });
+            var mergeInfo = this.queryCommandValue('mergecell', row, col);
 
-            if ($$.isNdef(mergecells)) {
+            if ($$.isNdef(mergeInfo)) {
                 this.__activeNormalCell(row, col);
-                return;
+            } else {
+                this.__activeMergeCell(mergeInfo);
             }
-
-            var keys = Object.keys(mergecells);
-            this.__activeMergeCell(mergecells[keys[0]]);
         }
     });
 });

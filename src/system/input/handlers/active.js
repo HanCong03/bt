@@ -76,7 +76,41 @@ define(function (require, exports, module) {
             $(this.inputWrap).addClass('btb-active');
         },
 
-        __activeMergeCell: function (mergeInfo) {},
+        __activeMergeCell: function (mergeInfo) {
+            var start = mergeInfo.start;
+            var end = mergeInfo.end;
+
+            // 滚动单元格到视图内
+            this.execCommand('scrollin', start, end);
+
+            var fonts = this.queryCommandValue('fonts', start.row, start.col);
+            var alignments = this.queryCommandValue('alignments', start.row, start.col);
+            var fill = this.queryCommandValue('fill', start.row, start.col);
+
+            this.__activeCellType = 'mergecell';
+            this.__cellStart = {
+                row: start.row,
+                col: start.col
+            };
+            this.__minSize = this.__getMergeCellMinSize(start, end);
+            this.__wraptext = !!alignments.wraptext;
+            this.__textAling = alignments.horizontal || 'left';
+            this.__baseLocation = this.__getBaseLocation(start.row, start.col);
+
+            // 注意，该方法会清除所有样式。所以需要先调用。
+            this.__applyStyle(fonts, alignments, fill);
+
+            // 合并单元格需要强制设置宽度
+            this.__setShadowWidth(this.__minSize.width);
+
+            // 获取默认rect
+            var rect = this.__calculateContentRect(null);
+
+            this.__relocation(rect);
+
+            // 挂上激活样式
+            $(this.inputWrap).addClass('btb-active');
+        },
 
         __applyStyle: function (fonts, alignments) {
             var cssText = toCssText(fonts, alignments);
@@ -149,6 +183,15 @@ define(function (require, exports, module) {
             return {
                 width: this.queryCommandValue('columnwidth', col),
                 height: this.queryCommandValue('rowheight', row)
+            };
+        },
+
+        __getMergeCellMinSize: function (start, end) {
+            var rect = this.rs('get.visialbe.rect', start, end);
+
+            return {
+                width: rect.width,
+                height: rect.height
             };
         }
     };
