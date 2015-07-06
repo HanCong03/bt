@@ -8,6 +8,8 @@ define(function (require, exports, module) {
     var StyleHelper = require('./style-helper');
     var DEFAULTS = require('../../definition/defaults');
 
+    var NONE = require('NONE');
+
     var GRIDLINE_CONFIG = require('definition/gridline');
     var WIDTH = GRIDLINE_CONFIG.width;
 
@@ -15,7 +17,7 @@ define(function (require, exports, module) {
         draw: function (screen, cellInfo, rect) {
             var verticalAlign = cellInfo.alignments.vertical;
 
-            if ($$.isNdef(verticalAlign)) {
+            if (verticalAlign === NONE) {
                 verticalAlign = DEFAULTS.vertical;
             }
 
@@ -62,7 +64,7 @@ define(function (require, exports, module) {
                 screen.fillText(contents[i], rect.centerX, offset);
                 offset += fontSize;
 
-                if (underline) {
+                if (underline !== NONE) {
                     textWidth = screen.measureText(contents[i]).width;
                     this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
                 }
@@ -82,7 +84,7 @@ define(function (require, exports, module) {
             for (var i = contents.length - 1; i >= 0; i--) {
                 screen.fillText(contents[i], rect.centerX, offset);
 
-                if (underline) {
+                if (underline !== NONE) {
                     textWidth = screen.measureText(contents[i]).width;
                     this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
                 }
@@ -105,7 +107,7 @@ define(function (require, exports, module) {
                 screen.fillText(contents[i], rect.centerX, offset  + fontSize / 2);
                 offset += fontSize;
 
-                if (underline) {
+                if (underline !== NONE) {
                     textWidth = screen.measureText(contents[i]).width;
                     this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
                 }

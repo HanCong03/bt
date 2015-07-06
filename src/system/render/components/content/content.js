@@ -12,8 +12,6 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var CELL_PADDING = require('definition/cell-padding');
 
-    var DEFAULTS = require('../../definition/defaults');
-
     var LeftDrawer = require('./left-drawer');
     var RightDrawer = require('./right-drawer');
     var CenterDrawer = require('./center-drawer');
@@ -124,7 +122,7 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal;
 
             if (textAlign === NONE) {
-                textAlign = DEFAULTS.horizontal;
+                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
             }
 
             switch (textAlign) {
@@ -413,8 +411,8 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
 
-            if ($$.isNdef(textAlign)) {
-                textAlign = DEFAULTS.horizontal;
+            if (textAlign === NONE) {
+                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
             }
 
             switch (textAlign) {
@@ -439,8 +437,8 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
 
-            if ($$.isNdef(textAlign)) {
-                textAlign = DEFAULTS.horizontal;
+            if (textAlign === NONE) {
+                textAlign = this.queryCommandValue('texthorizontal', cellInfo.row, cellInfo.col);
             }
 
             switch (textAlign) {

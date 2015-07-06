@@ -9,6 +9,7 @@ define(function (require, exports, module) {
             standard: require('./env/standard'),
             theme: require('./env/theme'),
             style: require('./env/style'),
+            typeStyle: require('./env/type-style'),
             userStyle: require('./env/user-style'),
             border: require('./env/border'),
             clear: require('./env/clear'),
