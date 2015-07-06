@@ -9,7 +9,6 @@ define(function (require, exports, module) {
 
     module.exports = {
         __drawGridLine: function () {
-            var visualData = this.visualData;
             var screen = this.gridlineScreen;
 
             if (!this.queryCommandValue('gridline')) {
@@ -17,8 +16,6 @@ define(function (require, exports, module) {
             }
 
             screen.save();
-
-            screen.translate(visualData.headWidth, visualData.headHeight);
 
             this.__drawGridlineRow();
             this.__drawGridlineColumn();
@@ -37,10 +34,12 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var spaceWidth = visualData.spaceWidth;
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+            var width = headWidth + visualData.spaceWidth;
 
             $$.forEach(visualData.rowPoints, function (point) {
-                screen.hline(0, point, spaceWidth);
+                screen.hline(0, headHeight + point, width);
             });
         },
 
@@ -52,10 +51,12 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var spaceHeight = visualData.spaceHeight;
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+            var height = headHeight + visualData.spaceHeight;
 
             $$.forEach(visualData.colPoints, function (point) {
-                screen.vline(point, 0, spaceHeight);
+                screen.vline(headWidth + point, 0, height);
             });
         }
     };

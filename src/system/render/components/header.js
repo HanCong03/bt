@@ -6,6 +6,7 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
+    var OFFSET = GRIDLINE_CONFIG.offset;
     var FACE_THEME = require('definition/face-theme');
 
     module.exports = {
@@ -22,9 +23,6 @@ define(function (require, exports, module) {
             this.__drawHeaderRow();
             this.__drawHeaderColumn();
 
-            screen.strokeColor(GRIDLINE_CONFIG.color);
-            screen.stroke();
-
             screen.restore();
         },
 
@@ -36,12 +34,25 @@ define(function (require, exports, module) {
                 return;
             }
 
+            var rowHeights = visualData.rowHeights;
+            var rowPoints = visualData.rowPoints;
+
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
             $$.forEach(visualData.rows, function (rowIndex, index) {
-                var x = visualData.headWidth / 2;
-                var y = visualData.headHeight + visualData.rowPoints[index] + visualData.rowHeights[index] / 2 + GRIDLINE_CONFIG.offset;
+                var x = headWidth / 2;
+                var y = headHeight + rowPoints[index] + rowHeights[index] / 2 + OFFSET;
+
+                screen.save();
+
+                screen.beginPath();
+                screen.rect(0, headHeight + rowPoints[index] + OFFSET, headWidth, rowHeights[index]);
+                screen.clip();
 
                 screen.fillText(rowIndex + 1, x, y + 1);
-                screen.hline(0, visualData.headHeight + visualData.rowPoints[index], visualData.headWidth);
+
+                screen.restore();
             });
         },
 
@@ -53,14 +64,27 @@ define(function (require, exports, module) {
                 return;
             }
 
+            var colWidths = visualData.colWidths;
+            var colPoints = visualData.colPoints;
+
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
             $$.forEach(visualData.cols, function (colIndex, index) {
                 var title = $$.indexToTitle(colIndex);
 
-                var x = visualData.headWidth + visualData.colPoints[index] + visualData.colWidths[index] / 2 + GRIDLINE_CONFIG.offset;
-                var y = visualData.headHeight / 2;
+                var x = headWidth + colPoints[index] + colWidths[index] / 2 + OFFSET;
+                var y = headHeight / 2;
+
+                screen.save();
+
+                screen.beginPath();
+                screen.rect(headWidth + colPoints[index] + OFFSET, 0, colWidths[index], headHeight);
+                screen.clip();
 
                 screen.fillText(title, x, y + 1);
-                screen.vline(visualData.headWidth + visualData.colPoints[index], 0, visualData.headHeight);
+
+                screen.restore();
             });
         }
     };
