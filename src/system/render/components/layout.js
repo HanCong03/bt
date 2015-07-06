@@ -103,8 +103,6 @@ define(function (require, exports, module) {
                                 start: mergeFlag.start,
                                 end: mergeFlag.end,
                                 // 当前合并单元格在可视范围内的右下角的visual-data索引
-                                // er: end-r
-                                // ec: end-c
                                 er: index.r,
                                 ec: index.c
                             },
