@@ -17,7 +17,8 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                 'set.content.and.type': this.setContent,
-                'clear.content': this.clearContent
+                'clear.content': this.clearContent,
+                'get.content.type': this.getContentType
             });
         },
 

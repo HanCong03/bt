@@ -16,6 +16,14 @@ define(function (require, exports, module) {
             this.__$api = this.getAPI();
         },
 
+        /**
+         * 批量获取用户设置的字体样式，如果用户未设置任何字体属性，则返回null。
+         * 否则，返回的map里只包含用户设置过的属性
+         */
+        getFonts: function (row, col) {
+            return this.__$api.getEffectiveClassifyStyle('fonts', row, col);
+        },
+
         getFont: function (row, col) {
             var font = this.__$api.getEffectiveStyle('name', row, col);
 

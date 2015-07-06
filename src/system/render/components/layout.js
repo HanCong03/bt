@@ -8,6 +8,7 @@ define(function (require, exports, module) {
 
     module.exports = {
         __getLayout: function () {
+
             var visualData = this.visualData;
 
             if (visualData.rowCount === 0 || visualData.colCount === 0) {
@@ -34,9 +35,6 @@ define(function (require, exports, module) {
             var visualData = this.visualData;
             var result = [];
 
-            var sysDefaultFonts = this.queryCommandValue('defaultfonts');
-            var sysDefaultAligns = this.queryCommandValue('defaultalignments');
-
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
                 result.push(currentRow);
@@ -50,8 +48,8 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
-                        fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts,
+                        alignments: this.__getAlignments(row, col),
+                        fonts: this.__getFonts(row, col),
                         border: this.queryCommandValue('border', row, col)
                     });
                 }, this);
@@ -65,8 +63,6 @@ define(function (require, exports, module) {
             var result = [];
 
             var mergeMap = mergeToMap(mergecells);
-            var sysDefaultFonts = this.queryCommandValue('defaultfonts');
-            var sysDefaultAligns = this.queryCommandValue('defaultalignments');
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -85,8 +81,8 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: this.queryCommandValue('alignments', row, col) || sysDefaultAligns,
-                            fonts: this.queryCommandValue('fonts', row, col) || sysDefaultFonts,
+                            alignments: this.__getAlignments(row, col),
+                            fonts: this.__getFonts(row, col),
                             border: this.queryCommandValue('border', row, col)
                         });
                     } else {
@@ -117,8 +113,8 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: this.queryCommandValue('alignments', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultAligns,
-                            fonts: this.queryCommandValue('fonts', mergeFlag.start.row, mergeFlag.start.col) || sysDefaultFonts,
+                            alignments: this.__getAlignments(mergeFlag.start.row, mergeFlag.start.col),
+                            fonts: this.__getFonts(mergeFlag.start.row, mergeFlag.start.col),
                             border: this.queryCommandValue('border', mergeFlag.start.row, mergeFlag.start.col)
                         });
                     }
@@ -126,6 +122,18 @@ define(function (require, exports, module) {
             }, this);
 
             return result;
+        },
+
+        /**
+         * 获取计算后的对齐属性
+         * @private
+         */
+        __getAlignments: function (row, col) {
+            return this.queryCommandValue('finalaligments', row, col);
+        },
+
+        __getFonts: function (row, col) {
+            return this.queryCommandValue('finalfonts', row, col);
         },
 
         __getEndRC: function (start, end) {
