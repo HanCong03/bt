@@ -35,7 +35,9 @@ define(function (require) {
             'topborder',
             'bottomborder',
             'outerborder',
-            'innerborder'
+            'innerborder',
+
+            'borders'
         ],
 
         exec_border: function (borderOptions, start, end) {
@@ -110,7 +112,10 @@ define(function (require) {
                     console.log('未实现')
                     //return this.$dep.getBorder(args[0], args[1]);
             }
-        }
+        },
 
+        query_borders: function (cells) {
+            return this.$dep.getBorders(cells);
+        }
     });
 });

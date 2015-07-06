@@ -71,34 +71,11 @@ define(function (require, exports, module) {
         },
 
         getBorder: function (row, col) {
-            var borders = this.__$api.getBorder(row, col);
+            return this.__$api.getBorder(row, col);
+        },
 
-            borders = $$.clone(borders);
-
-            if (borders.top === NONE) {
-                borders.top = null;
-            }
-
-            if (borders.left === NONE) {
-                borders.left = null;
-            }
-
-            if (borders.right === NONE) {
-                borders.right = null;
-            }
-
-            if (borders.bottom === NONE) {
-                borders.bottom = null;
-            }
-
-            if (borders['top'] === null
-                && borders['left'] === null
-                && borders['right'] === null
-                && borders['bottom'] === null) {
-                return null;
-            }
-
-            return borders;
+        getBorders: function (cells) {
+            return this.__$api.getBorders(cells);
         },
 
         getLeftBorder: function (start, end) {

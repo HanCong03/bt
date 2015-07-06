@@ -3,4 +3,6 @@
  * @author hancong03@baiud.com
  */
 
-define('N');
+define(function () {
+    return null;
+});

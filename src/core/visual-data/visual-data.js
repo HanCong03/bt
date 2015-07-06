@@ -59,6 +59,11 @@ define(function (require, exports, module) {
 
         __unlock: function () {
             this.__lockCount--;
+
+            // 解锁之后，需要根据条件触发刷新事件。
+            if (this.__lockCount === 0) {
+                this.emit('refresh');
+            }
         },
 
         /**
