@@ -16,7 +16,7 @@ define(function (require, exports, module) {
             }
 
             var userContent = formattedContent.replace(/\n/g, '<br/>\uFEFF');
-            this.inputNode.innerHTML = userContent;
+            this.inputNode.innerText = userContent;
 
             // 根据内容获取大小
             var rect = this.__calculateContentRect(userContent);
@@ -29,12 +29,7 @@ define(function (require, exports, module) {
         },
 
         __getUserContent: function () {
-            var content = this.inputNode.innerHTML;
-
-            // 格式化
-            return content.replace(/<br\s*\/?>/g, '\n')
-                        .replace(/[\uFEFF]/g, '')
-                        .replace(/<[^>]+?>/g, '');
+            return this.inputNode.innerText;
         },
 
         __newLine: function () {

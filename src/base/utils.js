@@ -128,6 +128,13 @@ define(function (require, exports, module) {
             };
         },
 
+        // html decode
+        decodeHTML: function (str) {
+            var node = document.createElement('div');
+            node.innerHTML = str;
+            return node.innerText;
+        },
+
         indexToTitle: function (index) {
             var chars = [];
             return index + 1;
