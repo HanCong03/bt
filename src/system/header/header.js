@@ -43,6 +43,8 @@ define(function (require, exports, module) {
             var size = this.getContentContainerSize();
             this.bgScreen = new Screen('btb-header-screen', this.getMiddleContainer(), size.width, size.height);
             this.lineScreen = new Screen('btb-header-line-screen', this.getMiddleContainer(), size.width, size.height);
+
+            window.bb = this.lineScreen
         },
 
         __initEvent: function () {
@@ -202,19 +204,23 @@ define(function (require, exports, module) {
 
             bgScreen.save();
 
-            // #d3f0e0
-            bgScreen.fillColor('#9fd5b7');
+            bgScreen.fillColor(FACE_THEME.header.hover);
             bgScreen.fillRect(x, y, width, height);
 
             bgScreen.restore();
-            bgScreen.toggle();
+
+            this.bgScreen.toggle();
+            this.lineScreen.toggle();
         },
 
         __hoverOut: function () {
             this.__r = -1;
             this.__c = -1;
 
-            this.__redrawSelection();
+            this.__drawSelection();
+
+            this.bgScreen.toggle();
+            this.lineScreen.toggle();
         },
 
         __vHover: function (r) {
@@ -234,10 +240,11 @@ define(function (require, exports, module) {
             var width = visualData.headWidth;
             var height = visualData.rowHeights[r];
 
-            bgScreen.fillColor('#9fd5b7');
+            bgScreen.fillColor(FACE_THEME.header.hover);
             bgScreen.fillRect(x, y, width, height);
 
-            bgScreen.toggle();
+            this.bgScreen.toggle();
+            this.lineScreen.toggle();
         }
     });
 });

@@ -13,9 +13,6 @@ define(function (require, exports, module) {
                 return;
             }
 
-            // 通知接管控制
-            this.postMessage('control');
-
             var index = this.__getIndex(evt);
             var ranges;
             var row = index.row;

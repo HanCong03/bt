@@ -8,19 +8,21 @@ define(function (require, exports, module) {
     var $$ = require('utils');
 
     module.exports = $$.createClass('Screen', {
-        ctx: null,
         visibleCanvas: null,
         invisibleCanvas: null,
 
         visibleCtx: null,
         invisibleCtx: null,
 
+        className: null,
         parent: null,
 
         width: -1,
         height: -1,
 
         constructor: function (className, container, width, height) {
+            this.className = className;
+
             this.visibleCanvas = document.createElement('canvas');
             this.visibleCanvas.className = 'btb-screen ' + className;
             this.visibleCanvas.width = width;
