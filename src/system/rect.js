@@ -22,7 +22,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.visialbe.rect': this.getVisibleRect
+                'get.visialbe.rect': this.getVisibleRect,
+                'get.visiable.layout': this.getVisibleRectLayout
             });
         },
 
@@ -192,6 +193,199 @@ define(function (require, exports, module) {
                 height: height,
                 ot: ot,
                 ob: ob,
+                ol: ol,
+                or: or
+            };
+        },
+
+        getVisibleRectLayout: function (start, end) {
+            var hLayout = this.__getHorizontalLayout(start, end);
+            var vLayout = this.__getVerticalLayout(start, end);
+
+            if (!hLayout && !vLayout) {
+                return null;
+            }
+
+            return {
+                h: hLayout,
+                v: vLayout
+            };
+        },
+
+        __getVerticalLayout: function (start, end) {
+            var visualData = this.visualData;
+
+            var startRow = start.row;
+            var endRow = end.row;
+
+            var height = -LINE_WIDTH;
+
+            // 非隐藏行列索引
+            var rows = visualData.rows;
+            var rMap = visualData.rMap;
+            var rowHeights = visualData.rowHeights;
+
+            var r;
+
+            // 有效范围
+            var validStartRow = Math.max(startRow, visualData.startRow);
+            var validEndRow = Math.min(endRow, visualData.endRow);
+
+            var currentRow;
+
+            var y;
+
+            for (var i = 0, len = visualData.rowCount; i <= len; i++) {
+                currentRow = rows[i];
+
+                if (currentRow < validStartRow) {
+                    continue;
+                }
+
+                // 后续索引持续增大
+                if (currentRow > validEndRow) {
+                    break;
+                }
+
+                r = rMap[currentRow];
+
+                if (r !== undefined) {
+                    height += rowHeights[r] + LINE_WIDTH;
+                    if (y === undefined) {
+                        y = visualData.rowPoints[r] + OFFSET;
+                    }
+                }
+            }
+
+            if (height < 0) {
+                return null;
+            }
+
+            /* ---- 溢出检测 start ---- */
+            var ot = false;
+            var ob = false;
+
+            // overflow top
+            for (var i = startRow; i <= endRow; i++) {
+                if (this.queryCommandValue('hiddenrow', i)) {
+                    continue;
+                }
+
+                if (rMap[i] === undefined) {
+                    ot = true;
+                }
+
+                break;
+            }
+
+            // overflow bottom
+            for (var i = endRow; i >= startRow; i--) {
+                if (this.queryCommandValue('hiddenrow', i)) {
+                    continue;
+                }
+
+                if (rMap[i] === undefined) {
+                    ob = true;
+                }
+
+                break;
+            }
+            /* ---- 溢出检测 end ---- */
+
+            return {
+                y: y,
+                height: height,
+                ot: ot,
+                ob: ob
+            };
+        },
+
+        __getHorizontalLayout: function (start, end) {
+            var visualData = this.visualData;
+            var startCol = start.col;
+            var endCol = end.col;
+
+            var width = -LINE_WIDTH;
+
+            // 非隐藏行列索引
+            var cols = visualData.cols;
+            var cMap = visualData.cMap;
+            var colWidths = visualData.colWidths;
+
+            var c;
+
+            // 有效范围
+            var validStartCol = Math.max(startCol, visualData.startCol);
+            var validEndCol = Math.min(endCol, visualData.endCol);
+
+            /* ---- 计算宽高 start ---- */
+            var currentCol;
+
+            var x;
+            var y;
+
+            for (var i = 0, len = visualData.colCount; i <= len; i++) {
+                currentCol = cols[i];
+
+                if (currentCol < validStartCol) {
+                    continue;
+                }
+
+                // 后续索引持续增大
+                if (currentCol > validEndCol) {
+                    break;
+                }
+
+                c = cMap[currentCol];
+
+                if (c !== undefined) {
+                    width += colWidths[c] + LINE_WIDTH;
+
+                    if (x === undefined) {
+                        x = visualData.colPoints[c] + OFFSET;
+                    }
+                }
+            }
+
+            if (width < 0) {
+                return null;
+            }
+            /* ---- 计算宽高 end ---- */
+
+            /* ---- 溢出检测 start ---- */
+            var or = false;
+            var ol = false;
+
+            // overflow right
+            for (var i = endCol; i >= startCol; i--) {
+                if (this.queryCommandValue('hiddencolumn', i)) {
+                    continue;
+                }
+
+                if (cMap[i] === undefined) {
+                    or = true;
+                }
+
+                break;
+            }
+
+            // overflow left
+            for (var i = startCol; i <= endCol; i++) {
+                if (this.queryCommandValue('hiddencolumn', i)) {
+                    continue;
+                }
+
+                if (cMap[i] === undefined) {
+                    ol = true;
+                }
+
+                break;
+            }
+            /* ---- 溢出检测 end ---- */
+
+            return {
+                x: x,
+                width: width,
                 ol: ol,
                 or: or
             };

@@ -46,6 +46,10 @@ define(function (require, exports, module) {
             this.invisibleCtx.height = this.height;
         },
 
+        sync: function () {
+            this.invisibleCtx.drawImage(this.visibleCanvas, 0, 0);
+        },
+
         toggle: function () {
             this.parent.replaceChild(this.invisibleCanvas, this.visibleCanvas);
 
