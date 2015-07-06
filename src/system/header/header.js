@@ -6,11 +6,15 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+
     var GRIDLINE_CONFIG = require('definition/gridline');
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
     var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
     var OFFSET = GRIDLINE_CONFIG.offset;
 
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     var FACE_THEME = require('definition/face-theme');
 
@@ -18,6 +22,13 @@ define(function (require, exports, module) {
 
     module.exports = $$.createClass('Header', {
         base: require('module'),
+
+        mixin: [
+            require('./handlers/column'),
+            require('./handlers/row'),
+            require('./handlers/cell'),
+            require('./handlers/all')
+        ],
 
         __r: -1,
         __c: -1,
@@ -44,7 +55,12 @@ define(function (require, exports, module) {
             this.onMessage({
                 'control.header.h.hover': this.__hHover,
                 'control.header.v.hover': this.__vHover,
-                'control.header.out': this.__hoverOut
+                'control.header.out': this.__hoverOut,
+
+                'control.column.selection': this.__updateColumnSelction,
+                'control.row.selection': this.__updateRowSelction,
+                'control.cell.selection': this.__updateCellSelction,
+                'control.all.selection': this.__updateAllSelction
             });
         },
 
@@ -71,7 +87,6 @@ define(function (require, exports, module) {
             var _self = this;
 
             this.bgScreen.save();
-            this.bgScreen.fillColor(FACE_THEME.header.color);
 
             this.lineScreen.save();
 
@@ -85,15 +100,15 @@ define(function (require, exports, module) {
                     return;
                 }
 
-                _self.__drawHorizontal(layout.h, layout.overflow);
-                _self.__drawVertical(layout.v, layout.overflow);
+                _self.__drawHorizontal(range.start, range.end, layout.h, layout.overflow);
+                _self.__drawVertical(range.start, range.end, layout.v, layout.overflow);
             });
 
             this.bgScreen.restore();
             this.lineScreen.restore();
         },
 
-        __drawHorizontal: function (rect, overflow) {
+        __drawHorizontal: function (start, end, rect, overflow) {
             if (!rect) {
                 return;
             }
@@ -107,6 +122,11 @@ define(function (require, exports, module) {
             var headHeight = visualData.headHeight;
 
             /* ---- bg ---- */
+            if (start.row === 0 && end.row === MAX_ROW_INDEX) {
+                bgScreen.fillColor(FACE_THEME.header.fullColor);
+            } else {
+                bgScreen.fillColor(FACE_THEME.header.color);
+            }
             bgScreen.fillRect(headWidth + rect.x, 0, rect.width, headHeight);
 
             /* ---- line ---- */
@@ -117,7 +137,7 @@ define(function (require, exports, module) {
             lineScreen.stroke();
         },
 
-        __drawVertical: function (rect, overflow) {
+        __drawVertical: function (start, end, rect, overflow) {
             if (!rect) {
                 return;
             }
@@ -131,6 +151,11 @@ define(function (require, exports, module) {
             var headHeight = visualData.headHeight;
 
             /* ---- bg ---- */
+            if (start.col === 0 && end.col === MAX_COLUMN_INDEX) {
+                bgScreen.fillColor(FACE_THEME.header.fullColor);
+            } else {
+                bgScreen.fillColor(FACE_THEME.header.color);
+            }
             bgScreen.fillRect(0, headHeight + rect.y, headWidth, rect.height);
 
             /* ---- line ---- */
@@ -139,6 +164,22 @@ define(function (require, exports, module) {
             }
 
             lineScreen.stroke();
+        },
+
+        __updateSelection: function (start, end) {
+            this.lineScreen.strokeColor(FACE_THEME.color);
+            this.lineScreen.setLineWidth(2);
+
+            var range = $$.standardRange(start, end);
+
+            var layout = this.rs('get.visiable.layout', range.start, range.end);
+
+            if (!layout) {
+                return;
+            }
+
+            this.__drawHorizontal(start, end, layout.h, layout.overflow);
+            this.__drawVertical(start, end, layout.v, layout.overflow);
         },
 
         /* ---- mouse ----- */
