@@ -18,7 +18,8 @@ define(function (require, exports, module) {
             require('./handlers/key'),
             require('./handlers/key-enter'),
             require('./handlers/shift-move'),
-            require('./handlers/mouse/mouse')
+            require('./handlers/mouse/mouse'),
+            require('./handlers/contextmenu')
         ],
 
         init: function () {

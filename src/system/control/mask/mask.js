@@ -64,7 +64,22 @@ define(function (require, exports, module) {
         __initDomEvent: function () {
             var _self = this;
 
-            $(this.maskNode).on('mousedown dblclick mousemove mouseleave mouseenter mousewheel DOMMouseScroll', function (evt) {
+            $(this.maskNode).on('mousedown contextmenu', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+
+                if (evt.type !== 'mousedown') {
+                    return;
+                }
+
+                if (evt.originalEvent.button !== 2) {
+                    _self.listener('mousedown', evt);
+                } else {
+                    _self.listener('contextmenu', evt);
+                }
+            })
+
+            $(this.maskNode).on('dblclick mousemove mouseleave mouseenter mousewheel DOMMouseScroll', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
