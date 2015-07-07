@@ -5,8 +5,6 @@
 
 
 define(function (require, exports, module) {
-    var $$ = require('utils');
-
     module.exports = {
         getCssFont: function (fonts) {
             var styles = [];

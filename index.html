@@ -7,7 +7,7 @@
     <style>
         html, body {
             width: 100%;
-            height: 700px;
+            height: 1000px;
             padding: 0;
             margin: 0;
         }
@@ -64,6 +64,14 @@
             }, {
                 row: 101,
                 col: 100
+            });
+
+            btable.execCommand('valign', 'top', {
+                row: 100,
+                col: 100
+            }, {
+                row: 110,
+                col: 110
             });
 
             btable.execCommand('fontsize', 40, {

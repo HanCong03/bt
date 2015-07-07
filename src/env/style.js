@@ -207,6 +207,24 @@ define(function (require, exports, module) {
             return this.__$api.getSettedGlobalStyle(styleName);
         },
 
+        getCellFonts: function (row, col) {
+            var result = this.__$api.getBatchClassifyStyle('fonts', [{
+                row: row,
+                col: col
+            }]);
+
+            return result[row + ',' + col];
+        },
+
+        getCellAlignments: function (row, col) {
+            var result = this.__$api.getBatchClassifyStyle('alignments', [{
+                row: row,
+                col: col
+            }]);
+
+            return result[row + ',' + col];
+        },
+
         getFonts: function(cells) {
             return this.__$api.getBatchClassifyStyle('fonts', cells);
         },

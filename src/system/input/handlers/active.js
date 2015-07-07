@@ -45,8 +45,8 @@ define(function (require, exports, module) {
             // 滚动单元格到视图内
             this.execCommand('scrollin', start, end);
 
-            var fonts = this.queryCommandValue('fonts', row, col);
-            var alignments = this.queryCommandValue('alignments', row, col);
+            var fonts = this.queryCommandValue('cellfonts', row, col);
+            var alignments = this.queryCommandValue('cellalignments', row, col);
             var fill = this.queryCommandValue('fill', row, col);
 
             this.__activeCellType = 'normal';
@@ -83,8 +83,8 @@ define(function (require, exports, module) {
             // 滚动单元格到视图内
             this.execCommand('scrollin', start, end);
 
-            var fonts = this.queryCommandValue('fonts', start.row, start.col);
-            var alignments = this.queryCommandValue('alignments', start.row, start.col);
+            var fonts = this.queryCommandValue('cellfonts', start.row, start.col);
+            var alignments = this.queryCommandValue('cellalignments', start.row, start.col);
             var fill = this.queryCommandValue('fill', start.row, start.col);
 
             this.__activeCellType = 'mergecell';
@@ -198,9 +198,9 @@ define(function (require, exports, module) {
 
     function toCssText(fonts, alignments, fill) {
         var result = [
-            'font-family: ' + fonts.name,
+            'font-family: ' + fonts.name.value || fonts.name,
             'font-size: ' + fonts.size + 'pt',
-            'color: ' + fonts.color
+            'color: ' + fonts.color.value || fonts.color
         ];
 
         if (fonts.bold) {

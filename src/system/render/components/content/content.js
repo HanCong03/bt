@@ -41,6 +41,16 @@ define(function (require, exports, module) {
         },
 
         __drawCellContent: function (cellInfo) {
+            cellInfo = $$.clone(cellInfo);
+
+            if (cellInfo.fonts.name.value) {
+                cellInfo.fonts.name = cellInfo.fonts.name.value;
+            }
+
+            if (cellInfo.fonts.color.value) {
+                cellInfo.fonts.color = cellInfo.fonts.color.value;
+            }
+
             if (cellInfo.mergecell) {
                 this.__drawMergeCellContent(cellInfo);
             } else {
@@ -411,7 +421,7 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
 
-            if (textAlign === NONE) {
+            if (!textAlign) {
                 textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
             }
 
