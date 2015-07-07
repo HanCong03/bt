@@ -448,7 +448,7 @@ define(function (require, exports, module) {
             var screen = this.contentScreen;
 
             if (textAlign === NONE) {
-                textAlign = this.queryCommandValue('texthorizontal', cellInfo.row, cellInfo.col);
+                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
             }
 
             switch (textAlign) {
