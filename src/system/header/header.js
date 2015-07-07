@@ -132,7 +132,7 @@ define(function (require, exports, module) {
             bgScreen.fillRect(headWidth + rect.x, 0, rect.width, headHeight);
 
             /* ---- line ---- */
-            if (!overflow.ot) {
+            if (!overflow.ot || visualData.rowPaneCount > 0) {
                 lineScreen.hline(headWidth + rect.x - LINE_WIDTH, headHeight, rect.width + DOUBLE_LINE_WIDTH);
             }
 
@@ -161,7 +161,7 @@ define(function (require, exports, module) {
             bgScreen.fillRect(0, headHeight + rect.y, headWidth, rect.height);
 
             /* ---- line ---- */
-            if (!overflow.ol) {
+            if (!overflow.ol || visualData.colPaneCount > 0) {
                 lineScreen.vline(headWidth, headHeight + rect.y - LINE_WIDTH, rect.height + DOUBLE_LINE_WIDTH);
             }
 
