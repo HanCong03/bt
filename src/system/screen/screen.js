@@ -84,12 +84,24 @@ define(function (require, exports, module) {
             this.invisibleCtx.fillStyle = color;
         },
 
+        fillPattern: function (pattern) {
+            this.invisibleCtx.fillStyle = pattern;
+        },
+
         fill: function () {
             this.invisibleCtx.fill();
         },
 
         stroke: function () {
             this.invisibleCtx.stroke();
+        },
+
+        getImageData: function (x, y, width, height) {
+            return this.invisibleCtx.getImageData(x, y, width, height);
+        },
+
+        createPattern: function (image, repetition) {
+            return this.invisibleCtx.createPattern(image, repetition);
         },
 
         strokeColor: function (color) {
@@ -103,6 +115,14 @@ define(function (require, exports, module) {
         line: function (x1, y1, x2, y2) {
             this.invisibleCtx.moveTo(x1, y1);
             this.invisibleCtx.lineTo(x2, y2);
+        },
+
+        moveTo: function (x, y) {
+            this.invisibleCtx.moveTo(x, y);
+        },
+
+        lineTo: function (x, y) {
+            this.invisibleCtx.lineTo(x, y);
         },
 
         hline: function (x, y, width) {
