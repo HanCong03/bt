@@ -37,9 +37,6 @@ define(function (require, exports, module) {
             var cells = [];
 
             $$.forEach(visualData.rows, function (row, i) {
-                var currentRow = [];
-                result.push(currentRow);
-
                 $$.forEach(visualData.cols, function (col, j) {
                     cells.push({
                         row: row,
@@ -79,15 +76,11 @@ define(function (require, exports, module) {
 
         __getMergeCellLayout: function (mergecells) {
             var visualData = this.visualData;
-            var result = [];
             var cells = [];
 
             var mergeMap = mergeToMap(mergecells);
 
             $$.forEach(visualData.rows, function (row, i) {
-                var currentRow = [];
-                result.push(currentRow);
-
                 $$.forEach(visualData.cols, function (col, j) {
                     var mergeFlag = mergeMap[row + ',' + col];
 
@@ -113,6 +106,7 @@ define(function (require, exports, module) {
                 }, this);
             }, this);
 
+            var result = [];
             var fonts = this.__getFonts(cells);
             var alignments = this.__getAlignments(cells);
             var borders = this.__getBorders(cells);

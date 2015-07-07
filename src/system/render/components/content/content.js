@@ -131,7 +131,7 @@ define(function (require, exports, module) {
         __getCellRect: function (cellInfo) {
             var textAlign = cellInfo.alignments.horizontal;
 
-            if (textAlign === NONE) {
+            if (!textAlign) {
                 textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
             }
 
