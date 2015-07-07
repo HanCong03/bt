@@ -64,8 +64,8 @@ define(function (require, exports, module) {
                         content: this.rs('get.display.content', row, col),
                         alignments: styles[key].alignments,
                         fonts: styles[key].fonts,
-                        border: styles[key].borders,
-                        fill: styles[key].fills
+                        border: styles[key].borders.border,
+                        fill: styles[key].fills.fill
                     });
                 }, this);
             }, this);
