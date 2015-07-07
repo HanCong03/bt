@@ -8,7 +8,7 @@ define(function (require) {
         $dep: 'selection',
 
         $exec: [
-            'move', 'range', 'uprange', 'downrange', 'updatefocus', 'expandrange'
+            'move', 'range', 'uprange', 'downrange', 'updatefocus', 'expandrange', 'updaterange'
         ],
 
         $query: [
@@ -37,6 +37,10 @@ define(function (require) {
 
         exec_expandrange: function (rowDir, colDir) {
             this.$dep.expand(rowDir, colDir);
+        },
+
+        exec_updaterange: function (start, end, entry) {
+            this.$dep.updateRange(start, end, entry);
         },
 
         query_range: function () {

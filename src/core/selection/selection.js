@@ -54,6 +54,31 @@ define(function (require, exports, module) {
             this.emit('rangechange');
         },
 
+        updateRange: function (start, end, entry) {
+            var heap = this.getActiveHeap();
+            var ranges = heap.ranges;
+            var range = ranges[ranges.length - 1];
+
+            range.start = {
+                row: start.row,
+                col: start.col
+            };
+
+            range.end = {
+                row: end.row,
+                col: end.col
+            };
+
+            if (entry) {
+                range.entry = {
+                    row: entry.row,
+                    col: entry.col
+                };
+            }
+
+            this.emit('rangechange');
+        },
+
         /**
          * 更新当前的焦点单元格。
          * 注：如果新的焦点单元格不在活动选区内，则操作无效。

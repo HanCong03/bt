@@ -17,16 +17,22 @@ define(function (require, exports, module) {
             // 通知接管控制
             this.postMessage('control');
 
-            var index = this.__getIndex(evt);
-
-            this.start = index;
-            this.end = index;
             // 重置锁
             this.__rowIndexLock = false;
             this.__colIndexLock = false;
 
+            if (evt.shiftKey) {
+                this.__shiftMousedown(evt);
+                return;
+            }
+
             // 请求主控模块暂停对header的控制
             this.rs('ignore.header.control');
+
+            var index = this.__getIndex(evt);
+
+            this.start = index;
+            this.end = index;
 
             if (index.row === -1 && index.col === -1) {
                 this.status = STATUS.ALL;
@@ -41,6 +47,12 @@ define(function (require, exports, module) {
                 this.status = STATUS.CELL;
                 this.postMessage('control.cell.selection', index, index);
             }
+        },
+
+        __shiftMousedown: function (evt) {
+            var index = this.__getIndex(evt);
+
+            this.postMessage('control.mouse.expand.selection', index);
         },
 
         __abortMouse: function () {

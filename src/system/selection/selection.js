@@ -48,12 +48,12 @@ define(function (require, exports, module) {
                 'control.column.selection': this.__columnSelect,
                 'control.all.selection': this.__allSelect,
 
-                'controle.move.left': this.__leftMove,
-
                 'control.compolete.cell.selection': this.__cellSelectComplete,
                 'control.compolete.row.selection': this.__rowSelectComplete,
                 'control.compolete.column.selection': this.__columnSelectComplete,
-                'control.compolete.all.selection': this.__allSelectComplete
+                'control.compolete.all.selection': this.__allSelectComplete,
+
+                'control.mouse.expand.selection': this.__mouseExpandSelection
             });
         },
 
@@ -90,6 +90,63 @@ define(function (require, exports, module) {
             end = range.end;
 
             this.execCommand('range', start, end, originalStart);
+        },
+
+        __mouseExpandSelection: function (index) {
+            var range = this.queryCommandValue('range');
+            var entry = range.entry;
+            var mergeInfo = this.queryCommandValue('mergecell', entry.row, entry.col);
+
+            var startRow;
+            var startCol;
+
+            if ($$.isNdef(mergeInfo)) {
+                startRow = entry.row;
+                startCol = entry.col;
+            } else {
+                startRow = mergeInfo.start.row;
+                startCol = mergeInfo.start.col;
+            }
+
+            var row = index.row;
+            var col = index.col;
+
+            if (row === -1 && col === -1) {
+                this.execCommand('updaterange', {
+                    row: 0,
+                    col: 0
+                }, {
+                    row: MAX_ROW_INDEX,
+                    col: MAX_COLUMN_INDEX
+                }, entry);
+
+            } else if (row === -1) {
+                this.execCommand('updaterange', {
+                    row: 0,
+                    col: Math.min(startCol, col)
+                }, {
+                    row: MAX_ROW_INDEX,
+                    col: Math.max(startCol, col)
+                });
+
+            } else if (col == -1) {
+                this.execCommand('updaterange', {
+                    row: Math.min(startRow, row),
+                    col: 0
+                }, {
+                    row: Math.max(startRow, row),
+                    col: MAX_COLUMN_INDEX
+                });
+
+            } else {
+                this.execCommand('updaterange', {
+                    row: Math.min(startRow, row),
+                    col: Math.min(startCol, col)
+                }, {
+                    row: Math.max(startRow, row),
+                    col: Math.max(startCol, col)
+                });
+            }
         },
 
         __rowSelect: function (startRow, endRow) {
