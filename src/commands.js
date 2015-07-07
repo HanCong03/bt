@@ -9,6 +9,7 @@ define(function (require, exports, module) {
             standard: require('./env/commands/standard'),
             theme: require('./env/commands/theme'),
             style: require('./env/commands/style'),
+            cellStyle: require('./env/commands/cell-style'),
             userStyle: require('./env/commands/user-style'),
             typeStyle: require('./env/commands/type-style'),
             border: require('./env/commands/border'),
