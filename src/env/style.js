@@ -233,6 +233,10 @@ define(function (require, exports, module) {
             return this.__$api.getBatchClassifyStyle('alignments', cells);
         },
 
+        getStyles: function (cells) {
+            return this.__$api.getBatchStyle(cells);
+        },
+
         getDefaultFonts: function () {
             var result = this.__$api.getDefaultClassifyStyle('fonts');
 

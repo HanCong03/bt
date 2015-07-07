@@ -47,7 +47,8 @@ define(function (require) {
             'fonts',
             'alignments',
             'cellfonts',
-            'cellalignments'
+            'cellalignments',
+            'styles'
         ],
 
         exec_font: function (font, start, end) {
@@ -181,6 +182,10 @@ define(function (require) {
 
         query_alignments: function (cells) {
             return this.$dep.getAlignments(cells);
+        },
+
+        query_styles: function (cells) {
+            return this.$dep.getStyles(cells);
         },
 
         query_cellfonts: function (row, col) {

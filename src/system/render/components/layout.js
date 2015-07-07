@@ -45,9 +45,7 @@ define(function (require, exports, module) {
                 }, this);
             }, this);
 
-            var fonts = this.__getFonts(cells);
-            var alignments = this.__getAlignments(cells);
-            var borders = this.__getBorders(cells);
+            var styles = this.__getStyles(cells);
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -64,9 +62,10 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: alignments[key],
-                        fonts: fonts[key],
-                        border: borders[key]
+                        alignments: styles[key].alignments,
+                        fonts: styles[key].fonts,
+                        border: styles[key].borders,
+                        fill: styles[key].fills
                     });
                 }, this);
             }, this);
@@ -80,8 +79,8 @@ define(function (require, exports, module) {
 
             var mergeMap = mergeToMap(mergecells);
 
-            $$.forEach(visualData.rows, function (row, i) {
-                $$.forEach(visualData.cols, function (col, j) {
+            $$.forEach(visualData.rows, function (row) {
+                $$.forEach(visualData.cols, function (col) {
                     var mergeFlag = mergeMap[row + ',' + col];
 
                     if ($$.isNdef(mergeFlag)) {
@@ -107,9 +106,7 @@ define(function (require, exports, module) {
             }, this);
 
             var result = [];
-            var fonts = this.__getFonts(cells);
-            var alignments = this.__getAlignments(cells);
-            var borders = this.__getBorders(cells);
+            var styles = this.__getStyles(cells);
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -117,12 +114,10 @@ define(function (require, exports, module) {
 
                 $$.forEach(visualData.cols, function (col, j) {
                     var mergeFlag = mergeMap[row + ',' + col];
+                    var key = row + ',' + col;
                     var index;
-                    var key;
 
                     if ($$.isNdef(mergeFlag)) {
-                        key = row + ',' + col;
-
                         currentRow.push({
                             row: row,
                             col: col,
@@ -131,21 +126,20 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: alignments[key],
-                            fonts: fonts[key],
-                            border: borders[key]
+                            alignments: styles[key].alignments,
+                            fonts: styles[key].fonts,
+                            border: styles[key].borders,
+                            fill: styles[key].fills
                         });
                     } else {
                         // 标记已被二次激活，则忽略该标记，否则，激活该标记。
-                        if (mergeFlag.active > 1) {
+                        if (mergeFlag.active === 2) {
                             currentRow.push(null);
                             return;
                         }
 
                         mergeFlag.active = 2;
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
-
-                        key = mergeFlag.start.row + ',' + mergeFlag.start.col;
 
                         currentRow.push({
                             row: row,
@@ -163,9 +157,10 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: alignments[key],
-                            fonts: fonts[key],
-                            border: borders[key]
+                            alignments: styles[key].alignments,
+                            fonts: styles[key].fonts,
+                            border: styles[key].borders,
+                            fill: styles[key].fills
                         });
                     }
                 }, this);
@@ -174,16 +169,8 @@ define(function (require, exports, module) {
             return result;
         },
 
-        __getAlignments: function (cells) {
-            return this.queryCommandValue('alignments', cells);
-        },
-
-        __getFonts: function (cells) {
-            return this.queryCommandValue('fonts', cells);
-        },
-
-        __getBorders: function (cells) {
-            return this.queryCommandValue('borders', cells);
+        __getStyles: function (cells) {
+            return this.queryCommandValue('styles', cells);
         },
 
         __getEndRC: function (start, end) {
