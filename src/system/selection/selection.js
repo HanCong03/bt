@@ -10,35 +10,21 @@ define(function (require, exports, module) {
     var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
     var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
-    var Screen = require('../screen/screen');
+    var Drawer = require('./components/drawer');
 
     module.exports = $$.createClass('Selection', {
         base: require('module'),
 
-        selectionScreen: null,
-
-        mixin: [
-            require('./components/cover'),
-            require('./components/outer')
-        ],
+        drawer: null,
 
         init: function () {
-            this.__initSelection();
-
-            this.__initEvent();
+            this.__initComponents();
             this.__initMessage();
+            this.__initEvent();
         },
 
-        __initSelection: function () {
-            var size = this.getContentContainerSize();
-            this.selectionScreen = new Screen('btb-sel-screen', this.getMiddleContainer(), size.width, size.height);
-        },
-
-        __initEvent: function () {
-            this.on({
-                'refresh': this.__refresh,
-                'rangechange': this.__refresh
-            });
+        __initComponents: function () {
+            this.drawer = this.createComponent(Drawer);
         },
 
         __initMessage: function () {
@@ -57,27 +43,30 @@ define(function (require, exports, module) {
             });
         },
 
-        __refresh: function () {
-            var range = this.queryCommandValue('range');
-            var rect = this.rs('get.visialbe.rect', range.start, range.end);
+        __initEvent: function () {
+            this.on({
+                'refresh': this.__refresh,
+                'rangechange': this.__refresh
+            });
+        },
 
-            this.__draw(range.entry, range.start, range.end, rect);
-            this.selectionScreen.toggle();
+        __refresh: function () {
+            this.drawer.draw();
+        },
+
+        __update: function (entry, start, end) {
+            this.drawer.update(entry, start, end);
         },
 
         __cellSelect: function (start, end) {
             var originalStart = start;
-
             // 获取完整的range对象，处理合并后的单元格
             var range = this.rs('get.full.range', start, end);
 
             start = range.start;
             end = range.end;
 
-            var rect = this.rs('get.visialbe.rect', start, end);
-
-            this.__draw(originalStart, start, end, rect);
-            this.selectionScreen.toggle();
+            this.__update(originalStart, start, end);
         },
 
         __cellSelectComplete: function (start, end) {
@@ -200,10 +189,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            var rect = this.rs('get.visialbe.rect', start, end);
-
-            this.__draw(originalStart, start, end, rect);
-            this.selectionScreen.toggle();
+            this.__update(originalStart, start, end);
         },
 
         __rowSelectComplete: function (startRow, endRow) {
@@ -307,10 +293,7 @@ define(function (require, exports, module) {
                 col: Math.max(startCol, endCol)
             };
 
-            var rect = this.rs('get.visialbe.rect', start, end);
-
-            this.__draw(originalStart, start, end, rect);
-            this.selectionScreen.toggle();
+            this.__update(originalStart, start, end);
         },
 
         __columnSelectComplete: function (startCol, endCol) {
@@ -381,10 +364,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            var rect = this.rs('get.visialbe.rect', start, end);
-
-            this.__draw(originalStart, start, end, rect);
-            this.selectionScreen.toggle();
+            this.__update(originalStart, start, end);
         },
 
         __allSelectComplete: function () {

@@ -8,7 +8,7 @@ define(function (require) {
         $dep: 'selection',
 
         $exec: [
-            'move', 'range', 'uprange', 'downrange', 'updatefocus', 'expandrange', 'updaterange'
+            'move', 'range', 'appendrange', 'uprange', 'downrange', 'updatefocus', 'expandrange', 'updaterange'
         ],
 
         $query: [
@@ -17,6 +17,10 @@ define(function (require) {
 
         exec_range: function (start, end, entry) {
             this.$dep.setRange(start, end, entry);
+        },
+
+        exec_appendrange: function (start, end, entry) {
+            this.$dep.appendRange(start, end, entry);
         },
 
         exec_uprange: function () {

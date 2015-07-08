@@ -49,7 +49,25 @@ define(function (require, exports, module) {
         },
 
         setRange: function (start, end, entry) {
-            this.__setRange(start, end, entry);
+            var heap = this.getActiveHeap();
+
+            heap.ranges = [$$.clone({
+                start: start,
+                end: end,
+                entry: entry || start
+            })];
+
+            this.emit('rangechange');
+        },
+
+        appendRange: function (start, end, entry) {
+            var heap = this.getActiveHeap();
+
+            heap.ranges.push($$.clone({
+                start: start,
+                end: end,
+                entry: entry || start
+            }));
 
             this.emit('rangechange');
         },
@@ -235,16 +253,6 @@ define(function (require, exports, module) {
                     col: endCol
                 }
             };
-        },
-
-        __setRange: function (start, end, entry) {
-            var heap = this.getActiveHeap();
-
-            heap.ranges = [$$.clone({
-                start: start,
-                end: end,
-                entry: entry || start
-            })];
         },
 
         __moveRow: function (count) {
