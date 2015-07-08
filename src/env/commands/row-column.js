@@ -11,7 +11,9 @@ define(function (require) {
             'hiderow',
             'hidecolumn',
             'showrow',
-            'showcolumn'
+            'showcolumn',
+            'removerowheight',
+            'removecolumnwidth'
         ],
 
         $query: [
@@ -36,6 +38,14 @@ define(function (require) {
 
         exec_showcolumn: function (startIndex, endIndex) {
             return this.$dep.showCol(startIndex, endIndex);
+        },
+
+        exec_removerowheight: function (row) {
+            this.$dep.removeRowHeight(row);
+        },
+
+        exec_removecolumnwidth: function (col) {
+            this.$dep.removeColumnWidth(col);
         },
 
         /* ----  query ---- */

@@ -54,7 +54,7 @@ define(function (require, exports, module) {
             var heap = this.getActiveHeap();
 
             if ($$.isNdef(heap.heights[row])) {
-                heap.heights[row] = this.__calculateRowHeight(row);
+                heap.heights[row] = this.__calculate(row);
             }
 
             return heap.heights[row];
@@ -71,13 +71,29 @@ define(function (require, exports, module) {
         },
 
         setBestFitRowHeight: function (height, row) {
-            height = +(height * 3 / 4).toFixed(2);
+            height = this.convertDisplayHeightToRealHeight(height);
 
             if (height <= 0) {
                 return;
             }
 
             this.rs('set.bestfit.row.height', height, row);
+        },
+
+        /**
+         * 真实高度到显示高度的转换
+         * unit -> px
+         */
+        convertRealHeightToDisplayHeight: function (height) {
+            return Math.round(height * 4 / 3);
+        },
+
+        /**
+         * 显示高度到真实高度的转换
+         * px -> unit
+         */
+        convertDisplayHeightToRealHeight: function (height) {
+            return +(height * 3 / 4).toFixed(2);
         },
 
         __clean: function (start, end) {
@@ -107,38 +123,68 @@ define(function (require, exports, module) {
         },
 
         /**
+         * 计算工作
+         */
+        __calculate: function (row) {
+            var userRowHeight = this.rs('get.row.height', row);
+            var standardHeight;
+            var newHeight;
+
+            // 用户未设置高度。
+            if ($$.isNdef(userRowHeight)) {
+                newHeight = this.__calculateRowHeight(row);
+                standardHeight = this.queryCommandValue('standardheight');
+
+                // 新计算的高度如果大于标准高度，则更新当前列的高度，并设置该高度为最佳高度。
+                if (newHeight > standardHeight) {
+                    this.setBestFitRowHeight(newHeight, row);
+                    return newHeight;
+
+                    // 否则，返回最佳高度。
+                } else {
+                    return standardHeight;
+                }
+            }
+
+            var isBestFit = this.queryCommandValue('bestfitrowheight', row);
+
+            userRowHeight = this.convertRealHeightToDisplayHeight(userRowHeight);
+
+            // 用户设置了最佳适应高度。
+            if (isBestFit) {
+                newHeight = this.__calculateRowHeight(row);
+
+                // 新计算的高度如果大于标准高度，则更新最佳高度。
+                if (newHeight > userRowHeight) {
+                    this.setBestFitRowHeight(newHeight, row);
+                    return newHeight;
+
+                    // 否则，返回最佳高度。
+
+                // 否则，删除高度设置，并返回标准高度。
+                } else {
+                    this.execCommand('removerowheight', row);
+                    return standardHeight;
+                }
+            }
+
+            // 返回用户设置的自定义高度。
+            return userRowHeight;
+        },
+
+        /**
          * 计算指定行的高度
          * @param row
          * @private
          */
         __calculateRowHeight: function (row) {
-            // 检查是否有显式设定的行高
-            var rowHeight = this.rs('get.row.height', row);
-
-            if ($$.isDefined(rowHeight)) {
-                return Math.round(rowHeight * 4 / 3);
-            }
-
-            return this.__autoHeight(row);
-        },
-
-        /**
-         * 计算指定行的自动高度
-         * @param row
-         * @returns {*}
-         * @private
-         */
-        __autoHeight: function (row) {
             var dimension = this.queryCommandValue('dimension');
-            var standard = this.queryCommandValue('standard');
 
             if (dimension.max.row < row || dimension.min.row > row) {
-                return standard.height;
+                return 0;
             }
 
-            var height = this.__calculateHeight(row, dimension.min.col, dimension.max.col);
-
-            return Math.max(standard.height, height);
+            return this.__calculateHeight(row, dimension.min.col, dimension.max.col);
         },
 
         __calculateHeight: function (row, startCol, endCol) {

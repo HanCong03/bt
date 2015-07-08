@@ -52,23 +52,39 @@ define(function (require, exports, module) {
         },
 
         getColumnWidth: function (col) {
-            var heap = this.getActiveHeap();
+            var widths = this.getActiveHeap().widths;
 
-            if ($$.isNdef(heap.widths[col])) {
-                heap.widths[col] = this.__calculateColumnWidth(col);
+            if (widths[col] === undefined) {
+                widths[col] = this.__calculate(col);
             }
 
-            return heap.widths[col];
+            return widths[col];
         },
 
         setColumnWidth: function (width, startCol, endCol) {
-            width = +(width / this.rs('get.char.unit')).toFixed(2);
+            width = this.converDisplayWidthToRealWidth(width);
 
             if (width < 0) {
                 width = 0;
             }
 
             this.rs('set.column.width', width, startCol, endCol);
+        },
+
+        /**
+         * 把显示宽度转换成真实宽度
+         * px => unit
+         */
+        converDisplayWidthToRealWidth: function (width) {
+            return +(width / this.rs('get.char.unit')).toFixed(2);
+        },
+
+        /**
+         * 把真实宽度转换成显示宽度
+         * unit => px
+         */
+        convertRealWidthToDisplayWidth: function (width) {
+            return Math.round(width * this.rs('get.char.unit'));
         },
 
         setBestFitColumnWidth: function (width, col) {
@@ -85,7 +101,6 @@ define(function (require, exports, module) {
             var heap = this.getActiveHeap();
             var widths = heap.widths;
             var cache = heap.cache;
-
             var currentCache;
 
             for (var i = start.col, limit = end.col; i <= limit; i++) {
@@ -107,29 +122,63 @@ define(function (require, exports, module) {
             }
         },
 
-        __calculateColumnWidth: function (col) {
-            // 查看用户设置的宽度
+        /**
+         * 计算
+         * @param col
+         * @returns {*}
+         * @private
+         */
+        __calculate: function (col) {
             var userColumnWidth = this.rs('get.column.width', col);
+            var standardWidth;
+            var newWidth;
 
-            if ($$.isDefined(userColumnWidth)) {
-                return Math.round(this.rs('get.char.unit') * userColumnWidth);
+            // 用户未设置宽度。
+            if ($$.isNdef(userColumnWidth)) {
+                newWidth = this.__calculateColumnWidth(col);
+                standardWidth = this.queryCommandValue('standardwidth');
+
+                // 新计算的宽度如果大于标准宽度，则更新当前列的宽度，并设置该宽度为最佳宽度。
+                if (newWidth > standardWidth) {
+                    this.setBestFitColumnWidth(newWidth, col);
+                    return newWidth;
+
+                    // 否则，返回最佳宽度。
+                } else {
+                    return standardWidth;
+                }
             }
 
-            return this.__autoWidth(col);
+            var isBestFit = this.queryCommandValue('bestfitcolumnwidth', col);
+
+            userColumnWidth = this.convertRealWidthToDisplayWidth(userColumnWidth);
+
+            // 用户设置了最佳适应宽度。
+            if (isBestFit) {
+                newWidth = this.__calculateColumnWidth(col);
+                // 新的高度超过了当前最佳高度，则更新最佳高度。
+                if (newWidth > userColumnWidth) {
+                    this.setBestFitColumnWidth(newWidth, col);
+                    return newWidth;
+
+                    // 否则，返回最佳宽度。
+                } else {
+                    return userColumnWidth;
+                }
+            }
+
+            // 返回用户设置的自定义宽度。
+            return userColumnWidth;
         },
 
-        __autoWidth: function (col) {
+        __calculateColumnWidth: function (col) {
             var dimension = this.queryCommandValue('dimension');
-            var standard = this.queryCommandValue('standard');
 
             if (dimension.max.col < col || dimension.min.col > col) {
-                return standard.width;
+                return 0;
             }
 
-            var width = this.__calculateWidth(col, dimension.min.row, dimension.max.row);
-
-            // 返回自动计算的宽度和标准宽度中比较大的值
-            return Math.max(standard.width, width);
+            return this.__calculateWidth(col, dimension.min.row, dimension.max.row);
         },
 
         __calculateWidth: function (col, startRow, endRow) {

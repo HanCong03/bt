@@ -20,9 +20,9 @@ define(function (require, exports, module) {
                 'get.column.width': this.getColumnWidth,
 
                 'set.row.height': this.setRowHeight,
-                'set.bsetfit.row.height': this.setBestFitRowHeight,
+                'set.bestfit.row.height': this.setBestFitRowHeight,
                 'set.column.width': this.setColumnWidth,
-                'set.bsetfit.column.width': this.setBestFitColumnWidth
+                'set.bestfit.column.width': this.setBestFitColumnWidth
             });
         },
 
@@ -48,6 +48,14 @@ define(function (require, exports, module) {
 
         isBestFitRowHeight: function (row) {
             return this.__$api.isBestFitRowHeight(row);
+        },
+
+        removeColumnWidth: function (col) {
+            this.__$api.removeColumnWidth(col);
+        },
+
+        removeRowHeight: function (row) {
+            this.__$api.removeRowHeight(row);
         },
 
         getRowHeight: function (row) {
