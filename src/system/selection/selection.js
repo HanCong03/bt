@@ -17,6 +17,9 @@ define(function (require, exports, module) {
 
         drawer: null,
 
+        // 选区追加模式是否开启
+        appendMode: false,
+
         init: function () {
             this.__initComponents();
             this.__initMessage();
@@ -39,7 +42,12 @@ define(function (require, exports, module) {
                 'control.compolete.column.selection': this.__columnSelectComplete,
                 'control.compolete.all.selection': this.__allSelectComplete,
 
-                'control.mouse.expand.selection': this.__mouseExpandSelection
+                'control.mouse.expand.selection': this.__mouseExpandSelection,
+
+                // 进入选区追加模式
+                'control.selection.append.mode': this.__activeAppendMode,
+                // 退出选区追加模式
+                'control.selection.exit.append.mode': this.__inactiveAppendMode
             });
         },
 
@@ -54,8 +62,39 @@ define(function (require, exports, module) {
             this.drawer.draw();
         },
 
-        __change: function (entry, start, end) {
-            this.drawer.change(entry, start, end);
+        /**
+         * 进入选区追加模式
+         */
+        __activeAppendMode: function () {
+            this.appendMode = true;
+        },
+
+        __inactiveAppendMode: function () {
+            this.appendMode = false;
+        },
+
+        /**
+         * 更新选区视图，不进行数据更新。
+         * @private
+         */
+        __update: function (entry, start, end) {
+            if (!this.appendMode) {
+                this.drawer.change(entry, start, end);
+            } else {
+                this.drawer.append(entry, start, end);
+            }
+        },
+
+        /**
+         * 选区已确定，更新数据。
+         * @private
+         */
+        __complete: function (start, end, entry) {
+            if (!this.appendMode) {
+                this.execCommand('range', start, end, entry);
+            } else {
+                this.execCommand('appendrange', start, end, entry);
+            }
         },
 
         __cellSelect: function (start, end) {
@@ -66,7 +105,7 @@ define(function (require, exports, module) {
             start = range.start;
             end = range.end;
 
-            this.__change(originalStart, start, end);
+            this.__update(originalStart, start, end);
         },
 
         __cellSelectComplete: function (start, end) {
@@ -78,7 +117,7 @@ define(function (require, exports, module) {
             start = range.start;
             end = range.end;
 
-            this.execCommand('range', start, end, originalStart);
+            this.__complete(start, end, originalStart);
         },
 
         __mouseExpandSelection: function (index) {
@@ -189,7 +228,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            this.__change(originalStart, start, end);
+            this.__update(originalStart, start, end);
         },
 
         __rowSelectComplete: function (startRow, endRow) {
@@ -233,7 +272,7 @@ define(function (require, exports, module) {
                 };
             }
 
-            this.execCommand('range', {
+            this.__complete({
                 row: Math.min(startRow, endRow),
                 col: 0
             }, {
@@ -293,7 +332,7 @@ define(function (require, exports, module) {
                 col: Math.max(startCol, endCol)
             };
 
-            this.__change(originalStart, start, end);
+            this.__update(originalStart, start, end);
         },
 
         __columnSelectComplete: function (startCol, endCol) {
@@ -337,7 +376,7 @@ define(function (require, exports, module) {
                 };
             }
 
-            this.execCommand('range', {
+            this.__complete({
                 row: 0,
                 col: Math.min(startCol, endCol)
             }, {
@@ -364,7 +403,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            this.__change(originalStart, start, end);
+            this.__update(originalStart, start, end);
         },
 
         __allSelectComplete: function () {
@@ -385,7 +424,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            this.execCommand('range', start, end, originalStart);
+            this.__complete(start, end, originalStart);
         }
     });
 });

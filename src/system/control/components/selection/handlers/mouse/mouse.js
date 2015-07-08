@@ -34,6 +34,11 @@ define(function (require, exports, module) {
             this.start = index;
             this.end = index;
 
+            if (evt.ctrlKey || evt.metaKey) {
+                // 通知进入选区追加模式
+                this.postMessage('control.selection.append.mode');
+            }
+
             if (index.row === -1 && index.col === -1) {
                 this.status = STATUS.ALL;
                 this.postMessage('control.all.selection');
@@ -120,6 +125,9 @@ define(function (require, exports, module) {
             }
 
             this.status = STATUS.NORMAL;
+
+            // 通知退出选区追加模式
+            this.postMessage('control.selection.exit.append.mode');
         },
 
         __onmouseleave: function (evt) {

@@ -96,8 +96,26 @@ define(function (require, exports, module) {
             this.invisibleCtx.stroke();
         },
 
-        getImageData: function (x, y, width, height) {
+        getVisibleImageData: function (x, y, width, height) {
+            x = x || 0;
+            y = y || 0;
+            width = width || this.visibleCanvas.width;
+            height = height || this.visibleCanvas.height;
+
+            return this.visibleCtx.getImageData(x, y, width, height);
+        },
+
+        getInvisibleImageData: function (x, y, width, height) {
+            x = x || 0;
+            y = y || 0;
+            width = width || this.invisibleCanvas.width;
+            height = height || this.invisibleCanvas.height;
+
             return this.invisibleCtx.getImageData(x, y, width, height);
+        },
+
+        putImageData: function (imagedata, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
+            this.invisibleCtx.putImageData.apply(this.invisibleCtx, arguments);
         },
 
         createPattern: function (image, repetition) {

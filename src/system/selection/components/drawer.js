@@ -16,6 +16,8 @@ define(function (require, exports, module) {
         ],
 
         screen: null,
+        // 当前保存的有效快照对象
+        snapshot: null,
 
         init: function () {
             this.__initScreen();
@@ -27,6 +29,9 @@ define(function (require, exports, module) {
         },
 
         draw: function () {
+            // 每一次重绘，都会清空快照对象
+            this.snapshot = null;
+
             var ranges = this.queryCommandValue('allrange');
             var range;
 
@@ -44,6 +49,28 @@ define(function (require, exports, module) {
         change: function (entry, start, end) {
             this.__drawSingleSelection(entry, start, end);
             this.screen.toggle();
+        },
+
+        // 追加
+        append: function (entry, start, end) {
+            var screen = this.screen;
+
+            if (!this.snapshot) {
+                this.snapshot = this.__getSnapshot();
+            }
+
+            screen.putImageData(this.snapshot, 0, 0);
+
+            this.__appendSelection(entry, start, end);
+
+            screen.toggle();
+        },
+
+        __getSnapshot: function () {
+            var ranges = this.queryCommandValue('allrange');
+            this.__drawTempSelection(ranges);
+
+            return this.screen.getInvisibleImageData();
         }
     });
 });

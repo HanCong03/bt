@@ -23,20 +23,48 @@ define(function (require, exports, module) {
             screen.save();
             screen.translate(visualData.headWidth, visualData.headHeight);
 
+            var range;
+
             for (var i = 0, len = ranges.length; i < len; i++) {
-                this.__fillMultiSelection(ranges[i]);
+                var range = ranges[i];
+                this.__fillMultiSelection(range.start, range.end);
             }
 
-            var last = ranges[ranges.length - 1];
+            range = ranges[ranges.length - 1];
 
-            this.__drawMultiFocus(last.entry.row, last.entry.col);
+            this.__drawMultiFocus(range.entry.row, range.entry.col);
 
             screen.restore();
         },
 
-        __fillMultiSelection: function (range) {
-            var start = range.start;
-            var end = range.end;
+        __drawTempSelection: function (ranges) {
+            var visualData = this.rs('get.visual.data');
+            var screen = this.screen;
+
+            screen.save();
+            screen.translate(visualData.headWidth, visualData.headHeight);
+
+            for (var i = 0, len = ranges.length; i < len; i++) {
+                this.__fillMultiSelection(ranges[i].start, ranges[i].end);
+            }
+
+            screen.restore();
+        },
+
+        __appendSelection: function (entry, start, end) {
+            var visualData = this.rs('get.visual.data');
+            var screen = this.screen;
+
+            screen.save();
+            screen.translate(visualData.headWidth, visualData.headHeight);
+
+            this.__fillMultiSelection(start, end);
+            this.__drawMultiFocus(entry.row, entry.col);
+
+            screen.restore();
+        },
+
+        __fillMultiSelection: function (start, end) {
             var rect = this.rs('get.visible.rect', start, end);
 
             if (!rect) {
