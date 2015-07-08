@@ -10,8 +10,7 @@ define(function (require) {
         $query: [
             'majorfont',
             'minorfont',
-            'themecolor',
-            'basesize'
+            'themecolor'
         ],
 
         query_majorfont: function () {
@@ -24,10 +23,6 @@ define(function (require) {
 
         query_themecolor: function (theme, tint) {
             return this.$dep.getThemeColor(theme, tint);
-        },
-
-        query_basesize: function () {
-            return this.$dep.getBaseSize();
         }
     });
 });

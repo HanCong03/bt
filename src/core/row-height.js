@@ -25,7 +25,6 @@ define(function (require, exports, module) {
 
         __initShadowBox: function () {
             this.shadowBox = document.createElement('span');
-            this.shadowBox.style.cssText = 'line-height: 1';
             this.getShadowContainer().appendChild(this.shadowBox);
         },
 
@@ -37,11 +36,13 @@ define(function (require, exports, module) {
             }
 
             heap.heights = [];
+            heap.cache = [];
         },
 
         __initEvent: function () {
             this.on({
-                'contentchange': this.__onContentChange
+                'contentchange': this.__clean,
+                'stylechange': this.__clean
             });
         },
 
@@ -50,11 +51,12 @@ define(function (require, exports, module) {
          * @private
          */
         __initBoxSetting: function () {
-            //var standard = this.queryCommandValue('standard');
-            //$(this.shadowBox).css({
-            //    fontFamily: standard.font,
-            //    fontSize: standard.fontsize + 'pt'
-            //});
+            var standard = this.queryCommandValue('standard');
+            $(this.shadowBox).css({
+                fontFamily: standard.font,
+                lineHeight: 1,
+                fontSize: standard.fontsize + 'pt'
+            });
         },
 
         getRowHeight: function (row) {
@@ -75,19 +77,30 @@ define(function (require, exports, module) {
             }
 
             this.rs('set.row.height', height, startRow, endRow);
-            this.__clearCache(startRow, endRow);
         },
 
-        __onContentChange: function (start, end) {
-            this.__clearCache(start.row, end.row);
-        },
-
-        __clearCache: function (startRow, endRow) {
+        __clean: function (start, end) {
             var heap = this.getActiveHeap();
+            var cache = heap.cache;
+            var heights = heap.heights;
 
-            for (var i = startRow; i <= endRow; i++) {
-                if (heap.heights[i] !== undefined) {
-                    delete heap.heights[i];
+            var currentCache;
+
+            for (var i = start.row, limit = end.row; i <= limit; i++) {
+                if (heights[i] !== undefined) {
+                    delete heights[i];
+                }
+
+                currentCache = cache[i];
+
+                if (!currentCache) {
+                    continue;
+                }
+
+                for (var j = start.col, jlimit = end.col; j <= jlimit; j++) {
+                    if (currentCache[j] !== undefined) {
+                        delete currentCache[j];
+                    }
                 }
             }
         },
@@ -122,166 +135,51 @@ define(function (require, exports, module) {
                 return standard.height;
             }
 
-            var cells = this.__getCells(row, dimension.min.col, dimension.max.col);
+            var height = this.__calculateHeight(row, dimension.min.col, dimension.max.col);
 
-            // 当前行无有效数据，则返回标准高度
-            if ($$.isNdef(cells)) {
-                return standard.height;
-            }
-
-            return Math.max(standard.height, this.__calculateHeight(cells));
+            return Math.max(standard.height, height);
         },
 
-        __getCells: function (row, startCol, endCol) {
-            var cells = [];
-            var font;
-            var fontsize;
-            var current;
+        __calculateHeight: function (row, startCol, endCol) {
+            var cache = this.getActiveHeap().cache;
 
-            var defaultFont = this.queryCommandValue('minorfont');
-            var defaultSize = this.queryCommandValue('basesize');
+            cache[row] = cache[row] || [];
+
+            var rowCache = cache[row];
+            var height = 0;
 
             for (var i = startCol; i <= endCol; i++) {
-                font = this.queryCommandValue('userfont', row, i);
-                fontsize = this.queryCommandValue('userfontsize', row, i);
+                if (rowCache[i] === undefined) {
+                    rowCache[i] = this.__collectCellHeight(row, i);
+                }
 
-                current = {
-                    // 当前单元格的列索引
-                    col: i,
-                    font: this.queryCommandValue('userfont', row, i),
-                    fontsize: this.queryCommandValue('userfontsize', row, i),
-                    content: this.rs('get.display.content', row, i)
-                };
-
-                if (current.font === null
-                    && current.fontsize === null
-                    && current.content === null) {
-
-                    // 全为空，则跳过该单元格
-                    continue;
-                } else {
-                    if (current.font === null) {
-                        current.font = defaultFont;
-                    }
-
-                    if (current.fontsize === null) {
-                        current.fontsize = defaultSize;
-                    }
-
-                    // 默认内容
-                    if (current.content === null) {
-                        current.content = '0';
-                    }
-
-                    cells.push(current);
+                if (rowCache[i] > height) {
+                    height = rowCache[i];
                 }
             }
 
-            if (cells.length === 0) {
-                return null;
-            }
-
-            return this.__filterMergeCell(row, cells);
+            return Math.round(height);
         },
 
-        /**
-         * 过滤单元格集合中的合并单元格。
-         * 计算行高时需要忽略合并后的单元格。
-         * @param mergecells
-         * @param cells
-         * @private
-         */
-        __filterMergeCell: function (row, cells) {
-            // 获取当前行所包含的合并单元格
-            var mergecells = this.queryCommandValue('mergecell', {
-                row: row,
-                col: 0
-            }, {
-                row: row,
-                col: MAX_COLUMN_INDEX
-            });
+        __collectCellHeight: function (row, col) {
+            var font = this.queryCommandValue('userfont', row, col);
+            var fontsize = this.queryCommandValue('userfontsize', row, col);
+            var content = this.rs('get.display.content', row, col);
 
-            if ($$.isNdef(mergecells)) {
-                return cells;
+            if (!font && !fontsize && !content) {
+                return 0;
             }
 
-            var mergeCols = [];
-            var current;
-
-            for (var key in mergecells) {
-                if (!mergecells.hasOwnProperty(key)) {
-                    continue;
-                }
-
-                current = mergecells[key];
-
-                mergeCols.push({
-                    min: current.start.col,
-                    max: current.end.col
-                });
+            if (!content) {
+                content = '0';
+            } else {
+                content = content.join('<br>')
             }
 
-            var result = [];
+            var shadowBox = this.shadowBox;
 
-            $$.forEach(cells, function (cell) {
-                var col = cell.col;
-                var current;
-
-                for (var i = 0, len = mergeCols.length; i < len; i++) {
-                    current = mergeCols[i];
-
-                    if (col >= current.min && col <= current.max) {
-                        return;
-                    }
-                }
-
-                result.push(cell);
-            });
-
-            if (result.length === 0) {
-                return null;
-            }
-
-            return result;
-        },
-
-        __calculateHeight: function (cells) {
-            var box = this.shadowBox;
-            var heights = [];
-
-            $$.forEach(cells, function (cell) {
-                var height = 0;
-                box.innerHTML = buildHTML(cell);
-
-                var nodes = box.firstChild.children;
-                var rect;
-
-                for (var i = 0, len = nodes.length; i < len; i++) {
-                    rect = nodes[i].getBoundingClientRect();
-                    height += rect.height;
-                }
-
-                heights.push(height);
-            });
-
-            return Math.round(Math.max.apply(null, heights)) + DOUBLE_V_PADDIGN;
+            shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + content + '</span>';
+            return shadowBox.firstChild.offsetHeight;
         }
     });
-
-    function buildHTML(cell) {
-        var contents = [];
-        var html = '<div style="font-family: ${font}; font-size: ${fontsize}pt;">${content}</div>';
-
-        if (cell.content) {
-            $$.forEach(cell.content, function (rowContent) {
-                contents.push('<span>' + rowContent + '</span>');
-            });
-        }
-
-        return $$.tpl(html, {
-            font: cell.font,
-            fontsize: cell.fontsize,
-            content: contents.join('')
-        });
-    }
 });

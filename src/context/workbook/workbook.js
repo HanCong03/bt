@@ -19,12 +19,17 @@ define(function (require, exports, module) {
 
         __captureWorkbookEvent: function () {
             this.__$workbook.on(this, {
-                '*': this.__eventHandler
+                'stylechange': this.__onstylechange,
+                'contentchange': this.__oncontentchange
             });
         },
 
-        __eventHandler: function () {
-            //console.log(arguments)
+        __onstylechange: function (start, end) {
+            this.__$ctx.emitAll('stylechange', start, end);
+        },
+
+        __oncontentchange: function (start, end) {
+            this.__$ctx.emitAll('contentchange', start, end);
         },
 
         getAPI: function () {

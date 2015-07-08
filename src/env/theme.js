@@ -25,10 +25,6 @@ define(function (require, exports, module) {
 
         getMinorFont: function () {
             return this.getAPI().getMinorFont();
-        },
-
-        getBaseSize: function () {
-            return this.getAPI().getBaseSize();
         }
     });
 });
