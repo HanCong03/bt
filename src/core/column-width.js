@@ -155,7 +155,6 @@ define(function (require, exports, module) {
 
         __collectCellWidth: function (row, col) {
             var contentType = this.queryCommandValue('contenttype', row, col);
-            var content = this.rs('get.display.content', row, col);
 
             if (!contentType || !NUMERIC_TYPE[contentType]) {
                 return 0;
@@ -163,22 +162,13 @@ define(function (require, exports, module) {
 
             var font = this.queryCommandValue('userfont', row, col);
             var fontsize = this.queryCommandValue('userfontsize', row, col);
+            var content = this.rs('get.display.content', row, col);
 
-            if (!font && !fontsize && !content) {
-                return 0;
-            }
-
-            if (!content) {
-                content = '0';
-            } else {
-                content = content.join('<br>')
-            }
-
+            content = content.join('<br>')
             var shadowBox = this.shadowBox;
-
             shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + content + '</span>';
 
-            return shadowBox.firstChild.offsetHeight + DOUBLE_H_PADDING;
+            return shadowBox.firstChild.offsetWidth + DOUBLE_H_PADDING;
         }
     });
 });
