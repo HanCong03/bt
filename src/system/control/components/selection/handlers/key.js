@@ -21,8 +21,8 @@ define(function (require, exports, module) {
                     this.__keyLeft(evt);
                     break;
 
-                case KEY_CODE.TOP:
-                    this.__keyTop(evt);
+                case KEY_CODE.UP:
+                    this.__keyUp(evt);
                     break;
 
                 case KEY_CODE.RIGHT:
@@ -41,6 +41,10 @@ define(function (require, exports, module) {
         __keyLeft: function (evt) {
             evt.preventDefault();
 
+            if (!this.__checkRecord('left', evt.originalEvent.timeStamp)) {
+                return;
+            }
+
             if (evt.shiftKey) {
                 this.__shiftLeft(evt);
             } else {
@@ -49,8 +53,12 @@ define(function (require, exports, module) {
             }
         },
 
-        __keyTop: function (evt) {
+        __keyUp: function (evt) {
             evt.preventDefault();
+
+            if (!this.__checkRecord('up', evt.originalEvent.timeStamp)) {
+                return;
+            }
 
             if (evt.shiftKey) {
                 this.__shiftTop(evt);
@@ -63,6 +71,10 @@ define(function (require, exports, module) {
         __keyRight: function (evt) {
             evt.preventDefault();
 
+            if (!this.__checkRecord('right', evt.originalEvent.timeStamp)) {
+                return;
+            }
+
             if (evt.shiftKey) {
                 this.__shiftRight(evt);
             } else {
@@ -73,6 +85,10 @@ define(function (require, exports, module) {
 
         __keyDown: function (evt) {
             evt.preventDefault();
+
+            if (!this.__checkRecord('down', evt.originalEvent.timeStamp)) {
+                return;
+            }
 
             if (evt.shiftKey) {
                 this.__shiftDown(evt);

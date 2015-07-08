@@ -5,16 +5,14 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var STATUS = require('../definition/status');
-    var KEY_CODE = require('system/definition/key-code');
-
-    var LIMIT = require('definition/limit');
-    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
-    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = {
         __keyEnter: function (evt) {
             evt.preventDefault();
+
+            if (!this.__checkRecord('enter', evt.originalEvent.timeStamp)) {
+                return;
+            }
 
             var ranges = this.queryCommandValue('allrange');
 
@@ -32,7 +30,7 @@ define(function (require, exports, module) {
 
             // 只包含单个单元格
             if (rangeStart.row === rangeEnd.row && rangeStart.col === rangeEnd.col) {
-                return this.__singleEnterKeyMove(evt, ranges);
+                return this.__singleEnterKeyMove(evt);
             }
 
             var mergeInfo = this.__getMergeCell(entry.row, entry.col);
@@ -48,7 +46,7 @@ define(function (require, exports, module) {
             // 仅包含一个合并后的单元格
             if (mergeStart.row === rangeStart.row && mergeStart.col === rangeStart.col
                 && mergeEnd.row === rangeEnd.row && mergeEnd.col === rangeEnd.col) {
-                return this.__singleEnterKeyMove(evt, ranges);
+                return this.__singleEnterKeyMove(evt);
             }
 
             return this.__multiEnterKeyMove(evt, ranges);
@@ -61,58 +59,12 @@ define(function (require, exports, module) {
          * @param ranges
          * @private
          */
-        __singleEnterKeyMove: function (evt, ranges) {
+        __singleEnterKeyMove: function (evt) {
             if (evt.shiftKey) {
                 this.execCommand('move', -1, 0);
             } else {
                 this.execCommand('move', 1, 0);
             }
-            //var range = ranges[0];
-            //var entry = range.entry;
-            //var row;
-            //var col = entry.col;
-            //
-            //// up move
-            //if (evt.shiftKey) {
-            //    row = entry.row - 1;
-            //} else {
-            //    row = entry.row + 1;
-            //}
-            //
-            //if (row < 0) {
-            //    row = 0;
-            //} else if (row > MAX_ROW_INDEX) {
-            //    row = MAX_ROW_INDEX;
-            //}
-            //
-            //var mergeInfo = this.__getMergeCell(row, col);
-            //
-            //if ($$.isNdef(mergeInfo)) {
-            //    this.execCommand('range', {
-            //        row: row,
-            //        col: col
-            //    }, {
-            //        row: row,
-            //        col: col
-            //    });
-            //
-            //    // 把新的选区滚动到视图内
-            //    this.execCommand('scrollin', {
-            //        row: row,
-            //        col: col
-            //    }, {
-            //        row: row,
-            //        col: col
-            //    });
-            //} else {
-            //    this.execCommand('range', mergeInfo.start, mergeInfo.end, {
-            //        row: row,
-            //        col: col
-            //    });
-            //
-            //    // 把新的选区滚动到视图内
-            //    this.execCommand('scrollin', mergeInfo.start, mergeInfo.end);
-            //}
         },
 
         /**

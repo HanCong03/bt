@@ -8,11 +8,17 @@ define(function (require, exports, module) {
     var STATUS = require('./definition/status');
     var ControlUtils = require('system/control/utils');
 
+    // 操作间隔阈值
+    var THRESHOLD = 17;
+
     module.exports = $$.createClass('SelectionController', {
         base: require('component'),
 
         container: null,
         status: null,
+
+        // 最仅一次移动记录，用于限制操作频度
+        __lastRecord: {},
 
         mixin: [
             require('./handlers/key'),
@@ -52,6 +58,19 @@ define(function (require, exports, module) {
             this.__abortMouse();
             this.__abortKey();
             this.__reset();
+        },
+
+        __checkRecord: function(type, time) {
+            var record = this.__lastRecord;
+
+            if (record.type === type && time - record.time < THRESHOLD) {
+                return false;
+            }
+
+            record.type = type;
+            record.time = time;
+
+            return true;
         },
 
         __getIndex: function (evt) {

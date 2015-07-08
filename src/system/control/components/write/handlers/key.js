@@ -18,8 +18,8 @@ define(function (require, exports, module) {
                     this.__keyLeft(evt);
                     break;
 
-                case KEY_CODE.TOP:
-                    this.__keyTop(evt);
+                case KEY_CODE.UP:
+                    this.__keyUp(evt);
                     break;
 
                 case KEY_CODE.RIGHT:
@@ -57,7 +57,7 @@ define(function (require, exports, module) {
             // EDIT状态下交由系统处理
         },
 
-        __keyTop: function (evt) {
+        __keyUp: function (evt) {
             // 输入状态
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
