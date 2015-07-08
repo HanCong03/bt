@@ -16,7 +16,9 @@ define(function (require) {
 
         $query: [
             'hiddenrow',
-            'hiddencolumn'
+            'hiddencolumn',
+            'bestfitrowheight',
+            'bestfitcolumnwidth'
         ],
 
         /* ----- exec ------ */
@@ -43,6 +45,14 @@ define(function (require) {
 
         query_hiddencolumn: function (col) {
             return this.$dep.isHiddenColumn(col);
+        },
+
+        query_bestfitrowheight: function (row) {
+            return this.$dep.isBestFitRowHeight(row);
+        },
+
+        query_bestfitcolumnwidth: function (col) {
+            return this.$dep.isBestFitColumnWidth(col);
         }
     });
 });

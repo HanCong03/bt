@@ -1,5 +1,5 @@
 /**
- * @file 列宽，行高计算
+ * @file 行高计算
  * @author hancong03@baiud.com
  */
 
@@ -7,9 +7,6 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var CELL_PADDING = require('definition/cell-padding');
     var DOUBLE_V_PADDIGN = 2 * CELL_PADDING.v;
-
-    var LIMIT = require('definition/limit');
-    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = $$.createClass('RowHeight', {
         base: require('module'),
@@ -19,12 +16,19 @@ define(function (require, exports, module) {
         init: function () {
             this.__initShadowBox();
             this.__initHeap();
-            this.__initBoxSetting();
             this.__initEvent();
         },
 
         __initShadowBox: function () {
+            var standard = this.queryCommandValue('standard');
             this.shadowBox = document.createElement('span');
+
+            $(this.shadowBox).css({
+                fontFamily: standard.font,
+                lineHeight: 1,
+                fontSize: standard.fontsize + 'pt'
+            });
+
             this.getShadowContainer().appendChild(this.shadowBox);
         },
 
@@ -46,19 +50,6 @@ define(function (require, exports, module) {
             });
         },
 
-        /**
-         * 在底层theme发生改变之后，需要重新初始化shadow-box的style
-         * @private
-         */
-        __initBoxSetting: function () {
-            var standard = this.queryCommandValue('standard');
-            $(this.shadowBox).css({
-                fontFamily: standard.font,
-                lineHeight: 1,
-                fontSize: standard.fontsize + 'pt'
-            });
-        },
-
         getRowHeight: function (row) {
             var heap = this.getActiveHeap();
 
@@ -77,6 +68,16 @@ define(function (require, exports, module) {
             }
 
             this.rs('set.row.height', height, startRow, endRow);
+        },
+
+        setBestFitRowHeight: function (height, row) {
+            height = +(height * 3 / 4).toFixed(2);
+
+            if (height <= 0) {
+                return;
+            }
+
+            this.rs('set.bestfit.row.height', height, row);
         },
 
         __clean: function (start, end) {
@@ -179,7 +180,8 @@ define(function (require, exports, module) {
             var shadowBox = this.shadowBox;
 
             shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + content + '</span>';
-            return shadowBox.firstChild.offsetHeight;
+
+            return shadowBox.firstChild.offsetHeight + DOUBLE_V_PADDIGN;
         }
     });
 });

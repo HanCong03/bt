@@ -8,7 +8,8 @@ define(function (require) {
         $dep: 'columnWidth',
 
         $exec: [
-            'columnwidth'
+            'columnwidth',
+            'bestfitcolumnwidth'
         ],
 
         $query: [
@@ -17,6 +18,10 @@ define(function (require) {
 
         exec_columnwidth: function (wdith, startCol, endCol) {
             this.$dep.setColumnWidth(wdith, startCol, endCol);
+        },
+
+        exec_bestfitcolumnwidth: function (width, col) {
+            this.$dep.setBestFitColumnWidth(width, col);
         },
 
         query_columnwidth: function (col) {

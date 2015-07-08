@@ -8,7 +8,8 @@ define(function (require) {
         $dep: 'rowHeight',
 
         $exec: [
-            'rowheight'
+            'rowheight',
+            'bestfitrowheight'
         ],
 
         $query: [
@@ -17,6 +18,10 @@ define(function (require) {
 
         exec_rowheight: function (height, startRow, endRow) {
             this.$dep.setRowHeight(height, startRow, endRow);
+        },
+
+        exec_bestfitrowheight: function (height, row) {
+            this.$dep.setBestFitRowHeight(height, row);
         },
 
         query_rowheight: function (row) {
