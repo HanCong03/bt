@@ -11,6 +11,7 @@ define({
         fontColor: '#000000'
     },
 
+    // 主颜色
     color: '#217346',
 
     header: {
@@ -24,7 +25,9 @@ define({
 
     focus: {
         cover: 'rgba(0, 0, 0, 0.2)',
-        space: '#ffffff'
+        space: '#ffffff',
+        // 多选区边框色
+        color: '#a5a5a5'
     },
 
     fill: '#ffffff'

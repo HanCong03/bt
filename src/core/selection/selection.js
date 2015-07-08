@@ -49,14 +49,7 @@ define(function (require, exports, module) {
         },
 
         setRange: function (start, end, entry) {
-            var heap = this.getActiveHeap();
-
-            heap.ranges = [$$.clone({
-                start: start,
-                end: end,
-                entry: entry || start
-            })];
-
+            this.__setRange(start, end, entry);
             this.emit('rangechange');
         },
 
@@ -186,6 +179,16 @@ define(function (require, exports, module) {
 
                 this.__moveToMergeCell(mergeInfo, row, col);
             }
+        },
+
+        __setRange: function (start, end, entry) {
+            var heap = this.getActiveHeap();
+
+            heap.ranges = [$$.clone({
+                start: start,
+                end: end,
+                entry: entry || start
+            })];
         },
 
         /**

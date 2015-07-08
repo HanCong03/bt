@@ -22,8 +22,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.visialbe.rect': this.getVisibleRect,
-                'get.visiable.layout': this.getVisibleRectLayout
+                'get.visible.rect': this.getVisibleRect,
+                'get.visible.layout': this.getVisibleRectLayout
             });
         },
 

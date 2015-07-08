@@ -96,7 +96,7 @@ define(function (require, exports, module) {
             this.lineScreen.setLineWidth(2);
 
             $$.forEach(ranges, function (range) {
-                var layout = _self.rs('get.visiable.layout', range.start, range.end);
+                var layout = _self.rs('get.visible.layout', range.start, range.end);
 
                 if (!layout) {
                     return;
@@ -174,7 +174,7 @@ define(function (require, exports, module) {
 
             var range = $$.standardRange(start, end);
 
-            var layout = this.rs('get.visiable.layout', range.start, range.end);
+            var layout = this.rs('get.visible.layout', range.start, range.end);
 
             if (!layout) {
                 return;

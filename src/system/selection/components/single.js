@@ -18,7 +18,7 @@ define(function (require, exports, module) {
 
     module.exports = {
         __drawSingleSelection: function (entry, start, end) {
-            var rect = this.rs('get.visialbe.rect', start, end);
+            var rect = this.rs('get.visible.rect', start, end);
 
             if (!rect) {
                 return;
@@ -36,9 +36,9 @@ define(function (require, exports, module) {
             drawCover(screen, rect);
 
             if ($$.isNdef(mergeInfo)) {
-                focusRect = this.rs('get.visialbe.rect', entry, entry);
+                focusRect = this.rs('get.visible.rect', entry, entry);
             } else {
-                focusRect = this.rs('get.visialbe.rect', mergeInfo.start, mergeInfo.end);
+                focusRect = this.rs('get.visible.rect', mergeInfo.start, mergeInfo.end);
             }
 
             if (focusRect) {
@@ -48,8 +48,6 @@ define(function (require, exports, module) {
             drawOuter(screen, rect);
 
             screen.restore();
-
-            screen.toggle();
         }
     };
 

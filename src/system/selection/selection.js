@@ -54,8 +54,8 @@ define(function (require, exports, module) {
             this.drawer.draw();
         },
 
-        __update: function (entry, start, end) {
-            this.drawer.update(entry, start, end);
+        __change: function (entry, start, end) {
+            this.drawer.change(entry, start, end);
         },
 
         __cellSelect: function (start, end) {
@@ -66,7 +66,7 @@ define(function (require, exports, module) {
             start = range.start;
             end = range.end;
 
-            this.__update(originalStart, start, end);
+            this.__change(originalStart, start, end);
         },
 
         __cellSelectComplete: function (start, end) {
@@ -189,7 +189,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            this.__update(originalStart, start, end);
+            this.__change(originalStart, start, end);
         },
 
         __rowSelectComplete: function (startRow, endRow) {
@@ -293,7 +293,7 @@ define(function (require, exports, module) {
                 col: Math.max(startCol, endCol)
             };
 
-            this.__update(originalStart, start, end);
+            this.__change(originalStart, start, end);
         },
 
         __columnSelectComplete: function (startCol, endCol) {
@@ -364,7 +364,7 @@ define(function (require, exports, module) {
                 col: MAX_COLUMN_INDEX
             };
 
-            this.__update(originalStart, start, end);
+            this.__change(originalStart, start, end);
         },
 
         __allSelectComplete: function () {

@@ -187,7 +187,7 @@ define(function (require, exports, module) {
         },
 
         __getMergeCellMinSize: function (start, end) {
-            var rect = this.rs('get.visialbe.rect', start, end);
+            var rect = this.rs('get.visible.rect', start, end);
 
             return {
                 width: rect.width,

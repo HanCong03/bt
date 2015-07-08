@@ -5,26 +5,14 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var GRIDLINE_CONFIG = require('definition/gridline');
-    var OFFSET = GRIDLINE_CONFIG.offset;
-    var LINE_WIDTH = GRIDLINE_CONFIG.width;
-    var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
-
-    var FACE_THEME = require('definition/face-theme');
-    var FOCUS_COVER_COLOR = FACE_THEME.focus.cover;
-    var FOCUS_SPACE_COLOR = FACE_THEME.focus.space;
-
-    var THEME_COLOR = FACE_THEME.color;
-
-    var SystemUtils = require('system/utils/utils');
-
     var Screen = require('system/screen/screen');
 
     module.exports = $$.createClass('SelectionDrawer', {
         base: require('component'),
 
         mixin: [
-            require('./single')
+            require('./single'),
+            require('./multi')
         ],
 
         screen: null,
@@ -45,17 +33,17 @@ define(function (require, exports, module) {
             if (ranges.length === 1) {
                 range = ranges[0];
                 this.__drawSingleSelection(range.entry, range.start, range.end);
+            } else {
+                this.__drawMultiSelection(ranges);
             }
+
+            this.screen.toggle();
         },
 
-        update: function (entry, start, end) {
-            var ranges = this.queryCommandValue('allrange');
-
-            if (ranges.length === 1) {
-                this.__drawSingleSelection(entry, start, end);
-            } else {
-                console.log(3)
-            }
+        // change操作不区分选区数量。总是抹掉所有选区，然后建立新选区
+        change: function (entry, start, end) {
+            this.__drawSingleSelection(entry, start, end);
+            this.screen.toggle();
         }
     });
 });
