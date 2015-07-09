@@ -98,6 +98,14 @@
 //                col: Math.pow(2, 14) - 1
 //            });
 
+//            btable.execCommand('fill', 'green', {
+//                row: 0,
+//                col: 103
+//            }, {
+//                row: Math.pow(2, 20) - 1,
+//                col: 103
+//            })
+//
 //            btable.execCommand('fill', 'blue', {
 //                row: 104,
 //                col: 0
@@ -150,12 +158,20 @@
                 col: 105
             });
 
-            btable.execCommand('fill', 'red', {
-                row: 103,
-                col: 104
+            btable.execCommand('fill', 'green', {
+                row: 105,
+                col: 0
             }, {
-                row: 103,
-                col: 104
+                row: 105,
+                col: Math.pow(2, 14) - 1
+            });
+
+            btable.execCommand('fill', 'red', {
+                row: 104,
+                col: 106
+            }, {
+                row: 104,
+                col: 106
             });
 //
 //            btable.execCommand('border', {

@@ -52,18 +52,15 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: renderInfo.styles[key].alignments,
-                        fonts: renderInfo.styles[key].fonts,
-                        border: renderInfo.styles[key].borders.border,
-                        fills: renderInfo.styles[key].fills
+                        alignments: renderInfo[key].alignments,
+                        fonts: renderInfo[key].fonts,
+                        border: renderInfo[key].borders.border,
+                        fills: renderInfo[key].fills
                     });
                 }, this);
             }, this);
 
-            return {
-                cells: result,
-                fills: renderInfo.fills
-            };
+            return result;
         },
 
         __getMergeCellLayout: function (mergecells) {
@@ -91,10 +88,10 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: renderInfo.styles[key].alignments,
-                            fonts: renderInfo.styles[key].fonts,
-                            border: renderInfo.styles[key].borders,
-                            fills: renderInfo.styles[key].fills
+                            alignments: renderInfo[key].alignments,
+                            fonts: renderInfo[key].fonts,
+                            border: renderInfo[key].borders,
+                            fills: renderInfo[key].fills
                         });
                     } else {
                         if (mergeFlag.active) {
@@ -121,19 +118,16 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: renderInfo.styles[key].alignments,
-                            fonts: renderInfo.styles[key].fonts,
-                            border: renderInfo.styles[key].borders,
-                            fills: renderInfo.styles[key].fills
+                            alignments: renderInfo[key].alignments,
+                            fonts: renderInfo[key].fonts,
+                            border: renderInfo[key].borders,
+                            fills: renderInfo[key].fills
                         });
                     }
                 }, this);
             }, this);
 
-            return {
-                cells: result,
-                fills: renderInfo.fills
-            };
+            return result;
         },
 
         __getRenderInfo: function (rows, cols) {

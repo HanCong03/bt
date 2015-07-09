@@ -22,8 +22,8 @@ define(function (require, exports, module) {
             var fonts = StyleHelper.getCssFont(cellInfo.fonts);
 
             screen.save();
-            screen.fillColor(cellInfo.fonts.color);
-            screen.strokeColor(cellInfo.fonts.color);
+            screen.fillColor(cellInfo.fonts.color.value);
+            screen.strokeColor(cellInfo.fonts.color.value);
 
             screen.font(fonts);
             screen.textAlign('left');

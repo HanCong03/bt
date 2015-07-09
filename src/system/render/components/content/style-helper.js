@@ -18,7 +18,7 @@ define(function (require, exports, module) {
             }
 
             styles.push(fonts.size + 'pt/1');
-            styles.push('"' + fonts.name + '"');
+            styles.push('"' + fonts.name.value + '"');
 
 
             return styles.join(' ');

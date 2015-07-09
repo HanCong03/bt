@@ -21,7 +21,7 @@ define(function (require, exports, module) {
     module.exports = {
         __drawContent: function () {
             var visualData = this.visualData;
-            var layoutData = this.layoutData.cells;
+            var layoutData = this.layoutData;
             var screen = this.contentScreen;
 
             screen.save();
@@ -42,14 +42,6 @@ define(function (require, exports, module) {
 
         __drawCellContent: function (cellInfo) {
             cellInfo = $$.clone(cellInfo);
-
-            if (cellInfo.fonts.name.value) {
-                cellInfo.fonts.name = cellInfo.fonts.name.value;
-            }
-
-            if (cellInfo.fonts.color.value) {
-                cellInfo.fonts.color = cellInfo.fonts.color.value;
-            }
 
             if (cellInfo.mergecell) {
                 this.__drawMergeCellContent(cellInfo);
@@ -157,7 +149,7 @@ define(function (require, exports, module) {
          */
         __getLeftAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData.cells;
+            var layoutData = this.layoutData;
             var textWidth = this.__getTextWidth(cellInfo);
             var currentLayoutRow = layoutData[cellInfo.r];
 
@@ -199,7 +191,7 @@ define(function (require, exports, module) {
 
         __getRightAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData.cells;
+            var layoutData = this.layoutData;
 
             var textWidth = this.__getTextWidth(cellInfo);
             var currentLayoutRow = layoutData[cellInfo.r];
@@ -242,7 +234,7 @@ define(function (require, exports, module) {
 
         __getCenterAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData.cells;
+            var layoutData = this.layoutData;
             var textWidth = this.__getTextWidth(cellInfo);
             var halfTextWidth = textWidth / 2 + CELL_PADDING.h;
 

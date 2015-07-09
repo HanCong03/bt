@@ -9,6 +9,8 @@ define(function (require, exports, module) {
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
     var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
 
+    var DEFAULT_FILL = require('definition/face-theme').fill;
+
     module.exports = {
         __fill: function () {
             var visualData = this.visualData;
@@ -27,267 +29,156 @@ define(function (require, exports, module) {
         },
 
         __doFill: function () {
-            var fills = this.layoutData.fills;
-            var cells = this.layoutData.cells;
+            var layoutData = this.layoutData;
+            var mergeCellLayouts = {};
 
-            this.__fillGlobal(fills.global);
-            this.__fillColumn(fills.cols);
-            this.__fillRow(fills.rows);
-            this.__fillCells(cells);
+            for (var i = 0, len = layoutData.length; i < len; i++) {
+                this.__fillRow(layoutData[i], mergeCellLayouts);
+
+                // 查找是否有当前结束的行
+                if (mergeCellLayouts[i]) {
+                    this.__fillMergeCells(mergeCellLayouts[i]);
+                }
+            }
         },
 
-        __fillGlobal: function (color) {
-            if (!color) {
-                return;
-            }
-
-            var screen = this.contentScreen;
-
-            color = color.fill;
-
-            if (typeof color !== 'string') {
-                color = color.value;
-            }
-
-            screen.fillColor(color);
-            screen.fillRect(0, 0, screen.getWidth(), screen.getHeight());
-        },
-
-        __fillColumn: function (cols) {
+        __fillRow: function (rowLayout, mergeCellLayouts) {
+            var lastColor = null;
             var visualData = this.visualData;
-            var colPoints = visualData.colPoints;
-            var colWidths = visualData.colWidths;
-
-            var screen = this.contentScreen;
-            var height = screen.getHeight();
+            var rMap = visualData.rMap;
             var current;
+            var cells = [];
+            var currentColor;
+            var startRow;
+            var endRow;
 
-            for (var i = 0, len = cols.length; i < len; i++) {
-                current = cols[i];
+            var r;
 
-                if (!current) {
+            for (var i = 0, len = rowLayout.length; i < len; i++) {
+                current = rowLayout[i];
+
+                if (current && current.mergecell) {
+                    startRow = current.mergecell.start.row;
+                    endRow = current.mergecell.end.row;
+
+                    r = findR(startRow, endRow);
+
+                    if (!mergeCellLayouts[r]) {
+                        mergeCellLayouts[r] = [];
+                    }
+
+                    mergeCellLayouts[r].push(current);
+
+                    if (lastColor !== null) {
+                        this.__fillCells(cells, lastColor);
+                        lastColor = null;
+                        cells = [];
+                    }
                     continue;
                 }
 
-                current = current.fill;
+                currentColor = this.__getColor(current);
 
-                if (typeof current !== 'string') {
-                    current = current.value;
-                }
-
-                screen.fillColor(current);
-                screen.fillRect(colPoints[i] - OFFSET, 0, colWidths[i] + DOUBLE_LINE_WIDTH, height);
-            }
-        },
-
-        __fillRow: function (rows) {
-            var visualData = this.visualData;
-            var rowPoints = visualData.rowPoints;
-            var rowHeights = visualData.rowHeights;
-
-            var screen = this.contentScreen;
-            var width = screen.getWidth();
-            var current;
-
-            for (var i = 0, len = rows.length; i < len; i++) {
-                current = rows[i];
-
-                if (!current) {
+                if (currentColor === null) {
+                    if (lastColor !== null) {
+                        this.__fillCells(cells, lastColor);
+                    }
                     continue;
                 }
 
-                current = current.fill;
-
-                if (typeof current !== 'string') {
-                    current = current.value;
+                if (lastColor === null) {
+                    lastColor = currentColor;
+                    cells.push(current);
+                    continue;
                 }
 
-                screen.fillColor(current);
-                screen.fillRect(0, rowPoints[i] - OFFSET, width, rowHeights[i] + DOUBLE_LINE_WIDTH);
+                if (lastColor === currentColor) {
+                    cells.push(current);
+                    continue;
+                }
+
+                // else -> lastColor !== current
+                this.__fillCells(cells, lastColor);
+
+                lastColor = currentColor;
+                cells = [current];
             }
-        },
 
-        __fillCells: function (cells) {
-            var rowCells;
-            var mergecells = [];
-            var result;
+            // 收尾工作
+            if (lastColor !==  null) {
+                this.__fillCells(cells, lastColor);
+            }
 
-            for (var i = 0, len = cells.length; i < len; i++) {
-                rowCells = cells[i];
+            /* --- 找到行序号 --- */
+            function findR(startRow, endRow) {
+                var r;
 
-                for (var j = 0, jlen = rowCells.length; j < jlen; j++) {
-                    if (!rowCells[j]) {
-                        continue;
-                    }
+                for (var i = endRow; i >= startRow; i--) {
+                    r = rMap[i];
 
-                    result = this.__fillCell(rowCells[j]);
-
-                    if (result) {
-                        mergecells.push(result);
+                    if (r !== undefined) {
+                        return r;
                     }
                 }
             }
-
-            this.__fillMergeCells(mergecells);
         },
 
-        __fillCell: function (cellInfo) {
-            // 合并单元格最后处理
-            if (cellInfo.mergecell) {
-                return cellInfo;
-            }
-
-            if (!cellInfo.fills) {
-                return;
-            }
-
-            var color = cellInfo.fills.fill;
-            var row = cellInfo.row;
-            var col = cellInfo.col;
-
-            if (typeof color !== 'string') {
-                color = color.value;
-            }
-
-            var rect = this.rs('get.visible.rect', {
-                row: row,
-                col: col
-            }, {
-                row: row,
-                col: col
-            });
-
-            // 注意：此时如果无颜色，则表示要清除当前单元格的颜色。
-            if (!color) {
-                this.__cleanNormalCell(rect, cellInfo.r, cellInfo.c);
-            } else {
-                this.__fillNormalCell(color, rect, cellInfo.r, cellInfo.c);
+        __fillMergeCells: function (mergeCellLayouts) {
+            for (var i = 0, len = mergeCellLayouts.length; i < len; i++) {
+                this.__fillMergeCell(mergeCellLayouts[i]);
             }
         },
 
-        __cleanNormalCell: function (rect, r, c) {
-            var hasTop = this.__hasColor(c - 1, c);
-            var hasLeft = this.__hasColor(r, c - 1);
-            var hasRight = this.__hasColor(r, c + 1);
-            var hasBottom = this.__hasColor(r + 1, c);
-
+        __fillMergeCell: function (layout) {
+            var mergeInfo = layout.mergecell;
+            var rect = this.rs('get.visible.rect', mergeInfo.start, mergeInfo.end);
+            var screen = this.contentScreen;
             var x = rect.x;
             var y = rect.y;
             var width = rect.width;
             var height = rect.height;
 
-            if (!hasTop) {
-                y -= LINE_WIDTH;
-                height += LINE_WIDTH;
+            screen.save();
+
+            // 无颜色
+            if (!layout.fills || !layout.fills.fill) {
+                screen.fillColor(DEFAULT_FILL);
+                screen.fillRect(x, y, width, height);
+                screen.clearRect(x, y + height, width, LINE_WIDTH);
+
+            // 有颜色
+            } else {
+                screen.fillColor(layout.fills.fill.value);
+                screen.fillRect(x - LINE_WIDTH, y - LINE_WIDTH, width + LINE_WIDTH, height + DOUBLE_LINE_WIDTH);
+
+                screen.setCompositeOperation('destination-over');
+                screen.fillRect(x + width, y - LINE_WIDTH, LINE_WIDTH, height + DOUBLE_LINE_WIDTH);
             }
 
-            if (!hasLeft) {
-                x -= LINE_WIDTH;
-                width += LINE_WIDTH;
-            }
-
-            if (!hasRight) {
-                width += LINE_WIDTH;
-            }
-
-            if (!hasBottom) {
-                height += LINE_WIDTH;
-            }
-
-            this.contentScreen.clearRect(x, y, width, height);
+            screen.restore();
         },
 
-        __fillNormalCell: function (color, rect, r, c) {
+        __fillCells: function (cells, lastColor) {
+            var start = cells[0];
+            var end = cells[cells.length - 1];
+
+            var rect = this.rs('get.visible.rect', start, end);
             var screen = this.contentScreen;
 
-            var rightColor = this.__getColor(r, c + 1);
-            var bottomColor = this.__getColor(r + 1, c);
-
-            var x = rect.x - LINE_WIDTH;
-            var y = rect.y - LINE_WIDTH;
-            var width = rect.width + LINE_WIDTH;
-            var height = rect.height + LINE_WIDTH;
-
-            screen.beginPath();
-
-            // 填充自身的空间，同时把右侧计算进去
-            screen.fillColor(color);
-
-            if (!rightColor) {
-                screen.fillRect(x, y, width + LINE_WIDTH, height);
-            } else {
-                screen.fillRect(x, y, width, height);
-            }
-
-            // 底部填充
-            screen.strokeColor(bottomColor || color);
-            // 下一行的右侧有背景色
-            if (this.__hasColor(r + 1, c + 1)) {
-                screen.hline(x, y + height + OFFSET, width);
-            } else {
-                screen.hline(x, y + height + OFFSET, width + LINE_WIDTH);
-            }
-            screen.stroke();
+            screen.fillColor(lastColor);
+            screen.fillRect(rect.x - LINE_WIDTH, rect.y - LINE_WIDTH, rect.width + DOUBLE_LINE_WIDTH, rect.height + DOUBLE_LINE_WIDTH);
         },
 
-        __fillMergeCells: function (mergecells) {
-            for (var i = 0, len = mergecells[i]; i < len; i++) {
-
-            }
-        },
-
-        __hasColor: function (r, c) {
-            var color = this.__getRawColor(r, c);
-
-            if (!color) {
-                return false;
-            }
-
-            return !!color.fill;
-        },
-
-        __getColor: function (r, c) {
-            var color = this.__getRawColor(r, c);
-
-            if (!color || !color.fill) {
+        __getColor: function (cellLayout) {
+            if (!cellLayout) {
                 return null;
             }
 
-            if (typeof color.fill !== 'string') {
-                return color.fill.value;
+            if (!cellLayout.fills.fill) {
+                return null;
             }
 
-            return color.fill;
-        },
-
-        __getRawColor: function (r, c) {
-            var fills = this.layoutData.fills;
-            var cells = this.layoutData.cells;
-
-            var current;
-
-            // cell check
-            if (cells[r] && cells[r][c]) {
-                current = cells[r][c];
-
-                if (current.fills) {
-                    return current.fills;
-                }
-            }
-
-            // row check
-            if (fills.rows[r]) {
-                return fills.rows[r];
-            }
-
-            // col check
-            if (fills.cols[c]) {
-                return fills.cols[c];
-            }
-
-            // global check
-            return fills.global;
+            return cellLayout.fills.fill.value;
         }
-
     };
 });
