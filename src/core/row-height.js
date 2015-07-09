@@ -98,10 +98,14 @@ define(function (require, exports, module) {
 
         __clean: function (start, end) {
             var heap = this.getActiveHeap();
+            var dimension = this.queryCommandValue('dimension');
             var cache = heap.cache;
             var heights = heap.heights;
-
             var currentCache;
+
+            var keys;
+            var startCol = start.col;
+            var endCol = end.col;
 
             for (var i = start.row, limit = end.row; i <= limit; i++) {
                 if (heights[i] !== undefined) {
@@ -114,7 +118,19 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                for (var j = start.col, jlimit = end.col; j <= jlimit; j++) {
+                keys = Object.keys(cache);
+
+                if (keys.length === 0) {
+                    continue;
+                }
+
+                // 清除整行
+                if (startCol <= keys[0] && endCol >= keys[keys.length - 1]) {
+                    cache[i] = [];
+                    continue;
+                }
+
+                for (var j = startCol, jlimit = endCol; j <= jlimit; j++) {
                     if (currentCache[j] !== undefined) {
                         delete currentCache[j];
                     }

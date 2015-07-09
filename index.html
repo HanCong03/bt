@@ -90,6 +90,14 @@
 //                col: 100
 //            });
 
+            btable.execCommand('fill', 'red', {
+                row: 0,
+                col: 0
+            }, {
+                row: Math.pow(2, 20) - 1,
+                col: Math.pow(2, 14) - 1
+            });
+
             btable.execCommand('range', {
                 row: 105,
                 col: 105

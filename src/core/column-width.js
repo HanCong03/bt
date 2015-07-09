@@ -99,9 +99,14 @@ define(function (require, exports, module) {
 
         __clean: function (start, end) {
             var heap = this.getActiveHeap();
+            var dimension = this.queryCommandValue('dimension');
             var widths = heap.widths;
             var cache = heap.cache;
             var currentCache;
+
+            var keys;
+            var startRow = start.row;
+            var endRow = end.row;
 
             for (var i = start.col, limit = end.col; i <= limit; i++) {
                 if (widths[i] !== undefined) {
@@ -114,7 +119,19 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                for (var j = start.row, jlimit = end.row; j <= jlimit; j++) {
+                keys = Object.keys(cache);
+
+                if (keys.length === 0) {
+                    continue;
+                }
+
+                // 清除整列
+                if (startRow <= keys[0] && endRow >= keys[keys.length - 1]) {
+                    cache[i] = [];
+                    continue;
+                }
+
+                for (var j = startRow, jlimit = endRow; j <= jlimit; j++) {
                     if (currentCache[j] !== undefined) {
                         delete currentCache[j];
                     }
