@@ -169,14 +169,12 @@ define(function (require, exports, module) {
             if (isBestFit) {
                 newHeight = this.__calculateRowHeight(row);
 
-                // 新计算的高度如果大于标准高度，则更新最佳高度。
-                if (newHeight > userRowHeight) {
+                // 新计算的高度如果大于标准高度，则更新最佳高度，并返回新的高度。
+                if (newHeight > standardHeight) {
                     this.setBestFitRowHeight(newHeight, row);
                     return newHeight;
 
-                    // 否则，返回最佳高度。
-
-                // 否则，删除高度设置，并返回标准高度。
+                // 否则，删除最佳高度的设置，并返回标准高度。
                 } else {
                     this.execCommand('removerowheight', row);
                     return standardHeight;
