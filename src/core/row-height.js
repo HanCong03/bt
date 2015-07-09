@@ -209,6 +209,11 @@ define(function (require, exports, module) {
             var height = 0;
 
             for (var i = startCol; i <= endCol; i++) {
+                // 合并单元格不参与计算
+                if (this.queryCommandValue('mergecell', row, i)) {
+                    continue;
+                }
+
                 if (rowCache[i] === undefined) {
                     rowCache[i] = this.__collectCellHeight(row, i);
                 }

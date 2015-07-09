@@ -207,6 +207,11 @@ define(function (require, exports, module) {
             var width = 0;
 
             for (var i = startRow; i <= endRow; i++) {
+                // 合并单元格不参与计算
+                if (this.queryCommandValue('mergecell', i, col)) {
+                    continue;
+                }
+
                 if (columnCache[i] === undefined) {
                     columnCache[i] = this.__collectCellWidth(i, col);
                 }
