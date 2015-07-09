@@ -5,14 +5,13 @@
 
 define({
     n: null,
-    currency: '$#,##0_);[Red]($#,##0)',
-    date: 'yyyy/m/d',
-    time: 'hh:mm:ss',
-    datetime: 'yyyy/m/d',
-    percentage: '0%',
-    fraction: '# ?/?',
-    scientific: '0.00E+00',
-    text: '@',
-    logical: null,
-    error: null
+    c: '$#,##0_);[Red]($#,##0)',
+    dt: 'yyyy/m/d',
+    t: 'hh:mm:ss',
+    p: '0%',
+    f: '# ?/?',
+    sc: '0.00E+00',
+    s: '@',
+    l: null,
+    e: null
 });

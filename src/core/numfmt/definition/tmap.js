@@ -18,7 +18,6 @@ define({
      f => 'fraction',
      sc => 'scientific'
      */
-
     number: 'n',
     currency: 'c',
     date: 'dt',

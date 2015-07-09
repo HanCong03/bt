@@ -85,7 +85,9 @@ define(function (require, exports, module) {
                 return content;
             }
 
-            return this.rs('numfmt.format', content, fmt);
+            var result = this.rs('numfmt.format', content, fmt);
+
+            return result.value;
         }
     });
 });
