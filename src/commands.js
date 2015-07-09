@@ -6,6 +6,7 @@
 define(function (require, exports, module) {
     module.exports = {
         env: {
+            _renderInfo: require('./env/commands/_render-info'),
             standard: require('./env/commands/standard'),
             theme: require('./env/commands/theme'),
             style: require('./env/commands/style'),

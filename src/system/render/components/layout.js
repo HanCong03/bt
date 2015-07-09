@@ -34,18 +34,8 @@ define(function (require, exports, module) {
         __getNormalLayout: function () {
             var visualData = this.visualData;
             var result = [];
-            var cells = [];
 
-            $$.forEach(visualData.rows, function (row, i) {
-                $$.forEach(visualData.cols, function (col, j) {
-                    cells.push({
-                        row: row,
-                        col: col
-                    });
-                }, this);
-            }, this);
-
-            var styles = this.__getStyles(cells);
+            var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -62,10 +52,10 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: styles[key].alignments,
-                        fonts: styles[key].fonts,
-                        border: styles[key].borders.border,
-                        fill: styles[key].fills.fill
+                        alignments: renderInfo.styles[key].alignments,
+                        fonts: renderInfo.styles[key].fonts,
+                        border: renderInfo.styles[key].borders.border,
+                        fill: renderInfo.fills
                     });
                 }, this);
             }, this);
@@ -79,34 +69,8 @@ define(function (require, exports, module) {
 
             var mergeMap = mergeToMap(mergecells);
 
-            $$.forEach(visualData.rows, function (row) {
-                $$.forEach(visualData.cols, function (col) {
-                    var mergeFlag = mergeMap[row + ',' + col];
-
-                    if ($$.isNdef(mergeFlag)) {
-                        cells.push({
-                            row: row,
-                            col: col
-                        });
-                    } else {
-                        // 标记已被激活，则忽略该标记，否则，激活该标记。
-                        if (mergeFlag.active) {
-                            return;
-                        }
-
-                        // 第一次激活
-                        mergeFlag.active = 1;
-
-                        cells.push({
-                            row: row,
-                            col: col
-                        });
-                    }
-                }, this);
-            }, this);
-
             var result = [];
-            var styles = this.__getStyles(cells);
+            var renderInfo = this.__getRenderInfo(cells);
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -126,19 +90,18 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: styles[key].alignments,
-                            fonts: styles[key].fonts,
-                            border: styles[key].borders,
-                            fill: styles[key].fills
+                            alignments: renderInfo.styles[key].alignments,
+                            fonts: renderInfo.styles[key].fonts,
+                            border: renderInfo.styles[key].borders,
+                            fill: renderInfo.fills
                         });
                     } else {
-                        // 标记已被二次激活，则忽略该标记，否则，激活该标记。
-                        if (mergeFlag.active === 2) {
+                        if (mergeFlag.active) {
                             currentRow.push(null);
                             return;
                         }
 
-                        mergeFlag.active = 2;
+                        mergeFlag.active = 1;
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
 
                         currentRow.push({
@@ -157,10 +120,10 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: styles[key].alignments,
-                            fonts: styles[key].fonts,
-                            border: styles[key].borders,
-                            fill: styles[key].fills
+                            alignments: renderInfo.styles[key].alignments,
+                            fonts: renderInfo.styles[key].fonts,
+                            border: renderInfo.styles[key].borders,
+                            fill: renderInfo.fills
                         });
                     }
                 }, this);
@@ -169,8 +132,8 @@ define(function (require, exports, module) {
             return result;
         },
 
-        __getStyles: function (cells) {
-            return this.queryCommandValue('styles', cells);
+        __getRenderInfo: function (rows, cols) {
+            return this.queryCommandValue('_renderinfo', rows, cols);
         },
 
         __getEndRC: function (start, end) {
