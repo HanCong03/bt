@@ -5,7 +5,6 @@
 
 define(function (require, exports, module) {
     var GRIDLINE_CONFIG = require('definition/gridline');
-    var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
     var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
 

@@ -46,8 +46,7 @@ define(function (require, exports, module) {
 
         __drawBorders: function () {
             var layoutData = this.layoutData;
-
-            var borderLayout = BorderLayout.parse(layoutData);
+            var borderLayout = BorderLayout.parse(layoutData, this.visualData);
 
             if (borderLayout.h) {
                 this.__drawHorizontalBorder(borderLayout.h);

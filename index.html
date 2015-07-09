@@ -66,14 +66,6 @@
                 col: 100
             });
 
-//            btable.execCommand('cellstyle', 22, {
-//                row: 100,
-//                col: 100
-//            }, {
-//                row: 121,
-//                col: 121
-//            });
-//
 //            btable.execCommand('valign', 'top', {
 //                row: 100,
 //                col: 100
@@ -142,6 +134,14 @@
 
 //            btable.execCommand('content', 'asdfjaskdlfjaskldfjxakdfs', 103, 103);
 
+            btable.execCommand('cellstyle', 22, {
+                row: 100,
+                col: 100
+            }, {
+                row: 121,
+                col: 121
+            });
+
             btable.execCommand('mergecell', {
                 row: 103,
                 col: 103
@@ -150,29 +150,37 @@
                 col: 105
             });
 
-            btable.execCommand('fill', 'black', {
-                row: 103,
-                col: 103
-            }, {
-                row: 105,
-                col: 105
-            });
-
-            btable.execCommand('fill', 'green', {
-                row: 105,
-                col: 0
-            }, {
-                row: 105,
-                col: Math.pow(2, 14) - 1
-            });
-
-            btable.execCommand('fill', 'red', {
-                row: 104,
-                col: 106
-            }, {
-                row: 104,
-                col: 106
-            });
+//            btable.execCommand('fill', 'cyan', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: Math.pow(2, 20) - 1,
+//                col: Math.pow(2, 14) - 1
+//            });
+//
+//            btable.execCommand('fill', 'black', {
+//                row: 103,
+//                col: 103
+//            }, {
+//                row: 105,
+//                col: 105
+//            });
+//
+//            btable.execCommand('fill', 'green', {
+//                row: 105,
+//                col: 0
+//            }, {
+//                row: 105,
+//                col: Math.pow(2, 14) - 1
+//            });
+//
+//            btable.execCommand('fill', 'red', {
+//                row: 104,
+//                col: 106
+//            }, {
+//                row: 104,
+//                col: 106
+//            });
 //
 //            btable.execCommand('border', {
 //                style: 'medium',

@@ -90,7 +90,7 @@ define(function (require, exports, module) {
                             content: this.rs('get.display.content', row, col),
                             alignments: renderInfo[key].alignments,
                             fonts: renderInfo[key].fonts,
-                            border: renderInfo[key].borders,
+                            border: renderInfo[key].borders.border,
                             fills: renderInfo[key].fills
                         });
                     } else {
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
                             alignments: renderInfo[key].alignments,
                             fonts: renderInfo[key].fonts,
-                            border: renderInfo[key].borders,
+                            border: renderInfo[key].borders.border,
                             fills: renderInfo[key].fills
                         });
                     }
