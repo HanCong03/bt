@@ -29,7 +29,12 @@ define(function (require, exports, module) {
 
             $$.forEach(layoutData, function (currentRow) {
                 $$.forEach(currentRow, function (currentCell) {
-                    if (!currentCell || !currentCell.content) {
+                    if (!currentCell.content) {
+                        return;
+                    }
+
+                    // 是合并单元格，但是不是活动单元格，退出
+                    if (currentCell.mergecell && !currentCell.active) {
                         return;
                     }
 

@@ -16,8 +16,6 @@ define(function (require, exports, module) {
 
             var topBorder;
 
-            var mergeCellLayouts = [];
-
             $$.forEach(layoutData, function (rowLayout, i) {
                 if (i === 0) {
                     topRow = [];
@@ -30,15 +28,6 @@ define(function (require, exports, module) {
                 hBorders.push(bottomRow);
 
                 $$.forEach(rowLayout, function (currentLayout, j) {
-                    if (!currentLayout) {
-                        return;
-                    }
-
-                    if (currentLayout.mergecell) {
-                        mergeCellLayouts.push(currentLayout);
-                        return;
-                    }
-
                     var border = currentLayout.border;
                     var rc = j + 1;
 
@@ -65,11 +54,6 @@ define(function (require, exports, module) {
                     vBorders[rc][i] = border.right;
                 });
             });
-
-            // 处理合并单元格
-            for (var i = 0, len = mergeCellLayouts.length; i < len; i++) {
-                parseMergeCell(visualData, mergeCellLayouts[i], hBorders, vBorders);
-            }
 
             return {
                 h: mergeHBorder(hBorders),

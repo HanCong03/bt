@@ -57,6 +57,11 @@ define(function (require, exports, module) {
                 current = rowLayout[i];
 
                 if (current && current.mergecell) {
+                    // 非活动单元格，跳过
+                    if (!current.active) {
+                        continue;
+                    }
+
                     startRow = current.mergecell.start.row;
                     endRow = current.mergecell.end.row;
 

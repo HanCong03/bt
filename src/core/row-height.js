@@ -143,13 +143,12 @@ define(function (require, exports, module) {
          */
         __calculate: function (row) {
             var userRowHeight = this.rs('get.row.height', row);
-            var standardHeight;
+            var standardHeight = this.queryCommandValue('standardheight');
             var newHeight;
 
             // 用户未设置高度。
             if ($$.isNdef(userRowHeight)) {
                 newHeight = this.__calculateRowHeight(row);
-                standardHeight = this.queryCommandValue('standardheight');
 
                 // 新计算的高度如果大于标准高度，则更新当前列的高度，并设置该高度为最佳高度。
                 if (newHeight > standardHeight) {

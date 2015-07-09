@@ -94,15 +94,11 @@ define(function (require, exports, module) {
                             fills: renderInfo[key].fills
                         });
                     } else {
-                        if (mergeFlag.active) {
-                            currentRow.push(null);
-                            return;
-                        }
-
                         mergeFlag.active = 1;
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
 
                         currentRow.push({
+                            active: mergeFlag.active,
                             row: row,
                             col: col,
                             // mergecell信息
@@ -123,6 +119,8 @@ define(function (require, exports, module) {
                             border: renderInfo[key].borders.border,
                             fills: renderInfo[key].fills
                         });
+
+                        mergeFlag.active = false;
                     }
                 }, this);
             }, this);
@@ -185,8 +183,8 @@ define(function (require, exports, module) {
             flag = {
                 start: current.start,
                 end: current.end,
-                // 当前单元格是否已经被激活
-                active: 0
+                // 当前单元格是否是活动单元格
+                active: true
             };
 
             for (var i = current.start.row, limit = current.end.row; i <= limit; i++) {
