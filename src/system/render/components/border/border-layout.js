@@ -31,6 +31,10 @@ define(function (require, exports, module) {
                 hBorders.push(bottomRow);
 
                 $$.forEach(rowLayout, function (currentLayout, j) {
+                    if (!currentLayout) {
+                        return;
+                    }
+
                     var border = currentLayout.border;
                     var rc = j + 1;
 

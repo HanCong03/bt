@@ -21,7 +21,7 @@ define(function (require, exports, module) {
     module.exports = {
         __drawContent: function () {
             var visualData = this.visualData;
-            var layoutData = this.layoutData;
+            var layoutData = this.layoutData.cells;
             var screen = this.contentScreen;
 
             screen.save();
@@ -72,6 +72,7 @@ define(function (require, exports, module) {
             screen.beginPath();
             screen.rect(visibleRect.x, visibleRect.y, visibleRect.width, visibleRect.height);
             screen.closePath();
+
             screen.clip();
 
             this.__drawMergeCellText(cellInfo, mergeCellRect);
@@ -156,7 +157,7 @@ define(function (require, exports, module) {
          */
         __getLeftAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData;
+            var layoutData = this.layoutData.cells;
             var textWidth = this.__getTextWidth(cellInfo);
             var currentLayoutRow = layoutData[cellInfo.r];
 
@@ -198,7 +199,7 @@ define(function (require, exports, module) {
 
         __getRightAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData;
+            var layoutData = this.layoutData.cells;
 
             var textWidth = this.__getTextWidth(cellInfo);
             var currentLayoutRow = layoutData[cellInfo.r];
@@ -241,7 +242,7 @@ define(function (require, exports, module) {
 
         __getCenterAlignRect: function (cellInfo) {
             var visualData = this.visualData;
-            var layoutData = this.layoutData;
+            var layoutData = this.layoutData.cells;
             var textWidth = this.__getTextWidth(cellInfo);
             var halfTextWidth = textWidth / 2 + CELL_PADDING.h;
 

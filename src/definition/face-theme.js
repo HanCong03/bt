@@ -27,7 +27,7 @@ define({
         cover: 'rgba(0, 0, 0, 0.2)',
         space: '#ffffff',
         // 多选区边框色
-        color: '#a5a5a5'
+        color: 'rgba(45, 45, 45, 0.2)'
     },
 
     fill: '#ffffff'

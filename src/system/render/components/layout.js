@@ -55,22 +55,23 @@ define(function (require, exports, module) {
                         alignments: renderInfo.styles[key].alignments,
                         fonts: renderInfo.styles[key].fonts,
                         border: renderInfo.styles[key].borders.border,
-                        fill: renderInfo.fills
+                        fills: renderInfo.styles[key].fills
                     });
                 }, this);
             }, this);
 
-            return result;
+            return {
+                cells: result,
+                fills: renderInfo.fills
+            };
         },
 
         __getMergeCellLayout: function (mergecells) {
             var visualData = this.visualData;
-            var cells = [];
-
             var mergeMap = mergeToMap(mergecells);
 
             var result = [];
-            var renderInfo = this.__getRenderInfo(cells);
+            var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -93,7 +94,7 @@ define(function (require, exports, module) {
                             alignments: renderInfo.styles[key].alignments,
                             fonts: renderInfo.styles[key].fonts,
                             border: renderInfo.styles[key].borders,
-                            fill: renderInfo.fills
+                            fills: renderInfo.styles[key].fills
                         });
                     } else {
                         if (mergeFlag.active) {
@@ -123,13 +124,16 @@ define(function (require, exports, module) {
                             alignments: renderInfo.styles[key].alignments,
                             fonts: renderInfo.styles[key].fonts,
                             border: renderInfo.styles[key].borders,
-                            fill: renderInfo.fills
+                            fills: renderInfo.styles[key].fills
                         });
                     }
                 }, this);
             }, this);
 
-            return result;
+            return {
+                cells: result,
+                fills: renderInfo.fills
+            };
         },
 
         __getRenderInfo: function (rows, cols) {

@@ -90,41 +90,73 @@
 //                col: 100
 //            });
 
-            btable.execCommand('fill', 'red', {
-                row: 0,
-                col: 0
-            }, {
-                row: Math.pow(2, 20) - 1,
-                col: Math.pow(2, 14) - 1
-            });
+//            btable.execCommand('fill', 'red', {
+//                row: 0,
+//                col: 0
+//            }, {
+//                row: Math.pow(2, 20) - 1,
+//                col: Math.pow(2, 14) - 1
+//            });
 
-            btable.execCommand('range', {
-                row: 105,
-                col: 105
-            }, {
-                row: 108,
-                col: 108
-            });
+//            btable.execCommand('fill', 'blue', {
+//                row: 104,
+//                col: 0
+//            }, {
+//                row: 105,
+//                col: Math.pow(2, 14) - 1
+//            });
+//
+//            btable.execCommand('fill', 'red', {
+//                row: 0,
+//                col: 104
+//            }, {
+//                row: Math.pow(2, 20) - 1,
+//                col: 104
+//            });
 
-            btable.execCommand('appendrange', {
-                row: 110,
-                col: 110
-            }, {
-                row: 113,
-                col: 113
-            });
+//            btable.execCommand('range', {
+//                row: 105,
+//                col: 105
+//            }, {
+//                row: 108,
+//                col: 108
+//            });
+//
+//            btable.execCommand('appendrange', {
+//                row: 110,
+//                col: 110
+//            }, {
+//                row: 113,
+//                col: 113
+//            });
 
 //            btable.execCommand('rowheight', 50, 103);
 
 //            btable.execCommand('content', 'asdfjaskdlfjaskldfjxakdfs', 103, 103);
-//
-//            btable.execCommand('mergecell', {
-//                row: 103,
-//                col: 103
-//            }, {
-//                row: 105,
-//                col: 105
-//            });
+
+            btable.execCommand('mergecell', {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
+            btable.execCommand('fill', 'black', {
+                row: 103,
+                col: 103
+            }, {
+                row: 105,
+                col: 105
+            });
+
+            btable.execCommand('fill', 'red', {
+                row: 103,
+                col: 104
+            }, {
+                row: 103,
+                col: 104
+            });
 //
 //            btable.execCommand('border', {
 //                style: 'medium',

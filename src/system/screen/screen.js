@@ -43,9 +43,21 @@ define(function (require, exports, module) {
             container.appendChild(this.visibleCanvas);
         },
 
+        setCompositeOperation: function (type) {
+            this.invisibleCtx.globalCompositeOperation = type;
+        },
+
         clear: function () {
             this.invisibleCtx.width = this.width;
             this.invisibleCtx.height = this.height;
+        },
+
+        getWidth: function () {
+            return this.invisibleCanvas.width;
+        },
+
+        getHeight: function () {
+            return this.invisibleCanvas.height;
         },
 
         sync: function () {
