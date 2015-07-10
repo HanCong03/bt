@@ -8,7 +8,7 @@ define(function (require, exports, module) {
     var NONE = require('NONE');
 
     var GRIDLINE_CONFIG = require('definition/gridline');
-    var WIDTH = GRIDLINE_CONFIG.width;
+    var LINE_WIDTH = GRIDLINE_CONFIG.width;
     var OFFSET = GRIDLINE_CONFIG.offset;
     var CELL_PADDING = require('definition/cell-padding');
 
@@ -57,7 +57,6 @@ define(function (require, exports, module) {
 
         __drawMergeCellContent: function (cellInfo) {
             var mergeCellRect = this.__getMergeCellRect(cellInfo);
-            var visibleRect = this.__getVisibleMergeCellRect(cellInfo);
             var screen = this.contentScreen;
 
             if (!mergeCellRect) {
@@ -66,8 +65,14 @@ define(function (require, exports, module) {
 
             screen.save();
 
+            var visibleRect = this.rs('get.visible.rect', cellInfo.mergecell.start, cellInfo.mergecell.end);
+            var x = visibleRect.x + CELL_PADDING.h;
+            var y = visibleRect.y + CELL_PADDING.v;
+            var width = visibleRect.width - 2 * CELL_PADDING.h;
+            var height = visibleRect.height - 2 * CELL_PADDING.v;
+
             screen.beginPath();
-            screen.rect(visibleRect.x, visibleRect.y, visibleRect.width, visibleRect.height);
+            screen.rect(x, y, width, height);
             screen.closePath();
 
             screen.clip();
@@ -88,30 +93,6 @@ define(function (require, exports, module) {
             }
 
             this.__drawText(cellInfo, rect);
-        },
-
-        __getVisibleMergeCellRect: function (cellInfo) {
-            var visualData = this.visualData;
-
-            var width = -WIDTH;
-            var height = -WIDTH;
-
-            // height
-            for (var i = cellInfo.r, limit = cellInfo.mergecell.er; i <= limit; i++) {
-                height += visualData.rowHeights[i] + WIDTH;
-            }
-
-            // width
-            for (var i = cellInfo.c, limit = cellInfo.mergecell.ec; i <= limit; i++) {
-                width += visualData.colWidths[i] + WIDTH;
-            }
-
-            return {
-                x: visualData.colPoints[cellInfo.c] + OFFSET + CELL_PADDING.h,
-                y: visualData.rowPoints[cellInfo.r] + OFFSET + CELL_PADDING.v,
-                width: width - 2 * CELL_PADDING.h,
-                height: height - 2 * CELL_PADDING.v
-            };
         },
 
         __getWraptextCellRect: function (cellInfo) {
@@ -183,7 +164,7 @@ define(function (require, exports, module) {
                     break;
                 }
 
-                width += visualData.colWidths[i] + WIDTH;
+                width += visualData.colWidths[i] + LINE_WIDTH;
             }
 
             return {
@@ -226,7 +207,7 @@ define(function (require, exports, module) {
                     break;
                 }
 
-                width += visualData.colWidths[i] + WIDTH;
+                width += visualData.colWidths[i] + LINE_WIDTH;
             }
 
             return {
@@ -273,7 +254,7 @@ define(function (require, exports, module) {
                 }
 
                 leftCol--;
-                leftWidth += visualData.colWidths[i] + WIDTH;
+                leftWidth += visualData.colWidths[i] + LINE_WIDTH;
             }
 
             // right
@@ -302,7 +283,7 @@ define(function (require, exports, module) {
                     break;
                 }
 
-                rightWidth += visualData.colWidths[i] + WIDTH;
+                rightWidth += visualData.colWidths[i] + LINE_WIDTH;
             }
 
             return {
@@ -362,7 +343,7 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                x -= this.queryCommandValue('columnwidth', i) + WIDTH;
+                x -= this.queryCommandValue('columnwidth', i) + LINE_WIDTH;
             }
 
             return x;
@@ -380,7 +361,7 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                y -= this.queryCommandValue('rowheight', i) + WIDTH;
+                y -= this.queryCommandValue('rowheight', i) + LINE_WIDTH;
             }
 
             return y;
@@ -397,7 +378,7 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                height += this.queryCommandValue('rowheight', i) + WIDTH;
+                height += this.queryCommandValue('rowheight', i) + LINE_WIDTH;
             }
 
             // width
@@ -406,7 +387,7 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                width += this.queryCommandValue('columnwidth', i) + WIDTH;
+                width += this.queryCommandValue('columnwidth', i) + LINE_WIDTH;
             }
 
             return {
@@ -425,7 +406,7 @@ define(function (require, exports, module) {
 
             switch (textAlign) {
                 case 'left':
-                    LeftDrawer.draw(screen, cellInfo, rect);
+                    LeftDrawer.drawNormalCell(screen, cellInfo, rect);
                     break;
 
                 case 'right':
@@ -445,13 +426,15 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
 
+            var mergeStart = cellInfo.mergecell.start;
+
             if (textAlign === NONE) {
-                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
+                textAlign = this.queryCommandValue('typehorizontal', mergeStart.row, mergeStart.col);
             }
 
             switch (textAlign) {
                 case 'left':
-                    LeftDrawer.draw(screen, cellInfo, rect);
+                    LeftDrawer.drawMergeCell(screen, cellInfo, rect);
                     break;
 
                 case 'right':

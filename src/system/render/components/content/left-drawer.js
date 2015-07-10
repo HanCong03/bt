@@ -4,7 +4,6 @@
  */
 
 define(function (require, exports, module) {
-    var $$ = require('utils');
     var StyleHelper = require('./style-helper');
     var DEFAULTS = require('../../definition/defaults');
 
@@ -12,7 +11,7 @@ define(function (require, exports, module) {
     var WIDTH = GRIDLINE_CONFIG.width;
 
     module.exports = {
-        draw: function (screen, cellInfo, rect) {
+        drawNormalCell: function (screen, cellInfo, rect) {
             var verticalAlign = cellInfo.alignments.vertical;
 
             if (!verticalAlign) {
@@ -48,6 +47,51 @@ define(function (require, exports, module) {
             }
 
             screen.restore();
+        },
+
+        drawMergeCell: function (screen, cellInfo, rect) {
+            var verticalAlign = cellInfo.alignments.vertical;
+
+            if (!verticalAlign) {
+                verticalAlign = DEFAULTS.vertical;
+            }
+
+            var fonts = StyleHelper.getCssFont(cellInfo.fonts);
+
+            screen.save();
+            screen.fillColor(cellInfo.fonts.color.value);
+            screen.strokeColor(cellInfo.fonts.color.value);
+
+            screen.font(fonts);
+            screen.textAlign('left');
+
+            // 合并单元格的垂直对齐方向上，需要检查内容是否超出单元格大小，
+            // 如果超出，则需要重置对齐为顶部对齐。
+            var fontsize = this.__convertFontSize(cellInfo.fonts.size);
+
+            if (cellInfo.content.length * fontsize > rect.height) {
+                verticalAlign = 'top';
+            }
+
+            switch (verticalAlign) {
+                case 'top':
+                    this.__drawTopText(screen, cellInfo, rect);
+                    break;
+
+                case 'bottom':
+                    this.__drawBottomText(screen, cellInfo, rect);
+                    break;
+
+                case 'middle':
+                    this.__drawMiddleText(screen, cellInfo, rect);
+                    break;
+            }
+
+            screen.restore();
+        },
+
+        __convertFontSize: function (size) {
+            return Math.round(size * 4 / 3)
         },
 
         __drawTopText: function (screen, cellInfo, rect) {

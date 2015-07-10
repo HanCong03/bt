@@ -94,7 +94,6 @@ define(function (require, exports, module) {
                             fills: renderInfo[key].fills
                         });
                     } else {
-                        mergeFlag.active = 1;
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
 
                         currentRow.push({
