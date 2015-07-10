@@ -17,7 +17,7 @@ define(function (require, exports, module) {
             var colPoints = visualData.colPoints;
             var colWidths = visualData.colWidths;
 
-            screen.strokeColor('red' || borderOption.color.value);
+            screen.strokeColor(borderOption.color.value);
             screen.beginPath();
 
             for (var i = 0, len = layout.length; i < len; i++) {
@@ -38,7 +38,7 @@ define(function (require, exports, module) {
             var colPoints = visualData.colPoints;
             var rowHeights = visualData.rowHeights;
 
-            screen.strokeColor('red' || borderOption.color.value);
+            screen.strokeColor(borderOption.color.value);
             screen.beginPath();
 
             for (var i = 0, len = layout.length; i < len; i++) {
