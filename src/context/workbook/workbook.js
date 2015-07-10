@@ -20,7 +20,9 @@ define(function (require, exports, module) {
         __captureWorkbookEvent: function () {
             this.__$workbook.on(this, {
                 'stylechange': this.__onstylechange,
-                'contentchange': this.__oncontentchange
+                'contentchange': this.__oncontentchange,
+                'rowheightchange': this.__onrowheightchange,
+                'columnwidthchange': this.__oncolumnwidthchange
             });
         },
 
@@ -30,6 +32,14 @@ define(function (require, exports, module) {
 
         __oncontentchange: function (start, end) {
             this.__$ctx.emitAll('contentchange', start, end);
+        },
+
+        __onrowheightchange: function (startIndex, endIndex) {
+            this.__$ctx.emitAll('rowheightchange', startIndex, endIndex);
+        },
+
+        __oncolumnwidthchange: function (startIndex, endIndex) {
+            this.__$ctx.emitAll('columnwidthchange', startIndex, endIndex);
         },
 
         getAPI: function () {

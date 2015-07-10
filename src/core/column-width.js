@@ -9,6 +9,9 @@ define(function (require, exports, module) {
     var CELL_PADDING = require('definition/cell-padding');
     var DOUBLE_H_PADDING = 2 * CELL_PADDING.h;
 
+    var LIMIT = require('definition/limit');
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
+
     module.exports = $$.createClass('ColumnWidth', {
         base: require('module'),
 
@@ -47,7 +50,8 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'stylechange': this.__clean,
-                'contentchange': this.__clean
+                'contentchange': this.__clean,
+                'columnwidthchange': this.__cleanColumn
             })
         },
 
@@ -135,6 +139,28 @@ define(function (require, exports, module) {
                     if (currentCache[j] !== undefined) {
                         delete currentCache[j];
                     }
+                }
+            }
+        },
+
+        __cleanColumn: function (startIndex, endIndex) {
+            var heap = this.getActiveHeap();
+            var widths = heap.widths;
+            var cache = heap.cache;
+
+            if (startIndex === 0 && endIndex === MAX_COLUMN_INDEX) {
+                heap.widths = [];
+                heap.cache = [];
+                return;
+            }
+
+            for (var i = startIndex; i <= endIndex; i++) {
+                if (widths[i] !== undefined) {
+                    delete widths[i];
+                }
+
+                if (cache[i]) {
+                    delete cache[i];
                 }
             }
         },

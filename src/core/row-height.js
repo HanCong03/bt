@@ -8,6 +8,9 @@ define(function (require, exports, module) {
     var CELL_PADDING = require('definition/cell-padding');
     var DOUBLE_V_PADDIGN = 2 * CELL_PADDING.v;
 
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+
     module.exports = $$.createClass('RowHeight', {
         base: require('module'),
 
@@ -46,7 +49,8 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'contentchange': this.__clean,
-                'stylechange': this.__clean
+                'stylechange': this.__clean,
+                'rowheightchange': this.__cleanRow
             });
         },
 
@@ -126,7 +130,7 @@ define(function (require, exports, module) {
 
                 // 清除整行
                 if (startCol <= keys[0] && endCol >= keys[keys.length - 1]) {
-                    cache[i] = [];
+                    delete cache[i];
                     continue;
                 }
 
@@ -134,6 +138,29 @@ define(function (require, exports, module) {
                     if (currentCache[j] !== undefined) {
                         delete currentCache[j];
                     }
+                }
+            }
+        },
+
+        __cleanRow: function (startIndex, endIndex) {
+            var heap = this.getActiveHeap();
+            var heights = heap.heights;
+            var cache = heap.cache;
+
+            if (startIndex === 0 && endIndex === MAX_ROW_INDEX) {
+                heap.cache = [];
+                heap.heights = [];
+
+                return;
+            }
+
+            for (var i = startIndex; i <= endIndex; i++) {
+                if (heights[i] !== undefined) {
+                    delete heights[i];
+                }
+
+                if (cache[i]) {
+                    delete cache[i];
                 }
             }
         },

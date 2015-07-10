@@ -112,9 +112,17 @@ define(function (require, exports, module) {
         },
 
         __keyEnter: function (evt) {
+
+            // 换行
+            if (evt.altKey) {
+                this.postMessage('control.newline');
+                return;
+            }
+
+            evt.preventDefault();
+
             // up move
             if (evt.shiftKey) {
-                evt.preventDefault();
                 // 执行同步，触发内容的写入
                 this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
@@ -122,13 +130,8 @@ define(function (require, exports, module) {
                 // 执行上移
                 this.execCommand('move', -1, 0);
 
-            // 换行
-            } else if (evt.altKey) {
-                this.postMessage('control.newline');
-
             // down move
             } else {
-                evt.preventDefault();
                 // 执行同步，触发内容的写入
                 this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
