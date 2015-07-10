@@ -227,25 +227,22 @@ define(function (require, exports, module) {
         },
 
         __collectCellHeight: function (row, col) {
-            var font = this.queryCommandValue('userfont', row, col);
             var fontsize = this.queryCommandValue('userfontsize', row, col);
             var content = this.rs('get.display.content', row, col);
 
-            if (!font && !fontsize && !content) {
+            if (!fontsize && !content) {
                 return 0;
             }
 
-            if (!content) {
-                content = '0';
-            } else {
-                content = content.join('<br>')
+            var lineCount = (content || [1]).length;
+
+            if (!fontsize) {
+                fontsize = this.queryCommandValue('standard').fontsize;
             }
 
-            var shadowBox = this.shadowBox;
+            fontsize = Math.round(fontsize * 4 / 3);
 
-            shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + content + '</span>';
-
-            return shadowBox.firstChild.offsetHeight + DOUBLE_V_PADDIGN;
+            return lineCount * fontsize + DOUBLE_V_PADDIGN;
         }
     });
 });

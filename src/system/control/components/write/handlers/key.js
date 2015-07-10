@@ -112,10 +112,9 @@ define(function (require, exports, module) {
         },
 
         __keyEnter: function (evt) {
-            evt.preventDefault();
-
             // up move
             if (evt.shiftKey) {
+                evt.preventDefault();
                 // 执行同步，触发内容的写入
                 this.__sync();
                 // 主动释放控制，返回控制权到主控模块。
@@ -129,6 +128,7 @@ define(function (require, exports, module) {
 
             // down move
             } else {
+                evt.preventDefault();
                 // 执行同步，触发内容的写入
                 this.__sync();
                 // 主动释放控制，返回控制权到主控模块。

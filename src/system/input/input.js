@@ -88,7 +88,14 @@ define(function (require, exports, module) {
         },
 
         focus: function () {
-            this.inputNode.focus();
+            var docSelection = window.getSelection();
+            var range = document.createRange();
+
+            range.selectNode(this.inputNode.firstChild.firstChild);
+            range.collapse(true);
+
+            docSelection.removeAllRanges();
+            docSelection.addRange(range);
         },
 
         /**
