@@ -28,7 +28,8 @@ define(function (require, exports, module) {
             require('./handlers/mousedown'),
             require('./handlers/input'),
             require('./handlers/mousewheel'),
-            require('./handlers/header')
+            require('./handlers/header'),
+            require('./handlers/focus')
         ],
 
         init: function () {

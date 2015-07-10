@@ -15,6 +15,8 @@ define(function (require, exports, module) {
         inputWrap: null,
         inputNode: null,
 
+        __focusStatus: false,
+
         // 当前的激活状态: normal -> 未激活；active -> 激活
         status: null,
 
@@ -63,6 +65,8 @@ define(function (require, exports, module) {
         __initMessage: function () {
             this.onMessage({
                 'control': this.focus,
+                'control.focus': this.focus,
+                //'control.blur': this.blur,
                 'control.input.mouse.active': this.mouseActive,
                 'control.input.input.active': this.inputActive,
 
@@ -88,6 +92,12 @@ define(function (require, exports, module) {
         },
 
         focus: function () {
+            if (this.__focusStatus) {
+                return;
+            }
+
+            this.__focusStatus = true;
+
             var docSelection = window.getSelection();
             var range = document.createRange();
 

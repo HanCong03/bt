@@ -146,7 +146,7 @@ define(function (require, exports, module) {
 
             this.inputNode = inputNode;
 
-            $(this.inputNode).on('keydown input', function (evt) {
+            $(this.inputNode).on('keydown input blur focus', function (evt) {
                 evt.stopPropagation();
 
                 _self.listener(evt.type, evt);
