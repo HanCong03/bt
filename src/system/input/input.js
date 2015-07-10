@@ -53,6 +53,7 @@ define(function (require, exports, module) {
         __reset: function () {
             this.__resetActive();
             this.__resetUserContent();
+            this.__focus();
         },
 
         __initEvent: function () {
@@ -96,6 +97,10 @@ define(function (require, exports, module) {
                 return;
             }
 
+            this.__focus();
+        },
+
+        __focus: function () {
             this.__focusStatus = true;
 
             var docSelection = window.getSelection();

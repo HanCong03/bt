@@ -55,13 +55,19 @@ define(function (require, exports, module) {
         },
 
         getRowHeight: function (row) {
-            var heap = this.getActiveHeap();
+            var dimension = this.queryCommandValue('dimension');
 
-            if ($$.isNdef(heap.heights[row])) {
-                heap.heights[row] = this.__calculate(row);
+            if (row < dimension.min.row || row > dimension.max.row) {
+                return this.queryCommandValue('standardheight');
             }
 
-            return heap.heights[row];
+            var heights = this.getActiveHeap().heights;
+
+            if ($$.isNdef(heights[row])) {
+                heights[row] = this.__calculate(row);
+            }
+
+            return heights[row];
         },
 
         setRowHeight: function (height, startRow, endRow) {

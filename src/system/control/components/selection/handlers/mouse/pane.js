@@ -34,17 +34,12 @@ define(function (require, exports, module) {
 
             var info;
 
-            // 操作比较复杂，则请求锁住底层的刷新事件的派发
-            this.rs('lock.refresh');
-
             // 处理起始点在窗格内的情况
             if (startRowType === AREA_TYPE.TOP) {
                 info = this.__getRowInfoByTopArea(index);
             } else {
                 info = this.__getRowInfoByBottomArea(index);
             }
-
-            this.rs('unlock.refresh');
 
             return info;
         },
@@ -66,17 +61,12 @@ define(function (require, exports, module) {
 
             var info;
 
-            // 操作比较复杂，则请求锁住底层的刷新事件的派发
-            this.rs('lock.refresh');
-
             // 处理起始点在窗格内的情况
             if (startColType === AREA_TYPE.LEFT) {
                 info = this.__getColumnInfoByLeftArea(index);
             } else {
                 info = this.__getColumnInfoByRightArea(index);
             }
-
-            this.rs('unlock.refresh');
 
             return info;
         },

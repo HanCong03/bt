@@ -28,15 +28,25 @@ define(function (require, exports, module) {
         visibleScreen: null,
         invisibleScreen: null,
 
+        __pauseStatus: false,
+
         init: function () {
-            this.__initEvent();
             this.__initScreen();
+            this.__initEvent();
+            this.__initService();
         },
 
         __initEvent: function () {
             this.on({
                 'refresh': this.refresh
             });
+        },
+
+        __initService: function () {
+            this.registerService({
+                'render.pause': this.__pause,
+                'render.recovery': this.__recovery
+            })
         },
 
         __initScreen: function () {
@@ -47,7 +57,19 @@ define(function (require, exports, module) {
             this.paneScreen = new Screen('btb-pane-screen', this.getTopContainer(), size.width, size.height);
         },
 
+        __pause: function () {
+            this.__pauseStatus = true;
+        },
+
+        __recovery: function () {
+            this.__pauseStatus = false;
+        },
+
         refresh: function () {
+            if (this.__pauseStatus) {
+                return;
+            }
+
             this.__refreshData();
             this.__render();
             this.__toggleScreen();

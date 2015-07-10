@@ -183,6 +183,8 @@ define(function (require, exports, module) {
             var rowInfo;
             var colInfo;
 
+            this.rs('render.pause');
+
             // 列窗格有效
             if (visualData.colPaneCount) {
                 rowInfo = this.__getNewRowInPaneView(index);
@@ -195,6 +197,8 @@ define(function (require, exports, module) {
             } else {
                 colInfo = this.__getNewColumnInNormalView(index);
             }
+
+            this.rs('render.recovery');
 
             var scroll = rowInfo.scroll || colInfo.scroll;
 

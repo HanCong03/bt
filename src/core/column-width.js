@@ -56,6 +56,12 @@ define(function (require, exports, module) {
         },
 
         getColumnWidth: function (col) {
+            var dimension = this.queryCommandValue('dimension');
+
+            if (col < dimension.min.col || col > dimension.max.col) {
+                return this.queryCommandValue('standardwidth');
+            }
+
             var widths = this.getActiveHeap().widths;
 
             if (widths[col] === undefined) {
