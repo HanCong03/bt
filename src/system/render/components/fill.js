@@ -86,6 +86,9 @@ define(function (require, exports, module) {
                 if (currentColor === null) {
                     if (lastColor !== null) {
                         this.__fillCells(cells, lastColor);
+
+                        lastColor = null;
+                        cells = [];
                     }
                     continue;
                 }

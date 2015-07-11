@@ -20,7 +20,8 @@ define(function (require, exports, module) {
             mergeCell: require('./env/commands/merge-cell'),
             rowColumn: require('./env/commands/row-column'),
             view: require('./env/commands/view'),
-            content: require('./env/commands/content')
+            content: require('./env/commands/content'),
+            insert: require('./env/commands/insert')
         },
         core: {
             content: require('./core/commands/cell/content'),

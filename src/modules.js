@@ -20,7 +20,8 @@ define(function (require, exports, module) {
             mergeCell: require('./env/merge-cell'),
             rowColumn: require('./env/row-column'),
             view: require('./env/view'),
-            content: require('./env/content')
+            content: require('./env/content'),
+            insert: require('./env/insert')
         },
         core: {
             columnWidth: require('./core/column-width'),

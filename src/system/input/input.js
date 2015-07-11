@@ -7,7 +7,6 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var FACE_THEME = require('definition/face-theme');
-    var STATUS = require('./definition/status');
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
