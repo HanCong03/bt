@@ -58,6 +58,8 @@
                 col: 121
             });
 
+            btable.execCommand('content', '合并单元格', 111, 110);
+
             btable.execCommand('mergecell', {
                 row: 111,
                 col: 110
@@ -97,13 +99,13 @@
                 col: 107
             });
 
-//            btable.execCommand('insertleftcell', {
-//                row: 111,
-//                col: 107
-//            }, {
-//                row: 114,
-//                col: 109
-//            });
+            btable.execCommand('insertrow', {
+                row: 111,
+                col: 107
+            }, {
+                row: 114,
+                col: 109
+            });
 
             console.log('time: ' + (Date.now() - startTime) + 'ms')
         });

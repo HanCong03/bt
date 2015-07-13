@@ -6,19 +6,27 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
 
-    module.exports = $$.createClass('Dimension', {
+    module.exports = $$.createClass('Insert', {
         base: require('env-module'),
 
         init: function () {
             this.__$api = this.getAPI();
         },
 
-        insertTopCell: function (row, col) {
-            this.__$api.insertCell('top', row, col);
+        insertTopCell: function (start, end) {
+            this.__$api.insertCell('top', start, end);
         },
 
-        insertLeftCell: function (row, col) {
-            this.__$api.insertCell('left', row, col);
+        insertLeftCell: function (start, end) {
+            this.__$api.insertCell('left', start, end);
+        },
+
+        insertRow: function (start, end) {
+            this.__$api.insertRow(start, end);
+        },
+
+        insertColumn: function (start, end) {
+            this.__$api.insertColumn(start, end);
         }
     });
 });

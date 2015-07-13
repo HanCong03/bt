@@ -7,6 +7,7 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var CELL_PADDING = require('definition/cell-padding');
+    var CacheCleaner = require('common/cache-cleaner');
 
     module.exports = $$.createClass('DisplayContent', {
         base: require('module'),
@@ -47,15 +48,8 @@ define(function (require, exports, module) {
         },
 
         onContentChange: function (start, end) {
-            var contents = this.getActiveHeap().contents;
-
-            $$.iterator(start, end, function (row, col) {
-                if ($$.isNdef(contents[row])) {
-                    return;
-                }
-
-                delete contents[row][col];
-            });
+            var heap = this.getActiveHeap();
+            heap.contents = CacheCleaner.clean(heap.contents, start, end);
         },
 
         getDisplayContent: function (row, col) {

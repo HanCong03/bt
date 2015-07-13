@@ -9,15 +9,25 @@ define(function (require) {
 
         $exec: [
             'inserttopcell',
-            'insertleftcell'
+            'insertleftcell',
+            'insertrow',
+            'insertcolumn'
         ],
 
-        exec_inserttopcell: function (row, col) {
-            this.$dep.insertTopCell(row, col);
+        exec_inserttopcell: function (start, end) {
+            this.$dep.insertTopCell(start, end);
         },
 
-        exec_insertleftcell: function (row, col) {
-            this.$dep.insertLeftCell(row, col);
+        exec_insertleftcell: function (start, end) {
+            this.$dep.insertLeftCell(start, end);
+        },
+        
+        exec_insertrow: function (start, end) {
+            this.$dep.insertRow(start, end);
+        },
+
+        exec_insertcolumn: function (start, end) {
+            this.$dep.insertColumn(start, end);
         }
     });
 });

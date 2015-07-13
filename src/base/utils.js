@@ -6,6 +6,9 @@
 define(function (require, exports, module) {
     var clazz = require('./clazz');
     var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     var Utils = {
         createClass: function () {
@@ -160,7 +163,26 @@ define(function (require, exports, module) {
             return chars.reverse().join('');
         },
 
-        calcThemeColor: require('./color/color')
+        getRangeType: function (start, end) {
+            var startRow = start.row;
+            var startCol = start.col;
+            var endRow = end.row;
+            var endCol = end.col;
+
+            if (startRow === 0 && endRow >= MAX_ROW_INDEX && startCol === 0 && endCol >= MAX_COLUMN_INDEX) {
+                return 'all';
+            }
+
+            if (startRow === 0 && endRow >= MAX_ROW_INDEX) {
+                return 'col';
+            }
+
+            if (startCol === 0 && endCol >= MAX_COLUMN_INDEX) {
+                return 'row';
+            }
+
+            return 'range';
+        }
     };
 
     module.exports = Utils;
