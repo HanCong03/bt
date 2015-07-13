@@ -1,5 +1,5 @@
 /**
- * @file 缓存清理器
+ * @file 通用缓存清理器
  * @author hancong03@baiud.com
  */
 

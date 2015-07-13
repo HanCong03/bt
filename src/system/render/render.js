@@ -51,10 +51,16 @@ define(function (require, exports, module) {
 
         __initScreen: function () {
             var size = this.getContentContainerSize();
-            this.gridlineScreen = new Screen('btb-gl-screen', this.getMiddleContainer(), size.width, size.height);
-            this.contentScreen = new Screen('btb-cnt-screen', this.getMiddleContainer(), size.width, size.height);
-            this.borderScreen = new Screen('btb-border-screen', this.getMiddleContainer(), size.width, size.height);
-            this.paneScreen = new Screen('btb-pane-screen', this.getTopContainer(), size.width, size.height);
+            var midleContainer = this.getMiddleContainer();
+            var topContainer = this.getTopContainer();
+
+            var width = size.width;
+            var height = size.height;
+
+            this.gridlineScreen = new Screen('btb-gl-screen', midleContainer, width, height);
+            this.contentScreen = new Screen('btb-cnt-screen', midleContainer, width, height);
+            this.borderScreen = new Screen('btb-border-screen', midleContainer, width, height);
+            this.paneScreen = new Screen('btb-pane-screen', topContainer, width, height);
         },
 
         __pause: function () {

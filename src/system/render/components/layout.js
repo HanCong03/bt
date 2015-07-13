@@ -68,6 +68,7 @@ define(function (require, exports, module) {
             var mergeMap = mergeToMap(mergecells);
 
             var result = [];
+            var info;
             var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
 
             $$.forEach(visualData.rows, function (row, i) {
@@ -96,7 +97,7 @@ define(function (require, exports, module) {
                     } else {
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
 
-                        currentRow.push({
+                        info = {
                             active: mergeFlag.active,
                             row: row,
                             col: col,
@@ -117,7 +118,13 @@ define(function (require, exports, module) {
                             fonts: renderInfo[key].fonts,
                             border: renderInfo[key].borders.border,
                             fills: renderInfo[key].fills
-                        });
+                        };
+
+                        currentRow.push(info);
+
+                        if (mergeFlag.active) {
+                            info.rect = this.rs('get.visible.rect', mergeFlag.start, mergeFlag.end);
+                        }
 
                         mergeFlag.active = false;
                     }

@@ -9,8 +9,8 @@ define(function (require, exports, module) {
     var TIME_STEP = 50;
 
     // 缓冲阈值
-    var ROW_HRESHOLD = 50;
-    var COLUMN_HRESHOLD = 50;
+    var ROW_HRESHOLD = 100;
+    var COLUMN_HRESHOLD = 100;
 
     var ROW_UNIT = 100;
     // 列滚动单位
@@ -57,12 +57,12 @@ define(function (require, exports, module) {
             var y = Math.abs(this.bufferY);
 
             if (x >= COLUMN_HRESHOLD) {
-                col = -1 * xDirection * Math.ceil(x / COLUMN_UNIT);
+                col = -1 * xDirection * Math.round(x / COLUMN_UNIT);
                 this.bufferX = 0;
             }
 
             if (y >= ROW_HRESHOLD) {
-                row = -1 * yDirection * Math.ceil(y / ROW_UNIT);
+                row = -1 * yDirection * Math.round(y / ROW_UNIT);
                 this.bufferY = 0;
             }
 

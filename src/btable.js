@@ -13,8 +13,13 @@ define(function (require, exports, module) {
             this.__$ctx = new Context(node);
         },
 
-        execCommand: function () {
-            return this.__$ctx.execCommand.apply(this.__$ctx, arguments);
+        execCommand: function (commandName) {
+            var result;
+            console.time(commandName)
+            result = this.__$ctx.execCommand.apply(this.__$ctx, arguments);
+            console.timeEnd(commandName);
+
+            return result;
         },
 
         queryCommandValue: function () {

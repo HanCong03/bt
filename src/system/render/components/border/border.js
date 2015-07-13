@@ -41,6 +41,9 @@ define(function (require, exports, module) {
 
             this.__drawBorders();
 
+            // 清理贯穿合并单元格的边框线。
+            this.__cleanMergeCell();
+
             screen.restore();
         },
 
@@ -55,6 +58,26 @@ define(function (require, exports, module) {
             if (borderLayout.v) {
                 this.__drawVerticalBorder(borderLayout.v);
             }
+        },
+
+        /**
+         * 清理贯穿合并单元格的边框线
+         * @private
+         */
+        __cleanMergeCell: function () {
+            var layoutData = this.layoutData;
+            var screen = this.borderScreen;
+
+            $$.forEach(layoutData, function (rowLayout) {
+                $$.forEach(rowLayout, function (currentLayout) {
+                    if (!currentLayout.mergecell || !currentLayout.active) {
+                        return;
+                    }
+
+                    var rect = currentLayout.rect;
+                    screen.clearRect(rect.x, rect.y, rect.width, rect.height);
+                });
+            });
         },
 
         __drawHorizontalBorder: function (borderLayout) {

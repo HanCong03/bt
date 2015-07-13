@@ -40,8 +40,6 @@
             var btable = new BTable(document.getElementById('container'));
             window.btable = btable;
 
-            var startTime = Date.now();
-
             btable.execCommand('pane', {
                 row: 100,
                 col: 100
@@ -58,10 +56,11 @@
                 col: 121
             });
 
-            btable.execCommand('content', '合并单元格', 111, 110);
+            btable.execCommand('content', '合并单元格1', 110, 110);
+            btable.execCommand('content', '合并单元格2', 111, 110);
 
             btable.execCommand('mergecell', {
-                row: 111,
+                row: 110,
                 col: 110
             }, {
                 row: 114,
@@ -106,8 +105,6 @@
                 row: 114,
                 col: 109
             });
-
-            console.log('time: ' + (Date.now() - startTime) + 'ms')
         });
     </script>
 </head>
