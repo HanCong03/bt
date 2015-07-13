@@ -59,24 +59,51 @@
             });
 
             btable.execCommand('mergecell', {
-                row: 103,
-                col: 103
+                row: 111,
+                col: 110
             }, {
-                row: 105,
-                col: 105
+                row: 114,
+                col: 113
             });
 
-            btable.execCommand('content', 'hancong', 110, 107);
+            btable.execCommand('content', '1', 111, 107);
+            btable.execCommand('content', '2', 111, 108);
+            btable.execCommand('content', '3', 111, 109);
+            btable.execCommand('content', '4', 114, 107);
+            btable.execCommand('content', '5', 114, 108);
+            btable.execCommand('content', '6', 114, 109);
 
             btable.execCommand('fill', 'Red', {
                 row: 110,
-                col: 106
+                col: 107
             }, {
                 row: 110,
+                col: 107
+            });
+
+            btable.execCommand('fill', 'green', {
+                row: 111,
+                col: 106
+            }, {
+                row: 111,
                 col: 106
             });
 
-            btable.execCommand('insertleftcell', 110, 107);
+            btable.execCommand('fill', 'blue', {
+                row: 111,
+                col: 107
+            }, {
+                row: 111,
+                col: 107
+            });
+
+            btable.execCommand('insertleftcell', {
+                row: 111,
+                col: 107
+            }, {
+                row: 114,
+                col: 109
+            });
 
             console.log('time: ' + (Date.now() - startTime) + 'ms')
         });
