@@ -8,7 +8,6 @@ define(function (require, exports, module) {
 
     module.exports = {
         __getLayout: function () {
-
             var visualData = this.visualData;
 
             if (visualData.rowCount === 0 || visualData.colCount === 0) {
@@ -36,6 +35,8 @@ define(function (require, exports, module) {
             var result = [];
 
             var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
+            var styels = renderInfo.styles;
+            var comments = renderInfo.comments;
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -52,10 +53,18 @@ define(function (require, exports, module) {
                         c: j,
                         // display-content
                         content: this.rs('get.display.content', row, col),
-                        alignments: renderInfo[key].alignments,
-                        fonts: renderInfo[key].fonts,
-                        border: renderInfo[key].borders.border,
-                        fills: renderInfo[key].fills
+                        alignments: styels[key].alignments,
+                        fonts: styels[key].fonts,
+                        border: styels[key].borders.border,
+                        fills: styels[key].fills,
+                        comment: comments[key],
+                        rect: this.rs('get.visible.rect', {
+                            row: row,
+                            col: col
+                        }, {
+                            row: row,
+                            col: col
+                        })
                     });
                 }, this);
             }, this);
@@ -70,6 +79,8 @@ define(function (require, exports, module) {
             var result = [];
             var info;
             var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
+            var styels = renderInfo.styles;
+            var comments = renderInfo.comments;
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -89,10 +100,18 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
-                            alignments: renderInfo[key].alignments,
-                            fonts: renderInfo[key].fonts,
-                            border: renderInfo[key].borders.border,
-                            fills: renderInfo[key].fills
+                            alignments: styels[key].alignments,
+                            fonts: styels[key].fonts,
+                            border: styels[key].borders.border,
+                            fills: styels[key].fills,
+                            comment: comments[key],
+                            rect: this.rs('get.visible.rect', {
+                                row: row,
+                                col: col
+                            }, {
+                                row: row,
+                                col: col
+                            })
                         });
                     } else {
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
@@ -114,10 +133,11 @@ define(function (require, exports, module) {
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
-                            alignments: renderInfo[key].alignments,
-                            fonts: renderInfo[key].fonts,
-                            border: renderInfo[key].borders.border,
-                            fills: renderInfo[key].fills
+                            alignments: styels[key].alignments,
+                            fonts: styels[key].fonts,
+                            border: styels[key].borders.border,
+                            fills: styels[key].fills,
+                            comment: this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col)
                         };
 
                         currentRow.push(info);

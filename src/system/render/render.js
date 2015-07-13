@@ -18,6 +18,7 @@ define(function (require, exports, module) {
             require('./components/fill'),
             require('./components/border/border'),
             require('./components/content/content'),
+            require('./components/comment'),
             require('./components/box'),
             require('./components/pane')
         ],
@@ -92,6 +93,7 @@ define(function (require, exports, module) {
             this.__fill();
             this.__drawBorder();
             this.__drawContent();
+            this.__drawComment();
             this.__drawBox();
             this.__drawPaneLine();
         },

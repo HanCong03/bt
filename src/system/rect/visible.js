@@ -4,33 +4,7 @@ define(function (require, exports, module) {
     var OFFSET = GRIDLINE_CONFIG.offset;
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
 
-    module.exports = $$.createClass('Rect', {
-        base: require('module'),
-
-        visualData: null,
-
-        init: function () {
-            this.__initEvent();
-            this.__initService();
-        },
-
-        __initEvent: function () {
-            this.on({
-                'refresh': this.__refresh
-            });
-        },
-
-        __initService: function () {
-            this.registerService({
-                'get.visible.rect': this.getVisibleRect,
-                'get.visible.layout': this.getVisibleRectLayout
-            });
-        },
-
-        __refresh: function () {
-            this.visualData = this.rs('get.visual.data');
-        },
-
+    module.exports = {
         /**
          * 根据当前的可视化对象，计算可见的rect对象。
          * 注意：获取到的rect对象仅适用于当前的可视区域，不是完整的rect对象。
@@ -404,5 +378,5 @@ define(function (require, exports, module) {
                 width: width
             };
         }
-    });
+    };
 });

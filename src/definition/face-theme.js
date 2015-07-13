@@ -30,5 +30,11 @@ define({
         color: 'rgba(45, 45, 45, 0.2)'
     },
 
+    comment: {
+        color: '#ff0000',
+        // 单位：px
+        size: 5
+    },
+
     fill: '#ffffff'
 });

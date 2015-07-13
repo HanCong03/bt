@@ -17,7 +17,7 @@ define(function (require, exports, module) {
             this.__$api.setComment(content, row, col);
         },
 
-        clearContent: function (start, end) {
+        clearComment: function (start, end) {
             this.__$api.clearComment(start, end);
         },
 

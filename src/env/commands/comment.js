@@ -21,7 +21,7 @@ define(function (require) {
         },
 
         exec_clearcomment: function (start, end) {
-            this.$dep.clearContent(start, end);
+            this.$dep.clearComment(start, end);
         },
 
         query_comment: function (row, col) {
