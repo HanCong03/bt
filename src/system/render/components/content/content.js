@@ -399,6 +399,7 @@ define(function (require, exports, module) {
         __drawText: function (cellInfo, rect) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
+            screen.fillColor(cellInfo.fonts.color.value);
 
             if (!textAlign) {
                 textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
@@ -425,6 +426,7 @@ define(function (require, exports, module) {
         __drawMergeCellText: function (cellInfo, rect) {
             var textAlign = cellInfo.alignments.horizontal;
             var screen = this.contentScreen;
+            screen.fillColor(cellInfo.fonts.color.value);
 
             var mergeStart = cellInfo.mergecell.start;
 
