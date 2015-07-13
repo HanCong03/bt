@@ -59,12 +59,20 @@
             btable.execCommand('content', '合并单元格1', 110, 110);
             btable.execCommand('content', '合并单元格2', 111, 110);
 
+//            btable.execCommand('mergecell', {
+//                row: 110,
+//                col: 110
+//            }, {
+//                row: 114,
+//                col: 113
+//            });
+
             btable.execCommand('mergecell', {
-                row: 110,
-                col: 110
+                row: 115,
+                col: 104
             }, {
-                row: 114,
-                col: 113
+                row: 118,
+                col: 109
             });
 
             btable.execCommand('content', '1', 111, 107);
@@ -98,7 +106,7 @@
                 col: 107
             });
 
-            btable.execCommand('insertrow', {
+            btable.execCommand('insertcolumn', {
                 row: 111,
                 col: 107
             }, {

@@ -19,7 +19,7 @@ define(function (require, exports, module) {
                     cleanRow(cache, start.row, end.row);
                     break;
 
-                case 'column':
+                case 'col':
                     cleanColumn(cache, start.col, end.col);
                     break;
 
@@ -77,9 +77,14 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var limit = Math.min(endIndex, rowCache.length - 1);
+            // 清理之后剩余的所有内容
+            if (endIndex >= rowCache.length - 1) {
+                rowCache.length = startIndex;
+                return;
+            }
 
-            for (var i = startIndex; i <= limit; i++) {
+            // 清理段
+            for (var i = startIndex; i <= endIndex; i++) {
                 if (rowCache[i] !== undefined) {
                     delete rowCache[i];
                 }
@@ -109,7 +114,6 @@ define(function (require, exports, module) {
         var endCol = end.col;
 
         var currentRow;
-        var limit;
 
         for (var i = 0, len = keys.length; i < len; i++) {
             row = keys[i];
@@ -128,9 +132,14 @@ define(function (require, exports, module) {
                 continue;
             }
 
-            limit = Math.min(endCol, currentRow.length - 1);
+            // 清理之后剩余的所有内容
+            if (endCol >= currentRow.length - 1) {
+                currentRow.length = startCol;
+                continue;
+            }
 
-            for (var j = startCol; j <= limit; j++) {
+            // 清理段
+            for (var j = startCol; j <= endCol; j++) {
                 if (currentRow[j] !== undefined) {
                     delete currentRow[j];
                 }
