@@ -22,7 +22,8 @@ define(function (require, exports, module) {
             rowColumn: require('./env/row-column'),
             view: require('./env/view'),
             content: require('./env/content'),
-            insert: require('./env/insert')
+            insert: require('./env/insert'),
+            formatBrush: require('./env/format-brush')
         },
         core: {
             columnWidth: require('./core/column-width'),

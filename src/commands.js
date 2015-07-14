@@ -21,7 +21,8 @@ define(function (require, exports, module) {
             rowColumn: require('./env/commands/row-column'),
             view: require('./env/commands/view'),
             content: require('./env/commands/content'),
-            insert: require('./env/commands/insert')
+            insert: require('./env/commands/insert'),
+            formatBrush: require('./env/commands/format-brush')
         },
         core: {
             content: require('./core/commands/cell/content'),
