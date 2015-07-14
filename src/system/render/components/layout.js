@@ -131,19 +131,24 @@ define(function (require, exports, module) {
                             // visual-data中的索引
                             r: i,
                             c: j,
+                            // 对当前视图中的合并单元格的第一个单元格的行列引用
+                            fr: mergeFlag.fr || i,
+                            fc: mergeFlag.fc || j,
                             // display-content
                             content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
                             alignments: styels[key].alignments,
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,
-                            fills: styels[key].fills,
-                            comment: this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col)
+                            fills: styels[key].fills
                         };
 
                         currentRow.push(info);
 
                         if (mergeFlag.active) {
                             info.rect = this.rs('get.visible.rect', mergeFlag.start, mergeFlag.end);
+                            info.comment = this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col);
+                            mergeFlag.fr = i;
+                            mergeFlag.fc = j;
                         }
 
                         mergeFlag.active = false;

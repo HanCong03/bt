@@ -26,6 +26,8 @@ define(function (require, exports, module) {
         hBtns: null,
         vBtns: null,
 
+        promptContainer: null,
+
         __ignore: false,
 
         __hRefreshed: false,
@@ -44,6 +46,8 @@ define(function (require, exports, module) {
             this.hBtns = $('.btb-h-header-btns', this.maskNode)[0];
             this.vBtns = $('.btb-v-header-btns', this.maskNode)[0];
 
+            this.promptContainer = $('.btb-prompt-contianer', this.maskNode)[0];
+
             this.__initDomEvent();
             this.__initEvent();
             this.__initService();
@@ -58,7 +62,9 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                 'ignore.header.control': this.__ignoreHeader,
-                'recover.header.control': this.__recoverHeader
+                'recover.header.control': this.__recoverHeader,
+
+                'get.prompt.container': this.getPromptConcatiner
             })
         },
 
@@ -134,6 +140,10 @@ define(function (require, exports, module) {
 
                 _self.listener('vheaderbtn', evt);
             });
+        },
+
+        getPromptConcatiner: function () {
+            return this.promptContainer;
         },
 
         appendTo: function (container) {
@@ -238,7 +248,8 @@ define(function (require, exports, module) {
             var node = document.createElement('div');
             node.className = 'btb-mask';
 
-            node.innerHTML = '<div class="btb-headers">' +
+            node.innerHTML = '<div class="btb-prompt-contianer"></div>' +
+                            '<div class="btb-headers">' +
                                 '<div class="btb-h-header">' +
                                     '<div class="btb-h-header-space"></div>' +
                                     '<div class="btb-h-header-btns"></div>' +

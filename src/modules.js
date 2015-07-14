@@ -42,7 +42,8 @@ define(function (require, exports, module) {
             input: require('./system/input/input'),
             scroll: require('./system/scroll/scroll'),
             scrollbar: require('./system/scrollbar/scrollbar'),
-            header: require('./system/header/header')
+            header: require('./system/header/header'),
+            comment: require('./system/comment/comment')
         },
         ext: {}
     };

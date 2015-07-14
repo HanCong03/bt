@@ -25,7 +25,8 @@ define(function (require, exports, module) {
             require('./handlers/key-enter'),
             require('./handlers/shift-move'),
             require('./handlers/mouse/mouse'),
-            require('./handlers/contextmenu')
+            require('./handlers/contextmenu'),
+            require('./handlers/hover')
         ],
 
         init: function () {

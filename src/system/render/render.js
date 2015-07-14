@@ -85,6 +85,8 @@ define(function (require, exports, module) {
         __refreshData: function () {
             this.visualData = this.rs('get.visual.data');
             this.layoutData = this.__getLayout();
+
+            this.postMessage('layout.refresh', this.layoutData);
         },
 
         __render: function () {

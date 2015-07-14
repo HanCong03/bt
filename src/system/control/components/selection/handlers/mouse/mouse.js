@@ -61,16 +61,26 @@ define(function (require, exports, module) {
         },
 
         __abortMouse: function () {
+            this.__hoverstop();
             this.__onmouseup();
         },
 
         // move 不处理all的情况
         __onmousemove: function (evt) {
+            var index = this.__getIndex(evt);
+
+            // 正常状态下的移动
             if (this.status === STATUS.NORMAL) {
+                if (!this.end) {
+                    this.end = index;
+                    this.__hoverin(index, null);
+                } else if (index.row !== this.end.row || index.col !== this.end.col) {
+                    this.__hoverout(this.end);
+                    this.__hoverin(index, this.end);
+                }
+
                 return;
             }
-
-            var index = this.__getIndex(evt);
 
             if (index.row === this.end.row && index.col === this.end.col) {
                 return;
@@ -132,6 +142,7 @@ define(function (require, exports, module) {
 
         __onmouseleave: function (evt) {
             if (this.status === STATUS.NORMAL) {
+                this.__hoverstop();
                 return;
             }
 
