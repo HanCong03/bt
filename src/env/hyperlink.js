@@ -16,11 +16,13 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'set.hyperlink': this.setHyperlink
+                'set.hyperlink': this.setHyperlink,
+                'clear.hyperlink': this.clearHyperlink,
+                'get.hyperlink': this.getHyperlink
             });
         },
 
-        setHyperlink: function (text, link, row, col) {
+        setHyperlink: function (link, row, col) {
             this.__$api.setHyperlink(link, row, col);
         },
 

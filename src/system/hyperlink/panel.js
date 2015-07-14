@@ -1,15 +1,12 @@
 /**
- * @file 评论面板
+ * @file 超链接面板
  * @author hancong03@baiud.com
  */
 
 
 define(function (require, exports, module) {
-    var $$ = require('utils');
     var GRIDLINE_CONFIG = require('definition/gridline');
     var LINE_WIDTH = GRIDLINE_CONFIG.width;
-
-    var MAX_WIDTH = 300;
 
     module.exports = {
         panelNode: null,
@@ -17,7 +14,7 @@ define(function (require, exports, module) {
 
         __initPanel: function () {
             var node = document.createElement('div');
-            node.className = 'btb-comment';
+            node.className = 'btb-hyperlink';
 
             var contianer = this.rs('get.prompt.container');
 
@@ -26,14 +23,14 @@ define(function (require, exports, module) {
             this.panelNode = node;
         },
 
-        __showComment: function (rect, comment) {
-            this.__updateComment(comment);
+        __showHyperlink: function (rect, link) {
+            this.__updateHyperlink(link);
             this.__updateLocation(rect);
 
             this.panelStatus = true;
         },
 
-        __hideComment: function () {
+        __hideHyperlink: function () {
             if (!this.panelStatus) {
                 return;
             }
@@ -42,49 +39,39 @@ define(function (require, exports, module) {
             this.panelNode.style.left = '-999999px';
         },
 
-        __updateComment: function (comment) {
-            this.panelNode.innerHTML = comment;
+        __updateHyperlink: function (link) {
+            this.panelNode.innerHTML = '<a target="_blank" href="' + link + '">' + link + '</a>';
         },
 
         __updateLocation: function (rect) {
             var visualData = this.rs('get.visual.data');
-            var boundaryWidth = visualData.boundaryWidth;
             var boundaryHeight = visualData.boundaryHeight;
 
-            var size = $$.getRect(this.panelNode);
-
             var top = rect.y;
-            var left = rect.x;
-            var right = boundaryWidth - (rect.x + rect.width);
             var bottom = boundaryHeight - (rect.y + rect.height);
 
-            // 尝试右侧
-            if (right >= MAX_WIDTH) {
-               this.__showToRight(rect, size);
+            // 尝试底部
+            if (bottom >= 50) {
+               this.__showToBottom(rect);
 
-            // 尝试左侧
-            } else if (left >= MAX_WIDTH) {
-                this.__showToLeft(rect, size);
+            // 尝试顶部
+            } else if (top >= 50) {
+                this.__showToTop(rect);
 
-            // 显示在内部的右侧
+            // 显示在内部的底部
             } else {
-                this.__showInnerRight(rect, size);
+                this.__showToInnerBottom(rect);
             }
         },
 
-        __showToRight: function (rect, size) {
+        __showToBottom: function (rect) {
             var visualData = this.rs('get.visual.data');
-            var boundaryHeight = visualData.boundaryHeight;
             var panelNode = this.panelNode;
             var headWidth = visualData.headWidth;
             var headHeight = visualData.headHeight;
 
-            var spaceHeight = boundaryHeight - rect.y;
-
-            if (spaceHeight >= size.height) {
-                panelNode.style.top = rect.y + headHeight - LINE_WIDTH + 'px';
-                panelNode.style.left = rect.x + headWidth + rect.width + 'px';
-            }
+            panelNode.style.top = rect.y + headHeight + rect.height + 'px';
+            panelNode.style.left = rect.x + headWidth - LINE_WIDTH + 'px';
         }
     };
 });

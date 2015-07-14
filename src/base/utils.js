@@ -182,7 +182,9 @@ define(function (require, exports, module) {
             }
 
             return 'range';
-        }
+        },
+
+        calcThemeColor: require('./color/color')
     };
 
     module.exports = Utils;

@@ -37,6 +37,7 @@ define(function (require, exports, module) {
             var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
             var styels = renderInfo.styles;
             var comments = renderInfo.comments;
+            var hyperlinks = renderInfo.hyperlinks;
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -57,7 +58,8 @@ define(function (require, exports, module) {
                         fonts: styels[key].fonts,
                         border: styels[key].borders.border,
                         fills: styels[key].fills,
-                        comment: comments[key]
+                        comment: comments[key],
+                        hyperlink: hyperlinks[key]
                     });
                 }, this);
             }, this);
@@ -74,6 +76,7 @@ define(function (require, exports, module) {
             var renderInfo = this.__getRenderInfo(visualData.rows, visualData.cols);
             var styels = renderInfo.styles;
             var comments = renderInfo.comments;
+            var hyperlinks = renderInfo.hyperlinks;
 
             $$.forEach(visualData.rows, function (row, i) {
                 var currentRow = [];
@@ -90,6 +93,7 @@ define(function (require, exports, module) {
                             col: col,
                             // visual-data中的索引
                             r: i,
+
                             c: j,
                             // display-content
                             content: this.rs('get.display.content', row, col),
@@ -97,7 +101,8 @@ define(function (require, exports, module) {
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,
                             fills: styels[key].fills,
-                            comment: comments[key]
+                            comment: comments[key],
+                            hyperlink: hyperlinks[key]
                         });
                     } else {
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
@@ -120,8 +125,6 @@ define(function (require, exports, module) {
                             // 对当前视图中的合并单元格的第一个单元格的行列引用
                             fr: mergeFlag.fr || i,
                             fc: mergeFlag.fc || j,
-                            // display-content
-                            content: this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col),
                             alignments: styels[key].alignments,
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,
@@ -132,6 +135,9 @@ define(function (require, exports, module) {
 
                         if (mergeFlag.active) {
                             info.comment = this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col);
+                            info.hyperlink = this.queryCommandValue('hyperlink', mergeFlag.start.row, mergeFlag.start.col);
+                            info.content = this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col);
+
                             mergeFlag.fr = i;
                             mergeFlag.fc = j;
                         }

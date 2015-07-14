@@ -140,6 +140,11 @@ define(function (require, exports, module) {
 
                 _self.listener('vheaderbtn', evt);
             });
+
+            // 屏蔽浮层上的事件冒泡。
+            $(this.promptContainer).on('mousedown contextmenu dblclick mousemove mouseleave mouseenter mousewheel DOMMouseScroll', function (evt) {
+                evt.stopPropagation();
+            });
         },
 
         getPromptConcatiner: function () {
