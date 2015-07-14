@@ -1,3 +1,19 @@
+.btb-main .btb-comment {
+  position: absolute;
+  top: 0;
+  left: 0;
+  left: -999999px;
+  max-width: 300px;
+  min-width: 100px;
+  word-wrap: break-word;
+  word-break: break-all;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #b8b8b8;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  font: 14px/1.2 Arial, sans-serif;
+}
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFzc2V0cy9zdHlsZXMvbGVzcy9jb21tZW50Lmxlc3MiLCJhc3NldHMvc3R5bGVzL2xlc3MvY29tbW9uLmxlc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBRUEsU0FDRTtFQ0ZBLGtCQUFBO0VBQ0EsTUFBQTtFQUNBLE9BQUE7RURFRSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtFQUNBLHFCQUFBO0VBQ0EscUJBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSx5QkFBQTtFQUNBLDBDQUFBO0VBRUEsZ0NBQUEifQ== */
 
 .btb-main .btb-input-wrap {
   position: absolute;

@@ -64,8 +64,22 @@ define(function (require, exports, module) {
                 return;
             }
 
+            var rect;
+
+            if (toMergeInfo) {
+                rect = this.rs('get.visible.rect', toMergeInfo.start, toMergeInfo.end);
+            } else {
+                rect = this.rs('get.visible.rect', {
+                    row: toLayout.row,
+                    col: toLayout.col
+                }, {
+                    row: toLayout.row,
+                    col: toLayout.col
+                });
+            }
+
             if (!fromIndex || fromIndex.r < 0 || fromIndex.c < 0) {
-                this.__showComment(toLayout.rect, comment);
+                this.__showComment(rect, comment);
                 return;
             }
 
@@ -75,16 +89,16 @@ define(function (require, exports, module) {
 
             if (toMergeInfo) {
                 if (!fromMergeInfo) {
-                    this.__showComment(toLayout.rect, comment);
+                    this.__showComment(rect, comment);
 
                 // 同一单元格内移动
                 } else if (toMergeInfo.start.row !== fromMergeInfo.start.row
                     || toMergeInfo.start.col !== fromMergeInfo.start.col) {
 
-                    this.__showComment(toLayout.rect, comment);
+                    this.__showComment(rect, comment);
                 }
             } else {
-                this.__showComment(toLayout.rect, comment);
+                this.__showComment(rect, comment);
             }
         },
 

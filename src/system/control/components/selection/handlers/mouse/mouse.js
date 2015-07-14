@@ -77,6 +77,7 @@ define(function (require, exports, module) {
                 } else if (index.row !== this.end.row || index.col !== this.end.col) {
                     this.__hoverout(this.end);
                     this.__hoverin(index, this.end);
+                    this.end = index;
                 }
 
                 return;
