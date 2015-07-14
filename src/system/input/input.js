@@ -66,7 +66,7 @@ define(function (require, exports, module) {
             this.onMessage({
                 'control': this.focus,
                 'control.focus': this.focus,
-                //'control.blur': this.blur,
+                'control.blur': this.blur,
                 'control.input.mouse.active': this.mouseActive,
                 'control.input.input.active': this.inputActive,
 
@@ -97,6 +97,10 @@ define(function (require, exports, module) {
             }
 
             this.__focus();
+        },
+
+        blur: function () {
+            this.__focusStatus = false;
         },
 
         __focus: function () {

@@ -48,13 +48,13 @@
                 col: 100
             });
 
-            btable.execCommand('cellstyle', 22, {
-                row: 100,
-                col: 100
-            }, {
-                row: 121,
-                col: 121
-            });
+//            btable.execCommand('cellstyle', 22, {
+//                row: 100,
+//                col: 100
+//            }, {
+//                row: 121,
+//                col: 121
+//            });
 
             btable.execCommand('content', '合并单元格1', 110, 110);
             btable.execCommand('content', '合并单元格2', 111, 110);
@@ -106,6 +106,7 @@
                 col: 107
             });
 
+            window.st = true;
             btable.execCommand('insertcolumn', {
                 row: 111,
                 col: 107
