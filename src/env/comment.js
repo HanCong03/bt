@@ -1,5 +1,5 @@
 /**
- * @file 提供样式存取服务
+ * @file 提供批注存取服务
  * @author hancong03@baiud.com
  */
 

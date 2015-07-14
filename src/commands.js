@@ -28,7 +28,8 @@ define(function (require, exports, module) {
             columnWidth: require('./core/commands/column-width'),
             rowHeight: require('./core/commands/row-height'),
             scroll: require('./core/commands/scroll'),
-            selection: require('./core/commands/selection')
+            selection: require('./core/commands/selection'),
+            hyperlink: require('./core/commands/hyperlink')
         },
         system: {},
         ext: {}

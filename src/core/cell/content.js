@@ -9,6 +9,16 @@ define(function (require, exports, module) {
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
 
+        init: function () {
+            this.__initService();
+        },
+
+        __initService: function () {
+            this.registerService({
+                'set.content': this.setContent
+            });
+        },
+
         setContent: function (content, row, col) {
             var numfmt;
             var analyzeResult;
@@ -28,14 +38,6 @@ define(function (require, exports, module) {
 
                 this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
             }
-
-            this.emit('contentchange', {
-                row: row,
-                col: col
-            }, {
-                row: row,
-                col: col
-            });
         }
     });
 });

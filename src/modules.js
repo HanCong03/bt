@@ -16,6 +16,7 @@ define(function (require, exports, module) {
             border: require('./env/border'),
             clear: require('./env/clear'),
             comment: require('./env/comment'),
+            hyperlink: require('./env/hyperlink'),
             dimension: require('./env/dimension'),
             mergeCell: require('./env/merge-cell'),
             rowColumn: require('./env/row-column'),
@@ -32,7 +33,8 @@ define(function (require, exports, module) {
             numfmt: require('./core/numfmt/numfmt'),
             visualData: require('./core/visual-data/visual-data'),
             selection: require('./core/selection/selection'),
-            rowColumn: require('./core/row-column')
+            rowColumn: require('./core/row-column'),
+            hyperlink: require('./core/hyperlink')
         },
         system: {
             rect: require('./system/rect/rect'),
