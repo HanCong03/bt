@@ -74,10 +74,10 @@ define(function (require, exports, module) {
                         return;
                     }
 
-                    var rect = currentLayout.rect;
+                    var rect = this.rs('get.visible.rect', currentLayout.mergecell.start, currentLayout.mergecell.end);
                     screen.clearRect(rect.x, rect.y, rect.width, rect.height);
-                });
-            });
+                }, this);
+            }, this);
         },
 
         __drawHorizontalBorder: function (borderLayout) {

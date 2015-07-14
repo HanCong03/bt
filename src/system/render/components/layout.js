@@ -57,14 +57,7 @@ define(function (require, exports, module) {
                         fonts: styels[key].fonts,
                         border: styels[key].borders.border,
                         fills: styels[key].fills,
-                        comment: comments[key],
-                        rect: this.rs('get.visible.rect', {
-                            row: row,
-                            col: col
-                        }, {
-                            row: row,
-                            col: col
-                        })
+                        comment: comments[key]
                     });
                 }, this);
             }, this);
@@ -104,14 +97,7 @@ define(function (require, exports, module) {
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,
                             fills: styels[key].fills,
-                            comment: comments[key],
-                            rect: this.rs('get.visible.rect', {
-                                row: row,
-                                col: col
-                            }, {
-                                row: row,
-                                col: col
-                            })
+                            comment: comments[key]
                         });
                     } else {
                         index = this.__getEndRC(mergeFlag.start, mergeFlag.end);
@@ -145,7 +131,6 @@ define(function (require, exports, module) {
                         currentRow.push(info);
 
                         if (mergeFlag.active) {
-                            info.rect = this.rs('get.visible.rect', mergeFlag.start, mergeFlag.end);
                             info.comment = this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col);
                             mergeFlag.fr = i;
                             mergeFlag.fc = j;
