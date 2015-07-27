@@ -34,7 +34,7 @@ define(function (require, exports, module) {
         __onContentChange: function (start, end) {
             //console.log(arguments)
 
-            
+
         }
 
 
