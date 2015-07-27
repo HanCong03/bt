@@ -35,6 +35,10 @@ define(function (require, exports, module) {
             return this.__$api.getContent(row, col);
         },
 
+        getContents: function (start, end) {
+            return this.__$api.getContents(start, end);
+        },
+
         getContentType: function (row, col) {
             return this.__$api.getContentType(row, col);
         },

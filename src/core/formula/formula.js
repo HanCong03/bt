@@ -16,7 +16,7 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initService();
-            this.reader = this.createComponent('Reader');
+            this.reader = this.createComponent(Reader);
         },
 
         __initService: function () {

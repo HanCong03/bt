@@ -24,24 +24,11 @@ define(function (require, exports, module) {
     };
 
     function calculate(reader, code) {
-        switch (code.op) {
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-            case '<=':
-            case '>=':
-            case '<':
-            case '>':
-            case '<>':
-            case '&':
-            case '%':
-            case '^':
-                return GeneralRuntime.exec(reader, code.op, code.args);
-                break;
+        if (code.op === 'func') {
 
+        } else {
+            return GeneralRuntime.exec(reader, code.op, code.args);
         }
 
-        console.log(code)
     }
 });

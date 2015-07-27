@@ -6,7 +6,7 @@
 define(function (require, exports, module) {
 
     module.exports = {
-        exec: function (op, args) {
+        exec: function (reader, op, args) {
             debugger
         }
     };

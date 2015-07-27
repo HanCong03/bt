@@ -10,7 +10,8 @@ define(function (require) {
         $query: [
             'content',
             'contenttype',
-            'contentinfo'
+            'contentinfo',
+            'contents'
         ],
 
         query_content: function (row, col) {
@@ -23,6 +24,10 @@ define(function (require) {
 
         query_contentinfo: function (row, col) {
             return this.$dep.getContentInfo(row, col);
+        },
+
+        query_contents: function (start, end) {
+            return this.$dep.getContents(start, end);
         }
     });
 });
