@@ -5,7 +5,8 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var VALUE_TYPE = require('definition/vtype');
+    var FORMAT_TYPE = require('definition/format-type');
+    var FORMAT_VALUE_TYPE_MAP = require('definition/format-value-map');
 
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
@@ -37,11 +38,20 @@ define(function (require, exports, module) {
                 numfmt = this.queryCommandValue('numfmt');
                 analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
-                if (analyzeResult.type === VALUE_TYPE.FORMULA) {
-                    return this.__setFormula(analyzeResult.value, row, col);
+                if (analyzeResult.type === FORMAT_TYPE.FORMULA) {
+                    var start = {
+                        row: row,
+                        col: col
+                    };
+                    var end = {
+                        row: row + 3,
+                        col: col + 3
+                    };
+                    //return this.__setFormula(analyzeResult.value, row, col);
+                    return this.__setArrayFormula(analyzeResult.value, start, end);
                 }
 
-                this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
+                this.rs('set.content.and.type', analyzeResult.value, FORMAT_VALUE_TYPE_MAP[analyzeResult.type], row, col);
             }
         },
 
@@ -51,6 +61,10 @@ define(function (require, exports, module) {
             }
 
             return false;
+        },
+
+        __setArrayFormula: function (source, start, end) {
+
         }
     });
 });

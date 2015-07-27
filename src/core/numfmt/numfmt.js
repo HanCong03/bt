@@ -6,7 +6,6 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var NumfmtCode = require('./numfmt-code/src/numfmt');
-    var TMAP = require('./definition/tmap');
     var DEFAULT_CODE = require('./definition/default-code');
 
     module.exports = $$.createClass('Numfmt', {
@@ -28,7 +27,7 @@ define(function (require, exports, module) {
             var result = NumfmtCode.analyze(value, code);
 
             return {
-                type: TMAP[result.type],
+                type: result.type,
                 value: result.value
             };
         },
