@@ -31,13 +31,6 @@ define(function (require, exports, module) {
             });
         },
 
-        __initEvent: function () {
-            this.on({
-                'refresh': this.__refresh,
-                'rangechange': this.__refresh
-            });
-        },
-
         __refreshLayout: function (layoutData) {
             this.visualData = this.rs('get.visual.data');
             this.layoutData = layoutData;

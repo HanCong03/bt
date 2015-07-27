@@ -35,7 +35,8 @@ define(function (require, exports, module) {
             visualData: require('./core/visual-data/visual-data'),
             selection: require('./core/selection/selection'),
             rowColumn: require('./core/row-column'),
-            hyperlink: require('./core/hyperlink')
+            hyperlink: require('./core/hyperlink'),
+            formula: require('./core/formula/formula')
         },
         system: {
             rect: require('./system/rect/rect'),

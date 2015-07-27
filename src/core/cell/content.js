@@ -5,6 +5,7 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var VALUE_TYPE = require('definition/vtype');
 
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
@@ -36,8 +37,20 @@ define(function (require, exports, module) {
                 numfmt = this.queryCommandValue('numfmt');
                 analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
+                if (analyzeResult.type === VALUE_TYPE.FORMULA) {
+                    return this.__setFormula(analyzeResult.value, row, col);
+                }
+
                 this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
             }
+        },
+
+        __setFormula: function (source, row, col) {
+            if (this.rs('check.formula', source)) {
+                this.rs('set.content.and.type', source, VALUE_TYPE.FORMULA, row, col);
+            }
+
+            return false;
         }
     });
 });

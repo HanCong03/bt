@@ -24,8 +24,9 @@ define({
     time: 't',
     datetime: 'dt',
     percentage: 'p',
-    fraction: 'f',
+    fraction: 'frac',
     scientific: 'sc',
+    formula: 'f',
     text: 's',
     logical: 'l',
     error: 'e'

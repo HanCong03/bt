@@ -40,99 +40,99 @@
             var btable = new BTable(document.getElementById('container'));
             window.btable = btable;
 
-            btable.execCommand('pane', {
-                row: 100,
-                col: 100
-            }, {
-                row: 101,
-                col: 100
-            });
-
-            btable.execCommand('cellstyle', 22, {
-                row: 100,
-                col: 100
-            }, {
-                row: 121,
-                col: 121
-            });
-
-            btable.execCommand('content', '合并单元格1', 110, 110);
-            btable.execCommand('content', '合并单元格2', 111, 110);
-
+//            btable.execCommand('pane', {
+//                row: 100,
+//                col: 100
+//            }, {
+//                row: 101,
+//                col: 100
+//            });
+//
+//            btable.execCommand('cellstyle', 22, {
+//                row: 100,
+//                col: 100
+//            }, {
+//                row: 121,
+//                col: 121
+//            });
+//
+//            btable.execCommand('content', '合并单元格1', 110, 110);
+//            btable.execCommand('content', '合并单元格2', 111, 110);
+//
+////            btable.execCommand('mergecell', {
+////                row: 110,
+////                col: 110
+////            }, {
+////                row: 114,
+////                col: 113
+////            });
+//
 //            btable.execCommand('mergecell', {
+//                row: 115,
+//                col: 104
+//            }, {
+//                row: 118,
+//                col: 109
+//            });
+//
+//            btable.execCommand('content', '1', 111, 107);
+//            btable.execCommand('content', '2', 111, 108);
+//            btable.execCommand('content', '3', 111, 109);
+//            btable.execCommand('content', '4', 114, 107);
+//            btable.execCommand('content', '5', 114, 108);
+//            btable.execCommand('content', '6', 114, 109);
+//
+//            btable.execCommand('fill', 'Red', {
 //                row: 110,
-//                col: 110
+//                col: 107
+//            }, {
+//                row: 110,
+//                col: 107
+//            });
+//
+//            btable.execCommand('fill', 'green', {
+//                row: 111,
+//                col: 106
+//            }, {
+//                row: 111,
+//                col: 106
+//            });
+//
+//            btable.execCommand('fill', 'blue', {
+//                row: 111,
+//                col: 107
+//            }, {
+//                row: 111,
+//                col: 107
+//            });
+//
+//            window.st = true;
+//            btable.execCommand('insertcolumn', {
+//                row: 111,
+//                col: 107
 //            }, {
 //                row: 114,
-//                col: 113
+//                col: 109
 //            });
-
-            btable.execCommand('mergecell', {
-                row: 115,
-                col: 104
-            }, {
-                row: 118,
-                col: 109
-            });
-
-            btable.execCommand('content', '1', 111, 107);
-            btable.execCommand('content', '2', 111, 108);
-            btable.execCommand('content', '3', 111, 109);
-            btable.execCommand('content', '4', 114, 107);
-            btable.execCommand('content', '5', 114, 108);
-            btable.execCommand('content', '6', 114, 109);
-
-            btable.execCommand('fill', 'Red', {
-                row: 110,
-                col: 107
-            }, {
-                row: 110,
-                col: 107
-            });
-
-            btable.execCommand('fill', 'green', {
-                row: 111,
-                col: 106
-            }, {
-                row: 111,
-                col: 106
-            });
-
-            btable.execCommand('fill', 'blue', {
-                row: 111,
-                col: 107
-            }, {
-                row: 111,
-                col: 107
-            });
-
-            window.st = true;
-            btable.execCommand('insertcolumn', {
-                row: 111,
-                col: 107
-            }, {
-                row: 114,
-                col: 109
-            });
-
-            btable.execCommand('comment', '你好，聪哥，我是批注哦！', 115, 104);
-            btable.execCommand('hyperlink', '你好，聪哥，我是超链接哦！', 'https://www.baidu.com/s?wd=%E8%AF%81%E7%9B%91%E4%BC%9A&rsv_spt=1&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=9&rsv_sug1=6', 115, 104);
-
-            btable.execCommand('fill', 'red', {
-                row: 111,
-                col: 1
-            }, {
-                row: 111,
-                col: 1
-            });
-
-            btable.execCommand('fill', 'blue', {
-                row: 112,
-                col: 2
-            }, {
-                row: 112,
-                col: 2
-            });
+//
+//            btable.execCommand('comment', '你好，聪哥，我是批注哦！', 115, 104);
+//            btable.execCommand('hyperlink', '你好，聪哥，我是超链接哦！', 'https://www.baidu.com/s?wd=%E8%AF%81%E7%9B%91%E4%BC%9A&rsv_spt=1&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=9&rsv_sug1=6', 115, 104);
+//
+//            btable.execCommand('fill', 'red', {
+//                row: 111,
+//                col: 1
+//            }, {
+//                row: 111,
+//                col: 1
+//            });
+//
+//            btable.execCommand('fill', 'blue', {
+//                row: 112,
+//                col: 2
+//            }, {
+//                row: 112,
+//                col: 2
+//            });
 
         });
     </script>
