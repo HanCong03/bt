@@ -18,7 +18,8 @@ define(function (require, exports, module) {
             this.registerService({
                 'set.content.and.type': this.setContent,
                 'clear.content': this.clearContent,
-                'get.content.type': this.getContentType
+                'get.content.type': this.getContentType,
+                'set.array.formula': this.setArrayFormula
             });
         },
 
@@ -40,6 +41,10 @@ define(function (require, exports, module) {
 
         getContentInfo: function (row, col) {
             return this.__$api.getContentInfo(row, col);
+        },
+
+        setArrayFormula: function (formulaText, start, end) {
+            this.__$api.setArrayFormula(formulaText, start, end);
         }
     });
 });

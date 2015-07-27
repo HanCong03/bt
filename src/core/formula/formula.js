@@ -5,38 +5,35 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var Reader = require('./reader/reader');
     var BFP = require('./bfp/src/runtime');
+    var Runtime = require('./runtime/runtime');
 
     module.exports = $$.createClass('Formula', {
         base: require('module'),
 
-        init: function () {
-            this.__initEvent();
-            this.__initService();
-        },
+        reader: null,
 
-        __initEvent: function () {
-            this.on({
-                'contentchange': this.__onContentChange
-            });
+        init: function () {
+            this.__initService();
+            this.reader = this.createComponent('Reader');
         },
 
         __initService: function () {
             this.registerService({
-               'check.formula': this.__checkFormula
+                'check.formula': this.__checkFormula,
+                'exec.array.formula': this.__execArrayFormula
             });
         },
 
         __checkFormula: function (source) {
-            return !!BFP.run(source);
+            return BFP.run(source);
         },
 
-        __onContentChange: function (start, end) {
-            //console.log(arguments)
+        __execArrayFormula: function (code, start, end) {
+            //this.rs('set.array.formula', code, start, end);
 
-
+            var result = Runtime.exec(this.reader, code);
         }
-
-
     });
 });

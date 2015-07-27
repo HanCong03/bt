@@ -64,7 +64,13 @@ define(function (require, exports, module) {
         },
 
         __setArrayFormula: function (source, start, end) {
+            var formulaBin = this.rs('check.formula', source);
 
+            if (!formulaBin) {
+                return false;
+            }
+
+            var result = this.rs('exec.array.formula', formulaBin, start, end);
         }
     });
 });
