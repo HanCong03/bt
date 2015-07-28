@@ -70,7 +70,15 @@ define(function (require, exports, module) {
                 return false;
             }
 
-            var result = this.rs('exec.array.formula', formulaBin, start, end);
+            var result = this.rs('exec.array.formula', formulaBin, {
+                start: start,
+                end: end
+            });
+
+            this.rs('set.range.content', result, {
+                start: start,
+                end: end
+            });
         }
     });
 });

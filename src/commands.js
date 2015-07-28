@@ -7,6 +7,7 @@ define(function (require, exports, module) {
     module.exports = {
         env: {
             _renderInfo: require('./env/commands/_render-info'),
+            workbook: require('./env/commands/workbook'),
             standard: require('./env/commands/standard'),
             theme: require('./env/commands/theme'),
             style: require('./env/commands/style'),
@@ -22,7 +23,8 @@ define(function (require, exports, module) {
             view: require('./env/commands/view'),
             content: require('./env/commands/content'),
             insert: require('./env/commands/insert'),
-            formatBrush: require('./env/commands/format-brush')
+            formatBrush: require('./env/commands/format-brush'),
+            name: require('./env/commands/name')
         },
         core: {
             content: require('./core/commands/cell/content'),

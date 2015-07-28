@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     var $$ = require('utils');
     var Reader = require('./reader/reader');
     var BFP = require('./bfp/src/runtime');
-    var Runtime = require('./runtime/runtime');
+    var ArrayFormulaRuntime = require('./runtime/array/runtime');
 
     module.exports = $$.createClass('Formula', {
         base: require('module'),
@@ -30,10 +30,8 @@ define(function (require, exports, module) {
             return BFP.run(source);
         },
 
-        __execArrayFormula: function (code, start, end) {
-            //this.rs('set.array.formula', code, start, end);
-
-            var result = Runtime.exec(this.reader, code);
+        __execArrayFormula: function (code, range) {
+            return ArrayFormulaRuntime.exec(this.reader, code, range);
         }
     });
 });

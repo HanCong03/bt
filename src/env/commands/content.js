@@ -11,7 +11,7 @@ define(function (require) {
             'content',
             'contenttype',
             'contentinfo',
-            'contents'
+            'rangecontentinfo'
         ],
 
         query_content: function (row, col) {
@@ -26,8 +26,8 @@ define(function (require) {
             return this.$dep.getContentInfo(row, col);
         },
 
-        query_contents: function (start, end) {
-            return this.$dep.getContents(start, end);
+        query_rangecontentinfo: function (start, end) {
+            return this.$dep.getContentInfoByRange(start, end);
         }
     });
 });

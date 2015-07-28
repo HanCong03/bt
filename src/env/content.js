@@ -19,7 +19,8 @@ define(function (require, exports, module) {
                 'set.content.and.type': this.setContent,
                 'clear.content': this.clearContent,
                 'get.content.type': this.getContentType,
-                'set.array.formula': this.setArrayFormula
+                'set.array.formula': this.setArrayFormula,
+                'set.range.content': this.setContentForRange
             });
         },
 
@@ -35,8 +36,8 @@ define(function (require, exports, module) {
             return this.__$api.getContent(row, col);
         },
 
-        getContents: function (start, end) {
-            return this.__$api.getContents(start, end);
+        getContentInfoByRange: function (start, end) {
+            return this.__$api.getContentInfoByRange(start, end);
         },
 
         getContentType: function (row, col) {
@@ -49,6 +50,10 @@ define(function (require, exports, module) {
 
         setArrayFormula: function (formulaText, start, end) {
             this.__$api.setArrayFormula(formulaText, start, end);
+        },
+
+        setContentForRange: function (contents, range) {
+            this.__$api.setContentForRange(contents, range);
         }
     });
 });
