@@ -17,7 +17,6 @@ define(function (require, exports, module) {
                 operands.push(loadOperand(reader, args[i]));
             }
 
-            var result = calcute(op, operands);
             return calcute(op, operands);
         }
     };
@@ -53,10 +52,6 @@ define(function (require, exports, module) {
                 case '^':
                     result = Math.pow(opd1, opd2);
                     break;
-
-                //case '%':
-                //    result = opd1 / 100;
-                //    break;
             }
 
             return {

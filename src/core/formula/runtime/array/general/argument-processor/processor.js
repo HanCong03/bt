@@ -5,7 +5,6 @@
 
 define(function (require, exports, module) {
     var CODE_TYPE = require('definition/code-type');
-    var VALUE_TYPE = require('definition/vtype');
     var ERROR_TYPE = require('definition/error-type');
 
     var OPERAND_TYPE = require('../../../../definition/operand-type');
@@ -17,27 +16,24 @@ define(function (require, exports, module) {
 
             case CODE_TYPE.MIXED:
                 return __formatMixed(reader, arg);
-                break;
 
             case CODE_TYPE.NAME:
                 return __formatName(reader, arg);
-                break;
 
             case CODE_TYPE.NUMBER:
                 return __formatNumber(arg);
-                break;
 
             case CODE_TYPE.ERROR:
                 return __formatError(arg);
-                break;
 
             case CODE_TYPE.LOGICAL:
                 return __formatLogical(arg);
-                break;
 
             case CODE_TYPE.TEXT:
                 return __formatText(arg);
-                break;
+
+            case CODE_TYPE.ROW:
+                return __formatRow(arg);
         }
     }
 
@@ -46,7 +42,7 @@ define(function (require, exports, module) {
 
         if (!arg) {
             return {
-                type: VALUE_TYPE.ERROR,
+                type: OPERAND_TYPE.ERROR,
                 value: ERROR_TYPE.NAME
             };
         }
@@ -138,7 +134,7 @@ define(function (require, exports, module) {
 
         if (!nameInfo) {
             return {
-                type: VALUE_TYPE.ERROR,
+                type: OPERAND_TYPE.ERROR,
                 value: ERROR_TYPE.NAME
             };
         }
@@ -169,6 +165,13 @@ define(function (require, exports, module) {
         return {
             type: OPERAND_TYPE.TEXT,
             value: arg.value
+        };
+    }
+
+    function __formatRow(arg) {
+        return {
+            type: OPERAND_TYPE.ROW,
+            row: arg.row
         };
     }
 
