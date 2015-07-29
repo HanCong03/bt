@@ -78,23 +78,22 @@ define(function (require, exports, module) {
         var start = range.start;
         var end = range.end;
 
-        for (var col = start.col, limit = end.col; col <= limit; col++) {
-            tmp.push(NAError);
+        var rangeColumnCount = end.col - start.col + 1;
+
+        for (var i = 0, len = Math.min(res.colCount, end.col - start.col + 1); i < len; i++) {
+            tmp.push(value['0,' + i] || other);
         }
 
-        for (var i = 0, len = res.colCount; i < len; i++) {
-            if (!tmp[i]) {
-                break;
-            }
 
-            tmp[i] = value[0 + ',' + i] || other;
+        for (var i = len; i < rangeColumnCount; i++) {
+            tmp.push(NAError);
         }
 
         for (var i = start.row, limit = end.row; i <= limit; i++) {
             result.push(tmp);
         }
 
-        return tmp;
+        return result;
     }
 
     function assemblyColumn(res, range) {
@@ -180,7 +179,7 @@ define(function (require, exports, module) {
             default:
                 return {
                     type: OPERAND_TYPE.ERROR,
-                    value: VALUE_TYPE.NAME
+                    value: ERROR_TYPE.NAME
                 };
         }
     }
