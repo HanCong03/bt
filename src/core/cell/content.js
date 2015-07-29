@@ -6,7 +6,6 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var FORMAT_TYPE = require('definition/format-type');
-    var FORMAT_VALUE_TYPE_MAP = require('definition/format-value-map');
 
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
@@ -21,7 +20,7 @@ define(function (require, exports, module) {
             });
         },
 
-        setContent: function (content, row, col) {
+        setContent: function (content, row, col, isCESMode) {
             var numfmt;
             var analyzeResult;
 
@@ -35,50 +34,46 @@ define(function (require, exports, module) {
                 });
             } else {
                 // 分析内容，获取其类型
-                numfmt = this.queryCommandValue('numfmt');
+                numfmt = this.queryCommandValue('numfmt', row, col);
                 analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
                 if (analyzeResult.type === FORMAT_TYPE.FORMULA) {
-                    var start = {
-                        row: row,
-                        col: col
-                    };
-                    var end = {
-                        row: row + 3,
-                        col: col + 3
-                    };
-                    //return this.__setFormula(analyzeResult.value, row, col);
-                    return this.__setArrayFormula(analyzeResult.value, start, end);
+                    return this.__setFormula(content, row, col, isCESMode);
                 }
 
-                this.rs('set.content.and.type', analyzeResult.value, FORMAT_VALUE_TYPE_MAP[analyzeResult.type], row, col);
+                this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
             }
         },
 
-        __setFormula: function (source, row, col) {
-            if (this.rs('check.formula', source)) {
-                this.rs('set.content.and.type', source, VALUE_TYPE.FORMULA, row, col);
-            }
+        __setFormula: function (formula, row, col, isCESMode) {
+            isCESMode = true;
+            if (isCESMode) {
+                this.__setArrayFormula(formula, row, col);
 
-            return false;
+                // 普通公式
+            } else {
+                this.__setNormalFormula(formula, row, col);
+            }
         },
 
-        __setArrayFormula: function (source, start, end) {
-            var formulaBin = this.rs('check.formula', source);
+        __setArrayFormula: function (formula, row, col) {
+            var formulaBin = this.rs('check.formula', formula);
 
             if (!formulaBin) {
                 return false;
             }
 
-            var result = this.rs('exec.array.formula', formulaBin, {
-                start: start,
-                end: end
+            var range = this.rs('get.range');
+
+            range = $$.clone({
+                start: range.start,
+                end: range.end
             });
 
-            this.rs('set.range.content', result, {
-                start: start,
-                end: end
-            });
+            var result = this.rs('exec.array.formula', formulaBin, range);
+
+            this.rs('set.array.formula', formula, range, row, col);
+            this.rs('set.range.content', result, range);
         }
     });
 });

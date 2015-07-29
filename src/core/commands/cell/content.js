@@ -11,8 +11,8 @@ define(function (require) {
             'content'
         ],
 
-        exec_content: function (value, row, col) {
-            this.$dep.setContent(value, row, col);
+        exec_content: function (value, row, col, isCESMode) {
+            this.$dep.setContent(value, row, col, isCESMode);
         }
     });
 });

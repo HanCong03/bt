@@ -44,7 +44,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.full.range': this.__getFullRange
+                'get.full.range': this.__getFullRange,
+                'get.range': this.getActiveRange
             });
         },
 
