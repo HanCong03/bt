@@ -5,7 +5,7 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var FORMAT_TYPE = require('definition/format-type');
+    var VALUE_TYPE = require('definition/vtype');
 
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
@@ -37,8 +37,13 @@ define(function (require, exports, module) {
                 numfmt = this.queryCommandValue('numfmt', row, col);
                 analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
-                if (analyzeResult.type === FORMAT_TYPE.FORMULA) {
+                if (analyzeResult.type === VALUE_TYPE.FORMULA) {
                     return this.__setFormula(content, row, col, isCESMode);
+                }
+
+                // 新的numfmt code
+                if (analyzeResult.numfmt) {
+                    debugger
                 }
 
                 this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);

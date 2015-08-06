@@ -5,17 +5,10 @@
 
 /*
  NUMBER: 'n',
- NUMBER_STRING: 'ns',
- CURRENCY: 'c',
- ACCOUNTANT: 'a',
- TIME: 't',
- DATETIME: 'dt',
- PERCENTAGE: 'p',
- FRACTION: 'f',
- SCIENTIFIC: 'sc',
  TEXT: 's',
  LOGICAL: 'l',
- ERROR: 'e'
+ ERROR: 'e',
+ FORMULA: 'f'
  */
 
 define(function (require, exports, module) {

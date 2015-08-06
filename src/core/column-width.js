@@ -5,7 +5,7 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var NUMERIC_TYPE = require('definition/numeric-type');
+    var VALUE_TYPE = require('definition/vtype');
     var CELL_PADDING = require('definition/cell-padding');
     var DOUBLE_H_PADDING = 2 * CELL_PADDING.h;
 
@@ -257,19 +257,24 @@ define(function (require, exports, module) {
         },
 
         __collectCellWidth: function (row, col) {
-            var contentType = this.queryCommandValue('contenttype', row, col);
+            var formattedContent = this.rs('get.standard.formatted.content', row, col);
 
-            if (!contentType || !NUMERIC_TYPE[contentType]) {
+            if (!formattedContent) {
                 return 0;
             }
 
-            var font = this.queryCommandValue('userfont', row, col);
-            var fontsize = this.queryCommandValue('userfontsize', row, col);
-            var content = this.rs('get.display.content', row, col);
+            var formattedType = this.rs('get.formatted.type', row, col);
 
-            content = content.join('<br>')
+            if (formattedType !== VALUE_TYPE.NUMBER) {
+                return 0;
+            }
+
+            var font = this.queryCommandValue('font', row, col);
+            var fontsize = this.queryCommandValue('fontsize', row, col);
+
+            formattedContent = formattedContent.join('<br>')
             var shadowBox = this.shadowBox;
-            shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + content + '</span>';
+            shadowBox.innerHTML = '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">' + formattedContent + '</span>';
 
             return shadowBox.firstChild.offsetWidth + DOUBLE_H_PADDING;
         }

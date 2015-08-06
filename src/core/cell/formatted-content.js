@@ -27,7 +27,11 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-               'get.formatted.content': this.getFormattedContent
+                'get.formatted.content': this.getFormattedContent,
+                'get.formatted.type': this.getFormattedType,
+                'get.formatted.color': this.getFormattedColor,
+                'get.formatted.info': this.getFormattedInfo,
+                'get.standard.formatted.content': this.getStandardFormattedContent
             });
         },
 
@@ -43,6 +47,74 @@ define(function (require, exports, module) {
         },
 
         getFormattedContent: function (row, col) {
+            var data = this.__getData(row, col);
+
+            if (!data) {
+                return null;
+            }
+
+            return data.text;
+        },
+
+        /**
+         * 获取到的内容不包含repeat格式串
+         * @param row
+         * @param col
+         * @returns {null}
+         */
+        getStandardFormattedContent: function (row, col) {
+            var data = this.__getData(row, col);
+
+            if (!data) {
+                return null;
+            }
+
+            var content = data.text;
+            var result = [];
+            var current;
+            var type;
+
+            for (var i = 0, len = content.length; i < len; i++) {
+                current = content[i];
+                type = current.type;
+
+                if (type === 'repeat') {
+                    continue;
+                } else if (type === 'placeholder') {
+                    result.push(current.value);
+                } else {
+                    result.push(current);
+                }
+            }
+
+            return result.join('').split('\n');
+        },
+
+        getFormattedColor: function (row, col) {
+            var data = this.__getData(row, col);
+
+            if (!data) {
+                return null;
+            }
+
+            return data.color;
+        },
+
+        getFormattedType: function (row, col) {
+            var data = this.__getData(row, col);
+
+            if (!data) {
+                return null;
+            }
+
+            return data.type;
+        },
+
+        getFormattedInfo: function (row, col) {
+            return this.__getData(row, col);
+        },
+
+        __getData: function (row, col) {
             var heap = this.getActiveHeap();
             var contents = heap.contents;
 
@@ -57,31 +129,18 @@ define(function (require, exports, module) {
                 contents[row][col] = this.__loadCell(row, col);
             }
 
-            return heap.contents[row][col];
+            return contents[row][col];
         },
 
         __loadCell: function (row, col) {
-            var content = this.queryCommandValue('content', row, col);
+            var contentInfo = this.queryCommandValue('contentinfo', row, col);
 
-            if ($$.isNdef(content)) {
+            if ($$.isNdef(contentInfo)) {
                 return null;
             }
 
-            var fmt = this.queryCommandValue('usernumfmt', row, col);
-
-            /* --- 如果未指定格式化代码，则根据内容类型获取默认格式化代码 --- */
-            if ($$.isNdef(fmt)) {
-                fmt = this.rs('numfmt.defaultcode', this.queryCommandValue('contenttype', row, col));
-            }
-
-            // 默认格式代码都不存在的情况下，则直接返回
-            if ($$.isNdef(fmt)) {
-                return content;
-            }
-
-            var result = this.rs('numfmt.format', content, fmt);
-
-            return result.value;
+            var numfmt = this.queryCommandValue('numfmt', row, col);
+            return this.rs('numfmt.format', contentInfo.type, contentInfo.value, numfmt);
         }
     });
 });
