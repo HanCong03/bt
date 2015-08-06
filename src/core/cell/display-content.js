@@ -12,7 +12,6 @@ define(function (require, exports, module) {
 
     var LIMIT = require('definition/limit');
     var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
-    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = $$.createClass('DisplayContent', {
         base: require('module'),
@@ -61,6 +60,7 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'contentchange': this.onContentChange,
+                'stylechange': this.onStyleChange,
                 'columnwidthchange': this.onColumnWidthChange
             });
         },
@@ -68,6 +68,11 @@ define(function (require, exports, module) {
         onContentChange: function (start, end) {
             var heap = this.getActiveHeap();
             heap.contents = CacheCleaner.clean(heap.contents, start, end);
+        },
+
+        onStyleChange: function (start, end) {
+            this.onContentChange(start, end);
+            var heap = this.getActiveHeap();
         },
 
         onColumnWidthChange: function (col) {

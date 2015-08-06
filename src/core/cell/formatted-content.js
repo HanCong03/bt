@@ -37,13 +37,18 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'contentchange': this.onContentChange
+                'contentchange': this.onContentChange,
+                'stylechange': this.onStyleChange
             });
         },
 
         onContentChange: function (start, end) {
             var heap = this.getActiveHeap();
             heap.contents = CacheCleaner.clean(heap.contents, start, end);
+        },
+
+        onStyleChange: function (start, end) {
+            this.onContentChange(start, end);
         },
 
         getFormattedContent: function (row, col) {

@@ -17,8 +17,8 @@ define(function (require, exports, module) {
             });
         },
 
-        format: function (value, code) {
-            return NumfmtCode.format(value, code);
+        format: function (valueType, value, code) {
+            return NumfmtCode.format(valueType, value, code);
         },
 
         analyze: function (value, code) {
