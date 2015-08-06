@@ -268,20 +268,7 @@ define(function (require, exports, module) {
             var width = this.queryCommandValue('columnwidth', col) - 2 * CELL_PADDING.h;
             var font = this.queryCommandValue('font', row, col);
             var fontsize = this.queryCommandValue('fontsize', row, col);
-            var repeatBox = this.repeatBox;
-
-            var htmls = [
-                '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">',
-                content,
-                '</span>'
-            ];
-
-            repeatBox.style.fontFamily = font;
-            repeatBox.style.fontSize = fontsize + 'pt';
-
-            repeatBox.innerHTML = htmls.join('');
-
-            var diff = width - repeatBox.firstChild.offsetWidth;
+            var diff = width - this.__getTextWidth(content, font, fontsize);
 
             // 空间足够，返回原始值
             if (diff >= 0) {
@@ -301,52 +288,66 @@ define(function (require, exports, module) {
          * @private
          */
         __getRepeatContent: function (repeatChar, charIndex, contentArr, row, col) {
-            var count = this.__getRepeatCharCount(repeatChar, contentArr.join(''), row, col);
+            var width = this.queryCommandValue('columnwidth', col) - 2 * CELL_PADDING.h;
+            var font = this.queryCommandValue('font', row, col);
+            var fontsize = this.queryCommandValue('fontsize', row, col);
+
+            var count = this.__getRepeatCharCount(repeatChar, contentArr.join(''), width, font, fontsize);
 
             if (count === 0) {
                 return contentArr;
             }
 
+            var front = contentArr.slice(0, charIndex);
+            var back = contentArr.slice(charIndex);
+
+            return this.__validateRepeat(count, repeatChar, width, front, back, font, fontsize);
+        },
+
+        __validateRepeat: function (count, repeatChar, maxWidth, front, back, font, fontsize) {
             var charStr = [];
+
+            if (count === 0) {
+                return [front.concat(back).join('')];
+            }
 
             for (var i = 0; i < count; i++) {
                 charStr[i] = repeatChar;
             }
 
-            contentArr.splice(charIndex, 0, charStr.join(''));
+            var content = front.concat(charStr, back).join('');
+            var width = this.__getTextWidth(content, font, fontsize);
 
-            return contentArr;
+            if (width <= maxWidth) {
+                return [content];
+            } else {
+                return this.__validateRepeat(count - 1, repeatChar, maxWidth, front, back, font, fontsize);
+            }
         },
 
-        __getRepeatCharCount: function (repeatChar, content, row, col) {
-            var width = this.queryCommandValue('columnwidth', col) - 2 * CELL_PADDING.h;
-            var font = this.queryCommandValue('font', row, col);
-            var fontsize = this.queryCommandValue('fontsize', row, col);
-            var repeatBox = this.repeatBox;
-
-            var htmls = [
-                '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">',
-                '',
-                '</span>'
-            ];
-
-            htmls[1] = content.replace(/\n/g, '');
-
-            repeatBox.innerHTML = htmls.join('');
-
-            var diff = width - repeatBox.firstChild.offsetWidth;
+        __getRepeatCharCount: function (repeatChar, content, width, font, fontsize) {
+            var diff = width - this.__getTextWidth(content, font, fontsize);
 
             if (diff <= 0) {
                 return 0;
             }
 
-            htmls[1] = repeatChar;
+            var charWidth = this.__getTextWidth(repeatChar, font, fontsize);
+            return Math.floor(diff / charWidth);
+        },
+
+        __getTextWidth: function (content, font, fontsize) {
+            var repeatBox = this.repeatBox;
+
+            var htmls = [
+                '<span style="font-size: ' + fontsize + 'pt; font-family: ' + font + ';">',
+                content.replace(/\n/g, '').replace(/ /g, '&nbsp;'),
+                '</span>'
+            ];
 
             repeatBox.innerHTML = htmls.join('');
 
-            var charWidth = repeatBox.firstChild.offsetWidth;
-
-            return Math.floor(diff / charWidth);
+            return repeatBox.firstChild.getBoundingClientRect().width;
         }
     });
 });
