@@ -32,7 +32,8 @@ define(function (require, exports, module) {
                 'get.formatted.type': this.getFormattedType,
                 'get.formatted.color': this.getFormattedColor,
                 'get.formatted.info': this.getFormattedInfo,
-                'get.standard.formatted.content': this.getStandardFormattedContent
+                'get.standard.formatted.content': this.getStandardFormattedContent,
+                'get.effective.formatted.content': this.getEffectiveFormattedContent
             });
         },
 
@@ -68,7 +69,7 @@ define(function (require, exports, module) {
          * @param col
          * @returns {null}
          */
-        getStandardFormattedContent: function (row, col) {
+        getEffectiveFormattedContent: function (row, col) {
             var data = this.__getData(row, col);
 
             if (!data) {
@@ -118,6 +119,16 @@ define(function (require, exports, module) {
 
         getFormattedInfo: function (row, col) {
             return this.__getData(row, col);
+        },
+
+        getStandardFormattedContent: function (row, col) {
+            var data = this.__getData(row, col);
+
+            if (!data) {
+                return null;
+            }
+
+            return data.standard;
         },
 
         __getData: function (row, col) {

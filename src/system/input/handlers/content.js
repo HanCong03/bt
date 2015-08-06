@@ -10,13 +10,13 @@ define(function (require, exports, module) {
             var row = this.__cellStart.row;
             var col = this.__cellStart.col;
 
-            var formattedContent = this.rs('get.formatted.content', row, col);
+            var standardContent = this.rs('get.standard.formatted.content', row, col);
 
-            if (!formattedContent) {
+            if (!standardContent) {
                 return;
             }
 
-            var userContent = formattedContent.split(/\n/g);
+            var userContent = standardContent.split(/\n/g);
 
             for (var i = 0, len = userContent.length; i < len; i++) {
                 userContent[i] = '<div>' + (userContent[i] || '<br/>') + '</div>';

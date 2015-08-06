@@ -257,7 +257,7 @@ define(function (require, exports, module) {
         },
 
         __collectCellWidth: function (row, col) {
-            var formattedContent = this.rs('get.standard.formatted.content', row, col);
+            var formattedContent = this.rs('get.effective.formatted.content', row, col);
 
             if (!formattedContent) {
                 return 0;
