@@ -21,8 +21,6 @@ define(function (require, exports, module) {
             var fonts = StyleHelper.getCssFont(cellInfo.fonts);
 
             screen.save();
-            screen.fillColor(cellInfo.fonts.color.value);
-            screen.strokeColor(cellInfo.fonts.color.value);
 
             screen.font(fonts);
             screen.textAlign('left');
@@ -59,8 +57,6 @@ define(function (require, exports, module) {
             var fonts = StyleHelper.getCssFont(cellInfo.fonts);
 
             screen.save();
-            screen.fillColor(cellInfo.fonts.color.value);
-            screen.strokeColor(cellInfo.fonts.color.value);
 
             screen.font(fonts);
             screen.textAlign('left');
@@ -69,7 +65,7 @@ define(function (require, exports, module) {
             // 如果超出，则需要重置对齐为顶部对齐。
             var fontsize = this.__convertFontSize(cellInfo.fonts.size);
 
-            if (cellInfo.content.length * fontsize > rect.height) {
+            if (cellInfo.contentInfo.content.length * fontsize > rect.height) {
                 verticalAlign = 'top';
             }
 
@@ -95,7 +91,7 @@ define(function (require, exports, module) {
         },
 
         __drawTopText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('top');
@@ -116,7 +112,7 @@ define(function (require, exports, module) {
         },
 
         __drawBottomText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('bottom');
@@ -138,7 +134,7 @@ define(function (require, exports, module) {
         },
 
         __drawMiddleText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('middle');

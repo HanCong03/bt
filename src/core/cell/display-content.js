@@ -28,7 +28,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'get.display.content': this.getDisplayContent
+                'get.display.content': this.getDisplayContent,
+                'get.display.info': this.getDisplayInfo
             });
         },
 
@@ -103,6 +104,21 @@ define(function (require, exports, module) {
             }
 
             return heap.contents[row][col];
+        },
+
+        getDisplayInfo: function (row, col) {
+            var formattedInfo = this.rs('get.formatted.info', row, col);
+
+            if (!formattedInfo) {
+                return null;
+            }
+
+            return {
+                type: formattedInfo.type,
+                color: formattedInfo.color,
+                horizontal: formattedInfo.horizontal,
+                content: this.getDisplayContent(row, col)
+            };
         },
 
         __calculateContent: function (row, col) {

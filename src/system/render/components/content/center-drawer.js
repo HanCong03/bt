@@ -49,7 +49,7 @@ define(function (require, exports, module) {
         },
 
         __drawTopText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('top');
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
         },
 
         __drawBottomText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('bottom');
@@ -92,7 +92,7 @@ define(function (require, exports, module) {
         },
 
         __drawMiddleText: function (screen, cellInfo, rect) {
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var fontSize = Math.round(cellInfo.fonts.size * 4 / 3);
 
             screen.textBaseline('middle');

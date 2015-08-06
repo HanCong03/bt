@@ -53,7 +53,7 @@ define(function (require, exports, module) {
                         r: i,
                         c: j,
                         // display-content
-                        content: this.rs('get.display.content', row, col),
+                        contentInfo: this.rs('get.display.info', row, col),
                         alignments: styels[key].alignments,
                         fonts: styels[key].fonts,
                         border: styels[key].borders.border,
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
 
                             c: j,
                             // display-content
-                            content: this.rs('get.display.content', row, col),
+                            contentInfo: this.rs('get.display.info', row, col),
                             alignments: styels[key].alignments,
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,
@@ -136,7 +136,7 @@ define(function (require, exports, module) {
                         if (mergeFlag.active) {
                             info.comment = this.queryCommandValue('comment', mergeFlag.start.row, mergeFlag.start.col);
                             info.hyperlink = this.queryCommandValue('hyperlink', mergeFlag.start.row, mergeFlag.start.col);
-                            info.content = this.rs('get.display.content', mergeFlag.start.row, mergeFlag.start.col);
+                            info.contentInfo = this.rs('get.display.info', mergeFlag.start.row, mergeFlag.start.col);
 
                             mergeFlag.fr = i;
                             mergeFlag.fc = j;

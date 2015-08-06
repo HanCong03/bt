@@ -43,7 +43,13 @@ define(function (require, exports, module) {
 
                 // 新的numfmt code
                 if (analyzeResult.numfmt) {
-                    debugger
+                    this.execCommand('numfmt', analyzeResult.numfmt, {
+                        row: row,
+                        col: col
+                    }, {
+                        row: row,
+                        col: col
+                    });
                 }
 
                 this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);

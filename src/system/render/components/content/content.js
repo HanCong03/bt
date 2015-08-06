@@ -29,7 +29,7 @@ define(function (require, exports, module) {
 
             $$.forEach(layoutData, function (currentRow) {
                 $$.forEach(currentRow, function (currentCell) {
-                    if (!currentCell.content) {
+                    if (!currentCell.contentInfo) {
                         return;
                     }
 
@@ -160,7 +160,7 @@ define(function (require, exports, module) {
                 }
 
                 // 遇到有内容的单元格
-                if (currentCell.content) {
+                if (currentCell.contentInfo) {
                     break;
                 }
 
@@ -203,7 +203,7 @@ define(function (require, exports, module) {
                 }
 
                 // 遇到有内容的单元格
-                if (currentCell.content) {
+                if (currentCell.contentInfo) {
                     break;
                 }
 
@@ -249,7 +249,7 @@ define(function (require, exports, module) {
                 }
 
                 // 遇到有内容的单元格
-                if (currentCell.content) {
+                if (currentCell.contentInfo) {
                     break;
                 }
 
@@ -279,7 +279,7 @@ define(function (require, exports, module) {
                 }
 
                 // 遇到有内容的单元格
-                if (currentCell.content) {
+                if (currentCell.contentInfo) {
                     break;
                 }
 
@@ -321,11 +321,11 @@ define(function (require, exports, module) {
             var screen = this.contentScreen;
             screen.font(StyleHelper.getCssFont(cellInfo.fonts));
 
-            var contents = cellInfo.content;
+            var contents = cellInfo.contentInfo.content;
             var widths = [];
 
             for (var i = 0, len = contents.length; i < len; i++) {
-                widths.push(screen.measureText(cellInfo.content[i]).width);
+                widths.push(screen.measureText(contents[i]).width);
             }
 
             return Math.max.apply(null, widths);
@@ -397,9 +397,9 @@ define(function (require, exports, module) {
         },
 
         __drawText: function (cellInfo, rect) {
-            var textAlign = cellInfo.alignments.horizontal;
+            var textAlign = cellInfo.alignments.horizontal || cellInfo.contentInfo.horizontal;
             var screen = this.contentScreen;
-            screen.fillColor(cellInfo.fonts.color.value);
+            screen.fillColor(cellInfo.contentInfo.color || cellInfo.fonts.color.value);
 
             if (!textAlign) {
                 textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);

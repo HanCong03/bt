@@ -7,6 +7,7 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var CacheCleaner = require('common/cache-cleaner');
+    var VALUE_TYPE = require('definition/vtype');
 
     module.exports = $$.createClass('FormattedContent', {
         base: require('module'),
@@ -122,6 +123,7 @@ define(function (require, exports, module) {
         __getData: function (row, col) {
             var heap = this.getActiveHeap();
             var contents = heap.contents;
+            var result;
 
             // 需要区别null
             // undefined 代表未初始化
@@ -131,7 +133,12 @@ define(function (require, exports, module) {
             }
 
             if (contents[row][col] === undefined) {
-                contents[row][col] = this.__loadCell(row, col);
+                result = this.__loadCell(row, col);
+
+                if (result) {
+                    result.horizontal = this.__getHorizontal(result.type);
+                }
+                contents[row][col] = result;
             }
 
             return contents[row][col];
@@ -146,6 +153,21 @@ define(function (require, exports, module) {
 
             var numfmt = this.queryCommandValue('numfmt', row, col);
             return this.rs('numfmt.format', contentInfo.type, contentInfo.value, numfmt);
+        },
+
+        __getHorizontal: function (type) {
+            switch (type) {
+                case VALUE_TYPE.NUMBER:
+                    return 'right';
+
+                case VALUE_TYPE.TEXT:
+                case VALUE_TYPE.FORMULA:
+                    return 'left';
+
+                case VALUE_TYPE.ERROR:
+                case VALUE_TYPE.LOGICAL:
+                    return 'center';
+            }
         }
     });
 });
