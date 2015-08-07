@@ -7,7 +7,7 @@
     <style>
         html, body {
             width: 100%;
-            height: 1000px;
+            height: 100%;
             padding: 0;
             margin: 0;
         }
@@ -15,9 +15,9 @@
 
     <link rel="stylesheet" href="./assets/styles/btable.css">
 
-    <script src="bower_components/modef/dist/modef.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
 
+    <script src="bower_components/modef/dist/modef.min.js"></script>
     <script>
         modef.config({
             base: './src',
@@ -138,10 +138,8 @@
     </script>
 </head>
 <body>
-<button onclick="console.profile('a');">开始</button>
-<button onclick="console.profileEnd('a')">结束</button>
 <div id="container"
-     style="border: 1px solid #ababab; border-style: none solid solid none; position: relative; top: 0; left: 0;width: 100%; height: 100%;">
+     style="position: relative; top: 0; left: 0;width: 100%; height: 100%;">
 </div>
 </body>
 </html>

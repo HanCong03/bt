@@ -37,6 +37,10 @@ define(function (require, exports, module) {
                 case KEY_CODE.ESC:
                     this.__keyEsc(evt);
                     break;
+
+                case KEY_CODE.TAB:
+                    this.__keyTab(evt);
+                    break;
             }
         },
 
@@ -112,7 +116,6 @@ define(function (require, exports, module) {
         },
 
         __keyEnter: function (evt) {
-
             // 换行
             if (evt.altKey) {
                 this.postMessage('control.newline');
@@ -121,24 +124,12 @@ define(function (require, exports, module) {
 
             evt.preventDefault();
 
-            // up move
-            if (evt.shiftKey) {
-                // 执行同步，触发内容的写入
-                this.__sync();
-                // 主动释放控制，返回控制权到主控模块。
-                this.postMessage('control.free');
-                // 执行上移
-                this.execCommand('move', -1, 0);
+            this.__sync();
+            // 主动释放控制，返回控制权到主控模块。
+            this.postMessage('control.free');
 
-            // down move
-            } else {
-                // 执行同步，触发内容的写入
-                this.__sync();
-                // 主动释放控制，返回控制权到主控模块。
-                this.postMessage('control.free');
-                // 执行下移
-                this.execCommand('move', 1, 0);
-            }
+            // 请求其他组件处理选区
+            this.rs('control.process.enter.key', evt);
         },
 
         __keyEsc: function (evt) {
@@ -147,6 +138,18 @@ define(function (require, exports, module) {
             this.syncStatus = true;
             // 主动释放控制，返回控制权到主控模块。
             this.postMessage('control.free');
+        },
+
+        __keyTab: function (evt) {
+            evt.preventDefault();
+
+            // 执行同步，触发内容的写入
+            this.__sync();
+            // 主动释放控制，返回控制权到主控模块。
+            this.postMessage('control.free');
+
+            // 请求其他组件处理选区
+            this.rs('control.process.tab.key', evt);
         }
     };
 });

@@ -35,6 +35,11 @@ define(function (require, exports, module) {
 
                 case KEY_CODE.ENTER:
                     this.__keyEnter(evt);
+                    break;
+
+                case KEY_CODE.TAB:
+                    this.__keyTab(evt);
+                    break;
             }
         },
 

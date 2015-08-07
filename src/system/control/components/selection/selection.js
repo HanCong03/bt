@@ -23,6 +23,7 @@ define(function (require, exports, module) {
         mixin: [
             require('./handlers/key'),
             require('./handlers/key-enter'),
+            require('./handlers/key-tab'),
             require('./handlers/shift-move'),
             require('./handlers/mouse/mouse'),
             require('./handlers/contextmenu'),
@@ -34,6 +35,7 @@ define(function (require, exports, module) {
             this.__reset();
 
             this.__initEvent();
+            this.__initService();
         },
 
         // 模式切换时的收尾工作。
@@ -44,6 +46,13 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                'refresh': this.__refresh
+            });
+        },
+
+        __initService: function () {
+            this.registerService({
+                'control.process.tab.key': this.__keyTab,
+                'control.process.enter.key': this.__keyEnter
             });
         },
 
