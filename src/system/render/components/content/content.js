@@ -108,16 +108,17 @@ define(function (require, exports, module) {
         },
 
         __getCellRect: function (cellInfo) {
-            var textAlign = cellInfo.alignments.horizontal;
+            //var textAlign = cellInfo.alignments.horizontal;
+            //
+            //if (!textAlign) {
+            //    textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
+            //}
 
-            if (!textAlign) {
-                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
-            }
+            var textAlign = cellInfo.alignments.horizontal || cellInfo.contentInfo.horizontal;
 
             switch (textAlign) {
                 case 'left':
                     return this.__getLeftAlignRect(cellInfo);
-                    break;
 
                 case 'right':
                     return this.__getRightAlignRect(cellInfo);
@@ -401,9 +402,9 @@ define(function (require, exports, module) {
             var screen = this.contentScreen;
             screen.fillColor(cellInfo.contentInfo.color || cellInfo.fonts.color.value);
 
-            if (!textAlign) {
-                textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
-            }
+            //if (!textAlign) {
+            //    textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
+            //}
 
             switch (textAlign) {
                 case 'left':
@@ -424,15 +425,15 @@ define(function (require, exports, module) {
         },
 
         __drawMergeCellText: function (cellInfo, rect) {
-            var textAlign = cellInfo.alignments.horizontal;
+            var textAlign = cellInfo.alignments.horizontal || cellInfo.contentInfo.horizontal;
             var screen = this.contentScreen;
             screen.fillColor(cellInfo.fonts.color.value);
 
-            var mergeStart = cellInfo.mergecell.start;
+            //var mergeStart = cellInfo.mergecell.start;
 
-            if (textAlign === NONE) {
-                textAlign = this.queryCommandValue('typehorizontal', mergeStart.row, mergeStart.col);
-            }
+            //if (textAlign === NONE) {
+            //    textAlign = this.queryCommandValue('typehorizontal', mergeStart.row, mergeStart.col);
+            //}
 
             switch (textAlign) {
                 case 'left':
