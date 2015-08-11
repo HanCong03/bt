@@ -93,7 +93,7 @@ define(function (require, exports, module) {
             if (!this.appendMode) {
                 this.execCommand('range', start, end, entry);
             } else {
-                this.execCommand('appendrange', start, end, entry);
+                this.execCommand('addrange', start, end, entry);
             }
         },
 

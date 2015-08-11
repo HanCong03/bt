@@ -1,5 +1,5 @@
 /**
- * @file 列宽，行高计算
+ * @file 选区
  * @author hancong03@baiud.com
  */
 
@@ -15,91 +15,25 @@ define(function (require, exports, module) {
         ],
 
         init: function () {
-            this.__initHeap();
             this.__initService();
-            this.__initEvent();
-        },
-
-        __initHeap: function () {
-            var heap = this.getActiveHeap();
-
-            if ($$.isDefined(heap.ranges)) {
-                return;
-            }
-
-            heap.ranges = [{
-                start: {
-                    row: 0,
-                    col: 0
-                },
-                end: {
-                    row: 0,
-                    col: 0
-                },
-                entry: {
-                    row: 0,
-                    col: 0
-                }
-            }];
         },
 
         __initService: function () {
             this.registerService({
-                'get.full.range': this.__getFullRange,
-                'get.range': this.getActiveRange
+                'get.full.range': this.__getFullRange
             });
-        },
-
-        __initEvent: function () {
-            this.on({
-                'sheetswitch': this.__onSheetSwitch
-            });
-        },
-
-        __onSheetSwitch: function () {
-            this.__initHeap();
         },
 
         setRange: function (start, end, entry) {
-            this.__setRange(start, end, entry);
-            this.emit('rangechange');
+            this.rs('set.range', start, end, entry);
         },
 
-        appendRange: function (start, end, entry) {
-            var heap = this.getActiveHeap();
-
-            heap.ranges.push($$.clone({
-                start: start,
-                end: end,
-                entry: entry || start
-            }));
-
-            this.emit('rangechange');
+        addRange: function (start, end, entry) {
+            this.rs('add.range', start, end, entry);
         },
 
         updateRange: function (start, end, entry) {
-            var heap = this.getActiveHeap();
-            var ranges = heap.ranges;
-            var range = ranges[ranges.length - 1];
-
-            range.start = {
-                row: start.row,
-                col: start.col
-            };
-
-            range.end = {
-                row: end.row,
-                col: end.col
-            };
-
-            if (entry) {
-                range.entry = {
-                    row: entry.row,
-                    col: entry.col
-                };
-            }
-
-            this.emit('rangechange');
+            this.rs('update.range', start, end, entry);
         },
 
         /**
@@ -109,19 +43,7 @@ define(function (require, exports, module) {
          * @param col
          */
         updateFocus: function (row, col) {
-            var heap = this.getActiveHeap();
-            var ranges = heap.ranges;
-            var range = ranges[ranges.length - 1];
-            var rangeStart = range.start;
-            var rangeEnd = range.end;
-
-            if (row >= rangeStart.row && col >= rangeStart.col
-                && row <= rangeEnd.row && col <= rangeEnd.col) {
-                range.entry = {
-                    row: row,
-                    col: col
-                };
-            }
+            this.rs('update.focus', row, col);
         },
 
         /**
@@ -130,15 +52,7 @@ define(function (require, exports, module) {
          * 注2：如果当前仅有一个选区，则该操作什么也不做。
          */
         upRange: function () {
-            var heap = this.getActiveHeap();
-            var ranges = heap.ranges;
-
-            if (ranges.length === 1) {
-                return;
-            }
-
-            var oldRange = ranges.shift();
-            ranges.push(oldRange);
+            this.rs('up.range');
         },
 
         /**
@@ -147,24 +61,15 @@ define(function (require, exports, module) {
          * 注2：如果当前仅有一个选区，则该操作什么也不做。
          */
         downRange: function () {
-            var heap = this.getActiveHeap();
-            var ranges = heap.ranges;
-
-            if (ranges.length === 1) {
-                return;
-            }
-
-            var activeRange = ranges.pop();
-            ranges.unshift(activeRange);
+            this.rs('down.range');
         },
 
         getActiveRange: function () {
-            var ranges = this.getActiveHeap().ranges;
-            return ranges[ranges.length - 1];
+            return this.rs('get.active.range');
         },
 
         getRanges: function () {
-            return this.getActiveHeap().ranges;
+            return this.rs('get.ranges');
         },
 
         move: function (rowCount, colCount) {
@@ -191,16 +96,6 @@ define(function (require, exports, module) {
 
                 this.__moveToMergeCell(mergeInfo, row, col);
             }
-        },
-
-        __setRange: function (start, end, entry) {
-            var heap = this.getActiveHeap();
-
-            heap.ranges = [$$.clone({
-                start: start,
-                end: end,
-                entry: entry || start
-            })];
         },
 
         /**
