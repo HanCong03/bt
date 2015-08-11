@@ -49,8 +49,11 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 执行同步，触发内容的写入
-                this.__sync();
+                // 执行同步
+                if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
+                    return;
+                }
+
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
 
@@ -66,8 +69,10 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 执行同步，触发内容的写入
-                this.__sync();
+                // 执行同步
+                if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
+                    return;
+                }
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -84,8 +89,10 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 执行同步，触发内容的写入
-                this.__sync();
+                // 执行同步
+                if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
+                    return;
+                }
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -102,8 +109,10 @@ define(function (require, exports, module) {
             if (this.status === STATUS.INPUT) {
                 evt.preventDefault();
 
-                // 执行同步，触发内容的写入
-                this.__sync();
+                // 执行同步
+                if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
+                    return;
+                }
 
                 // 主动释放控制，返回控制权到主控模块。
                 this.postMessage('control.free');
@@ -128,7 +137,6 @@ define(function (require, exports, module) {
 
             // 同步失败
             if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
-                this.error('array.formula');
                 return;
             }
 
@@ -152,7 +160,6 @@ define(function (require, exports, module) {
 
             // 同步失败
             if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
-                this.error('array.formula');
                 return;
             }
 

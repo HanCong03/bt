@@ -24,7 +24,11 @@ define(function (require, exports, module) {
             var controlers = this.controllers;
 
             // 通知selection控制器退出。
-            controlers[MODE.WRITE].exit();
+            if (!controlers[MODE.WRITE].exit()) {
+                // wirte控制器未能正常退出
+                return false;
+            }
+
             // 切换模式
             this.mode = MODE.SELECTION;
 

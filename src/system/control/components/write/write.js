@@ -33,14 +33,18 @@ define(function (require, exports, module) {
 
         // 模式切换时的收尾工作。
         exit: function () {
-            // 内容未同步时，发送同步消息
+            // 内容未同步时，请求同步
             if (!this.syncStatus) {
-                this.postMessage('control.write');
+                if (!this.__sync(false)) {
+                    return false;
+                }
             }
 
             this.__reset();
             // 发送退出消息
             this.postMessage('control.input.inactive');
+
+            return true;
         },
 
         __initEvent: function () {
@@ -55,10 +59,15 @@ define(function (require, exports, module) {
         },
 
         __sync: function (isCSEMode) {
-            // 更改同步状态
-            this.syncStatus = true;
             // 主动请求执行写入
-            return this.rs('write.cotnent', isCSEMode);
+            var result = this.rs('write.cotnent', isCSEMode);
+
+            if (result) {
+                // 更改同步状态
+                this.syncStatus = true;
+            }
+
+            return result;
         },
 
         __refresh: function () {

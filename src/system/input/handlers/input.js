@@ -17,16 +17,25 @@ define(function (require, exports, module) {
         __write: function (isCSEMode) {
             var cell = this.__cellStart;
             var content = this.__getUserContent();
+            var result = false;
 
             // 写入
             if (!isCSEMode) {
-                return this.execCommand('content', content, cell.row, cell.col);
+                result = this.execCommand('content', content, cell.row, cell.col);
             } else {
                 var range = this.queryCommandValue('range');
                 range = $$.clone(range);
 
-                return this.execCommand('rangecontent', content, cell.row, cell.col, range);
+                result = this.execCommand('rangecontent', content, cell.row, cell.col, range);
             }
+
+            if (result) {
+                return true;
+            }
+
+            this.error('array.formula');
+
+            return false;
         }
     };
 });
