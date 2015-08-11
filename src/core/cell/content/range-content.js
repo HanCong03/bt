@@ -20,6 +20,10 @@ define(function (require, exports, module) {
             var numfmt;
             var analyzeResult;
 
+            if (!content) {
+                return this.clearContent(range.start, range.end);
+            }
+
             if (!this.queryCommandValue('writable', range.start, range.end)) {
                 return false;
             }

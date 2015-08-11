@@ -9,7 +9,8 @@ define(function (require) {
 
         $exec: [
             'content',
-            'rangecontent'
+            'rangecontent',
+            'clearcontent'
         ],
 
         exec_content: function (value, row, col, isCESMode) {
@@ -18,6 +19,10 @@ define(function (require) {
 
         exec_rangecontent: function (content, row, col, ranges) {
             return this.$dep.setRangeContent(content, row, col, ranges);
+        },
+
+        exec_clearcontent: function (start, end) {
+            return this.$dep.clearContent(start, end);
         }
     });
 });

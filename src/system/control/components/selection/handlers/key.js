@@ -40,6 +40,10 @@ define(function (require, exports, module) {
                 case KEY_CODE.TAB:
                     this.__keyTab(evt);
                     break;
+
+                case KEY_CODE.DELETE:
+                    this.__keyDelete(evt);
+                    break;
             }
         },
 
@@ -100,6 +104,20 @@ define(function (require, exports, module) {
             } else {
                 // move
                 this.execCommand('move', 1, 0);
+            }
+        },
+
+        __keyDelete: function (evt) {
+            evt.preventDefault();
+
+            if (!this.__checkRecord('delete', evt.originalEvent.timeStamp)) {
+                return;
+            }
+
+            var range = this.queryCommandValue('range');
+
+            if (!this.execCommand('clearcontent', range.start, range.end)) {
+                this.error('array.formula');
             }
         },
 

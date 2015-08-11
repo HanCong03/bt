@@ -17,14 +17,17 @@ define(function (require, exports, module) {
         setContent: function (content, row, col) {
             var numfmt;
             var analyzeResult;
+            var start = {
+                row: row,
+                col: col
+            };
+            var end = start;
 
-            if (!this.queryCommandValue('writable', {
-                    row: row,
-                    col: col
-                }, {
-                    row: row,
-                    col: col
-                })) {
+            if (!content) {
+                return this.clearContent(start, end);
+            }
+
+            if (!this.queryCommandValue('writable', start, end)) {
                 return false;
             }
 
@@ -34,13 +37,7 @@ define(function (require, exports, module) {
 
             // 新的numfmt code
             if (analyzeResult.numfmt) {
-                this.execCommand('numfmt', analyzeResult.numfmt, {
-                    row: row,
-                    col: col
-                }, {
-                    row: row,
-                    col: col
-                });
+                this.execCommand('numfmt', analyzeResult.numfmt,start, end);
             }
 
             if (analyzeResult.type === VALUE_TYPE.FORMULA) {
@@ -48,6 +45,16 @@ define(function (require, exports, module) {
             }
 
             this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
+
+            return true;
+        },
+
+        clearContent: function (start, end) {
+            if (!this.queryCommandValue('writable', start, end)) {
+                return false;
+            }
+
+            this.rs('clear.content', start, end);
 
             return true;
         },
