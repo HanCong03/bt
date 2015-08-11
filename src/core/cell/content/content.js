@@ -18,6 +18,16 @@ define(function (require, exports, module) {
             var numfmt;
             var analyzeResult;
 
+            if (!this.queryCommandValue('writable', {
+                    row: row,
+                    col: col
+                }, {
+                    row: row,
+                    col: col
+                })) {
+                return false;
+            }
+
             // 分析内容，获取其类型
             numfmt = this.queryCommandValue('numfmt', row, col);
             analyzeResult = this.rs('numfmt.analyze', content, numfmt);
@@ -38,10 +48,24 @@ define(function (require, exports, module) {
             }
 
             this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
+
+            return true;
         },
 
         __setFormula: function (formula, row, col) {
-            this.__setNormalFormula(formula, row, col);
+            var formulaBin = this.rs('check.formula', formula);
+
+            if (!formulaBin) {
+                return false;
+            }
+
+            var result = this.rs('exec.formula', formulaBin, row, col);
+
+            // 先设置值，再设置数组公式
+            this.rs('set.content.and.type', result.value, result.type, row, col);
+            this.rs('set.formula', formula, row, col);
+
+            return true;
         }
     });
 });

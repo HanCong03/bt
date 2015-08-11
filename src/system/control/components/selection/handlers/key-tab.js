@@ -10,6 +10,11 @@ define(function (require, exports, module) {
         __keyTab: function (evt) {
             evt.preventDefault();
 
+            // 不处理cse模式
+            if (evt.ctrlKey && evt.shiftKey) {
+                return false;
+            }
+
             if (!this.__checkRecord('tab', evt.originalEvent.timeStamp)) {
                 return;
             }

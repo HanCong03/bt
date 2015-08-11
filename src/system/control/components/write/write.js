@@ -54,11 +54,11 @@ define(function (require, exports, module) {
             this.syncStatus = false;
         },
 
-        __sync: function () {
+        __sync: function (isCSEMode) {
             // 更改同步状态
             this.syncStatus = true;
             // 主动请求执行写入
-            return this.rs('write.cotnent');
+            return this.rs('write.cotnent', isCSEMode);
         },
 
         __refresh: function () {

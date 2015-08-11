@@ -127,7 +127,7 @@ define(function (require, exports, module) {
             evt.preventDefault();
 
             // 同步失败
-            if (!this.__sync()) {
+            if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
                 this.error('array.formula');
                 return;
             }
@@ -150,8 +150,12 @@ define(function (require, exports, module) {
         __keyTab: function (evt) {
             evt.preventDefault();
 
-            // 执行同步，触发内容的写入
-            this.__sync();
+            // 同步失败
+            if (!this.__sync(evt.ctrlKey && evt.shiftKey)) {
+                this.error('array.formula');
+                return;
+            }
+
             // 主动释放控制，返回控制权到主控模块。
             this.postMessage('control.free');
 

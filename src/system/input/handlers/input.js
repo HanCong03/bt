@@ -18,7 +18,6 @@ define(function (require, exports, module) {
             var cell = this.__cellStart;
             var content = this.__getUserContent();
 
-            isCSEMode = true;
             // 写入
             if (!isCSEMode) {
                 return this.execCommand('content', content, cell.row, cell.col);

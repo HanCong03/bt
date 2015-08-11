@@ -19,6 +19,7 @@ define(function (require, exports, module) {
                 'set.content.and.type': this.setContent,
                 'clear.content': this.clearContent,
                 'get.content.type': this.getContentType,
+                'set.formula': this.setFormula,
                 'set.array.formula': this.setArrayFormula,
                 'set.range.content': this.setContentForRange
             });
@@ -46,6 +47,10 @@ define(function (require, exports, module) {
 
         getContentInfo: function (row, col) {
             return this.__$api.getContentInfo(row, col);
+        },
+
+        setFormula: function (formulaText, row, col) {
+            this.__$api.setFormula(formulaText, row, col);
         },
 
         setArrayFormula: function (formulaText, row, col, start, end) {

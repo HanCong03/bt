@@ -63,8 +63,9 @@ define(function (require, exports, module) {
 
             var result = this.rs('exec.array.formula', formulaBin, range);
 
-            this.rs('set.array.formula', formula, row, col, range.start, range.end);
+            // 先设置值，再设置数组公式
             this.rs('set.range.content', result, range);
+            this.rs('set.array.formula', formula, row, col, range.start, range.end);
 
             return true;
         }

@@ -8,6 +8,11 @@ define(function (require, exports, module) {
 
     module.exports = {
         __keyEnter: function (evt) {
+            // 不处理cse模式
+            if (evt.ctrlKey && evt.shiftKey) {
+                return false;
+            }
+
             evt.preventDefault();
 
             if (!this.__checkRecord('enter', evt.originalEvent.timeStamp)) {
