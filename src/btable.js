@@ -13,6 +13,14 @@ define(function (require, exports, module) {
             this.__$ctx = new Context(node);
         },
 
+        onError: function (listener) {
+            var _self = this;
+
+            this.__$ctx.onError(function (key, msg) {
+                listener.call(_self, key, msg);
+            });
+        },
+
         execCommand: function (commandName) {
             var result;
             console.time(commandName)

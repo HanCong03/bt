@@ -45,6 +45,10 @@ define(function (require, exports, module) {
             return this.__$ctx.rs.apply(this.__$ctx, args);
         },
 
+        error: function (key) {
+            this.__$ctx.error(key);
+        },
+
         onMessage: function (topic, handler) {
             if ($$.isNdef(handler)) {
                 for (var key in topic) {

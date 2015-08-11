@@ -30,6 +30,7 @@ define(function (require, exports, module) {
         init: function () {
             this.__initInput();
             this.__initEvent();
+            this.__initService();
             this.__initMessage();
             this.__initShadowBox();
             this.__reset();
@@ -71,11 +72,16 @@ define(function (require, exports, module) {
                 'control.input.input.active': this.inputActive,
 
                 'controle.input': this.__input,
-                'control.write': this.__write,
 
                 'control.input.inactive': this.__reset,
 
                 'control.newline': this.__newLine
+            });
+        },
+
+        __initService: function () {
+            this.registerService({
+                'write.cotnent': this.__write
             });
         },
 

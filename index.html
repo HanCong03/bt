@@ -42,6 +42,10 @@
             var btable = new BTable(document.getElementById('container'));
             window.btable = btable;
 
+            btable.onError(function (key, msg) {
+                console.log(key, msg)
+            });
+
 //            btable.execCommand('pane', {
 //                row: 100,
 //                col: 100

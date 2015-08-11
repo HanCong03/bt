@@ -10,11 +10,11 @@ define(function (require, exports, module) {
     var EventManager = require('./components/event-manager');
     var ContainerManager = require('./components/container-manager');
     var CommandManager = require('./components/command-manager');
+    var ErrorManager = require('./components/error');
 
     var Workbook = require('./workbook/workbook');
 
     module.exports = require('utils').createClass('Context', {
-
         __$rootNode: null,
         __$workbook: null,
         __$components: {},
@@ -36,7 +36,8 @@ define(function (require, exports, module) {
                 serviceManager: new ServiceManager(this),
                 messageManager: new MessageMaanager(this),
                 eventManager: new EventManager(this),
-                commandManager: new CommandManager(this)
+                commandManager: new CommandManager(this),
+                error: new ErrorManager(this)
             };
         },
 
@@ -64,6 +65,14 @@ define(function (require, exports, module) {
 
         getManager: function (name) {
             return this.__$components[name];
+        },
+
+        onError: function (listener) {
+            this.__$components.error.listen(listener);
+        },
+
+        error: function (key) {
+            this.__$components.error.emit(key);
         },
 
         /* --- 模块接口 start --- */

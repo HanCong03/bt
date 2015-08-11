@@ -13,11 +13,11 @@ define(function (require) {
         ],
 
         exec_content: function (value, row, col, isCESMode) {
-            this.$dep.setContent(value, row, col, isCESMode);
+            return this.$dep.setContent(value, row, col, isCESMode);
         },
 
         exec_rangecontent: function (content, row, col, ranges) {
-            this.$dep.setRangeContent(content, row, col, ranges);
+            return this.$dep.setRangeContent(content, row, col, ranges);
         }
     });
 });

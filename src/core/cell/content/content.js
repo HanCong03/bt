@@ -14,17 +14,6 @@ define(function (require, exports, module) {
             require('./range-content')
         ],
 
-        init: function () {
-            this.__initService();
-        },
-
-        __initService: function () {
-            this.registerService({
-                //'set.content': this.setContent,
-                //'set.range.content': this.setRangeContent
-            });
-        },
-
         setContent: function (content, row, col) {
             var numfmt;
             var analyzeResult;

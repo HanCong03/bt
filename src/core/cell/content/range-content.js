@@ -50,6 +50,8 @@ define(function (require, exports, module) {
 
                 this.rs('set.content.and.type', analyzeResult.value, analyzeResult.type, row, col);
             }, this);
+
+            return true;
         },
 
         __setArrayFormula: function (formula, row, col, range) {
@@ -63,6 +65,8 @@ define(function (require, exports, module) {
 
             this.rs('set.array.formula', formula, row, col, range.start, range.end);
             this.rs('set.range.content', result, range);
+
+            return true;
         }
     };
 });

@@ -21,12 +21,12 @@ define(function (require, exports, module) {
             isCSEMode = true;
             // 写入
             if (!isCSEMode) {
-                this.execCommand('content', content, cell.row, cell.col);
+                return this.execCommand('content', content, cell.row, cell.col);
             } else {
                 var range = this.queryCommandValue('range');
                 range = $$.clone(range);
 
-                this.execCommand('rangecontent', content, cell.row, cell.col, range);
+                return this.execCommand('rangecontent', content, cell.row, cell.col, range);
             }
         }
     };

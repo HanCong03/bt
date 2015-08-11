@@ -116,6 +116,8 @@ define(function (require, exports, module) {
         },
 
         __keyEnter: function (evt) {
+            evt.preventDefault();
+
             // 换行
             if (evt.altKey) {
                 this.postMessage('control.newline');
@@ -124,7 +126,12 @@ define(function (require, exports, module) {
 
             evt.preventDefault();
 
-            this.__sync();
+            // 同步失败
+            if (!this.__sync()) {
+                this.error('array.formula');
+                return;
+            }
+
             // 主动释放控制，返回控制权到主控模块。
             this.postMessage('control.free');
 

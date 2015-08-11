@@ -57,8 +57,8 @@ define(function (require, exports, module) {
         __sync: function () {
             // 更改同步状态
             this.syncStatus = true;
-            // 推送写入消息
-            this.postMessage('control.write');
+            // 主动请求执行写入
+            return this.rs('write.cotnent');
         },
 
         __refresh: function () {
