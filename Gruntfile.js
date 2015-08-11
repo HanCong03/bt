@@ -39,12 +39,12 @@ module.exports = function (grunt) {
                         'NONE': 'kernel/src/workbook/definition/none',
                         'sheet-component': 'kernel/src/workbook/components/sheet/interface/i-sheet-component',
                         'workbook-utils': 'kernel/src/workbook/utils'
-                    },
-                    files: [{
-                        src: './src/main.js',
-                        dest: '../dist/btable2.js'
-                    }]
-                }
+                    }
+                },
+                files: [{
+                    src: './src/main.js',
+                    dest: './dist/btable2.js'
+                }]
             }
         }
     });
