@@ -21,6 +21,10 @@ define(function (require, exports, module) {
             });
         },
 
+        on: function (type, listener) {
+            this.__$ctx.addOuterListener(this, type, listener);
+        },
+
         execCommand: function (commandName) {
             var result;
             console.time(commandName)

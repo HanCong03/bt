@@ -19,6 +19,14 @@ define(function (require, exports, module) {
 
         addSheet: function (sheetName) {
             return this.__$api.addSheet(sheetName);
+        },
+
+        getSheetNames: function () {
+            return this.__$api.getSheetNames();
+        },
+
+        switchSheet: function (index) {
+            return this.__$api.switchSheet(index);
         }
     });
 });

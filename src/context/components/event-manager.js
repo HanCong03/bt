@@ -27,7 +27,11 @@ define(function (require, exports, module) {
         },
 
         on: function (listener, name, handler) {
-            this.__listen(name, listener, handler);
+            this.__listen(name, listener.____$type, listener, handler);
+        },
+
+        addOuterListener: function (listener, name, handler) {
+            this.__listen(name, 'ext', listener, handler);
         },
 
         emitAll: function (name) {
@@ -50,8 +54,7 @@ define(function (require, exports, module) {
             });
         },
 
-        __listen: function (name, listener, handler) {
-            var type = listener.____$type;
+        __listen: function (name, type, listener, handler) {
             var pool = this.__$events[type];
 
             if ($$.isNdef(pool[name])) {

@@ -11,6 +11,10 @@
             padding: 0;
             margin: 0;
         }
+
+        #sheetBox a {
+            padding: 10px 30px;
+        }
     </style>
 
     <link rel="stylesheet" href="./assets/styles/btable.css">
@@ -47,13 +51,24 @@
             });
 
             $("#addSheetBtn").on("click", function () {
-                console.log(btable.execCommand('addsheet', 'hancong'));
+                console.log(btable.execCommand('addsheet'));
             });
 
             $("#sheetBox").on('click', 'a', function (evt) {
                 evt.preventDefault();
-                console.log(this)
+                btable.execCommand('switchsheet', this.getAttribute('data-index'));
             });
+
+            btable.on('sheetschange', function () {
+                var sheetNames = this.queryCommandValue('sheetnames');
+                var str = [];
+
+                for (var i = 0, len = sheetNames.length; i < len; i++) {
+                    str.push('<a data-index="' + i + '" href="#">' + sheetNames[i] + '</a>');
+                }
+
+                document.getElementById("sheetBox").innerHTML = str.join('');
+            })
 
 //            btable.execCommand('pane', {
 //                row: 100,

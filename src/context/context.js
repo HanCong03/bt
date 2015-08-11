@@ -98,6 +98,10 @@ define(function (require, exports, module) {
             this.__$components.eventManager.on(listener, name, handler);
         },
 
+        addOuterListener: function (listener, name, handler) {
+            this.__$components.eventManager.addOuterListener(listener, name, handler);
+        },
+
         emit: function () {
             var eventManager = this.__$components.eventManager;
             eventManager.emit.apply(eventManager, arguments);

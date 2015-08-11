@@ -24,7 +24,8 @@ define(function (require, exports, module) {
                 'rowheightchange': this.__onrowheightchange,
                 'columnwidthchange': this.__oncolumnwidthchange,
                 'sheetswitch': this.__onsheetswitch,
-                'workbookreday': this.__onworkbookready
+                'workbookreday': this.__onworkbookready,
+                'sheetschange': this.__onsheetschange
             });
         },
 
@@ -51,6 +52,10 @@ define(function (require, exports, module) {
 
         __onsheetswitch: function () {
             this.__$ctx.emitAll('sheetswitch');
+        },
+
+        __onsheetschange: function () {
+            this.__$ctx.emitAll('sheetschange');
         },
 
         getAPI: function () {
