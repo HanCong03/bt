@@ -6,7 +6,6 @@
 define(function (require, exports, module) {
     module.exports = {
         __syncContent: function () {
-
             var row = this.__cellStart.row;
             var col = this.__cellStart.col;
 

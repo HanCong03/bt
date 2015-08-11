@@ -25,12 +25,13 @@ define(function (require, exports, module) {
             content: require('./env/content'),
             insert: require('./env/insert'),
             formatBrush: require('./env/format-brush'),
-            name: require('./env/name')
+            name: require('./env/name'),
+            writable: require('./env/writable')
         },
         core: {
             columnWidth: require('./core/column-width'),
             rowHeight: require('./core/row-height'),
-            content: require('./core/cell/content'),
+            content: require('./core/cell/content/content'),
             formattedContent: require('./core/cell/formatted-content'),
             displayContent: require('./core/cell/display-content'),
             numfmt: require('./core/numfmt/numfmt'),

@@ -48,8 +48,8 @@ define(function (require, exports, module) {
             return this.__$api.getContentInfo(row, col);
         },
 
-        setArrayFormula: function (formulaText, start, end) {
-            this.__$api.setArrayFormula(formulaText, start, end);
+        setArrayFormula: function (formulaText, row, col, start, end) {
+            this.__$api.setArrayFormula(formulaText, row, col, start, end);
         },
 
         setContentForRange: function (contents, range) {

@@ -8,11 +8,16 @@ define(function (require) {
         $dep: 'content',
 
         $exec: [
-            'content'
+            'content',
+            'rangecontent'
         ],
 
         exec_content: function (value, row, col, isCESMode) {
             this.$dep.setContent(value, row, col, isCESMode);
+        },
+
+        exec_rangecontent: function (content, row, col, ranges) {
+            this.$dep.setRangeContent(content, row, col, ranges);
         }
     });
 });

@@ -4,6 +4,8 @@
  */
 
 define(function (require, exports, module) {
+    var $$ = require('utils');
+
     module.exports = {
         __input: function () {
             var content = this.inputNode.innerHTML;
@@ -12,12 +14,20 @@ define(function (require, exports, module) {
             this.__relocation(rect);
         },
 
-        __write: function () {
+        __write: function (isCSEMode) {
             var cell = this.__cellStart;
             var content = this.__getUserContent();
 
+            isCSEMode = true;
             // 写入
-            this.execCommand('content', content, cell.row, cell.col);
+            if (!isCSEMode) {
+                this.execCommand('content', content, cell.row, cell.col);
+            } else {
+                var range = this.queryCommandValue('range');
+                range = $$.clone(range);
+
+                this.execCommand('rangecontent', content, cell.row, cell.col, range);
+            }
         }
     };
 });

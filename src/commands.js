@@ -24,7 +24,8 @@ define(function (require, exports, module) {
             content: require('./env/commands/content'),
             insert: require('./env/commands/insert'),
             formatBrush: require('./env/commands/format-brush'),
-            name: require('./env/commands/name')
+            name: require('./env/commands/name'),
+            writable: require('./env/commands/writable')
         },
         core: {
             content: require('./core/commands/cell/content'),
