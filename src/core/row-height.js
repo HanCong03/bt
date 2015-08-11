@@ -50,8 +50,13 @@ define(function (require, exports, module) {
             this.on({
                 'contentchange': this.__clean,
                 'stylechange': this.__clean,
-                'rowheightchange': this.__cleanRow
+                'rowheightchange': this.__cleanRow,
+                'sheetswitch': this.__onSheetSwitch
             });
+        },
+
+        __onSheetSwitch: function () {
+            this.__initHeap();
         },
 
         getRowHeight: function (row) {

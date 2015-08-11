@@ -51,6 +51,7 @@ define(function (require, exports, module) {
         },
 
         __ready: function () {
+            this.__$workbook.ready();
             this.emitAll('ready');
         },
 

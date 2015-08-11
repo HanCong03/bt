@@ -15,6 +15,10 @@ define(function (require, exports, module) {
 
         getActiveSheetIndex: function () {
             return this.__$api.getActiveSheetIndex();
+        },
+
+        addSheet: function (sheetName) {
+            return this.__$api.addSheet(sheetName);
         }
     });
 });

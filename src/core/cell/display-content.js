@@ -62,8 +62,13 @@ define(function (require, exports, module) {
             this.on({
                 'contentchange': this.onContentChange,
                 'stylechange': this.onStyleChange,
-                'columnwidthchange': this.onColumnWidthChange
+                'columnwidthchange': this.onColumnWidthChange,
+                'sheetswitch': this.__onSheetSwitch,
             });
+        },
+
+        __onSheetSwitch: function () {
+            this.__initHeap();
         },
 
         onContentChange: function (start, end) {

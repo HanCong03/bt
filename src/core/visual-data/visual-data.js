@@ -26,8 +26,9 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                ready: this.__initHeap,
-                datachange: this.__refresh
+                datachange: this.__onDatachange,
+                sheetswitch: this.__onSheetSwitch,
+                ready: this.__onReady
             });
         },
 
@@ -43,14 +44,28 @@ define(function (require, exports, module) {
         __initHeap: function () {
             var heap = this.getActiveHeap();
 
+            if ('row' in heap) {
+                return;
+            }
+
             heap.row = 0;
             heap.col = 0;
+        },
 
+        __onSheetSwitch: function () {
+            this.__initHeap();
+        },
+
+        __onReady: function () {
             this.__refresh();
         },
 
         getVisualData: function () {
             return this.getActiveHeap();
+        },
+
+        __onDatachange: function () {
+            this.__refresh();
         },
 
         __lock: function () {
@@ -72,6 +87,14 @@ define(function (require, exports, module) {
          * @private
          */
         __refresh: function () {
+            this.__refreshData();
+
+            if (this.__lockCount === 0) {
+                this.emit('refresh');
+            }
+        },
+
+        __refreshData: function () {
             var heap = this.getActiveHeap();
             var containerSize = this.getContentContainerSize();
 
@@ -84,10 +107,6 @@ define(function (require, exports, module) {
             // 头部宽度
             heap.headWidth = this.__calculateHeadWidth(heap.rows);
             this.__refreshColumn(containerSize.width - heap.headWidth);
-
-            if (this.__lockCount === 0) {
-                this.emit('refresh');
-            }
         },
 
         /**

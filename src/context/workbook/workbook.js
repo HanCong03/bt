@@ -22,8 +22,15 @@ define(function (require, exports, module) {
                 'stylechange': this.__onstylechange,
                 'contentchange': this.__oncontentchange,
                 'rowheightchange': this.__onrowheightchange,
-                'columnwidthchange': this.__oncolumnwidthchange
+                'columnwidthchange': this.__oncolumnwidthchange,
+                'sheetswitch': this.__onsheetswitch,
+                'workbookreday': this.__onworkbookready
             });
+        },
+
+        // 通知内核进入ready阶段
+        ready: function () {
+            this.__$workbook.ready();
         },
 
         __onstylechange: function (start, end) {
@@ -42,6 +49,10 @@ define(function (require, exports, module) {
             this.__$ctx.emitAll('columnwidthchange', startIndex, endIndex);
         },
 
+        __onsheetswitch: function () {
+            this.__$ctx.emitAll('sheetswitch');
+        },
+
         getAPI: function () {
             return this.__$workbook.getAPI();
         },
@@ -51,7 +62,7 @@ define(function (require, exports, module) {
         },
 
         getWorkbookHeap: function (module) {
-            return this.__$workbook.getActiveHeap(module.__$mid);
+            return this.__$workbook.getWorkbookHeap(module.__$mid);
         }
     });
 });

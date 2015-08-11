@@ -19,8 +19,8 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initShadowBox();
-            this.__initEvent();
             this.__initService();
+            this.__recalculate();
         },
 
         __initShadowBox: function () {
@@ -30,12 +30,6 @@ define(function (require, exports, module) {
             this.shadowBox.innerHTML = '1234567890';
 
             this.getShadowContainer().appendChild(this.shadowBox);
-        },
-
-        __initEvent: function () {
-            this.on({
-                'ready': this.recalculate
-            });
         },
 
         __initService: function () {
@@ -51,7 +45,7 @@ define(function (require, exports, module) {
         /**
          * 计算标准列宽和行高
          */
-        recalculate: function () {
+        __recalculate: function () {
             var heap = this.getWorkbookHeap();
             var minorFont = this.queryCommandValue('minorfont');
 
@@ -94,6 +88,9 @@ define(function (require, exports, module) {
 
         getStandardHeight: function () {
             var heap = this.getWorkbookHeap();
+            if (!heap.height) {
+                debugger
+            }
             return heap.height;
         }
     });

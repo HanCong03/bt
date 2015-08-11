@@ -51,8 +51,13 @@ define(function (require, exports, module) {
             this.on({
                 'stylechange': this.__clean,
                 'contentchange': this.__clean,
-                'columnwidthchange': this.__cleanColumn
+                'columnwidthchange': this.__cleanColumn,
+                'sheetswitch': this.__onSheetSwitch
             })
+        },
+
+        __onSheetSwitch: function () {
+            this.__initHeap();
         },
 
         getColumnWidth: function (col) {

@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         init: function () {
             this.__initHeap();
             this.__initService();
+            this.__initEvent();
         },
 
         __initHeap: function () {
@@ -47,6 +48,16 @@ define(function (require, exports, module) {
                 'get.full.range': this.__getFullRange,
                 'get.range': this.getActiveRange
             });
+        },
+
+        __initEvent: function () {
+            this.on({
+                'sheetswitch': this.__onSheetSwitch
+            });
+        },
+
+        __onSheetSwitch: function () {
+            this.__initHeap();
         },
 
         setRange: function (start, end, entry) {

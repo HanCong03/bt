@@ -40,8 +40,13 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'contentchange': this.onContentChange,
-                'stylechange': this.onStyleChange
+                'stylechange': this.onStyleChange,
+                'sheetswitch': this.__onSheetSwitch
             });
+        },
+
+        __onSheetSwitch: function () {
+            this.__initHeap();
         },
 
         onContentChange: function (start, end) {
