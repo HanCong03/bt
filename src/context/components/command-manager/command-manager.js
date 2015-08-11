@@ -5,6 +5,7 @@
 
 define(function (require, exports, module) {
     var COMMANDS = require('commands');
+    var Converter = require('./converter');
     var $$ = require('utils');
 
     module.exports = $$.createClass('CommandManager', {
@@ -24,10 +25,12 @@ define(function (require, exports, module) {
         },
 
         __$ctx: null,
+        __converter: null,
         __lock: 0,
 
         constructor: function (ctx) {
             this.__$ctx = ctx;
+            this.__converter = new Converter(ctx);
         },
 
         startup: function () {
@@ -82,7 +85,7 @@ define(function (require, exports, module) {
             return result;
         },
 
-        // 匿名调用
+        // 匿名调用(外部调用)
         anonymousExecCommand: function (commandName) {
             var command = this.__lookupExecCommand('ext', commandName);
 
@@ -90,7 +93,8 @@ define(function (require, exports, module) {
                 throw new Error('command is not found: ' + commandName);
             }
 
-            var args = [].slice.call(arguments, 1);
+            //var args = [].slice.call(arguments, 1);
+            var args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
             var result;
 
             this.lock();

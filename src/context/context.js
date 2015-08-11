@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     var MessageMaanager = require('./components/message-manager');
     var EventManager = require('./components/event-manager');
     var ContainerManager = require('./components/container-manager');
-    var CommandManager = require('./components/command-manager');
+    var CommandManager = require('./components/command-manager/command-manager');
     var ErrorManager = require('./components/error');
 
     var Workbook = require('./workbook/workbook');
@@ -30,6 +30,7 @@ define(function (require, exports, module) {
 
         __boot: function () {
             this.__$workbook = new Workbook(this);
+
             this.__$components = {
                 containerManager: new ContainerManager(this),
                 moduleManager: new ModuleManager(this),

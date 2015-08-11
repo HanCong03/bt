@@ -13,7 +13,7 @@ define(function (require, exports, module) {
          * @private
          */
         __moveToNormalCell: function (row, col) {
-            this.__setRange({
+            this.rs('set.range', {
                 row: row,
                 col: col
             }, {
@@ -36,7 +36,7 @@ define(function (require, exports, module) {
          * @private
          */
         __moveToMergeCell: function (mergeInfo, row, col) {
-            this.__setRange(mergeInfo.start, mergeInfo.end, {
+            this.rs('set.range', mergeInfo.start, mergeInfo.end, {
                 row: row,
                 col: col
             });
