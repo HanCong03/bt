@@ -5,29 +5,62 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'insert',
 
-        $exec: [
-            'inserttopcell',
-            'insertleftcell',
-            'insertrow',
-            'insertcolumn'
-        ],
+        commands: {
+            inserttopcell: {
+                exec: function (start, end) {
+                    this.$dep.insertTopCell(start, end);
+                },
 
-        exec_inserttopcell: function (start, end) {
-            this.$dep.insertTopCell(start, end);
-        },
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-        exec_insertleftcell: function (start, end) {
-            this.$dep.insertLeftCell(start, end);
-        },
-        
-        exec_insertrow: function (start, end) {
-            this.$dep.insertRow(start, end);
-        },
+                    return args;
+                }
+            },
 
-        exec_insertcolumn: function (start, end) {
-            this.$dep.insertColumn(start, end);
+            insertleftcell: {
+                exec: function (start, end) {
+                    this.$dep.insertLeftCell(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            insertrow: {
+                exec: function (start, end) {
+                    this.$dep.insertRow(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            insertcolumn: {
+                exec: function (start, end) {
+                    this.$dep.insertColumn(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            }
         }
     });
 });

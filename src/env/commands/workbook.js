@@ -5,32 +5,50 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'workbook',
 
-        $exec: [
-            'addsheet',
-            'switchsheet'
-        ],
+        commands: {
+            addsheet: {
+                exec: function (sheetName) {
+                    return this.$dep.addSheet(sheetName);
+                },
 
-        $query: [
-            'activesheetindex',
-            'sheetnames'
-        ],
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_addsheet: function (sheetName) {
-            return this.$dep.addSheet(sheetName);
-        },
+            switchsheet: {
+                exec: function (index) {
+                    return this.$dep.switchSheet(index);
+                },
 
-        exec_switchsheet: function (index) {
-            return this.$dep.switchSheet(index);
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_activesheetindex: function () {
-            return this.$dep.getActiveSheetIndex();
-        },
+            activesheetindex: {
+                query: function () {
+                    return this.$dep.getActiveSheetIndex();
+                },
 
-        query_sheetnames: function () {
-            return this.$dep.getSheetNames();
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            sheetnames: {
+                query: function () {
+                    return this.$dep.getSheetNames();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

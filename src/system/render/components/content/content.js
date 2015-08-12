@@ -340,7 +340,7 @@ define(function (require, exports, module) {
             var x = visualData.colPoints[cellInfo.c] + OFFSET;
 
             for (var i = col - 1, min = mergeInfo.start.col; i >= min; i--) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -358,7 +358,7 @@ define(function (require, exports, module) {
             var y = visualData.rowPoints[cellInfo.r] + OFFSET;
 
             for (var i = row - 1, min = mergeInfo.start.row; i >= min; i--) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -375,7 +375,7 @@ define(function (require, exports, module) {
             // height
             for (var i = start.row, limit = end.row; i <= limit; i++) {
                 // 被隐藏，则跳过
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -384,7 +384,7 @@ define(function (require, exports, module) {
 
             // width
             for (var i = start.col, limit = end.col; i <= limit; i++) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 

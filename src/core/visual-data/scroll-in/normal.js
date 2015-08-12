@@ -58,7 +58,7 @@ define(function (require, exports, module) {
             var row = endRow;
 
             while (row >= 0) {
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     row--;
                     continue;
                 }
@@ -88,7 +88,7 @@ define(function (require, exports, module) {
             var col = endCol;
 
             while (col >= 0) {
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     col--;
                     continue;
                 }

@@ -5,14 +5,20 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'formatBrush',
 
-        $exec: [
-            'formatbrush',
-        ],
+        commands: {
+            formatbrush: {
+                exec: function (fromRange, toRange) {
+                    this.$dep.brush(fromRange, toRange);
+                },
 
-        exec_formatbrush: function (fromRange, toRange) {
-            this.$dep.brush(fromRange, toRange);
+                exec_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

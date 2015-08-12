@@ -60,7 +60,7 @@ define(function (require, exports, module) {
             while (count-- > 0) {
                 row--;
 
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     count++;
                     continue;
                 }
@@ -76,7 +76,7 @@ define(function (require, exports, module) {
             while (count-- > 0 && row < MAX_ROW_INDEX) {
                 row++;
 
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     count++;
                     continue;
                 }
@@ -92,7 +92,7 @@ define(function (require, exports, module) {
             while (count-- > 0) {
                 col--;
 
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     count++;
                     continue;
                 }
@@ -108,7 +108,7 @@ define(function (require, exports, module) {
             while (count-- > 0 && col < MAX_COLUMN_INDEX) {
                 col++;
 
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     count++;
                     continue;
                 }

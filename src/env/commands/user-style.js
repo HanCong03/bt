@@ -5,66 +5,178 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'userStyle',
 
-        $query: [
-            'userfont',
-            'userfontsize',
-            'usercolor',
-            'usernumfmt',
-            'userbold',
-            'useritalic',
-            'userunderline',
-            'userthroughline',
-            'userfill',
-            'userhalign',
-            'uservalign',
-            'userwraptext',
+        commands: {
+            userfont: {
+                query: function (row, col) {
+                    return this.$dep.getFont(row, col);
+                },
 
-            'userfonts'
-        ],
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        query: function (name, args) {
-            switch (name) {
-                case 'userfont':
-                    return this.$dep.getFont(args[0], args[1]);
-                    break;
+                    return args;
+                }
+            },
 
-                case 'usercolor':
-                    return this.$dep.getColor(args[0], args[1]);
+            userfontsize: {
+                query: function (row, col) {
+                    return this.$dep.getFontSize(row, col);
+                },
 
-                case 'usernumfmt':
-                    return this.$dep.getNumberFormat(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'userbold':
-                    return this.$dep.isBold(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'useritalic':
-                    return this.$dep.isItalic(args[0], args[1]);
+            usercolor: {
+                query: function (row, col) {
+                    return this.$dep.getColor(row, col);
+                },
 
-                case 'userunderline':
-                    return this.$dep.getUnderline(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'userthroughline':
-                    return this.$dep.hasThroughline(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'userfontsize':
-                    return this.$dep.getFontSize(args[0], args[1]);
+            usernumfmt: {
+                query: function (row, col) {
+                    return this.$dep.getNumberFormat(row, col);
+                },
 
-                case 'userfill':
-                    return this.$dep.getFill(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'userhalign':
-                    return this.$dep.getHorizontalAlign(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'uservalign':
-                    return this.$dep.getVerticalAlign(args[0], args[1]);
+            userbold: {
+                query: function (row, col) {
+                    return this.$dep.isBold(row, col);
+                },
 
-                case 'userwraptext':
-                    return this.$dep.isWraptext(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'userfonts':
-                    return this.$dep.getFonts(args[0], args[1]);
+                    return args;
+                }
+            },
+
+            useritalic: {
+                query: function (row, col) {
+                    return this.$dep.isItalic(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userunderline: {
+                query: function (row, col) {
+                    return this.$dep.getUnderline(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userthroughline: {
+                query: function (row, col) {
+                    return this.$dep.hasThroughline(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userfill: {
+                query: function (row, col) {
+                    return this.$dep.getFill(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userhalign: {
+                query: function (row, col) {
+                    return this.$dep.getHorizontalAlign(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            uservalign: {
+                query: function (row, col) {
+                    return this.$dep.getVerticalAlign(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userwraptext: {
+                query: function (row, col) {
+                    return this.$dep.isWraptext(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            userfonts: {
+                query: function (row, col) {
+                    return this.$dep.getFonts(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
             }
         }
     });

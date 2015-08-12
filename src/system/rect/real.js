@@ -29,7 +29,7 @@ define(function (require, exports, module) {
             // height
             for (var i = startRow; i <= endRow; i++) {
                 // 被隐藏，则跳过
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -43,7 +43,7 @@ define(function (require, exports, module) {
             /* --- 计算 width --- */
             // width
             for (var i = startCol; i <= endCol; i++) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -59,7 +59,7 @@ define(function (require, exports, module) {
             var x = visualData.colPoints[c] + OFFSET;
 
             for (var i = col - 1, min = startCol; i >= min; i--) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -71,7 +71,7 @@ define(function (require, exports, module) {
             var y = visualData.rowPoints[r] + OFFSET;
 
             for (var i = row - 1, min = startRow; i >= min; i--) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 

@@ -5,27 +5,47 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'comment',
 
-        $exec: [
-            'comment',
-            'clearcomment'
-        ],
+        commands: {
+            comment: {
+                exec: function (content, row, col) {
+                    this.$dep.setComment(content, row, col);
+                },
 
-        $query: [
-            'comment'
-        ],
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        exec_comment: function (content, row, col) {
-            this.$dep.setComment(content, row, col);
-        },
+                    return args;
+                },
 
-        exec_clearcomment: function (start, end) {
-            this.$dep.clearComment(start, end);
-        },
+                query: function (row, col) {
+                    return this.$dep.getComment(row, col);
+                },
 
-        query_comment: function (row, col) {
-            return this.$dep.getComment(row, col);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            clearcomment: {
+                exec: function (start, end) {
+                    this.$dep.clearComment(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            }
         }
     });
 });

@@ -5,14 +5,20 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: '_renderInfo',
 
-        $query: [
-            '_renderinfo'
-        ],
+        commands: {
+            _renderinfo: {
+                query: function (rows, cols) {
+                    return this.$dep.getRenderInfo(rows, cols);
+                },
 
-        query__renderinfo: function (rows, cols) {
-            return this.$dep.getRenderInfo(rows, cols);
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

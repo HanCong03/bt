@@ -109,7 +109,7 @@ define(function (require, exports, module) {
         // 计算指定行向上滚动count后的位置。
         __getUpRow: function (row, count) {
             while (count > 0) {
-                if (this.queryCommandValue('hiddenrow', row - 1)) {
+                if (this.queryCommandValue('hiderow', row - 1)) {
                     continue;
                 }
 
@@ -122,7 +122,7 @@ define(function (require, exports, module) {
 
         __getLeftColumn: function (col, count) {
             while (count > 0) {
-                if (this.queryCommandValue('hiddencolumn', col - 1)) {
+                if (this.queryCommandValue('hidecolumn', col - 1)) {
                     continue;
                 }
 
@@ -148,7 +148,7 @@ define(function (require, exports, module) {
             var row = endRow;
 
             while (row >= 0) {
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     row--;
                     continue;
                 }
@@ -179,7 +179,7 @@ define(function (require, exports, module) {
             var col = endCol;
 
             while (col >= 0) {
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     col--;
                     continue;
                 }

@@ -5,117 +5,303 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'border',
 
-        $exec: [
-            'border',
-            'clearborder',
+        commands: {
+            border: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.setBorder(borderOptions, start, end);
+                },
 
-            // single add
-            'leftborder',
-            'rightborder',
-            'topborder',
-            'bottomborder',
-            'outerborder',
-            'innerborder',
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-            // single remove
-            'clearleftborder',
-            'cleartopborder',
-            'clearrightborder',
-            'clearbottomborder',
-            'clearouterborder',
-            'clearinnerborder'
-        ],
+                    return args;
+                },
 
-        $query: [
-            'border',
-            'leftborder',
-            'rightborder',
-            'topborder',
-            'bottomborder',
-            'outerborder',
-            'innerborder',
+                query: function (row, col) {
+                    return this.$dep.getBorder(row, col);
+                },
 
-            'borders'
-        ],
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        exec_border: function (borderOptions, start, end) {
-            this.$dep.setBorder(borderOptions, start, end);
-        },
+                    return args;
+                }
+            },
 
-        exec_clearborder: function (start, end) {
-            this.$dep.unsetBorder(start, end);
-        },
+            borders: {
+                query: function (cells) {
+                    return this.$dep.getBorders(cells);
+                },
 
-        exec: function (name, args) {
-            switch (name) {
-                case 'leftborder':
-                    return this.$dep.addLeftBorder(args[0], args[1], args[2]);
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-                case 'rightborder':;
-                    return this.$dep.addRightBorder(args[0], args[1], args[2]);
+            clearborder: {
+                exec: function (start, end) {
+                    this.$dep.unsetBorder(start, end);
+                },
 
-                case 'topborder':;
-                    return this.$dep.addTopBorder(args[0], args[1], args[2]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-                case 'bottomborder':;
-                    return this.$dep.addBottomBorder(args[0], args[1], args[2]);
+                    return args;
+                }
+            },
 
-                case 'outerborder':;
-                    return this.$dep.addOuterBorder(args[0], args[1], args[2]);
+            leftborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addLeftBorder(borderOptions, start, end);
+                },
 
-                case 'innerborder':;
-                    return this.$dep.addInnerBorder(args[0], args[1], args[2]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-                case 'clearleftborder':
-                    return this.$dep.removeLeftBorder(args[0], args[1]);
+                    return args;
+                },
 
-                case 'cleartopborder':
-                    return this.$dep.removeTopBorder(args[0], args[1]);
+                query: function (row, col) {
+                    return this.$dep.getLeftBorder(row, col);
+                },
 
-                case 'clearrightborder':
-                    return this.$dep.removeRightBorder(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'clearbottomborder':
-                    return this.$dep.removeBottomBorder(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'clearouterborder':
-                    return this.$dep.removeOuterBorder(args[0], args[1]);
+            rightborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addRightBorder(borderOptions, start, end);
+                },
 
-                case 'clearinnerborder':
-                    return this.$dep.removeInnerBorder(args[0], args[1]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getRightBorder(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            rightborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addRightBorder(borderOptions, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getRightBorder(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            topborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addTopBorder(borderOptions, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getTopBorder(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            bottomborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addBottomBorder(borderOptions, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getBottomBorder(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            outerborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addOuterBorder(borderOptions, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getOuterBorder(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            innerborder: {
+                exec: function (borderOptions, start, end) {
+                    this.$dep.addInnerBorder(borderOptions, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    console.log('未实现');
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            clearleftborder: {
+                exec: function (start, end) {
+                    this.$dep.removeLeftBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            cleartopborder: {
+                exec: function (start, end) {
+                    this.$dep.removeTopBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            clearrightborder: {
+                exec: function (start, end) {
+                    this.$dep.removeRightBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            clearbottomborder: {
+                exec: function (start, end) {
+                    this.$dep.removeBottomBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            clearouterborder: {
+                exec: function (start, end) {
+                    this.$dep.removeOuterBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
+            clearinnerborder: {
+                exec: function (start, end) {
+                    this.$dep.removeInnerBorder(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
             }
-        },
-
-        query: function (name, args) {
-            switch (name) {
-                case 'border':
-                    return this.$dep.getBorder(args[0], args[1]);
-
-                case 'leftborder':;
-                    return this.$dep.getLeftBorder(args[0], args[1]);
-
-                case 'rightborder':;
-                    return this.$dep.getRightBorder(args[0], args[1]);
-
-                case 'topborder':;
-                    return this.$dep.getTopBorder(args[0], args[1]);
-
-                case 'bottomborder':;
-                    return this.$dep.getBottomBorder(args[0], args[1]);
-
-                case 'outerborder':;
-                    return this.$dep.getOuterBorder(args[0], args[1]);
-
-                case 'innerborder':;
-                    console.log('未实现')
-                    //return this.$dep.getBorder(args[0], args[1]);
-            }
-        },
-
-        query_borders: function (cells) {
-            return this.$dep.getBorders(cells);
         }
     });
 });

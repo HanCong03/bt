@@ -125,7 +125,7 @@ define(function (require, exports, module) {
             }
 
             row = rangeEnd.row + 1;
-            while (row <= MAX_ROW_INDEX && this.queryCommandValue('hiddenrow', row)) {
+            while (row <= MAX_ROW_INDEX && this.queryCommandValue('hiderow', row)) {
                 row += 1;
             }
 
@@ -185,7 +185,7 @@ define(function (require, exports, module) {
             }
 
             row = rangeStart.row - 1;
-            while (row >= 0 && this.queryCommandValue('hiddenrow', row)) {
+            while (row >= 0 && this.queryCommandValue('hiderow', row)) {
                 row -= 1;
             }
 
@@ -249,7 +249,7 @@ define(function (require, exports, module) {
             }
 
             col = rangeEnd.col + 1;
-            while (col <= MAX_COLUMN_INDEX && this.queryCommandValue('hiddencolumn', col)) {
+            while (col <= MAX_COLUMN_INDEX && this.queryCommandValue('hidecolumn', col)) {
                 col += 1;
             }
 
@@ -309,7 +309,7 @@ define(function (require, exports, module) {
             }
 
             col = rangeStart.col - 1;
-            while (col >= 0 && this.queryCommandValue('hiddencolumn', col)) {
+            while (col >= 0 && this.queryCommandValue('hidecolumn', col)) {
                 col -= 1;
             }
 

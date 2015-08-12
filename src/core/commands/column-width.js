@@ -5,27 +5,47 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'columnWidth',
 
-        $exec: [
-            'columnwidth',
-            'bestfitcolumnwidth'
-        ],
+        commands: {
+            columnwidth: {
+                exec: function (wdith, startCol, endCol) {
+                    this.$dep.setColumnWidth(wdith, startCol, endCol);
+                },
 
-        $query: [
-            'columnwidth'
-        ],
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.col, range.end.col];
 
-        exec_columnwidth: function (wdith, startCol, endCol) {
-            this.$dep.setColumnWidth(wdith, startCol, endCol);
-        },
+                    return args;
+                },
 
-        exec_bestfitcolumnwidth: function (width, col) {
-            this.$dep.setBestFitColumnWidth(width, col);
-        },
+                query: function (col) {
+                    return this.$dep.getColumnWidth(col);
+                },
 
-        query_columnwidth: function (col) {
-            return this.$dep.getColumnWidth(col);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.col];
+
+                    return args;
+                }
+            },
+
+            bestfitcolumnwidth: {
+                exec: function (width, col) {
+                    this.$dep.setBestFitColumnWidth(width, col);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.entry.col);
+
+                    return args;
+                }
+            }
         }
     });
 });

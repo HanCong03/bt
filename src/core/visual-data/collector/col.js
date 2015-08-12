@@ -58,7 +58,7 @@ define(function (require, exports, module) {
 
             do {
                 // 被隐藏的列
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     col++;
                     continue;
                 }
@@ -129,7 +129,7 @@ define(function (require, exports, module) {
 
             do {
                 // 被隐藏的列
-                if (this.queryCommandValue('hiddencolumn', col)) {
+                if (this.queryCommandValue('hidecolumn', col)) {
                     col++;
                     continue;
                 }

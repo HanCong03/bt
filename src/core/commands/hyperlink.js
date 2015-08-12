@@ -5,27 +5,47 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'hyperlink',
 
-        $exec: [
-            'hyperlink',
-            'clearhyperlink'
-        ],
+        commands: {
+            hyperlink: {
+                exec: function (text, link, row, col) {
+                    this.$dep.setHyperlink(text, link, row, col);
+                },
 
-        $query: [
-            'hyperlink'
-        ],
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.col, range.entry.col];
 
-        exec_hyperlink: function (text, link, row, col) {
-            this.$dep.setHyperlink(text, link, row, col);
-        },
+                    return args;
+                },
 
-        exec_clearhyperlink: function (start, end) {
-            this.$dep.clearHyperlink(start, end);
-        },
+                query: function (row, col) {
+                    return this.$dep.getHyperlink(row, col);
+                },
 
-        query_hyperlink: function (row, col) {
-            return this.$dep.getHyperlink(row, col);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            clearhyperlink: {
+                exec: function (start, end) {
+                    this.$dep.clearHyperlink(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            }
         }
     });
 });

@@ -5,27 +5,45 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'rowHeight',
 
-        $exec: [
-            'rowheight',
-            'bestfitrowheight'
-        ],
+        commands: {
+            rowheight: {
+                exec: function (height, startRow, endRow) {
+                    this.$dep.setRowHeight(height, startRow, endRow);
+                },
 
-        $query: [
-            'rowheight'
-        ],
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start.row);
+                    args.push(range.end.row);
 
-        exec_rowheight: function (height, startRow, endRow) {
-            this.$dep.setRowHeight(height, startRow, endRow);
-        },
+                    return args;
+                },
 
-        exec_bestfitrowheight: function (height, row) {
-            this.$dep.setBestFitRowHeight(height, row);
-        },
+                query: function (row) {
+                    return this.$dep.getRowHeight(row);
+                },
 
-        query_rowheight: function (row) {
-            return this.$dep.getRowHeight(row);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row];
+
+                    return args;
+                }
+            },
+
+            exec_bestfitrowheight: {
+                exec: function (height, row) {
+                    this.$dep.setBestFitRowHeight(height, row);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

@@ -109,7 +109,7 @@ define(function (require, exports, module) {
 
             // overflow top
             for (var i = startRow; i <= endRow; i++) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -122,7 +122,7 @@ define(function (require, exports, module) {
 
             // overflow right
             for (var i = endCol; i >= startCol; i--) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -135,7 +135,7 @@ define(function (require, exports, module) {
 
             // overflow bottom
             for (var i = endRow; i >= startRow; i--) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -148,7 +148,7 @@ define(function (require, exports, module) {
 
             // overflow left
             for (var i = startCol; i <= endCol; i++) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -208,7 +208,7 @@ define(function (require, exports, module) {
 
             // overflow top
             for (var i = startRow; i <= endRow; i++) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -221,7 +221,7 @@ define(function (require, exports, module) {
 
             // overflow right
             for (var i = endCol; i >= startCol; i--) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 
@@ -234,7 +234,7 @@ define(function (require, exports, module) {
 
             // overflow bottom
             for (var i = endRow; i >= startRow; i--) {
-                if (this.queryCommandValue('hiddenrow', i)) {
+                if (this.queryCommandValue('hiderow', i)) {
                     continue;
                 }
 
@@ -247,7 +247,7 @@ define(function (require, exports, module) {
 
             // overflow left
             for (var i = startCol; i <= endCol; i++) {
-                if (this.queryCommandValue('hiddencolumn', i)) {
+                if (this.queryCommandValue('hidecolumn', i)) {
                     continue;
                 }
 

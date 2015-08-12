@@ -5,14 +5,20 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'dimension',
 
-        $query: [
-            'dimension'
-        ],
+        commands: {
+            dimension: {
+                query: function () {
+                    return this.$dep.getDimension();
+                },
 
-        query_dimension: function () {
-            return this.$dep.getDimension();
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

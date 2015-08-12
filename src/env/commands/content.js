@@ -5,29 +5,62 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'content',
 
-        $query: [
-            'content',
-            'contenttype',
-            'contentinfo',
-            'rangecontentinfo'
-        ],
+        commands: {
+            content: {
+                query: function (row, col) {
+                    return this.$dep.getContent(row, col);
+                },
 
-        query_content: function (row, col) {
-            return this.$dep.getContent(row, col);
-        },
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        query_contenttype: function (row, col) {
-            return this.$dep.getContentType(row, col);
-        },
+                    return args;
+                }
+            },
 
-        query_contentinfo: function (row, col) {
-            return this.$dep.getContentInfo(row, col);
-        },
+            contenttype: {
+                query: function (row, col) {
+                    return this.$dep.getContentType(row, col);
+                },
 
-        query_rangecontentinfo: function (start, end) {
-            return this.$dep.getContentInfoByRange(start, end);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            contentinfo: {
+                query: function (row, col) {
+                    return this.$dep.getContentInfo(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            rangecontentinfo: {
+                query: function (start, end) {
+                    return this.$dep.getContentInfoByRange(start, end);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            }
         }
     });
 });

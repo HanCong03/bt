@@ -62,7 +62,6 @@ define(function (require, exports, module) {
 
         execCommand: function (customer, commandName) {
             var command = this.__lookupExecCommand(customer.____$type, commandName);
-            var result;
 
             if (!command) {
                 throw new Error('command is not found: ' + commandName);
@@ -72,11 +71,7 @@ define(function (require, exports, module) {
 
             this.lock();
 
-            if (!command.handler) {
-                result = command.provider['exec'].call(command.provider, commandName, args);
-            } else {
-                result = command.handler.apply(command.provider, args);
-            }
+            var result = command.command.apply(command.provider, args);
 
             this.unlock();
 
@@ -93,17 +88,11 @@ define(function (require, exports, module) {
                 throw new Error('command is not found: ' + commandName);
             }
 
-            //var args = [].slice.call(arguments, 1);
             var args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
-            var result;
 
             this.lock();
 
-            if (!command.handler) {
-                result = command.provider['exec'].call(command.provider, commandName, args);
-            } else {
-                result = command.handler.apply(command.provider, args);
-            }
+            var result = command.command.apply(command.provider, args);
 
             this.unlock();
 
@@ -123,11 +112,7 @@ define(function (require, exports, module) {
 
             var args = [].slice.call(arguments, 2);
 
-            if (!command.handler) {
-                return command.provider['query'].call(command.provider, commandName, args);
-            } else {
-                return command.handler.apply(command.provider, args);
-            }
+            return command.command.apply(command.provider, args);
         },
 
         anonymousQueryCommandValue: function (commandName) {
@@ -137,13 +122,9 @@ define(function (require, exports, module) {
                 throw new Error('command is not found: ' + commandName);
             }
 
-            var args = [].slice.call(arguments, 1);
+            var args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
 
-            if (!command.handler) {
-                return command.provider['query'].call(command.provider, commandName, args);
-            } else {
-                return command.handler.apply(command.provider, args);
-            }
+            return command.command.apply(command.provider, args);
         },
 
         __scan: function (type) {
@@ -159,7 +140,7 @@ define(function (require, exports, module) {
         },
 
         __mountCommand: function (type, CommandClass) {
-            var command = new CommandClass();
+            var command = new CommandClass(this.__$ctx);
 
             // 依赖管理
             var dep = this.__lookupModule(type, command.$dep);
@@ -170,39 +151,32 @@ define(function (require, exports, module) {
 
             command.$dep = dep;
 
-            // 挂载
-            this.__mountQueryCommand(type, command);
-            this.__mountExecCommand(type, command);
-        },
+            var queryPool = this.__$commands.query[type];
+            var execPool = this.__$commands.exec[type];
 
-        __mountQueryCommand: function (type, provider) {
-            if ($$.isNdef(provider.$query)) {
-                return;
-            }
+            var commandSet = command.commands;
 
-            var pool = this.__$commands.query[type];
-
-            $$.forEach(provider.$query, function (name) {
-                pool[name] = {
-                    provider: provider,
-                    handler: provider['query_' + name]
+            for (var name in commandSet) {
+                if (!commandSet.hasOwnProperty(name)) {
+                    continue;
                 }
-            });
-        },
 
-        __mountExecCommand: function (type, provider) {
-            if ($$.isNdef(provider.$exec)) {
-                return;
-            }
-
-            var pool = this.__$commands.exec[type];
-
-            $$.forEach(provider.$exec, function (name) {
-                pool[name] = {
-                    provider: provider,
-                    handler: provider['exec_' + name]
+                if (commandSet[name].exec) {
+                    execPool[name] = {
+                        provider: command,
+                        command: commandSet[name].exec,
+                        args_processor: commandSet[name].exec_arguments || null
+                    };
                 }
-            });
+
+                if (commandSet[name].query) {
+                    queryPool[name] = {
+                        provider: command,
+                        command: commandSet[name].query,
+                        args_processor: commandSet[name].query_arguments || null
+                    };
+                }
+            }
         },
 
         __lookupModule: function (type, moduleName) {

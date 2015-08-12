@@ -5,39 +5,70 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'standard',
 
-        $query: [
-            'standard',
-            'standardfont',
-            'standardfontsize',
-            'standardcolor',
-            'standardwidth',
-            'standardheight'
-        ],
+        commands: {
+            standard: {
+                query: function () {
+                    return this.$dep.getStandard();
+                },
 
-        query_standard: function () {
-            return this.$dep.getStandard();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_standardfont: function () {
-            return this.$dep.getStandardFont();
-        },
+            standardfont: {
+                query: function () {
+                    return this.$dep.getStandardFont();
+                },
 
-        query_standardfontsize: function () {
-            return this.$dep.getStandardFontSize();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_standardcolor: function () {
-            return this.$dep.getStandardColor();
-        },
+            standardfontsize: {
+                query: function () {
+                    return this.$dep.getStandardFontSize();
+                },
 
-        query_standardwidth: function () {
-            return this.$dep.getStandardWidth();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_standardheight: function () {
-            return this.$dep.getStandardHeight();
+            standardcolor: {
+                query: function () {
+                    return this.$dep.getStandardColor();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            standardwidth: {
+                query: function () {
+                    return this.$dep.getStandardWidth();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            standardheight: {
+                query: function () {
+                    return this.$dep.getStandardHeight();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

@@ -57,7 +57,7 @@ define(function (require, exports, module) {
 
             do {
                 // 被隐藏的列
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     row++;
                     continue;
                 }
@@ -131,7 +131,7 @@ define(function (require, exports, module) {
 
             do {
                 // 被隐藏的列
-                if (this.queryCommandValue('hiddenrow', row)) {
+                if (this.queryCommandValue('hiderow', row)) {
                     row++;
                     continue;
                 }

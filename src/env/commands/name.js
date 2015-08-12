@@ -5,27 +5,38 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'name',
 
-        $exec: [
-            'name'
-        ],
+        commands: {
+            name: {
+                exec: function (name, ref, refSheet, scope, comment) {
+                    return this.$dep.defineName(name, ref, refSheet, scope, comment);
+                },
 
-        $query: [
-            'name',
-            'validname'
-        ],
+                exec_arguments: function (args) {
+                    return args;
+                },
 
-        exec_name: function (name, ref, refSheet, scope, comment) {
-            return this.$dep.defineName(name, ref, refSheet, scope, comment);
-        },
+                query: function (name) {
+                    return this.$dep.getNameDefine(name);
+                },
 
-        query_name: function (name) {
-            return this.$dep.getNameDefine(name);
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_validname: function (name, scope) {
-            return this.$dep.getName(name, scope);
+            validname: {
+                query: function (name, scope) {
+                    return this.$dep.getName(name, scope);
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

@@ -6,6 +6,6 @@
 define(function (require, exports, module) {
 
     module.exports = {
-        'array.formula': '不能更改数组的一部分'
+        'array.formula': '不能更改数组的某一部分'
     };
 });

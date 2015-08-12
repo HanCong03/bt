@@ -6,15 +6,15 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
 
-    module.exports = $$.createClass('CommandConverter', {
+    module.exports = $$.createClass('Command', {
         __$ctx: null,
 
         constructor: function (ctx) {
             this.__$ctx = ctx;
         },
 
-        getArguments: function (command, args) {
-            return command.args_processor.call(command.provider, args);
+        getActiveRange: function () {
+            return this.__$ctx.getAPI().getActiveRange();
         }
     });
 });

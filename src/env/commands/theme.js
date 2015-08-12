@@ -5,24 +5,40 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'theme',
 
-        $query: [
-            'majorfont',
-            'minorfont',
-            'themecolor'
-        ],
+        commands: {
+            majorfont: {
+                query: function () {
+                    return this.$dep.getMajorFont();
+                },
 
-        query_majorfont: function () {
-            return this.$dep.getMajorFont();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_minorfont: function () {
-            return this.$dep.getMinorFont();
-        },
+            minorfont: {
+                query: function () {
+                    return this.$dep.getMinorFont();
+                },
 
-        query_themecolor: function (theme, tint) {
-            return this.$dep.getThemeColor(theme, tint);
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            themecolor: {
+                query: function () {
+                    return this.$dep.getThemeColor();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

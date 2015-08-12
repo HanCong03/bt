@@ -5,195 +5,462 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'style',
 
-        $exec: [
-            'font',
-            'majorfont',
-            'minorfont',
-            'fontsize',
-            'color',
-            'themecolor',
-            'numfmt',
-            'bold',
-            'italic',
-            'underline',
-            'throughline',
-            'fill',
-            'halign',
-            'valign',
-            'wraptext'
-        ],
+        commands: {
+            font: {
+                exec: function (font, start, end) {
+                    this.$dep.setFont(font, start, end);
+                },
 
-        $query: [
-            'font',
-            'fontsize',
-            'color',
-            'numfmt',
-            'bold',
-            'italic',
-            'underline',
-            'throughline',
-            'fill',
-            'halign',
-            'valign',
-            'wraptext',
-            'settedcellstyle',
-            'settedrowstyle',
-            'settedcolumnstyle',
-            'settedglobalstyle',
-            'defaultfonts',
-            'defaultalignments',
-            'fonts',
-            'alignments',
-            'cellfonts',
-            'cellalignments',
-            'styles'
-        ],
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
 
-        exec_font: function (font, start, end) {
-            this.$dep.setFont(font, start, end);
-        },
+                    return args;
+                },
 
-        exec_majorfont: function (start, end) {
-            this.$dep.setFontForMajor(start, end);
-        },
+                query: function (row, col) {
+                    return this.$dep.getFont(row, col);
+                },
 
-        exec_minorfont: function (start, end) {
-            this.$dep.setFontForMinor(start, end);
-        },
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        exec_fontsize: function (fontsize, start, end) {
-            this.$dep.setFontSize(fontsize, start, end);
-        },
+                    return args;
+                }
+            },
 
-        exec_color: function (color, start, end) {
-            this.$dep.setColor(color, start, end);
-        },
+            majorfont: {
+                exec: function (start, end) {
+                    this.$dep.setFontForMajor(start, end);
+                },
 
-        exec_themecolor: function (theme, tint, start, end) {
-            this.$dep.setColorForTheme(theme, tint, start, end);
-        },
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-        exec_numfmt: function (code, start, end) {
-            this.$dep.setNumberFormat(code, start, end);
-        },
+                    return args;
+                }
+            },
 
-        exec_bold: function (start, end) {
-            this.$dep.toggleBold(start, end);
-        },
+            minorfont: {
+                exec: function (start, end) {
+                    this.$dep.setFontForMinor(start, end);
+                },
 
-        exec_italic: function (start, end) {
-            this.$dep.toggleItalic(start, end);
-        },
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
 
-        exec_underline: function (line, start, end) {
-            this.$dep.setUnderline(line, start, end);
-        },
+                    return args;
+                }
+            },
 
-        exec_throughline: function (start, end) {
-            this.$dep.toggleThroughline(start, end);
-        },
+            fontsize: {
+                exec: function (fontsize, start, end) {
+                    this.$dep.setFontSize(fontsize, start, end);
+                },
 
-        exec_fill: function (val, start, end) {
-            this.$dep.setFill(val, start, end);
-        },
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
 
-        exec_halign: function (val, start, end) {
-            this.$dep.setHorizontalAlign(val, start, end);
-        },
+                    return args;
+                },
 
-        exec_valign: function (val, start, end) {
-            this.$dep.setVerticalAlign(val, start, end);
-        },
+                query: function (row, col) {
+                    return this.$dep.getFontSize(row, col);
+                },
 
-        exec_wraptext: function (start, end) {
-            this.$dep.toggleWraptext(start, end);
-        },
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-        query: function (name, args) {
-            switch (name) {
-                case 'font':
-                    return this.$dep.getFont(args[0], args[1]);
-                    break;
+                    return args;
+                }
+            },
 
-                case 'color':
-                    return this.$dep.getColor(args[0], args[1]);
+            color: {
+                exec: function (color, start, end) {
+                    this.$dep.setColor(color, start, end);
+                },
 
-                case 'numfmt':
-                    return this.$dep.getNumberFormat(args[0], args[1]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
 
-                case 'bold':
-                    return this.$dep.isBold(args[0], args[1]);
+                    return args;
+                },
 
-                case 'italic':
-                    return this.$dep.isItalic(args[0], args[1]);
+                query: function (row, col) {
+                    return this.$dep.getColor(row, col);
+                },
 
-                case 'underline':
-                    return this.$dep.getUnderline(args[0], args[1]);
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
 
-                case 'throughline':
-                    return this.$dep.hasThroughline(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'fontsize':
-                    return this.$dep.getFontSize(args[0], args[1]);
+            themecolor: {
+                exec: function (theme, tint, start, end) {
+                    this.$dep.setColorForTheme(theme, tint, start, end);
+                },
 
-                case 'fill':
-                    return this.$dep.getFill(args[0], args[1]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
 
-                case 'halign':
-                    return this.$dep.getHorizontalAlign(args[0], args[1]);
+                    return args;
+                }
+            },
 
-                case 'valign':
-                    return this.$dep.getVerticalAlign(args[0], args[1]);
+            numfmt: {
+                exec: function (code, start, end) {
+                    this.$dep.setNumberFormat(code, start, end);
+                },
 
-                case 'wraptext':
-                    return this.$dep.isWraptext(args[0], args[1]);
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getNumberFormat(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            bold: {
+                exec: function (start, end) {
+                    this.$dep.toggleBold(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.isBold(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            italic: {
+                exec: function (start, end) {
+                    this.$dep.toggleItalic(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.isItalic(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            underline: {
+                exec: function (line, start, end) {
+                    this.$dep.setUnderline(line, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getUnderline(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            throughline: {
+                exec: function (start, end) {
+                    this.$dep.toggleThroughline(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.hasThroughline(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            fill: {
+                exec: function (val, start, end) {
+                    this.$dep.setFill(val, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getFill(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            halign: {
+                exec: function (val, start, end) {
+                    this.$dep.setHorizontalAlign(val, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getHorizontalAlign(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            valign: {
+                exec: function (val, start, end) {
+                    this.$dep.setVerticalAlign(val, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.getVerticalAlign(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            wraptext: {
+                exec: function (start, end) {
+                    this.$dep.toggleWraptext(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                },
+
+                query: function (row, col) {
+                    return this.$dep.isWraptext(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            settedcellstyle: {
+                query: function (styleName, row, col) {
+                    return this.$dep.getSettedCellStyle(styleName, row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                }
+            },
+
+            settedrowstyle: {
+                query: function (styleName, row) {
+                    return this.$dep.getSettedRowStyle(styleName, row);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.entry.row);
+
+                    return args;
+                }
+            },
+
+            settedcolumnstyle: {
+                query: function (styleName, col) {
+                    return this.$dep.getSettedColumnStyle(styleName, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.entry.col);
+
+                    return args;
+                }
+            },
+
+            settedglobalstyle: {
+                query: function (styleName) {
+                    return this.$dep.getSettedGlobalStyle(styleName);
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            defaultfonts: {
+                query: function () {
+                    return this.$dep.getDefaultFonts();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            defaultalignments: {
+                query: function () {
+                    return this.$dep.getDefaultAlignments();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            fonts: {
+                query: function (cells) {
+                    return this.$dep.getFonts(cells);
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            alignments: {
+                query: function (cells) {
+                    return this.$dep.getAlignments(cells);
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            styles: {
+                query: function (cells) {
+                    return this.$dep.getStyles(cells);
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            cellfonts: {
+                query: function (row, col) {
+                    return this.$dep.getCellFonts(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            cellalignments: {
+                query: function (row, col) {
+                    return this.$dep.getCellAlignments(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
             }
-        },
-
-        query_settedcellstyle: function (styleName, row, col) {
-            return this.$dep.getSettedCellStyle(styleName, row, col);
-        },
-
-        query_settedrowstyle: function (styleName, row) {
-            return this.$dep.getSettedRowStyle(styleName, row);
-        },
-
-        query_settedcolumnstyle: function (styleName, col) {
-            return this.$dep.getSettedColumnStyle(styleName, col);
-        },
-
-        query_settedglobalstyle: function (styleName) {
-            return this.$dep.getSettedGlobalStyle(styleName);
-        },
-
-        query_defaultfonts: function () {
-            return this.$dep.getDefaultFonts();
-        },
-
-        query_defaultalignments: function () {
-            return this.$dep.getDefaultAlignments();
-        },
-
-        query_fonts: function (cells) {
-            return this.$dep.getFonts(cells);
-        },
-
-        query_alignments: function (cells) {
-            return this.$dep.getAlignments(cells);
-        },
-
-        query_styles: function (cells) {
-            return this.$dep.getStyles(cells);
-        },
-
-        query_cellfonts: function (row, col) {
-            return this.$dep.getCellFonts(row, col);
-        },
-
-        query_cellalignments: function (row, col) {
-            return this.$dep.getCellAlignments(row, col);
         }
     });
 });

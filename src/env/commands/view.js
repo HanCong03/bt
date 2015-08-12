@@ -5,84 +5,134 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'view',
 
-        $exec: [
-            'gridline',
-            'showgridline',
-            'hidegridline',
+        commands: {
+            gridline: {
+                exec: function () {
+                    this.$dep.toggleGridLine();
+                },
 
-            'header',
-            'showheader',
-            'hideheader',
+                exec_arguments: function (args) {
+                    return args;
+                },
 
-            'pane',
-            'clearpane'
-        ],
+                query: function () {
+                    return this.$dep.gridlineIsVisible();
+                },
 
-        $query: [
-            'gridline',
-            'header',
-            'pane',
-            'hiddenallrow',
-            'hiddenallcolumn'
-        ],
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        /* ------ exec start ---- */
-        // gridline
-        exec_gridline: function () {
-            this.$dep.toggleGridLine();
-        },
+            showgridline: {
+                exec: function () {
+                    this.$dep.setGridLine(true);
+                },
 
-        exec_showgridline: function () {
-            this.$dep.setGridLine(true);
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_hidegridline: function () {
-            this.$dep.setGridLine(false);
-        },
+            hidegridline: {
+                exec: function () {
+                    this.$dep.setGridLine(false);
+                },
 
-        // header
-        exec_header: function () {
-            this.$dep.toggleRowColHeader();
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_showheader: function () {
-            this.$dep.setRowColHeader(true);
-        },
+            header: {
+                exec: function () {
+                    this.$dep.toggleRowColHeader();
+                },
 
-        exec_hideheader: function () {
-            this.$dep.setRowColHeader(false);
-        },
+                exec_arguments: function (args) {
+                    return args;
+                },
 
-        // pane
-        exec_pane: function (start, end) {
-            this.$dep.setPane(start, end);
-        },
+                query: function () {
+                    return this.$dep.headerIsVisible();
+                },
 
-        exec_clearpane: function () {
-            this.$dep.clearPane();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        /* -------- query start -------- */
-        query_gridline: function () {
-            return this.$dep.gridlineIsVisible();
-        },
+            showheader: {
+                exec: function () {
+                    this.$dep.setRowColHeader(true);
+                },
 
-        query_header: function () {
-            return this.$dep.headerIsVisible();
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_pane: function () {
-            return this.$dep.getPane();
-        },
+            hideheader: {
+                exec: function () {
+                    this.$dep.setRowColHeader(false);
+                },
 
-        query_hiddenallrow: function () {
-            return this.$dep.isHideAllRow();
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_hiddenallcolumn: function () {
-            return this.$dep.isHideAllColumn()
+            pane: {
+                exec: function (start, end) {
+                    this.$dep.setPane(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                },
+
+                query: function () {
+                    return this.$dep.getPane();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            clearpane: {
+                exec: function () {
+                    this.$dep.clearPane();
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            hiddenallrow: {
+                query: function () {
+                    return this.$dep.isHideAllRow();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            hiddenallcolumn: {
+                query: function () {
+                    return this.$dep.isHideAllColumn()
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });

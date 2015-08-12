@@ -5,54 +5,108 @@
 
 define(function (require) {
     return require('utils').createClass({
+        base: require('command'),
+
         $dep: 'selection',
 
-        $exec: [
-            'move', 'range', 'addrange', 'uprange', 'downrange', 'updatefocus', 'expandrange', 'updaterange'
-        ],
+        commands: {
+            range: {
+                exec: function (start, end, entry) {
+                    this.$dep.setRange(start, end, entry);
+                },
 
-        $query: [
-            'allrange', 'range'
-        ],
+                exec_arguments: function (args) {
+                    return args;
+                },
 
-        exec_range: function (start, end, entry) {
-            this.$dep.setRange(start, end, entry);
-        },
+                query: function () {
+                    return this.$dep.getActiveRange();
+                },
 
-        exec_addrange: function (start, end, entry) {
-            this.$dep.addRange(start, end, entry);
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_uprange: function () {
-            this.$dep.upRange();
-        },
+            allrange: {
+                query: function () {
+                    return this.$dep.getRanges();
+                },
 
-        exec_downrange: function () {
-            this.$dep.downRange();
-        },
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_updatefocus: function (row, col) {
-            this.$dep.updateFocus(row, col);
-        },
+            addrange: {
+                exec: function (start, end, entry) {
+                    this.$dep.addRange(start, end, entry);
+                },
 
-        exec_move: function (rowCount, colCount) {
-            this.$dep.move(rowCount, colCount);
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        exec_expandrange: function (rowDir, colDir) {
-            this.$dep.expand(rowDir, colDir);
-        },
+            uprange: {
+                exec: function () {
+                    this.$dep.upRange();
+                },
 
-        exec_updaterange: function (start, end, entry) {
-            this.$dep.updateRange(start, end, entry);
-        },
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
 
-        query_range: function () {
-            return this.$dep.getActiveRange();
-        },
+            downrange: {
+                exec: function () {
+                    this.$dep.downRange();
+                },
 
-        query_allrange: function () {
-            return this.$dep.getRanges();
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            updatefocus: {
+                exec: function (row, col) {
+                    this.$dep.updateFocus(row, col);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            move: {
+                exec: function (rowCount, colCount) {
+                    this.$dep.move(rowCount, colCount);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            expandrange: {
+                exec: function (rowDir, colDir) {
+                    this.$dep.expand(rowDir, colDir);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            updaterange: {
+                exec: function (start, end, entry) {
+                    this.$dep.updateRange(start, end, entry);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            }
         }
     });
 });
