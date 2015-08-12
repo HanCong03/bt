@@ -35,6 +35,7 @@ module.exports = function (grunt) {
                         'utils': 'base/utils',
                         'env-module': 'interface/env-module',
                         'module': 'interface/module',
+                        'command': 'interface/command',
                         'component': 'interface/component',
                         'NONE': 'kernel/src/workbook/definition/none',
                         'sheet-component': 'kernel/src/workbook/components/sheet/interface/i-sheet-component',
