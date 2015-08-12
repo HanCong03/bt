@@ -49,6 +49,18 @@ define(function (require, exports, module) {
             return this.__$api.getContentInfo(row, col);
         },
 
+        getFormula: function (row, col) {
+            return this.__$api.getFormula(row, col);
+        },
+
+        getFormulaType: function (row, col) {
+            return this.__$api.getFormulaType(row, col);
+        },
+
+        getFormulaInfo: function (row, col) {
+            return this.__$api.getFormulaInfo(row, col);
+        },
+
         setFormula: function (formulaText, row, col) {
             this.__$api.setFormula(formulaText, row, col);
         },

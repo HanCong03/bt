@@ -154,6 +154,7 @@ define(function (require, exports, module) {
                 if (result) {
                     result.horizontal = this.__getHorizontal(result.type);
                 }
+
                 contents[row][col] = result;
             }
 
@@ -168,7 +169,26 @@ define(function (require, exports, module) {
             }
 
             var numfmt = this.queryCommandValue('numfmt', row, col);
-            return this.rs('numfmt.format', contentInfo.type, contentInfo.value, numfmt);
+            var result = this.rs('numfmt.format', contentInfo.type, contentInfo.value, numfmt);
+
+            // 显示在输入框内的内容
+            result.showText = result.standard;
+
+            var formulaInfo = this.queryCommandValue('formulainfo', row, col);
+
+            if (formulaInfo === null) {
+                return result;
+            }
+
+            result.standard = formulaInfo.value;
+
+            if (formulaInfo.type === 'array') {
+                result.showText = '{' + result.standard + '}';
+            } else {
+                result.showText = result.standard;
+            }
+
+            return result;
         },
 
         __getHorizontal: function (type) {

@@ -49,6 +49,45 @@ define(function (require) {
                 }
             },
 
+            formula: {
+                query: function (row, col) {
+                    return this.$dep.getFormula(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            formulatype: {
+                query: function (row, col) {
+                    return this.$dep.getFormulaType(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
+            formulainfo: {
+                query: function (row, col) {
+                    return this.$dep.getFormulaInfo(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row, range.entry.col];
+
+                    return args;
+                }
+            },
+
             rangecontentinfo: {
                 query: function (start, end) {
                     return this.$dep.getContentInfoByRange(start, end);
