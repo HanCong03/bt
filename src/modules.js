@@ -27,7 +27,8 @@ define(function (require, exports, module) {
             formatBrush: require('./env/format-brush'),
             name: require('./env/name'),
             writable: require('./env/writable'),
-            selection: require('./env/selection')
+            selection: require('./env/selection'),
+            loader: require('./env/loader')
         },
         core: {
             columnWidth: require('./core/column-width'),
