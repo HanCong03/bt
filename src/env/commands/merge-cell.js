@@ -43,6 +43,20 @@ define(function (require) {
                 }
             },
 
+            // 横向合并单元格
+            horizontalmergecell: {
+                exec: function (start, end) {
+                    this.$dep.horizontalMergeCell(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
             unmergecell: {
                 exec: function (start, end) {
                     this.$dep.unmergeCell(start, end);

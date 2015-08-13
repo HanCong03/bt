@@ -66,6 +66,16 @@ define(function (require, exports, module) {
             this.__$api.setStyle('underline', line, start, end);
         },
 
+        toggleUnderline: function (line, start, end) {
+            var underline = this.getUnderline(start.row, start.col);
+
+            if (underline === line) {
+                this.__$api.unsetStyle('underline', start, end);
+            } else {
+                this.__$api.setStyle('underline', line, start, end);
+            }
+        },
+
         getUnderline: function (row, col) {
             var underline = this.__$api.getStyle('underline', row, col);
 

@@ -217,6 +217,19 @@ define(function (require) {
                 }
             },
 
+            toggleunderline: {
+                exec: function (line, start, end) {
+                    this.$dep.toggleUnderline(line, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                }
+            },
+
             throughline: {
                 exec: function (start, end) {
                     this.$dep.toggleThroughline(start, end);
