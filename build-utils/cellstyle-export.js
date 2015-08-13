@@ -83,7 +83,7 @@ function start(xml) {
 
     var cellStyles = xml.cellStyles[0].cellStyle;
 
-    cellStyles.forEach(function (item, index) {
+    cellStyles.forEach(function (item) {
         processItem(item.$);
     });
 
@@ -107,11 +107,11 @@ function parseNumberFormat(numfmts) {
 function processItem(item) {
     CellStyles[item.builtinId] = {
         name: item.name,
-        format: processStyles(item.xfId)
+        format: processStyles(item.xfId, item.name)
     };
 }
 
-function processStyles(xfid) {
+function processStyles(xfid, name) {
     var result = {};
     var styles = XFSTYLES[xfid].$;
 
@@ -183,6 +183,7 @@ function processFontColor(id) {
     var fonts = FONTS[id];
 
     if (fonts.color[0].$.theme) {
+        //console.log(fonts.color[0].$.theme, id)
         return {
             theme: +fonts.color[0].$.theme,
             tint: fonts.color[0].$.tint ? +fonts.color[0].$.tint : 0
@@ -217,14 +218,14 @@ function processFill(result, id) {
                 value: '#' + fgColor.rgb.substring(2)
             }
         };
+    } else {
+        result.fills = {
+            fill: {
+                theme: +fgColor.theme,
+                tint: fgColor.tint ? +fgColor.tint : 0
+            }
+        };
     }
-
-    result.fills = {
-        fill: {
-            theme: +fgColor.theme,
-            tint: fgColor.tint ? +fgColor.tint : 0
-        }
-    };
 }
 
 
