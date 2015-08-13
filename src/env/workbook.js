@@ -29,6 +29,10 @@ define(function (require, exports, module) {
             return this.__$api.getSheetNames();
         },
 
+        getBuiltinCellStyles: function () {
+            return this.__$api.getBuiltinCellStyles();
+        },
+
         switchSheet: function (index) {
             return this.__$api.switchSheet(index);
         }

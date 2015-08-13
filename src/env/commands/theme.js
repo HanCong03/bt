@@ -31,8 +31,8 @@ define(function (require) {
             },
 
             themecolor: {
-                query: function () {
-                    return this.$dep.getThemeColor();
+                query: function (theme, tint) {
+                    return this.$dep.getThemeColor(theme, tint);
                 },
 
                 query_arguments: function (args) {

@@ -58,6 +58,16 @@ define(function (require) {
                 query_arguments: function (args) {
                     return args;
                 }
+            },
+
+            builtincellstyles: {
+                query: function () {
+                    return this.$dep.getBuiltinCellStyles();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
             }
         }
     });
