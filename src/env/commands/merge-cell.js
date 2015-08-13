@@ -56,6 +56,19 @@ define(function (require) {
                 }
             },
 
+            centermergecell: {
+                exec: function (start, end) {
+                    this.$dep.centerMergeCell(start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start, range.end];
+
+                    return args;
+                }
+            },
+
             togglemergecell: {
                 exec: function (start, end) {
                     this.$dep.toggleMergeCell(start, end);

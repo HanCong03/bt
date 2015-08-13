@@ -25,6 +25,10 @@ define(function (require, exports, module) {
             this.__$api.toggleMergeCell(start, end);
         },
 
+        centerMergeCell: function (start, end) {
+            this.__$api.centerMergeCell(start, end);
+        },
+
         getMergeCells: function (start, end) {
             return this.__$api.getMergeCells(start, end);
         },
