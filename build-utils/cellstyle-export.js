@@ -187,9 +187,11 @@ function processFontColor(id) {
             theme: +fonts.color[0].$.theme,
             tint: fonts.color[0].$.tint ? +fonts.color[0].$.tint : 0
         };
+    } else {
+        return {
+            value: '#' + fonts.color[0].$.rgb.substring(2)
+        }
     }
-
-    return '#' + fonts.color[0].$.rgb.substring(2);
 }
 
 function processBold(id) {
