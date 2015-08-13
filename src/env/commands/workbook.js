@@ -20,6 +20,16 @@ define(function (require) {
                 }
             },
 
+            renamesheet: {
+                exec: function (sheetName, index) {
+                    return this.$dep.renameSheet(sheetName, index);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
             switchsheet: {
                 exec: function (index) {
                     return this.$dep.switchSheet(index);

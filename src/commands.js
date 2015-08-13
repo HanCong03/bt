@@ -37,7 +37,8 @@ define(function (require, exports, module) {
             hyperlink: require('./core/commands/hyperlink')
         },
         system: {
-            outerinput: require('./system/commands/outerinput')
+            outerinput: require('./system/commands/outerinput'),
+            focus: require('./system/commands/focus')
         },
         ext: {}
     };

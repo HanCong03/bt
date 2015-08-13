@@ -26,7 +26,8 @@ define(function (require, exports, module) {
                 'sheetswitch': this.__onsheetswitch,
                 'workbookreday': this.__onworkbookready,
                 'sheetschange': this.__onsheetschange,
-                'rangechange': this.__onrangechange
+                'rangechange': this.__onrangechange,
+                'loaded': this.__onloaded
             });
         },
 
@@ -61,6 +62,10 @@ define(function (require, exports, module) {
 
         __onrangechange: function () {
             this.__$ctx.emitAll('rangechange');
+        },
+
+        __onloaded: function () {
+            this.__$ctx.emitAll('loaded');
         },
 
         getAPI: function () {

@@ -49,6 +49,10 @@
             btable.execCommand('bindinput', $("#outerInput")[0]);
             window.btable = btable;
 
+            btable.on('loaded', function () {
+                console.log('loaded')
+            });
+
             btable.onError(function (key, msg) {
                 console.log(key, msg)
             });

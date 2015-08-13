@@ -21,6 +21,10 @@ define(function (require, exports, module) {
             return this.__$api.addSheet(sheetName);
         },
 
+        renameSheet: function (sheetName, index) {
+            return this.__$api.renameSheet(sheetName, index);
+        },
+
         getSheetNames: function () {
             return this.__$api.getSheetNames();
         },
