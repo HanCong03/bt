@@ -17,7 +17,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -64,7 +64,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -88,7 +88,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -112,7 +112,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -136,7 +136,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -160,7 +160,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -184,7 +184,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
@@ -208,7 +208,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    args.push(range.start, range.end);
 
                     return args;
                 },
