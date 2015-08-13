@@ -265,7 +265,7 @@ define(function (require) {
                 }
             },
 
-            halign: {
+            horizontal: {
                 exec: function (val, start, end) {
                     this.$dep.setHorizontalAlign(val, start, end);
                 },
@@ -289,7 +289,7 @@ define(function (require) {
                 }
             },
 
-            valign: {
+            vertical: {
                 exec: function (val, start, end) {
                     this.$dep.setVerticalAlign(val, start, end);
                 },
