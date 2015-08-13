@@ -70,7 +70,8 @@ define(function (require, exports, module) {
 
         __initMessage: function () {
             this.onMessage({
-                'control.input.inactive': this.__reset
+                'control.input.inactive': this.__reset,
+                'input.contentchange': this.__onContentChange
             });
         },
 
@@ -114,6 +115,10 @@ define(function (require, exports, module) {
             if (this.inputNode) {
                 this.__resetContent();
             }
+        },
+
+        __onContentChange: function (content) {
+            this.inputWrapper.setHTML(content);
         },
 
         __focus: function () {

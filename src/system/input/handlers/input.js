@@ -12,6 +12,9 @@ define(function (require, exports, module) {
             var rect = this.__calculateContentRect(content);
 
             this.__relocation(rect);
+
+            // 发送内容改变消息
+            this.postMessage('input.contentchange', content);
         },
 
         __write: function (isCSEMode) {
