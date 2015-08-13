@@ -1,5 +1,5 @@
 /**
- * @file 控制模块
+ * @file 输入控制组件
  * @author hancong03@baiud.com
  */
 
@@ -7,12 +7,14 @@
 define(function (require, exports, module) {
     var $$ = require('utils');
     var FACE_THEME = require('definition/face-theme');
+    var InputWrapper = require('common/input-wrapper');
 
     module.exports = $$.createClass('Control', {
         base: require('module'),
 
-        inputWrap: null,
+        inputOuterBox: null,
         inputNode: null,
+        inputWrapper: null,
 
         __focusStatus: false,
 
@@ -37,15 +39,17 @@ define(function (require, exports, module) {
         },
 
         __initInput: function () {
-            this.inputWrap = document.createElement('div');
-            this.inputWrap.className = 'btb-input-wrap';
+            this.inputOuterBox = document.createElement('div');
+            this.inputOuterBox.className = 'btb-input-wrap';
 
-            this.inputWrap.style.borderColor = FACE_THEME.color;
+            this.inputOuterBox.style.borderColor = FACE_THEME.color;
 
-            this.inputWrap.innerHTML = '<div contenteditable="true" spellcheck="false" class="btb-input"></div>';
-            this.inputNode = $('.btb-input', this.inputWrap)[0];
+            this.inputOuterBox.innerHTML = '<div contenteditable="true" spellcheck="false" class="btb-input"></div>';
+            this.inputNode = $('.btb-input', this.inputOuterBox)[0];
 
-            this.getTopContainer().appendChild(this.inputWrap);
+            this.inputWrapper = new InputWrapper(this.inputNode);
+
+            this.getTopContainer().appendChild(this.inputOuterBox);
 
             this.inputNode.focus();
         },
@@ -81,13 +85,15 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-                'write.cotnent': this.__write
+                'write.content': this.__write,
+                'active.input': this.mouseActive,
+                'sync.outer.content': this.__syncOuterContent
             });
         },
 
         __refresh: function () {
             var visualData = this.rs('get.visual.data');
-            this.inputWrap.style.transform = 'translate(' + visualData.headWidth + 'px, ' + visualData.headHeight + 'px)';
+            this.inputOuterBox.style.transform = 'translate(' + visualData.headWidth + 'px, ' + visualData.headHeight + 'px)';
 
             this.visualData = visualData;
         },
@@ -112,14 +118,15 @@ define(function (require, exports, module) {
         __focus: function () {
             this.__focusStatus = true;
 
-            var docSelection = window.getSelection();
-            var range = document.createRange();
-
-            range.selectNode(this.inputNode.firstChild.firstChild);
-            range.collapse(true);
-
-            docSelection.removeAllRanges();
-            docSelection.addRange(range);
+            //var docSelection = window.getSelection();
+            //var range = document.createRange();
+            //
+            //range.selectNode(this.inputNode.firstChild);
+            //range.collapse(true);
+            //
+            //docSelection.removeAllRanges();
+            //docSelection.addRange(range);
+            this.inputWrapper.focus();
         },
 
         /**

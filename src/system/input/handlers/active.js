@@ -32,7 +32,7 @@ define(function (require, exports, module) {
             this.__baseLocation = null;
 
             // 移除活动样式
-            $(this.inputWrap).removeClass('btb-active');
+            $(this.inputOuterBox).removeClass('btb-active');
         },
 
         __activeNormalCell: function (row, col) {
@@ -73,7 +73,7 @@ define(function (require, exports, module) {
             this.__relocation(rect);
 
             // 挂上激活样式
-            $(this.inputWrap).addClass('btb-active');
+            $(this.inputOuterBox).addClass('btb-active');
         },
 
         __activeMergeCell: function (mergeInfo) {
@@ -109,7 +109,7 @@ define(function (require, exports, module) {
             this.__relocation(rect);
 
             // 挂上激活样式
-            $(this.inputWrap).addClass('btb-active');
+            $(this.inputOuterBox).addClass('btb-active');
         },
 
         __applyStyle: function (fonts, alignments) {
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
         },
 
         __relocation: function (rect) {
-            $(this.inputWrap).css({
+            $(this.inputOuterBox).css({
                 top: rect.y - 2,
                 left: rect.x - 2
             });

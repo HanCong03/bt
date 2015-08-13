@@ -47,6 +47,12 @@ define(function (require, exports, module) {
             return true;
         },
 
+        __exit: function () {
+            this.__reset();
+            // 发送退出消息
+            this.postMessage('control.input.inactive');
+        },
+
         __initEvent: function () {
             this.on({
                 'refresh': this.__refresh
@@ -60,7 +66,7 @@ define(function (require, exports, module) {
 
         __sync: function (isCSEMode) {
             // 主动请求执行写入
-            var result = this.rs('write.cotnent', isCSEMode);
+            var result = this.rs('write.content', isCSEMode);
 
             if (result) {
                 // 更改同步状态

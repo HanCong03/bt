@@ -53,7 +53,8 @@ define(function (require, exports, module) {
             scrollbar: require('./system/scrollbar/scrollbar'),
             header: require('./system/header/header'),
             comment: require('./system/comment/comment'),
-            hyperlink: require('./system/hyperlink/hyperlink')
+            hyperlink: require('./system/hyperlink/hyperlink'),
+            outerinput: require('./system/outerinput')
         },
         ext: {}
     };

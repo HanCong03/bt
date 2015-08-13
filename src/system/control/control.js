@@ -39,6 +39,7 @@ define(function (require, exports, module) {
             this.__initMask();
 
             this.__initMessage();
+            this.__initService();
         },
 
         __initMode: function () {
@@ -58,7 +59,15 @@ define(function (require, exports, module) {
         __initMessage: function () {
             this.onMessage({
                 'depute.input.control': this.__addInput,
-                'control.free': this.__freeControl
+                'control.free': this.__freeControl,
+                'outer.start': this.__onOuterFocus,
+                'outer.exit': this.__onOuterExit
+            });
+        },
+
+        __initService: function () {
+            this.registerService({
+                'control.is.selection.mode': this.__isSelectionMode
             });
         },
 
@@ -71,6 +80,10 @@ define(function (require, exports, module) {
             this.mask.setListener(function (type, evt) {
                 _self.__filter(type, evt);
             });
+        },
+
+        __isSelectionMode: function () {
+            return this.mode === MODE.SELECTION;
         },
 
         __filter: function (type, evt) {
@@ -90,6 +103,29 @@ define(function (require, exports, module) {
             if (this.controllers[this.mode][handlerName]) {
                 this.controllers[this.mode][handlerName](evt);
             }
+        },
+
+        __onOuterFocus: function (row, col) {
+            if (this.mode !== MODE.SELECTION) {
+                return;
+            }
+
+            var controlers = this.controllers;
+
+            // 通知selection控制器退出。
+            controlers[MODE.SELECTION].exit();
+            // 切换模式
+            this.mode = MODE.WRITE;
+            // 通知write控制器激活方式：通过鼠标激活
+            controlers[MODE.WRITE].mouseActive(row, col);
+        },
+
+        __onOuterExit: function () {
+            var controllers = this.controllers;
+
+            controllers[MODE.WRITE].__exit();
+            // 切换到选区模式
+            this.mode = MODE.SELECTION;
         },
 
         __addInput: function (inputNode) {

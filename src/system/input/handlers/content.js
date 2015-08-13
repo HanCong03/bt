@@ -15,15 +15,9 @@ define(function (require, exports, module) {
                 return;
             }
 
-            var userContent = standardContent.split(/\n/g);
+            this.inputWrapper.setContent(standardContent);
 
-            for (var i = 0, len = userContent.length; i < len; i++) {
-                userContent[i] = '<div>' + (userContent[i] || '<br/>') + '</div>';
-            }
-
-            userContent = userContent.join('');
-
-            this.inputNode.innerHTML = userContent;
+            var userContent = standardContent.split(/\n/).join('<br/>\uFEFF');
 
             // 根据内容获取大小
             var rect = this.__calculateContentRect(userContent);
@@ -31,12 +25,20 @@ define(function (require, exports, module) {
             this.__relocation(rect);
         },
 
+        __syncOuterContent: function (content) {
+            this.inputWrapper.setHTML(content);
+
+            var rect = this.__calculateContentRect(content);
+
+            this.__relocation(rect);
+        },
+
         __resetUserContent: function () {
-            this.inputNode.innerHTML = '<div><br/></div>';
+            this.inputWrapper.reset();
         },
 
         __getUserContent: function () {
-            return parseContent(this.inputNode);
+            return this.inputWrapper.getContent();
         },
 
         /**
@@ -44,25 +46,24 @@ define(function (require, exports, module) {
          * @private
          */
         __newLine: function () {
+            //var docSelection = window.getSelection();
+            //var range = docSelection.getRangeAt(0);
+            //var placeholder = document.createTextNode('\uFEFF');
+            //var brNode = document.createElement('br');
+            //
+            //range = range.cloneRange();
+            //
+            //range.deleteContents();
+            //range.insertNode(placeholder);
+            //range.insertNode(brNode);
+            //range.selectNode(placeholder);
+            //range.collapse(false);
+            //
+            //docSelection.removeAllRanges();
+            //docSelection.addRange(range);
+            this.inputWrapper.newLine();
+
             this.__input();
         }
     };
-
-    function parseContent(node) {
-        var childs = node.childNodes;
-        var current;
-        var contents = [];
-
-        for (var i = 0, len = childs.length; i < len; i++) {
-            current = childs[i];
-
-            if (current.nodeType === 3) {
-                contents.push(current.data);
-            } else if (current.nodeType === 1) {
-                contents.push(current.innerText);
-            }
-        }
-
-        return contents.join('\uFEFF').replace(/\n/g, '').split('\uFEFF').join('\n');
-    }
 });

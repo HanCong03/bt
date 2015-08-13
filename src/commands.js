@@ -36,7 +36,9 @@ define(function (require, exports, module) {
             selection: require('./core/commands/selection'),
             hyperlink: require('./core/commands/hyperlink')
         },
-        system: {},
+        system: {
+            outerinput: require('./system/commands/outerinput')
+        },
         ext: {}
     };
 });
