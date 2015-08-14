@@ -86,6 +86,19 @@ define(function (require) {
                 }
             },
 
+            filldetail: {
+                query: function (row, col) {
+                    return this.$dep.getFill(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
             isminor: {
                 query: function (row, col) {
                     return this.$dep.isMinor(row, col);
@@ -345,7 +358,13 @@ define(function (require) {
                 },
 
                 query: function (row, col) {
-                    return this.$dep.getFill(row, col);
+                    var result = this.$dep.getFill(row, col);
+
+                    if (result) {
+                        return result.value;
+                    }
+
+                    return null;
                 },
 
                 query_arguments: function (args) {

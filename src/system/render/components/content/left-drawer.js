@@ -98,15 +98,23 @@ define(function (require, exports, module) {
 
             var offset = rect.y;
             var underline = cellInfo.fonts.underline;
+            var throughline = cellInfo.fonts.throughline;
             var textWidth;
 
             for (var i = 0, len = contents.length; i < len; i++) {
                 screen.fillText(contents[i], rect.x, offset);
                 offset += fontSize;
 
-                if (underline) {
+                if (underline || throughline) {
                     textWidth = screen.measureText(contents[i]).width;
-                    this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+
+                    if (underline) {
+                        this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+                    }
+
+                    if (throughline) {
+                        this.__drawThroughline(screen, cellInfo.fonts.size, rect.x, offset - fontSize / 2, textWidth);
+                    }
                 }
             }
         },
@@ -119,14 +127,22 @@ define(function (require, exports, module) {
 
             var offset = rect.height + rect.y;
             var underline = cellInfo.fonts.underline;
+            var throughline = cellInfo.fonts.throughline;
             var textWidth;
 
             for (var i = contents.length - 1; i >= 0; i--) {
                 screen.fillText(contents[i], rect.x, offset);
 
-                if (underline) {
+                if (underline || throughline) {
                     textWidth = screen.measureText(contents[i]).width;
-                    this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+
+                    if (underline) {
+                        this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+                    }
+
+                    if (throughline) {
+                        this.__drawThroughline(screen, cellInfo.fonts.size, rect.x, offset - fontSize / 2, textWidth);
+                    }
                 }
 
                 offset -= fontSize;
@@ -141,15 +157,23 @@ define(function (require, exports, module) {
 
             var offset = rect.y + (rect.height - fontSize * contents.length) / 2;
             var underline = cellInfo.fonts.underline;
+            var throughline = cellInfo.fonts.throughline;
             var textWidth;
 
             for (var i = 0, len = contents.length; i < len; i++) {
                 screen.fillText(contents[i], rect.x, offset + fontSize / 2);
                 offset += fontSize;
 
-                if (underline) {
+                if (underline || throughline) {
                     textWidth = screen.measureText(contents[i]).width;
-                    this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+
+                    if (underline) {
+                        this.__drawUnderline(screen, cellInfo.fonts.size, rect.x, offset, underline, textWidth);
+                    }
+
+                    if (throughline) {
+                        this.__drawThroughline(screen, cellInfo.fonts.size, rect.x, offset - fontSize / 2, textWidth);
+                    }
                 }
             }
         },
@@ -174,6 +198,22 @@ define(function (require, exports, module) {
                 screen.fillRect(x, y - LINE_WIDTH, width, LINE_WIDTH);
                 screen.fillRect(x, y - 3 * LINE_WIDTH, width, LINE_WIDTH);
             }
+        },
+
+        __drawThroughline: function (screen, fontSize, x, y, width) {
+            var LINE_WIDTH = WIDTH;
+            // 缩放因子为29像素
+            var scale = 29;
+
+            if (fontSize >= 40) {
+                LINE_WIDTH += Math.floor((fontSize - 40) * 4 / 3 / scale) * WIDTH + WIDTH;
+            }
+
+            x |= 0;
+            y |= 0;
+            width |= 0;
+
+            screen.fillRect(x, y - LINE_WIDTH, width, LINE_WIDTH);
         }
     };
 });

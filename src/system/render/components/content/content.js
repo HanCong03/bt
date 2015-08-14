@@ -402,10 +402,6 @@ define(function (require, exports, module) {
             var screen = this.contentScreen;
             screen.fillColor(cellInfo.contentInfo.color || cellInfo.fonts.color.value);
 
-            //if (!textAlign) {
-            //    textAlign = this.queryCommandValue('typehorizontal', cellInfo.row, cellInfo.col);
-            //}
-
             switch (textAlign) {
                 case 'left':
                     LeftDrawer.drawNormalCell(screen, cellInfo, rect);
@@ -428,12 +424,6 @@ define(function (require, exports, module) {
             var textAlign = cellInfo.alignments.horizontal || cellInfo.contentInfo.horizontal;
             var screen = this.contentScreen;
             screen.fillColor(cellInfo.fonts.color.value);
-
-            //var mergeStart = cellInfo.mergecell.start;
-
-            //if (textAlign === NONE) {
-            //    textAlign = this.queryCommandValue('typehorizontal', mergeStart.row, mergeStart.col);
-            //}
 
             switch (textAlign) {
                 case 'left':
