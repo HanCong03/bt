@@ -122,6 +122,7 @@ define(function (require, exports, module) {
 
             for (var i = 0, len = contents.length; i < len; i++) {
                 screen.fillText(contents[i], x, offset  + fontSize / 2);
+                offset += fontSize;
 
                 if (underline || throughline) {
                     textWidth = screen.measureText(contents[i]).width;
@@ -134,8 +135,6 @@ define(function (require, exports, module) {
                         this.__drawThroughline(screen, cellInfo.fonts.size, x, offset - fontSize / 2, textWidth);
                     }
                 }
-
-                offset += fontSize;
             }
         },
 
