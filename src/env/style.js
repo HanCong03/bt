@@ -91,6 +91,10 @@ define(function (require, exports, module) {
             }
         },
 
+        unsetStyle: function (styleName, start, end) {
+            this.__$api.unsetStyle(styleName, start, end);
+        },
+
         getUnderline: function (row, col) {
             var underline = this.__$api.getStyle('underline', row, col);
 

@@ -34,6 +34,19 @@ define(function (require) {
                 }
             },
 
+            unsetstyle: {
+                exec: function (styleName, start, end) {
+                    this.$dep.unsetStyle(styleName, start, end);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start, range.end);
+
+                    return args;
+                }
+            },
+
             ismajor: {
                 query: function (row, col) {
                     return this.$dep.isMajor(row, col);

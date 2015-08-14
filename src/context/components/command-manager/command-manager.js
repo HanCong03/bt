@@ -82,17 +82,35 @@ define(function (require, exports, module) {
 
         // 匿名调用(外部调用)
         anonymousExecCommand: function (commandName) {
-            var command = this.__lookupExecCommand('ext', commandName);
-
-            if (!command) {
-                throw new Error('command is not found: ' + commandName);
-            }
-
-            var args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
+            var command;
+            var args;
+            var result = [];
 
             this.lock();
 
-            var result = command.command.apply(command.provider, args);
+            if (typeof commandName !== 'string') {
+                for (var i = 0, len = commandName.length; i < len; i++) {
+                    command = this.__lookupExecCommand('ext', commandName[i].command);
+
+                    if (!command) {
+                        throw new Error('command is not found: ' + commandName[i].command);
+                    }
+
+                    args = this.__converter.getArguments(command, commandName[i].args);
+
+                    result[i] = command.command.apply(command.provider, args);
+                }
+            } else {
+                command = this.__lookupExecCommand('ext', commandName);
+
+                if (!command) {
+                    throw new Error('command is not found: ' + commandName);
+                }
+
+                args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
+
+                result = command.command.apply(command.provider, args);
+            }
 
             this.unlock();
 
