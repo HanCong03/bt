@@ -36,12 +36,27 @@ define(function (require, exports, module) {
 
         getFont: function (row, col) {
             var font = this.__$api.getStyle('name', row, col);
+            return font.value;
+        },
 
-            if (typeof font === 'object') {
-                return font.value;
-            }
+        getFontDetail: function (row, col) {
+            return this.__$api.getFontDetail(row, col);
+        },
 
-            return font;
+        getColorDetail: function (row, col) {
+            return this.__$api.getColorDetail(row, col);
+        },
+
+        isMajor: function (row, col) {
+            return this.__$api.isMajor(row, col);
+        },
+
+        isMinor: function (row, col) {
+            return this.__$api.isMinor(row, col);
+        },
+
+        isThemeColor: function (row, col) {
+            return this.__$api.isThemeColor(row, col);
         },
 
         isBold: function (row, col) {

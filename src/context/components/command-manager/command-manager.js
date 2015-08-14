@@ -114,15 +114,39 @@ define(function (require, exports, module) {
         },
 
         anonymousQueryCommandValue: function (commandName) {
-            var command = this.__lookupQueryCommand('ext', commandName);
+            var result = {};
+            var args;
+            var command;
 
-            if (!command) {
-                throw new Error('command is not found: ' + commandName);
+            if (typeof commandName !== 'string') {
+                for (var key in commandName) {
+                    if (!commandName.hasOwnProperty(key)) {
+                        continue;
+                    }
+
+                    command = this.__lookupQueryCommand('ext', key);
+
+                    if (!command) {
+                        throw new Error('command is not found: ' + key);
+                    }
+
+                    args = this.__converter.getArguments(command, commandName[key] || []);
+
+                    result[key] = command.command.apply(command.provider, args);
+                }
+
+                return result;
+            } else {
+                command = this.__lookupQueryCommand('ext', commandName);
+
+                if (!command) {
+                    throw new Error('command is not found: ' + commandName);
+                }
+
+                args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
+
+                return command.command.apply(command.provider, args);
             }
-
-            var args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
-
-            return command.command.apply(command.provider, args);
         },
 
         registerExecCommand: function (name, provider, handler) {

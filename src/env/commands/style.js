@@ -34,6 +34,71 @@ define(function (require) {
                 }
             },
 
+            ismajor: {
+                query: function (row, col) {
+                    return this.$dep.isMajor(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
+            fontdetail: {
+                query: function (row, col) {
+                    return this.$dep.getFontDetail(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
+            colordetail: {
+                query: function (row, col) {
+                    return this.$dep.getColorDetail(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
+            isminor: {
+                query: function (row, col) {
+                    return this.$dep.isMinor(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
+            isthemecolor: {
+                query: function (row, col) {
+                    return this.$dep.isThemeColor(row, col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.start.row, range.start.col];
+
+                    return args;
+                }
+            },
+
             majorfont: {
                 exec: function (start, end) {
                     this.$dep.setFontForMajor(start, end);
