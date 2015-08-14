@@ -14,6 +14,10 @@ define(function (require, exports, module) {
         },
 
         getArguments: function (command, args) {
+            if (!command.args_processor) {
+                return args;
+            }
+
             return command.args_processor.call(command.provider, args);
         }
     });

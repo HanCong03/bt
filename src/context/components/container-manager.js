@@ -56,6 +56,30 @@ define(function (require, exports, module) {
             this.contentContainer.style.height = this.__contentSize.height + 'px';
         },
 
+        resize: function () {
+            var width = this.__rootNode.clientWidth;
+            var height = this.__rootNode.clientHeight;
+
+            width = Math.max(300, width);
+            height = Math.max(300, height);
+
+            this.__size = {
+                width: width,
+                height: height
+            };
+
+            this.__contentSize = {
+                width: width - SCROLLBAR_SIZE,
+                height: height - SCROLLBAR_SIZE
+            };
+
+            this.contentContainer.style.width = this.__contentSize.width + 'px';
+            this.contentContainer.style.height = this.__contentSize.height + 'px';
+
+            this.__$ctx.emitAll('resize');
+            this.__$ctx.emitAll('datachange');
+        },
+
         getShadowContainer: function () {
             return this.shadowContainer;
         },

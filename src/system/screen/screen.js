@@ -57,6 +57,14 @@ define(function (require, exports, module) {
             this.__update(this.invisibleCanvas, this.width, this.height, this.zoom);
         },
 
+        resize: function (width, height) {
+            this.width = width;
+            this.height = height;
+
+            this.__update(this.visibleCanvas, this.width, this.height, this.zoom);
+            this.__update(this.invisibleCanvas, this.width, this.height, this.zoom);
+        },
+
         setCompositeOperation: function (type) {
             this.invisibleCtx.globalCompositeOperation = type;
         },

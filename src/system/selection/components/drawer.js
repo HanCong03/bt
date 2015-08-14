@@ -31,7 +31,8 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'devicezoomchange': this.__resetZoom
+                'devicezoomchange': this.__resetZoom,
+                'resize': this.__resize
             });
         },
 
@@ -39,6 +40,12 @@ define(function (require, exports, module) {
             var zoom = this.getDeviceZoom();
 
             this.screen.resetZoom(zoom);
+        },
+
+        __resize: function () {
+            var size = this.getContentContainerSize();
+
+            this.screen.resize(size.width, size.height);
         },
 
         draw: function () {

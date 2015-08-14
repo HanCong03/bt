@@ -125,6 +125,16 @@ define(function (require, exports, module) {
             return command.command.apply(command.provider, args);
         },
 
+        registerExecCommand: function (name, provider, handler) {
+            var pool = this.__$commands.exec['ext'];
+
+            pool[name] = {
+                provider: provider,
+                command: handler,
+                args_processor: null
+            };
+        },
+
         __scan: function (type) {
             var commands = COMMANDS[type];
 

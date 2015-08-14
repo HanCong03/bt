@@ -50,8 +50,15 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'refresh': this.__refresh,
-                'devicezoomchange': this.__resetZoom
+                'devicezoomchange': this.__resetZoom,
+                'resize': this.__resize
             });
+        },
+
+        __resize: function () {
+            var size = this.getContentContainerSize();
+            this.bgScreen.resize(size.width, size.height);
+            this.lineScreen.resize(size.width, size.height);
         },
 
         __resetZoom: function () {

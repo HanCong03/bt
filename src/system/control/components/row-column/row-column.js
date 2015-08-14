@@ -43,8 +43,14 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'devicezoomchange': this.__resetZoom
+                'devicezoomchange': this.__resetZoom,
+                'resize': this.__resize
             })
+        },
+
+        __resize: function () {
+            var size = this.getContentContainerSize();
+            this.screen.resize(size.width, size.height);
         },
 
         __resetZoom: function () {

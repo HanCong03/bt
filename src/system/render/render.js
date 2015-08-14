@@ -40,7 +40,8 @@ define(function (require, exports, module) {
         __initEvent: function () {
             this.on({
                 'refresh': this.refresh,
-                'devicezoomchange': this.__resetZoom
+                'devicezoomchange': this.__resetZoom,
+                'resize': this.__resize
             });
         },
 
@@ -74,6 +75,15 @@ define(function (require, exports, module) {
             this.contentScreen.resetZoom(zoom);
             this.borderScreen.resetZoom(zoom);
             this.paneScreen.resetZoom(zoom);
+        },
+
+        __resize: function () {
+            var size = this.getContentContainerSize();
+
+            this.gridlineScreen.resize(size.width, size.height);
+            this.contentScreen.resize(size.width, size.height);
+            this.borderScreen.resize(size.width, size.height);
+            this.paneScreen.resize(size.width, size.height);
         },
 
         __pause: function () {

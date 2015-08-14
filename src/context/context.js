@@ -54,13 +54,22 @@ define(function (require, exports, module) {
         },
 
         __ready: function () {
+            this.__registerInternalCommand();
             this.__$workbook.ready();
             this.emitAll('ready');
+        },
+
+        __registerInternalCommand: function () {
+            this.__$components.commandManager.registerExecCommand('resize', this, this.resize);
         },
 
         emitAll: function (name) {
             var eventManager = this.__$components.eventManager;
             eventManager.emitAll.apply(eventManager, arguments);
+        },
+
+        resize: function () {
+            this.__$components.containerManager.resize();
         },
 
         getRootNode: function () {
