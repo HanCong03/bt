@@ -26,12 +26,7 @@ define(function (require, exports, module) {
         },
 
         execCommand: function (commandName) {
-            var result;
-            console.time(commandName)
-            result = this.__$ctx.execCommand.apply(this.__$ctx, arguments);
-            console.timeEnd(commandName);
-
-            return result;
+            return this.__$ctx.execCommand.apply(this.__$ctx, arguments);
         },
 
         queryCommandValue: function () {
