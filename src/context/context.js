@@ -10,6 +10,7 @@ define(function (require, exports, module) {
     var EventManager = require('./components/event-manager');
     var ContainerManager = require('./components/container-manager');
     var CommandManager = require('./components/command-manager/command-manager');
+    var DeviceManager = require('./components/device-manager');
     var ErrorManager = require('./components/error');
 
     var Workbook = require('./workbook/workbook');
@@ -38,6 +39,7 @@ define(function (require, exports, module) {
                 messageManager: new MessageMaanager(this),
                 eventManager: new EventManager(this),
                 commandManager: new CommandManager(this),
+                deviceManager: new DeviceManager(this),
                 error: new ErrorManager(this)
             };
         },
@@ -141,6 +143,10 @@ define(function (require, exports, module) {
             return commandManager.anonymousQueryCommandValue.apply(commandManager, arguments);
         },
         /* --- 命令 end --- */
+
+        getDeviceZoom: function () {
+            return this.__$components.deviceManager.getDeviceZoom();
+        },
 
         getShadowContainer: function () {
             return this.__$components.containerManager.getShadowContainer();

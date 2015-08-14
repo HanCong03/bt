@@ -21,11 +21,24 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initScreen();
+            this.__initEvent();
         },
 
         __initScreen: function () {
             var size = this.getContentContainerSize();
-            this.screen = new Screen('btb-sel-screen', this.getMiddleContainer(), size.width, size.height);
+            this.screen = new Screen(this.getDeviceZoom(), 'btb-sel-screen', this.getMiddleContainer(), size.width, size.height);
+        },
+
+        __initEvent: function () {
+            this.on({
+                'devicezoomchange': this.__resetZoom
+            });
+        },
+
+        __resetZoom: function () {
+            var zoom = this.getDeviceZoom();
+
+            this.screen.resetZoom(zoom);
         },
 
         draw: function () {

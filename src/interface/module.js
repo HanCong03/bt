@@ -92,6 +92,10 @@ define(function (require, exports, module) {
             return this.__$ctx.getWorkbookHeap(this);
         },
 
+        getDeviceZoom: function () {
+            return this.__$ctx.getDeviceZoom();
+        },
+
         execCommand: function () {
             var args = [].slice.call(arguments, 0);
             args.unshift(this);

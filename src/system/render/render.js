@@ -39,7 +39,8 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'refresh': this.refresh
+                'refresh': this.refresh,
+                'devicezoomchange': this.__resetZoom
             });
         },
 
@@ -58,10 +59,21 @@ define(function (require, exports, module) {
             var width = size.width;
             var height = size.height;
 
-            this.gridlineScreen = new Screen('btb-gl-screen', midleContainer, width, height);
-            this.contentScreen = new Screen('btb-cnt-screen', midleContainer, width, height);
-            this.borderScreen = new Screen('btb-border-screen', midleContainer, width, height);
-            this.paneScreen = new Screen('btb-pane-screen', topContainer, width, height);
+            var zoom = this.getDeviceZoom();
+
+            this.gridlineScreen = new Screen(zoom, 'btb-gl-screen', midleContainer, width, height);
+            this.contentScreen = new Screen(zoom, 'btb-cnt-screen', midleContainer, width, height);
+            this.borderScreen = new Screen(zoom, 'btb-border-screen', midleContainer, width, height);
+            this.paneScreen = new Screen(zoom, 'btb-pane-screen', topContainer, width, height);
+        },
+
+        __resetZoom: function () {
+            var zoom = this.getDeviceZoom();
+
+            this.gridlineScreen.resetZoom(zoom);
+            this.contentScreen.resetZoom(zoom);
+            this.borderScreen.resetZoom(zoom);
+            this.paneScreen.resetZoom(zoom);
         },
 
         __pause: function () {

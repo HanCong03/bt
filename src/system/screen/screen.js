@@ -19,22 +19,22 @@ define(function (require, exports, module) {
 
         width: -1,
         height: -1,
+        zoom: 1,
 
-        constructor: function (className, container, width, height) {
+        constructor: function (zoom, className, container, width, height) {
             this.className = className;
+            this.width = width;
+            this.height = height;
+            this.zoom = zoom;
 
             this.visibleCanvas = document.createElement('canvas');
             this.visibleCanvas.className = 'btb-screen ' + className;
-            this.visibleCanvas.width = width;
-            this.visibleCanvas.height = height;
 
             this.invisibleCanvas = document.createElement('canvas');
             this.invisibleCanvas.className = 'btb-screen ' + className;
-            this.invisibleCanvas.width = width;
-            this.invisibleCanvas.height = height;
 
-            this.width = width;
-            this.height = height;
+            this.__update(this.visibleCanvas, width, height, zoom);
+            this.__update(this.invisibleCanvas, width, height, zoom);
 
             this.visibleCtx = this.visibleCanvas.getContext('2d');
             this.invisibleCtx = this.invisibleCanvas.getContext('2d');
@@ -43,13 +43,27 @@ define(function (require, exports, module) {
             container.appendChild(this.visibleCanvas);
         },
 
+        __update: function (node, width, height, zoom) {
+            node.width = width * zoom;
+            node.height = height * zoom;
+            node.style.width = width + 'px';
+            node.style.height = height + 'px';
+            node.getContext('2d').scale(zoom, zoom);
+        },
+
+        resetZoom: function (zoom) {
+            this.zoom = zoom;
+            this.__update(this.visibleCanvas, this.width, this.height, this.zoom);
+            this.__update(this.invisibleCanvas, this.width, this.height, this.zoom);
+        },
+
         setCompositeOperation: function (type) {
             this.invisibleCtx.globalCompositeOperation = type;
         },
 
         clear: function () {
-            this.invisibleCtx.width = this.width;
-            this.invisibleCtx.height = this.height;
+            this.invisibleCanvas.width = this.invisibleCanvas.width;
+            this.invisibleCtx.scale(this.zoom, this.zoom);
         },
 
         getWidth: function () {
@@ -68,8 +82,8 @@ define(function (require, exports, module) {
             this.parent.replaceChild(this.invisibleCanvas, this.visibleCanvas);
 
             // 擦除换下来的画布内容
-            this.visibleCanvas.width = this.width;
-            this.visibleCanvas.height = this.height;
+            this.visibleCanvas.width = this.visibleCanvas.width;
+            this.visibleCtx.scale(this.zoom, this.zoom);
 
             var tmp = this.invisibleCanvas;
             this.invisibleCanvas = this.visibleCanvas;

@@ -41,16 +41,23 @@ define(function (require, exports, module) {
 
         __initScreen: function () {
             var size = this.getContentContainerSize();
-            this.bgScreen = new Screen('btb-header-screen', this.getMiddleContainer(), size.width, size.height);
-            this.lineScreen = new Screen('btb-header-line-screen', this.getMiddleContainer(), size.width, size.height);
+            var zoom = this.getDeviceZoom();
 
-            window.bb = this.lineScreen
+            this.bgScreen = new Screen(zoom, 'btb-header-screen', this.getMiddleContainer(), size.width, size.height);
+            this.lineScreen = new Screen(zoom, 'btb-header-line-screen', this.getMiddleContainer(), size.width, size.height);
         },
 
         __initEvent: function () {
             this.on({
-                'refresh': this.__refresh
+                'refresh': this.__refresh,
+                'devicezoomchange': this.__resetZoom
             });
+        },
+
+        __resetZoom: function () {
+            var zoom = this.getDeviceZoom();
+            this.bgScreen.resetZoom(zoom);
+            this.lineScreen.resetZoom(zoom);
         },
 
         __initMessage: function () {

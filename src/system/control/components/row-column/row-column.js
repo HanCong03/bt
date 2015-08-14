@@ -36,7 +36,19 @@ define(function (require, exports, module) {
             this.container = this.getMainContainer();
             var size = this.getContentContainerSize();
 
-            this.screen = new Screen('btb-row-column', this.getMiddleContainer(), size.width, size.height);
+            this.screen = new Screen(this.getDeviceZoom(), 'btb-row-column', this.getMiddleContainer(), size.width, size.height);
+
+            this.__initEvent();
+        },
+
+        __initEvent: function () {
+            this.on({
+                'devicezoomchange': this.__resetZoom
+            })
+        },
+
+        __resetZoom: function () {
+            this.screen.resetZoom(this.getDeviceZoom());
         },
 
         __getIndex: function (evt) {

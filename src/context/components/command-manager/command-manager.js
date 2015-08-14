@@ -96,9 +96,7 @@ define(function (require, exports, module) {
 
             this.unlock();
 
-            if (command.provider.$datachange !== false) {
-                this.trigger();
-            }
+            this.trigger();
 
             return result;
         },
