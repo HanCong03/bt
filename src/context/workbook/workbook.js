@@ -27,7 +27,9 @@ define(function (require, exports, module) {
                 'workbookreday': this.__onworkbookready,
                 'sheetschange': this.__onsheetschange,
                 'rangechange': this.__onrangechange,
-                'loaded': this.__onloaded
+                'loaded': this.__onloaded,
+                'beforedataready': this.__onbeforedataready,
+                'dataready': this.__ondataready
             });
         },
 
@@ -66,6 +68,14 @@ define(function (require, exports, module) {
 
         __onloaded: function () {
             this.__$ctx.emitAll('loaded');
+        },
+
+        __onbeforedataready: function () {
+            this.__$ctx.emitAll('beforedataready');
+        },
+
+        __ondataready: function () {
+            this.__$ctx.emitAll('dataready');
         },
 
         getAPI: function () {

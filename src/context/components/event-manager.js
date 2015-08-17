@@ -15,6 +15,8 @@ define(function (require, exports, module) {
 
     module.exports = $$.createClass('EventManager', {
 
+        __dataReady: false,
+
         __$events: {
             env: {},
             core: {},
@@ -47,6 +49,24 @@ define(function (require, exports, module) {
         },
 
         __emit: function (type, name, args) {
+            if (name === 'ready' || name === 'beforedataready') {
+                var listeners = this.__lookupListener(type, name);
+
+                $$.forEach(listeners, function (current) {
+                    current.handler.apply(current.listener, args);
+                });
+
+                return;
+            }
+
+            if (name === 'dataready') {
+                this.__dataReady = true;
+            }
+
+            if (!this.__dataReady) {
+                return;
+            }
+
             var listeners = this.__lookupListener(type, name);
 
             $$.forEach(listeners, function (current) {

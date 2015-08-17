@@ -19,8 +19,34 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initShadowBox();
-            this.__initHeap();
             this.__initEvent();
+        },
+
+        __initShadowBox: function () {
+            this.shadowBox = document.createElement('span');
+            this.getShadowContainer().appendChild(this.shadowBox);
+        },
+
+        __initEvent: function () {
+            this.on({
+                'stylechange': this.__clean,
+                'contentchange': this.__clean,
+                'columnwidthchange': this.__cleanColumn,
+                'sheetswitch': this.__onSheetSwitch,
+                'dataready': this.__onDataReady
+            })
+        },
+
+        __onDataReady: function () {
+            var standard = this.queryCommandValue('standard');
+
+            $(this.shadowBox).css({
+                fontFamily: standard.font,
+                lineHeight: 1,
+                fontSize: standard.fontsize + 'pt'
+            });
+
+            this.__initHeap();
         },
 
         __initHeap: function () {
@@ -32,28 +58,6 @@ define(function (require, exports, module) {
 
             heap.widths = [];
             heap.cache = [];
-        },
-
-        __initShadowBox: function () {
-            var standard = this.queryCommandValue('standard');
-            this.shadowBox = document.createElement('span');
-
-            $(this.shadowBox).css({
-                fontFamily: standard.font,
-                lineHeight: 1,
-                fontSize: standard.fontsize + 'pt'
-            });
-
-            this.getShadowContainer().appendChild(this.shadowBox);
-        },
-
-        __initEvent: function () {
-            this.on({
-                'stylechange': this.__clean,
-                'contentchange': this.__clean,
-                'columnwidthchange': this.__cleanColumn,
-                'sheetswitch': this.__onSheetSwitch
-            })
         },
 
         __onSheetSwitch: function () {

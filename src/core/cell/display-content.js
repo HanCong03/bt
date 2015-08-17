@@ -20,7 +20,6 @@ define(function (require, exports, module) {
         repeatBox: null,
 
         init: function () {
-            this.__initHeap();
             this.__initService();
             this.__initShadowBox();
             this.__initEvent();
@@ -46,14 +45,6 @@ define(function (require, exports, module) {
             this.shadowBox.style.cssText = 'word-wrap: break-word; word-break: break-all; line-height: 1;';
             this.repeatBox = document.createElement('div');
 
-            var standard = this.queryCommandValue('standard');
-
-            $(this.repeatBox).css({
-                fontFamily: standard.font,
-                lineHeight: 1,
-                fontSize: standard.fontsize + 'pt'
-            });
-
             this.getShadowContainer().appendChild(this.shadowBox);
             this.getShadowContainer().appendChild(this.repeatBox);
         },
@@ -64,6 +55,19 @@ define(function (require, exports, module) {
                 'stylechange': this.onStyleChange,
                 'columnwidthchange': this.onColumnWidthChange,
                 'sheetswitch': this.__onSheetSwitch,
+                'dataready': this.__onDataReady
+            });
+        },
+
+        __onDataReady: function () {
+            this.__initHeap();
+
+            var standard = this.queryCommandValue('standard');
+
+            $(this.repeatBox).css({
+                fontFamily: standard.font,
+                lineHeight: 1,
+                fontSize: standard.fontsize + 'pt'
             });
         },
 

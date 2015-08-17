@@ -28,7 +28,7 @@ define(function (require, exports, module) {
             this.on({
                 datachange: this.__onDatachange,
                 sheetswitch: this.__onSheetSwitch,
-                ready: this.__onReady
+                dataready: this.__onDataReady
             });
         },
 
@@ -56,7 +56,8 @@ define(function (require, exports, module) {
             this.__initHeap();
         },
 
-        __onReady: function () {
+        __onDataReady: function () {
+            this.__initHeap();
             this.__refresh();
         },
 

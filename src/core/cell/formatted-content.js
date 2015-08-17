@@ -13,7 +13,6 @@ define(function (require, exports, module) {
         base: require('module'),
 
         init: function () {
-            this.__initHeap();
             this.__initService();
             this.__initEvent();
         },
@@ -41,8 +40,13 @@ define(function (require, exports, module) {
             this.on({
                 'contentchange': this.onContentChange,
                 'stylechange': this.onStyleChange,
-                'sheetswitch': this.__onSheetSwitch
+                'sheetswitch': this.__onSheetSwitch,
+                'dataready': this.__onDataReady
             });
+        },
+
+        __onDataReady: function () {
+            this.__initHeap();
         },
 
         __onSheetSwitch: function () {

@@ -18,20 +18,11 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initShadowBox();
-            this.__initHeap();
             this.__initEvent();
         },
 
         __initShadowBox: function () {
-            var standard = this.queryCommandValue('standard');
             this.shadowBox = document.createElement('span');
-
-            $(this.shadowBox).css({
-                fontFamily: standard.font,
-                lineHeight: 1,
-                fontSize: standard.fontsize + 'pt'
-            });
-
             this.getShadowContainer().appendChild(this.shadowBox);
         },
 
@@ -51,8 +42,21 @@ define(function (require, exports, module) {
                 'contentchange': this.__clean,
                 'stylechange': this.__clean,
                 'rowheightchange': this.__cleanRow,
-                'sheetswitch': this.__onSheetSwitch
+                'sheetswitch': this.__onSheetSwitch,
+                'dataready': this.__onDataReady
             });
+        },
+
+        __onDataReady: function () {
+            var standard = this.queryCommandValue('standard');
+
+            $(this.shadowBox).css({
+                fontFamily: standard.font,
+                lineHeight: 1,
+                fontSize: standard.fontsize + 'pt'
+            });
+
+            this.__initHeap();
         },
 
         __onSheetSwitch: function () {

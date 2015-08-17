@@ -20,15 +20,11 @@ define(function (require, exports, module) {
         init: function () {
             this.__initShadowBox();
             this.__initService();
-            this.__recalculate();
+            this.__initEvent();
         },
 
         __initShadowBox: function () {
             this.shadowBox = document.createElement('span');
-            this.shadowBox.style.fontSize = '11pt';
-            this.shadowBox.style.fontFamily = this.getAPI().getStandardFont();
-            this.shadowBox.innerHTML = '1234567890';
-
             this.getShadowContainer().appendChild(this.shadowBox);
         },
 
@@ -36,6 +32,20 @@ define(function (require, exports, module) {
             this.registerService({
                 'get.char.unit': this.getCharUnit
             });
+        },
+
+        __initEvent: function () {
+            this.on({
+                'beforedataready': this.__onBeforeDataReady
+            });
+        },
+
+        __onBeforeDataReady: function () {
+            this.shadowBox.style.fontSize = '11pt';
+            this.shadowBox.style.fontFamily = this.getAPI().getStandardFont();
+            this.shadowBox.innerHTML = '1234567890';
+
+            this.__recalculate();
         },
 
         getCharUnit: function () {
@@ -88,9 +98,6 @@ define(function (require, exports, module) {
 
         getStandardHeight: function () {
             var heap = this.getWorkbookHeap();
-            if (!heap.height) {
-                debugger
-            }
             return heap.height;
         }
     });
