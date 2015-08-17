@@ -20,6 +20,16 @@ define(function (require) {
                 }
             },
 
+            insertsheet: {
+                exec: function (sheetName) {
+                    return this.$dep.insertSheet(sheetName);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
+            },
+
             renamesheet: {
                 exec: function (sheetName, index) {
                     return this.$dep.renameSheet(sheetName, index);

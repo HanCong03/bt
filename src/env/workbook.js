@@ -21,6 +21,10 @@ define(function (require, exports, module) {
             return this.__$api.addSheet(sheetName);
         },
 
+        insertSheet: function (sheetName) {
+            return this.__$api.insertSheet(sheetName);
+        },
+
         renameSheet: function (sheetName, index) {
             return this.__$api.renameSheet(sheetName, index);
         },
