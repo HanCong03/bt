@@ -104,28 +104,20 @@ define(function (require, exports, module) {
         },
 
         focus: function () {
-            if (this.__focusStatus) {
-                return;
-            }
+            //if (this.__focusStatus) {
+            //    return;
+            //}
 
             this.__focus();
         },
 
         blur: function () {
-            this.__focusStatus = false;
+            //this.__focusStatus = false;
         },
 
         __focus: function () {
             this.__focusStatus = true;
 
-            //var docSelection = window.getSelection();
-            //var range = document.createRange();
-            //
-            //range.selectNode(this.inputNode.firstChild);
-            //range.collapse(true);
-            //
-            //docSelection.removeAllRanges();
-            //docSelection.addRange(range);
             this.inputWrapper.focus();
         },
 
