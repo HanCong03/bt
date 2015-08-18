@@ -111,6 +111,11 @@ define(function (require, exports, module) {
         },
 
         addOuterListener: function (listener, name, handler) {
+            if (name === 'error') {
+                this.onError(handler);
+                return;
+            }
+
             this.__$components.eventManager.addOuterListener(listener, name, handler);
         },
 

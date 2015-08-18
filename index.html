@@ -53,7 +53,7 @@
                 console.log('loaded')
             });
 
-            btable.onError(function (key, msg) {
+            btable.on('error', function (key, msg) {
                 console.log(key, msg)
             });
 
