@@ -53,6 +53,22 @@ define(function (require, exports, module) {
 
         getPane: function () {
             return this.__$api.getPane();
+        },
+
+        getDefaultColumnWidth: function () {
+            return this.__$api.getDefaultColumnWidth();
+        },
+
+        getDefaultRowHeight: function () {
+            return this.__$api.getDefaultRowHeight();
+        },
+
+        setDefaultColumnWidth: function (width) {
+            this.__$api.setDefaultColumnWidth(width);
+        },
+
+        setDefaultRowHeight: function (height) {
+            this.__$api.setDefaultRowHeight(height);
         }
     });
 });

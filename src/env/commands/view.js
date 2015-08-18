@@ -132,6 +132,42 @@ define(function (require) {
                 query_arguments: function (args) {
                     return args;
                 }
+            },
+
+            rawdefaultcolumnwidth: {
+                exec: function (width) {
+                    this.$dep.setDefaultColumnWidth(width);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                },
+
+                query: function () {
+                    return this.$dep.getDefaultColumnWidth();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            rawdefaultrowheight: {
+                exec: function (height) {
+                    this.$dep.setDefaultRowHeight(height);
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                },
+
+                query: function () {
+                    return this.$dep.getDefaultRowHeight();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
             }
         }
     });

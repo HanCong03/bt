@@ -126,52 +126,10 @@ define(function (require, exports, module) {
         },
 
         __clean: function (start, end) {
-            //var heap = this.getActiveHeap();
-            //var dimension = this.queryCommandValue('dimension');
-            //var cache = heap.cache;
-            //var heights = heap.heights;
-            //var currentCache;
-            //
-            //var keys;
-            //var startCol = start.col;
-            //var endCol = end.col;
-
             this.__cleanRow(start.row, end.row);
-
-
-            //for (var i = start.row, limit = end.row; i <= limit; i++) {
-            //    if (heights[i] !== undefined) {
-            //        delete heights[i];
-            //    }
-            //
-            //    currentCache = cache[i];
-            //
-            //    if (!currentCache) {
-            //        continue;
-            //    }
-            //
-            //    keys = Object.keys(cache);
-            //
-            //    if (keys.length === 0) {
-            //        continue;
-            //    }
-            //
-            //    // 清除整行
-            //    if (startCol <= keys[0] && endCol >= keys[keys.length - 1]) {
-            //        delete cache[i];
-            //        continue;
-            //    }
-            //
-            //    for (var j = startCol, jlimit = endCol; j <= jlimit; j++) {
-            //        if (currentCache[j] !== undefined) {
-            //            delete currentCache[j];
-            //        }
-            //    }
-            //}
         },
 
         __cleanRow: function (startIndex, endIndex) {
-            console.log(startIndex, endIndex)
             var heap = this.getActiveHeap();
             var heights = heap.heights;
             var cache = heap.cache;

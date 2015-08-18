@@ -84,7 +84,7 @@ define(function (require) {
 
             hidecolumn: {
                 exec: function (startIndex, endIndex) {
-                    return this.$dep.hideCol(startIndex, endIndex);
+                    return this.$dep.hideColumn(startIndex, endIndex);
                 },
 
                 exec_arguments: function (args) {
