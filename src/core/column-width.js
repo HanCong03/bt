@@ -106,7 +106,12 @@ define(function (require, exports, module) {
             return Math.round(width * this.rs('get.char.unit'));
         },
 
-        setBestFitColumnWidth: function (width, col) {
+        setBestFitColumnWidth: function (col) {
+            var width = this.__calculateColumnWidth(col);
+            this.__setBestFitColumnWidth(width, col);
+        },
+
+        __setBestFitColumnWidth: function (width, col) {
             width = +(width / this.rs('get.char.unit')).toFixed(2);
 
             if (width <= 0) {
@@ -159,7 +164,6 @@ define(function (require, exports, module) {
         },
 
         __cleanColumn: function (startIndex, endIndex) {
-            console.log(startIndex, endIndex)
             var heap = this.getActiveHeap();
             var widths = heap.widths;
             var cache = heap.cache;
@@ -199,7 +203,7 @@ define(function (require, exports, module) {
 
                 // 新计算的宽度如果大于标准宽度，则更新当前列的宽度，并设置该宽度为最佳宽度。
                 if (newWidth > standardWidth) {
-                    this.setBestFitColumnWidth(newWidth, col);
+                    this.__setBestFitColumnWidth(newWidth, col);
                     return newWidth;
 
                     // 否则，返回最佳宽度。
@@ -217,7 +221,7 @@ define(function (require, exports, module) {
                 newWidth = this.__calculateColumnWidth(col);
                 // 新的高度超过了当前最佳高度，则更新最佳高度。
                 if (newWidth > userColumnWidth) {
-                    this.setBestFitColumnWidth(newWidth, col);
+                    this.__setBestFitColumnWidth(newWidth, col);
                     return newWidth;
 
                     // 否则，返回最佳宽度。

@@ -89,7 +89,12 @@ define(function (require, exports, module) {
             this.rs('set.row.height', height, startRow, endRow);
         },
 
-        setBestFitRowHeight: function (height, row) {
+        setBestFitRowHeight: function (row) {
+            var height = this.__calculateRowHeight(row);
+            this.__setBestFitRowHeight(height, row);
+        },
+
+        __setBestFitRowHeight: function (height, row) {
             height = this.convertDisplayHeightToRealHeight(height);
 
             if (height <= 0) {
@@ -194,7 +199,7 @@ define(function (require, exports, module) {
 
                 // 新计算的高度如果大于标准高度，则更新当前列的高度，并设置该高度为最佳高度。
                 if (newHeight > standardHeight) {
-                    this.setBestFitRowHeight(newHeight, row);
+                    this.__setBestFitRowHeight(newHeight, row);
                     return newHeight;
 
                     // 否则，返回最佳高度。
@@ -213,7 +218,7 @@ define(function (require, exports, module) {
 
                 // 新计算的高度如果大于标准高度，则更新最佳高度，并返回新的高度。
                 if (newHeight > standardHeight) {
-                    this.setBestFitRowHeight(newHeight, row);
+                    this.__setBestFitRowHeight(newHeight, row);
                     return newHeight;
 
                 // 否则，删除最佳高度的设置，并返回标准高度。

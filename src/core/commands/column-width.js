@@ -35,8 +35,8 @@ define(function (require) {
             },
 
             bestfitcolumnwidth: {
-                exec: function (width, col) {
-                    this.$dep.setBestFitColumnWidth(width, col);
+                exec: function (col) {
+                    this.$dep.setBestFitColumnWidth(col);
                 },
 
                 exec_arguments: function (args) {

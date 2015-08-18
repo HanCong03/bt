@@ -34,7 +34,7 @@ define(function (require) {
                 }
             },
 
-            exec_bestfitrowheight: {
+            bestfitrowheight: {
                 exec: function (height, row) {
                     this.$dep.setBestFitRowHeight(height, row);
                 },
