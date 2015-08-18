@@ -91,6 +91,11 @@ define(function (require, exports, module) {
 
         setBestFitRowHeight: function (row) {
             var height = this.__calculateRowHeight(row);
+
+            if (height <= 0) {
+                height = this.queryCommandValue('standardheight');
+            }
+
             this.__setBestFitRowHeight(height, row);
         },
 

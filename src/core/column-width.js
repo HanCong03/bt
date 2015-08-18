@@ -108,6 +108,11 @@ define(function (require, exports, module) {
 
         setBestFitColumnWidth: function (col) {
             var width = this.__calculateColumnWidth(col);
+
+            if (width <= 0) {
+                width = this.queryCommandValue('standardwidth');
+            }
+
             this.__setBestFitColumnWidth(width, col);
         },
 

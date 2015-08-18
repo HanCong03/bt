@@ -35,12 +35,13 @@ define(function (require) {
             },
 
             bestfitrowheight: {
-                exec: function (height, row) {
-                    this.$dep.setBestFitRowHeight(height, row);
+                exec: function (row) {
+                    this.$dep.setBestFitRowHeight(row);
                 },
 
                 exec_arguments: function (args) {
-                    return args;
+                    var range = this.getActiveRange();
+                    return [range.entry.row];
                 }
             }
         }
