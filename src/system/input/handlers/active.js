@@ -112,8 +112,8 @@ define(function (require, exports, module) {
             $(this.inputOuterBox).addClass('btb-active');
         },
 
-        __applyStyle: function (fonts, alignments) {
-            var cssText = toCssText(fonts, alignments);
+        __applyStyle: function (fonts, alignments, fill) {
+            var cssText = toCssText(fonts, alignments, fill);
 
             this.inputNode.style.cssText = cssText;
             this.shadow.style.cssText = cssText;
@@ -200,7 +200,7 @@ define(function (require, exports, module) {
         var result = [
             'font-family: ' + fonts.name.value || fonts.name,
             'font-size: ' + fonts.size + 'pt',
-            'color: ' + fonts.color.value || fonts.color
+            'color: ' + fonts.color.value
         ];
 
         if (fonts.bold) {
