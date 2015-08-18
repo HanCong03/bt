@@ -159,6 +159,7 @@ define(function (require, exports, module) {
         },
 
         __cleanColumn: function (startIndex, endIndex) {
+            console.log(startIndex, endIndex)
             var heap = this.getActiveHeap();
             var widths = heap.widths;
             var cache = heap.cache;

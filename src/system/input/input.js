@@ -104,10 +104,6 @@ define(function (require, exports, module) {
         },
 
         focus: function () {
-            //if (this.__focusStatus) {
-            //    return;
-            //}
-
             this.__focus();
         },
 

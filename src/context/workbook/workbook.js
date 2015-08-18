@@ -29,7 +29,8 @@ define(function (require, exports, module) {
                 'rangechange': this.__onrangechange,
                 'loaded': this.__onloaded,
                 'beforedataready': this.__onbeforedataready,
-                'dataready': this.__ondataready
+                'dataready': this.__ondataready,
+                'standardchange': this.__onstandardchange
             });
         },
 
@@ -76,6 +77,10 @@ define(function (require, exports, module) {
 
         __ondataready: function () {
             this.__$ctx.emitAll('dataready');
+        },
+
+        __onstandardchange: function () {
+            this.__$ctx.emitAll('standardchange');
         },
 
         getAPI: function () {

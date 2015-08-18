@@ -36,7 +36,8 @@ define(function (require, exports, module) {
 
         __initEvent: function () {
             this.on({
-                'beforedataready': this.__onBeforeDataReady
+                'beforedataready': this.__onBeforeDataReady,
+                'standardchange': this.__recalculate
             });
         },
 
