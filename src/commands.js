@@ -34,7 +34,8 @@ define(function (require, exports, module) {
             rowHeight: require('./core/commands/row-height'),
             scroll: require('./core/commands/scroll'),
             selection: require('./core/commands/selection'),
-            hyperlink: require('./core/commands/hyperlink')
+            hyperlink: require('./core/commands/hyperlink'),
+            columntitle: require('./core/commands/column-title')
         },
         system: {
             outerinput: require('./system/commands/outerinput'),

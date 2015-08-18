@@ -23,6 +23,10 @@ define(function (require, exports, module) {
 
         getName: function (name, scope) {
             return this.__$api.getNameDefine(name, scope);
+        },
+
+        getAllNameDefine: function () {
+            return this.__$api.getAllNameDefine();
         }
     });
 });

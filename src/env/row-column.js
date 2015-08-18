@@ -78,8 +78,8 @@ define(function (require, exports, module) {
             this.__$api.showRow(startIndex, endIndex);
         },
 
-        showCol: function (startIndex, endIndex) {
-            this.__$api.showCol(startIndex, endIndex);
+        showColumn: function (startIndex, endIndex) {
+            this.__$api.showColumn(startIndex, endIndex);
         },
 
         isHiddenRow: function (row) {

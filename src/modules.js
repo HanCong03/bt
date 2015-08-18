@@ -41,7 +41,8 @@ define(function (require, exports, module) {
             selection: require('./core/selection/selection'),
             rowColumn: require('./core/row-column'),
             hyperlink: require('./core/hyperlink'),
-            formula: require('./core/formula/formula')
+            formula: require('./core/formula/formula'),
+            columnTitle: require('./core/column-title')
         },
         system: {
             rect: require('./system/rect/rect'),

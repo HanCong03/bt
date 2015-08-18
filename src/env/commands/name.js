@@ -28,6 +28,12 @@ define(function (require) {
                 }
             },
 
+            names: {
+                query: function () {
+                    return this.$dep.getAllNameDefine();
+                }
+            },
+
             validname: {
                 query: function (name, scope) {
                     return this.$dep.getName(name, scope);

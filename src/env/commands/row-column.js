@@ -121,7 +121,7 @@ define(function (require) {
 
             showcolumn: {
                 exec: function (startIndex, endIndex) {
-                    return this.$dep.showCol(startIndex, endIndex);
+                    return this.$dep.showColumn(startIndex, endIndex);
                 },
 
                 exec_arguments: function (args) {

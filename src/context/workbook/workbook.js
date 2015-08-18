@@ -30,7 +30,8 @@ define(function (require, exports, module) {
                 'loaded': this.__onloaded,
                 'beforedataready': this.__onbeforedataready,
                 'dataready': this.__ondataready,
-                'standardchange': this.__onstandardchange
+                'standardchange': this.__onstandardchange,
+                'namedefinechange': this.__onnamedefinechange
             });
         },
 
@@ -81,6 +82,10 @@ define(function (require, exports, module) {
 
         __onstandardchange: function () {
             this.__$ctx.emitAll('standardchange');
+        },
+
+        __onnamedefinechange: function () {
+            this.__$ctx.emitAll('namedefinechange');
         },
 
         getAPI: function () {
