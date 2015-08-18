@@ -13,18 +13,28 @@ define(function (require, exports, module) {
             this.__$api = this.getAPI();
         },
 
-        toggleGridLine: function (start, end) {
-            this.__$api.clearAll(start, end);
+        toggleGridLine: function () {
+            if (this.gridlineIsVisible()) {
+                this.setGridLine(false);
+            } else {
+                this.setGridLine(true);
+            }
         },
 
         setGridLine: function (state) {
             this.__$api.setGridLine(state);
         },
 
-        toggleRowColHeader: function () {},
+        toggleRowColHeader: function () {
+            if (this.headerIsVisible()) {
+                this.setRowColumnHeader(false);
+            } else {
+                this.setRowColumnHeader(true);
+            }
+        },
 
-        setRowColHeader: function (state) {
-            this.__$api.setRowColHeader(state);
+        setRowColumnHeader: function (state) {
+            this.__$api.setRowColumnHeader(state);
         },
 
         setPane: function (start, end) {
@@ -48,7 +58,7 @@ define(function (require, exports, module) {
         },
 
         headerIsVisible: function () {
-            return !!this.__$api.getRowColHeader();
+            return !!this.__$api.getRowColumnHeader();
         },
 
         getPane: function () {
