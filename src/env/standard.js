@@ -97,9 +97,17 @@ define(function (require, exports, module) {
             return heap.width;
         },
 
+        getRawStandardWidth: function () {
+            return this.getAPI().getStandardWidth();
+        },
+
         getStandardHeight: function () {
             var heap = this.getWorkbookHeap();
             return heap.height;
+        },
+
+        getRawStandardHeight: function () {
+            return this.getAPI().getStandardHeight();
         }
     });
 });

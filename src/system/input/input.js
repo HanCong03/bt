@@ -108,6 +108,7 @@ define(function (require, exports, module) {
         },
 
         blur: function () {
+            this.inputWrapper.blur();
             //this.__focusStatus = false;
         },
 

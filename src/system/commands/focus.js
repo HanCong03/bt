@@ -18,6 +18,16 @@ define(function (require) {
                 exec_arguments: function (args) {
                     return args;
                 }
+            },
+
+            blur: {
+                exec: function () {
+                    this.$dep.blur();
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                }
             }
         }
     });

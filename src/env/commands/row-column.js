@@ -10,6 +10,54 @@ define(function (require) {
         $dep: 'rowColumn',
 
         commands: {
+            rawrowheight: {
+                exec: function (height, startIndex, endIndex) {
+                    return this.$dep.setRowHeight(height, startIndex, endIndex);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start.row, range.end.row);
+
+                    return args;
+                },
+
+                query: function (row) {
+                    return this.$dep.getRowHeight(row);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.row];
+
+                    return args;
+                }
+            },
+
+            rawcolumnwidth: {
+                exec: function (width, startIndex, endIndex) {
+                    return this.$dep.setColumnWidth(width, startIndex, endIndex);
+                },
+
+                exec_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args.push(range.start.col, range.end.col);
+
+                    return args;
+                },
+
+                query: function (col) {
+                    return this.$dep.getColumnWidth(col);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    args = [range.entry.col];
+
+                    return args;
+                }
+            },
+
             hiderow: {
                 exec: function (startIndex, endIndex) {
                     return this.$dep.hideRow(startIndex, endIndex);

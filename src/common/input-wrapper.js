@@ -54,6 +54,10 @@ define(function (require, exports, module) {
             this.inputNode.focus();
         },
 
+        blur: function () {
+            this.inputNode.blur();
+        },
+
         getContent: function () {
             var content = this.inputNode.innerHTML;
             return content.replace(/<br holder="1"[^>]*?>/g, '').replace(/<br[^>]*>/g, '\n');

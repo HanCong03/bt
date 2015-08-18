@@ -68,6 +68,26 @@ define(function (require) {
                 query_arguments: function (args) {
                     return args;
                 }
+            },
+
+            rawstandardwidth: {
+                query: function () {
+                    return this.$dep.getRawStandardWidth();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
+            rawstandardheight: {
+                query: function () {
+                    return this.$dep.getRawStandardHeight();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
             }
         }
     });
