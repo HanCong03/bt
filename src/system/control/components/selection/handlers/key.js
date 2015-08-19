@@ -16,6 +16,20 @@ define(function (require, exports, module) {
                 this.__abort();
             }
 
+            if (evt.ctrlKey || evt.metaKey) {
+                switch (evt.keyCode) {
+                    // CTRL + A
+                    case 65:
+                        this.execCommand('selectall');
+                        return;
+
+                    // CTRL + C
+                    case 67:
+                        this.__doCopy();
+                        return;
+                }
+            }
+
             if (evt.keyCode === 65 && (evt.ctrlKey || evt.metaKey)) {
                 this.execCommand('selectall');
                 return;
@@ -124,6 +138,11 @@ define(function (require, exports, module) {
             if (!this.execCommand('clearcontent', range.start, range.end)) {
                 this.error('array.formula');
             }
+        },
+
+        __doCopy: function () {
+            var range = this.queryCommandValue('range');
+            //this.execCommand('copy', range.start, range.end);
         },
 
         __abortKey: function () {}

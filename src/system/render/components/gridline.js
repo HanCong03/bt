@@ -17,10 +17,11 @@ define(function (require, exports, module) {
 
             screen.save();
 
+            screen.strokeColor(GRIDLINE_CONFIG.color);
+
             this.__drawGridlineRow();
             this.__drawGridlineColumn();
 
-            screen.strokeColor(GRIDLINE_CONFIG.color);
             screen.stroke();
 
             screen.restore();
@@ -36,10 +37,10 @@ define(function (require, exports, module) {
 
             var headWidth = visualData.headWidth;
             var headHeight = visualData.headHeight;
-            var width = headWidth + visualData.spaceWidth;
+            var width = visualData.spaceWidth;
 
             $$.forEach(visualData.rowPoints, function (point) {
-                screen.hline(0, headHeight + point, width);
+                screen.hline(headWidth, headHeight + point, width);
             });
         },
 
@@ -53,10 +54,10 @@ define(function (require, exports, module) {
 
             var headWidth = visualData.headWidth;
             var headHeight = visualData.headHeight;
-            var height = headHeight + visualData.spaceHeight;
+            var height = visualData.spaceHeight;
 
             $$.forEach(visualData.colPoints, function (point) {
-                screen.vline(headWidth + point, 0, height);
+                screen.vline(headWidth + point, headHeight, height);
             });
         }
     };

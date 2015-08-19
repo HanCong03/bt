@@ -11,10 +11,22 @@ define(function (require, exports, module) {
 
     module.exports = {
         __drawHeader: function () {
+            var visualData = this.visualData;
+
+            if ($$.isNdef(visualData.rows)) {
+                return;
+            }
+
+            this.__drawTitle();
+            this.__drawLine();
+        },
+
+        __drawTitle: function () {
             var screen = this.gridlineScreen;
 
             screen.save();
 
+            screen.beginPath();
             screen.fillColor(FACE_THEME.fontColor);
 
             screen.textBaseline('middle');
@@ -29,10 +41,6 @@ define(function (require, exports, module) {
         __drawHeaderRow: function () {
             var visualData = this.visualData;
             var screen = this.gridlineScreen;
-
-            if ($$.isNdef(visualData.rows)) {
-                return;
-            }
 
             var rowHeights = visualData.rowHeights;
             var rowPoints = visualData.rowPoints;
@@ -60,10 +68,6 @@ define(function (require, exports, module) {
             var visualData = this.visualData;
             var screen = this.gridlineScreen;
 
-            if ($$.isNdef(visualData.cols)) {
-                return;
-            }
-
             var colWidths = visualData.colWidths;
             var colPoints = visualData.colPoints;
 
@@ -85,6 +89,54 @@ define(function (require, exports, module) {
                 screen.fillText(title, x, y + 1);
 
                 screen.restore();
+            });
+        },
+
+        __drawLine: function () {
+            var screen = this.gridlineScreen;
+
+            screen.save();
+
+            screen.beginPath();
+            screen.strokeColor(GRIDLINE_CONFIG.color);
+
+            this.__drawRowLine();
+            this.__drawColumnLine();
+
+            screen.stroke();
+
+            screen.restore();
+        },
+
+        __drawRowLine: function () {
+            var visualData = this.visualData;
+            var screen = this.gridlineScreen;
+
+            if ($$.isNdef(visualData.rows)) {
+                return;
+            }
+
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
+            $$.forEach(visualData.rowPoints, function (point) {
+                screen.hline(0, headHeight + point, headWidth);
+            });
+        },
+
+        __drawColumnLine: function () {
+            var visualData = this.visualData;
+            var screen = this.gridlineScreen;
+
+            if ($$.isNdef(visualData.cols)) {
+                return;
+            }
+
+            var headWidth = visualData.headWidth;
+            var headHeight = visualData.headHeight;
+
+            $$.forEach(visualData.colPoints, function (point) {
+                screen.vline(headWidth + point, 0, headHeight);
             });
         }
     };
