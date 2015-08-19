@@ -91,7 +91,9 @@ define(function (require, exports, module) {
                 current = borderLayout[key];
 
                 if (BorderDrawers[current.border.style]) {
+                    screen.save();
                     BorderDrawers[current.border.style].drawHorizontal(screen, visualData, current, current.border);
+                    screen.restore();
                 }
             }
         },
@@ -109,7 +111,9 @@ define(function (require, exports, module) {
                 current = borderLayout[key];
 
                 if (BorderDrawers[current.border.style]) {
+                    screen.save();
                     BorderDrawers[current.border.style].drawVertical(screen, visualData, current, current.border);
+                    screen.restore();
                 }
             }
         }
