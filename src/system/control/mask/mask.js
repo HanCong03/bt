@@ -70,6 +70,10 @@ define(function (require, exports, module) {
 
         __initDomEvent: function () {
             var _self = this;
+            var lastMouseupX = 0;
+            var lastMouseupY = 0;
+            var lastMousedownX = 0;
+            var lastMousedownY = 0;
 
             $(this.maskNode).on('mousedown contextmenu', function (evt) {
                 evt.stopPropagation();
@@ -93,6 +97,15 @@ define(function (require, exports, module) {
                 if (evt.type === 'DOMMouseScroll') {
                     _self.listener('mosuewheel', evt);
                     return;
+
+                // 检测位置，防止误判dblclick
+                } else if (evt.type === 'dblclick') {
+                    if (Math.abs(lastMousedownX - lastMouseupX) > 10 || Math.abs(lastMousedownY - lastMouseupY) > 10) {
+                        return;
+                    }
+                } else if (evt.type === 'mousedown') {
+                    lastMousedownX = evt.clientX;
+                    lastMousedownY = evt.clientY;
                 }
 
                 _self.listener(evt.type, evt);
@@ -102,6 +115,9 @@ define(function (require, exports, module) {
 
                 _self.listener('mouseup', evt);
                 _self.status = STATUS.NORMAL;
+
+                lastMouseupX = evt.clientX;
+                lastMouseupY = evt.clientY;
             });
 
             $([this.hSpace, this.vSpace]).on('mousemove', function (evt) {
