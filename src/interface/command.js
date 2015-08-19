@@ -15,6 +15,10 @@ define(function (require, exports, module) {
 
         getActiveRange: function () {
             return this.__$ctx.getAPI().getActiveRange();
+        },
+
+        queryCommandValue: function () {
+            return this.__$ctx.queryCommandValue.apply(this.__$ctx, arguments);
         }
     });
 });

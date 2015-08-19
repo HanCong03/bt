@@ -17,7 +17,13 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args.push(range.entry.row, range.entry.col);
+                    var mregeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
+
+                    if (mregeInfo) {
+                        args.push(mregeInfo.start.row, mregeInfo.start.col);
+                    } else {
+                        args.push(range.entry.row, range.entry.col);
+                    }
 
                     return args;
                 },
