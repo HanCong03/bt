@@ -13,7 +13,7 @@ define(function (require, exports, module) {
         __drawHeader: function () {
             var visualData = this.visualData;
 
-            if ($$.isNdef(visualData.rows)) {
+            if (visualData.headHeight === 0) {
                 return;
             }
 

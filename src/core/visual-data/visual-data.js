@@ -98,15 +98,26 @@ define(function (require, exports, module) {
         __refreshData: function () {
             var heap = this.getActiveHeap();
             var containerSize = this.getContentContainerSize();
+            var isShowHeader = this.queryCommandValue('header');
 
             heap.pane = this.queryCommandValue('pane');
 
             // 头部高度
-            heap.headHeight = this.queryCommandValue('standardheight');
+            if (isShowHeader) {
+                heap.headHeight = this.queryCommandValue('standardheight');
+            } else {
+                heap.headHeight = 0;
+            }
+
             this.__refreshRow(containerSize.height - heap.headHeight);
 
             // 头部宽度
-            heap.headWidth = this.__calculateHeadWidth(heap.rows);
+            if (isShowHeader) {
+                heap.headWidth = this.__calculateHeadWidth(heap.rows);
+            } else {
+                heap.headWidth = 0;
+            }
+
             this.__refreshColumn(containerSize.width - heap.headWidth);
         },
 
