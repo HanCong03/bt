@@ -79,8 +79,13 @@ define(function (require, exports, module) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                if (evt.type !== 'mousedown') {
-                    return;
+                //if (evt.type !== 'mousedown') {
+                //    return;
+                //}
+
+                if (evt.type === 'mousedown') {
+                    lastMousedownX = evt.clientX;
+                    lastMousedownY = evt.clientY;
                 }
 
                 if (evt.originalEvent.button !== 2) {
@@ -103,9 +108,6 @@ define(function (require, exports, module) {
                     if (Math.abs(lastMousedownX - lastMouseupX) > 10 || Math.abs(lastMousedownY - lastMouseupY) > 10) {
                         return;
                     }
-                } else if (evt.type === 'mousedown') {
-                    lastMousedownX = evt.clientX;
-                    lastMousedownY = evt.clientY;
                 }
 
                 _self.listener(evt.type, evt);
