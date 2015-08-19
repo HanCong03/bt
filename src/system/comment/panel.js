@@ -43,7 +43,7 @@ define(function (require, exports, module) {
         },
 
         __updateComment: function (comment) {
-            this.panelNode.innerHTML = comment;
+            this.panelNode.innerHTML = comment.replace(/\n/g, '<br/>');
         },
 
         __updateLocation: function (rect) {
