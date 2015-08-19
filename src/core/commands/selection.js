@@ -28,6 +28,24 @@ define(function (require) {
                 }
             },
 
+            selectall: {
+                exec: function () {
+                    this.$dep.selectAll();
+                },
+
+                exec_arguments: function (args) {
+                    return args;
+                },
+
+                query: function () {
+                    return this.$dep.isSelectAll();
+                },
+
+                query_arguments: function (args) {
+                    return args;
+                }
+            },
+
             allrange: {
                 query: function () {
                     return this.$dep.getRanges();

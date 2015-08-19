@@ -16,6 +16,11 @@ define(function (require, exports, module) {
                 this.__abort();
             }
 
+            if (evt.keyCode === 65 && (evt.ctrlKey || evt.metaKey)) {
+                this.execCommand('selectall');
+                return;
+            }
+
             switch (evt.keyCode) {
                 case KEY_CODE.LEFT:
                     this.__keyLeft(evt);

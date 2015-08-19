@@ -5,6 +5,9 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
+    var LIMIT = require('definition/limit');
+    var MAX_ROW_INDEX = LIMIT.MAX_ROW - 1;
+    var MAX_COLUMN_INDEX = LIMIT.MAX_COLUMN - 1;
 
     module.exports = $$.createClass('Selection', {
         base: require('module'),
@@ -22,6 +25,33 @@ define(function (require, exports, module) {
             this.registerService({
                 'get.full.range': this.__getFullRange
             });
+        },
+
+        selectAll: function () {
+            var range = this.getActiveRange();
+            this.setRange({
+                row: 0,
+                col: 0
+            }, {
+                row: MAX_ROW_INDEX,
+                col: MAX_COLUMN_INDEX
+            }, range.entry);
+        },
+
+        isSelectAll: function () {
+            var ranges = this.getRanges();
+            var current;
+
+            for (var i = 0, len = ranges.length; i < len; i++) {
+                current = ranges[i];
+
+                if (current.start.row === 0 && current.start.col === 0
+                    && current.end.row === MAX_ROW_INDEX && current.end.col === MAX_COLUMN_INDEX) {
+                    return true;
+                }
+            }
+
+            return false;
         },
 
         setRange: function (start, end, entry) {
