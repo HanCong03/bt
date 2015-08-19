@@ -59,7 +59,7 @@ define(function (require, exports, module) {
             var type = getType(index);
 
             // 通知右键被点击。
-            this.emit('contextmenu', type);
+            this.emit('contextmenu', type, evt);
         }
     };
 

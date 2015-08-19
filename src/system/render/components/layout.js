@@ -123,8 +123,8 @@ define(function (require, exports, module) {
                             r: i,
                             c: j,
                             // 对当前视图中的合并单元格的第一个单元格的行列引用
-                            fr: mergeFlag.fr || i,
-                            fc: mergeFlag.fc || j,
+                            fr: mergeFlag.fr !== undefined ? mergeFlag.fr : i,
+                            fc: mergeFlag.fc !== undefined ? mergeFlag.fc : j,
                             alignments: styels[key].alignments,
                             fonts: styels[key].fonts,
                             border: styels[key].borders.border,

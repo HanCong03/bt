@@ -61,7 +61,15 @@ define(function (require, exports, module) {
         },
 
         __drawNoramlCellComment: function (layout) {
-            this.__drawCommentFlag(layout.rect);
+            var rect = this.rs('get.real.rect', layout.row, layout.col, {
+                row: layout.row,
+                col: layout.col
+            }, {
+                row: layout.row,
+                col: layout.col
+            });
+
+            this.__drawCommentFlag(rect);
         },
 
         __drawCommentFlag: function (rect) {

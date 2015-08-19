@@ -17,7 +17,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.entry.row, range.entry.col];
+                    args.push(range.entry.row, range.entry.col);
 
                     return args;
                 },
