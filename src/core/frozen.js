@@ -20,7 +20,7 @@ define(function (require, exports, module) {
             var endCol = entry.col - 1;
 
             if (endRow < visulaData.row || endCol < visulaData.col) {
-                debugger;
+                return this.__frozenCenter();
             }
 
             this.execCommand('pane', {
@@ -58,6 +58,18 @@ define(function (require, exports, module) {
 
         cancelFrozen: function () {
             this.execCommand('clearpane');
+        },
+
+        __frozenCenter: function () {
+            var visulaData = this.rs('get.visual.data');
+
+            this.execCommand('pane', {
+                row: visulaData.row,
+                col: visulaData.col
+            }, {
+                row: visulaData.row + Math.floor((visulaData.endRow - visulaData.row) / 2),
+                col: visulaData.col + Math.floor((visulaData.endCol - visulaData.col) / 2)
+            });
         }
     });
 });
