@@ -79,10 +79,6 @@ define(function (require, exports, module) {
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                //if (evt.type !== 'mousedown') {
-                //    return;
-                //}
-
                 if (evt.type === 'mousedown') {
                     lastMousedownX = evt.clientX;
                     lastMousedownY = evt.clientY;

@@ -5,26 +5,22 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var GRIDLINE_CONFIG = require('definition/gridline');
-    var WIDTH = GRIDLINE_CONFIG.width;
-    var OFFSET = GRIDLINE_CONFIG.offset;
-
     var BorderLayout = require('./border-layout');
 
     var BorderDrawers = {
         'thin': require('./drawer/thin'),
-        //'hair': require('./drawer/hair'),
-        //'dotted': require('./drawer/dotted'),
-        //'dashed': require('./drawer/dashed'),
-        //'dashdot': require('./drawer/dash-dot'),
-        //'dashdotdot': require('./drawer/dash-dot-dot'),
+        'hair': require('./drawer/hair'),
+        'dotted': require('./drawer/dotted'),
+        'dashed': require('./drawer/dashed'),
+        'dashdot': require('./drawer/dash-dot'),
+        'dashdotdot': require('./drawer/dash-dot-dot'),
         //'double': require('./drawer/double'),
-        //'medium': require('./drawer/medium'),
-        //'mediumdashed': require('./drawer/medium-dashed'),
-        //'mediumdashdot': require('./drawer/medium-dash-dot'),
-        //'mediumdashdotdot': require('./drawer/medium-dash-dot-dot'),
+        'medium': require('./drawer/medium'),
+        'mediumdashed': require('./drawer/medium-dashed'),
+        'mediumdashdot': require('./drawer/medium-dash-dot'),
+        'mediumdashdotdot': require('./drawer/medium-dash-dot-dot'),
         //'slantdashdot': require('./drawer/slant-dash-dot'),
-        //'thick': require('./drawer/thick')
+        'thick': require('./drawer/thick')
     };
 
     module.exports = {
@@ -38,6 +34,8 @@ define(function (require, exports, module) {
 
             screen.save();
             screen.translate(visualData.headWidth, visualData.headHeight);
+            screen.rect(0, 0, visualData.boundaryWidth, visualData.boundaryHeight);
+            screen.clip();
 
             this.__drawBorders();
 

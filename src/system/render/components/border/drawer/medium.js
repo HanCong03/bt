@@ -5,59 +5,53 @@
 
 define(function (require, exports, module) {
     var GRIDLINE_CONFIG = require('definition/gridline');
-    var WIDTH = GRIDLINE_CONFIG.width;
     var OFFSET = GRIDLINE_CONFIG.offset;
+    var LINE_WIDTH = GRIDLINE_CONFIG.width;
+    var DOUBLE_LINE_WIDTH = 2 * LINE_WIDTH;
 
     module.exports = {
-        drawTop: function (screen, rect, color) {
-            screen.save();
-            screen.setLineWidth(2 * WIDTH);
+        drawHorizontal: function (screen, visualData, layout, borderOption) {
+            var r;
+            var c;
+            var rowPoints = visualData.rowPoints;
+            var colPoints = visualData.colPoints;
+            var colWidths = visualData.colWidths;
 
-            screen.strokeColor(color);
+            screen.setLineWidth(DOUBLE_LINE_WIDTH);
+            screen.strokeColor(borderOption.color.value);
             screen.beginPath();
-            screen.hline(rect.x, rect.y, rect.width);
-            screen.stroke();
 
-            screen.restore();
+            for (var i = 0, len = layout.length; i < len; i++) {
+                c = layout[i];
+                r = c.r;
+                c = c.c;
+
+                screen.hline(colPoints[c] - OFFSET, rowPoints[r] - OFFSET, colWidths[c] + DOUBLE_LINE_WIDTH);
+            }
+
+            screen.stroke();
         },
 
-        drawLeft: function (screen, rect, color) {
-            screen.save();
+        drawVertical: function (screen, visualData, layout, borderOption) {
+            var r;
+            var c;
+            var rowPoints = visualData.rowPoints;
+            var colPoints = visualData.colPoints;
+            var rowHeights = visualData.rowHeights;
 
-            screen.setLineWidth(2 * WIDTH);
-
-            screen.strokeColor(color);
+            screen.setLineWidth(DOUBLE_LINE_WIDTH);
+            screen.strokeColor(borderOption.color.value);
             screen.beginPath();
-            screen.vline(rect.x, rect.y, rect.height);
+
+            for (var i = 0, len = layout.length; i < len; i++) {
+                c = layout[i];
+                r = c.r;
+                c = c.c;
+
+                screen.vline(colPoints[c] - OFFSET, rowPoints[r] - OFFSET, rowHeights[r] + DOUBLE_LINE_WIDTH);
+            }
+
             screen.stroke();
-
-            screen.restore();
-        },
-
-        drawRight: function (screen, rect, color) {
-            screen.save();
-
-            screen.setLineWidth(2 * WIDTH);
-
-            screen.strokeColor(color);
-            screen.beginPath();
-            screen.vline(rect.x + rect.width - WIDTH, rect.y, rect.height);
-            screen.stroke();
-
-            screen.restore();
-        },
-
-        drawBottom: function (screen, rect, color) {
-            screen.save();
-
-            screen.setLineWidth(2 * WIDTH);
-
-            screen.strokeColor(color);
-            screen.beginPath();
-            screen.hline(rect.x, rect.y + rect.height - WIDTH, rect.width);
-            screen.stroke();
-
-            screen.restore();
         }
     };
 });
