@@ -35,7 +35,8 @@ define(function (require, exports, module) {
             scroll: require('./core/commands/scroll'),
             selection: require('./core/commands/selection'),
             hyperlink: require('./core/commands/hyperlink'),
-            columntitle: require('./core/commands/column-title')
+            columntitle: require('./core/commands/column-title'),
+            frozen: require('./core/commands/frozen')
         },
         system: {
             outerinput: require('./system/commands/outerinput'),
