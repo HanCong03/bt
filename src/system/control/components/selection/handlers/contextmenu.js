@@ -56,8 +56,20 @@ define(function (require, exports, module) {
                 }
             }
 
+            var type = getType(index);
+
             // 通知右键被点击。
-            this.postMessage('control.contextmenu');
+            this.emit('contextmenu', type);
         }
     };
+
+    function getType(index) {
+        if (index.c === -1 && index.r > -1) {
+            return 'row';
+        } else if (index.r === -1 && index.c > -1) {
+            return 'column';
+        }
+
+        return 'cell';
+    }
 });

@@ -66,6 +66,10 @@
                 btable.execCommand('switchsheet', this.getAttribute('data-index'));
             });
 
+            btable.on('contextmenu', function (type) {
+                console.log(type)
+            })
+
             btable.on('sheetschange', function () {
                 var sheetNames = this.queryCommandValue('sheetnames');
                 var str = [];

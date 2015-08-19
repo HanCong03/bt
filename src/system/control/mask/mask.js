@@ -86,7 +86,7 @@ define(function (require, exports, module) {
 
                 if (evt.originalEvent.button !== 2) {
                     _self.listener('mousedown', evt);
-                } else {
+                } else if (evt.type === 'contextmenu') {
                     _self.listener('contextmenu', evt);
                 }
             })
