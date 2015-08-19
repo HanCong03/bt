@@ -51,17 +51,9 @@ define(function (require) {
                     this.$dep.clearComment(start, end);
                 },
 
-                exec_arguments: function (args) {
+                exec_arguments: function () {
                     var range = this.getActiveRange();
-                    var mergeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
-
-                    if (mergeInfo) {
-                        args.push(mergeInfo.start.row, mergeInfo.start.col);
-                    } else {
-                        args.push(range.entry.row, range.entry.col);
-                    }
-
-                    return args;
+                    return [range.start, range.end];
                 }
             }
         }
