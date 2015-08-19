@@ -17,10 +17,10 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    var mregeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
+                    var mergeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
 
-                    if (mregeInfo) {
-                        args.push(mregeInfo.start.row, mregeInfo.start.col);
+                    if (mergeInfo) {
+                        args.push(mergeInfo.start.row, mergeInfo.start.col);
                     } else {
                         args.push(range.entry.row, range.entry.col);
                     }
@@ -34,7 +34,13 @@ define(function (require) {
 
                 query_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.entry.row, range.entry.col];
+                    var mergeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
+
+                    if (mergeInfo) {
+                        args.push(mergeInfo.start.row, mergeInfo.start.col);
+                    } else {
+                        args.push(range.entry.row, range.entry.col);
+                    }
 
                     return args;
                 }
@@ -47,7 +53,13 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    args = [range.start, range.end];
+                    var mergeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
+
+                    if (mergeInfo) {
+                        args.push(mergeInfo.start.row, mergeInfo.start.col);
+                    } else {
+                        args.push(range.entry.row, range.entry.col);
+                    }
 
                     return args;
                 }

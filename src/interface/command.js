@@ -18,7 +18,7 @@ define(function (require, exports, module) {
         },
 
         queryCommandValue: function () {
-            return this.__$ctx.queryCommandValue.apply(this.__$ctx, arguments);
+            return this.$dep.queryCommandValue.apply(this.$dep, arguments);
         }
     });
 });
