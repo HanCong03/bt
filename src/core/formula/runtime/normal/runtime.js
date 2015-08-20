@@ -16,7 +16,7 @@ define(function (require, exports, module) {
 
             for (var i = 0, len = codes.length; i < len; i++) {
                 code = codes[i];
-                result[i] = calculate(reader, code);
+                result[i] = calculate(reader, code, result);
             }
 
             result = result[i - 1];
@@ -28,7 +28,6 @@ define(function (require, exports, module) {
                 return result;
             }
 
-            debugger
             return null;
         }
     };
@@ -69,11 +68,11 @@ define(function (require, exports, module) {
         }
     }
 
-    function calculate(reader, code) {
+    function calculate(reader, code, stack) {
         if (code.op === 'func') {
 
         } else {
-            return GeneralRuntime.exec(reader, code.op, code.args);
+            return GeneralRuntime.exec(reader, code.op, code.args, stack);
         }
     }
 

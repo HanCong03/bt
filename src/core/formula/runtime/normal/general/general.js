@@ -11,11 +11,11 @@ define(function (require, exports, module) {
     var RangeCalculator = require('./calculator/range');
 
     module.exports = {
-        exec: function (reader, op, args) {
+        exec: function (reader, op, args, stack) {
             var operands = [];
 
             for (var i = 0, len = args.length; i < len; i++) {
-                operands.push(ArgumentProcessor.format(reader, args[i]));
+                operands.push(ArgumentProcessor.format(reader, args[i], stack));
             }
 
             return calculate(reader, op, operands);

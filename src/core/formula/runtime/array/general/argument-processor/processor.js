@@ -9,8 +9,11 @@ define(function (require, exports, module) {
 
     var OPERAND_TYPE = require('../../../../definition/operand-type');
 
-    function format(reader, arg) {
+    function format(reader, arg, stack) {
         switch (arg.type) {
+            case CODE_TYPE.ADDRESS:
+                return stack[arg.value];
+
             case CODE_TYPE.REF:
                 return __formatRef(arg);
 

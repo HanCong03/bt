@@ -56,7 +56,8 @@ define(function (require, exports, module) {
             header: require('./system/header/header'),
             comment: require('./system/comment/comment'),
             hyperlink: require('./system/hyperlink/hyperlink'),
-            outerinput: require('./system/outerinput')
+            outerinput: require('./system/outerinput'),
+            clipboard: require('./system/clipboard/clipboard')
         },
         ext: {}
     };
