@@ -46,6 +46,17 @@ define(function (require) {
                 }
             },
 
+            containhyperlink: {
+                query: function (start, end) {
+                    return this.$dep.hasHyperlink(start, end);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    return [range.start, range.end];
+                }
+            },
+
             clearhyperlink: {
                 exec: function (start, end) {
                     this.$dep.clearHyperlink(start, end);
@@ -53,15 +64,7 @@ define(function (require) {
 
                 exec_arguments: function (args) {
                     var range = this.getActiveRange();
-                    var mergeInfo = this.queryCommandValue('mergecell', range.entry.row, range.entry.col);
-
-                    if (mergeInfo) {
-                        args.push(mergeInfo.start.row, mergeInfo.start.col);
-                    } else {
-                        args.push(range.entry.row, range.entry.col);
-                    }
-
-                    return args;
+                    return [range.start, range.end];
                 }
             }
         }

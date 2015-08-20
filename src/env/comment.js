@@ -23,6 +23,10 @@ define(function (require, exports, module) {
 
         getComment: function (row, col) {
             return this.__$api.getComment(row, col);
+        },
+
+        hasComment: function (start, end) {
+            return this.__$api.hasComment(start, end);
         }
     });
 });

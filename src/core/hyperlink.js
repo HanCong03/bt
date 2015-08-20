@@ -20,6 +20,10 @@ define(function (require, exports, module) {
 
         getHyperlink: function (row, col) {
             return this.rs('get.hyperlink', row, col);
+        },
+
+        hasHyperlink: function (start, end) {
+            return this.rs('has.hyperlink', start, end);
         }
     });
 });

@@ -55,6 +55,17 @@ define(function (require) {
                     var range = this.getActiveRange();
                     return [range.start, range.end];
                 }
+            },
+
+            containcomment: {
+                query: function (start, end) {
+                    return this.$dep.hasComment(start, end);
+                },
+
+                query_arguments: function (args) {
+                    var range = this.getActiveRange();
+                    return [range.start, range.end];
+                }
             }
         }
     });

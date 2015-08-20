@@ -18,7 +18,8 @@ define(function (require, exports, module) {
             this.registerService({
                 'set.hyperlink': this.setHyperlink,
                 'clear.hyperlink': this.clearHyperlink,
-                'get.hyperlink': this.getHyperlink
+                'get.hyperlink': this.getHyperlink,
+                'has.hyperlink': this.hasHyperlink
             });
         },
 
@@ -32,6 +33,10 @@ define(function (require, exports, module) {
 
         getHyperlink: function (row, col) {
             return this.__$api.getHyperlink(row, col);
+        },
+
+        hasHyperlink: function (start, end) {
+            return this.__$api.hasHyperlink(start, end);
         }
     });
 });
