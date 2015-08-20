@@ -32,7 +32,7 @@ define(function (require, exports, module) {
             numfmt = this.queryCommandValue('numfmt', mainRow, mainCol);
             analyzeResult = this.rs('numfmt.analyze', content, numfmt);
 
-            if (analyzeResult.type === VALUE_TYPE.FORMULA) {
+            if (analyzeResult.type === 'f') {
                 return this.__setArrayFormula(content, mainRow, mainCol, range);
             }
 

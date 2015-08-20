@@ -17,6 +17,7 @@ define(function (require, exports, module) {
         __initService: function () {
             this.registerService({
                 'set.content.and.type': this.setContent,
+                'reset.content.and.type': this.resetContent,
                 'clear.content': this.clearContent,
                 'get.content.type': this.getContentType,
                 'set.formula': this.setFormula,
@@ -27,6 +28,10 @@ define(function (require, exports, module) {
 
         setContent: function (value, contentType, row, col) {
             this.__$api.setContent(value, contentType, row, col);
+        },
+
+        resetContent: function (value, contentType, row, col) {
+            this.__$api.resetContent(value, contentType, row, col);
         },
 
         clearContent: function (start, end) {

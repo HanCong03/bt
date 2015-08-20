@@ -4,6 +4,7 @@
  */
 
 define(function (require, exports, module) {
+    var $$ = require('utils');
     var GeneralRuntime = require('./general/general');
     var VALUE_TYPE = require('definition/vtype');
     var ERROR_TYPE = require('definition/error-type');
@@ -11,17 +12,17 @@ define(function (require, exports, module) {
 
     module.exports = {
         exec: function (reader, codes, row, col) {
-            var code;
-            var result = [];
+            // 首先查询是否存在error类型的值，如果有，则直接返回该错误
+            var firstError = findError(codes);
+            var result;
 
-            for (var i = 0, len = codes.length; i < len; i++) {
-                code = codes[i];
-                result[i] = calculate(reader, code, result);
+            if (firstError) {
+                result = $$.clone(firstError);
+            } else {
+                result = run(reader, codes);
             }
 
-            result = result[i - 1];
             result = filter(reader, result);
-
             result = checkResult(result);
 
             if (result) {
@@ -32,9 +33,51 @@ define(function (require, exports, module) {
         }
     };
 
+    function run(reader, codes) {
+        var currentCode;
+        var result = [];
+
+        for (var i = 0, len = codes.length; i < len; i++) {
+            currentCode = codes[i];
+
+            if (!currentCode) {
+                continue;
+            }
+
+            if ($$.isNdef(currentCode.op)) {
+                result[i] = currentCode;
+            } else {
+                result[i] = calculate(reader, currentCode, result);
+            }
+        }
+
+        return result[result.length - 1];
+    }
+
+    function findError(codes) {
+        var code;
+
+        for (var i = 0, len = codes.length; i < len; i++) {
+            code = codes[i];
+
+            if (!code) {
+                continue;
+            }
+
+            if (code.type === OPERAND_TYPE.ERROR) {
+                return code;
+            }
+        }
+
+        return null;
+    }
+
     function checkResult(result) {
         if (result.type === 'array') {
-            return null;
+            return {
+                type: VALUE_TYPE.ERROR,
+                value: ERROR_TYPE.VALUE
+            };
         }
 
         return translateType(result);
@@ -83,17 +126,17 @@ define(function (require, exports, module) {
             case OPERAND_TYPE.RANGE:
                 return {
                     type: OPERAND_TYPE.ARRAY,
-                    rowCount: operand.end.row - operand.start.row + 1,
-                    colCount: operand.end.col - operand.start.col + 1,
+                    rowCount: operand.value.end.row - operand.value.start.row + 1,
+                    colCount: operand.value.end.col - operand.value.start.col + 1,
                     // 0
                     other: {
                         type: OPERAND_TYPE.NUMBER,
                         value: 0
                     },
-                    value: reader.getValues(operand.start, operand.end)
+                    value: reader.getValues(operand.value.start, operand.value.end)
                 };
             case OPERAND_TYPE.CELL:
-                result = reader.getValue(operand.row, operand.col);
+                result = reader.getValue(operand.value.row, operand.value.col);
 
                 if (result) {
                     return valueTypeToOperandType(result);

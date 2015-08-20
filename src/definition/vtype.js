@@ -7,8 +7,7 @@
  NUMBER: 'n',
  TEXT: 's',
  LOGICAL: 'b',
- ERROR: 'e',
- FORMULA: 'f'
+ ERROR: 'e'
  */
 
 define(function (require, exports, module) {

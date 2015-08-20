@@ -42,6 +42,7 @@ define(function (require, exports, module) {
             rowColumn: require('./core/row-column'),
             hyperlink: require('./core/hyperlink'),
             formula: require('./core/formula/formula'),
+            formulaWatcher: require('./core/formula-watcher/formula-watcher'),
             columnTitle: require('./core/column-title'),
             frozen: require('./core/frozen')
         },

@@ -201,7 +201,6 @@ define(function (require, exports, module) {
                     return 'right';
 
                 case VALUE_TYPE.TEXT:
-                case VALUE_TYPE.FORMULA:
                     return 'left';
 
                 case VALUE_TYPE.ERROR:

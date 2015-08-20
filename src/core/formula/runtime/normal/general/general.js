@@ -4,46 +4,22 @@
  */
 
 define(function (require, exports, module) {
-    var ERROR_TYPE = require('definition/error-type');
-    var OPERAND_TYPE = require('../../../definition/operand-type');
-    var ArgumentProcessor = require('./argument-processor/processor');
     var NormalCalculator = require('./calculator/normal');
-    var RangeCalculator = require('./calculator/range');
+    var CODE_TYPE = require('definition/code-type');
 
     module.exports = {
         exec: function (reader, op, args, stack) {
             var operands = [];
 
             for (var i = 0, len = args.length; i < len; i++) {
-                operands.push(ArgumentProcessor.format(reader, args[i], stack));
+                if (args[i].type === CODE_TYPE.ADDRESS) {
+                    operands[i] = stack[args[i].value];
+                } else {
+                    operands[i] = args[i];
+                }
             }
 
-            return calculate(reader, op, operands);
+            return NormalCalculator.exec(reader, op, operands);
         }
     };
-
-    function calculate(reader, op, operands) {
-        switch (op) {
-            case '~':
-                return operands[0];
-
-            case '+':
-            case '-':
-            case '*':
-            case '/':
-            case '^':
-                return NormalCalculator.exec(reader, op, operands);
-
-            case ':':
-            case ' ':
-                return RangeCalculator.exec(reader, op, operands);
-                break;
-
-            case ',':
-                return {
-                    type: OPERAND_TYPE.ERROR,
-                    value: ERROR_TYPE.VALUE
-                };
-        }
-    }
 });

@@ -14,6 +14,7 @@ define(function (require, exports, module) {
         ERROR: 'error',
         LOGICAL: 'logical',
         TEXT: 'text',
-        ARRAY: 'array'
+        ARRAY: 'array',
+        UNION: 'union'
     };
 });

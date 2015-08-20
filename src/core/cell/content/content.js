@@ -16,12 +16,19 @@ define(function (require, exports, module) {
 
         init: function () {
             this.__initService();
+            this.__initMessage();
         },
 
         __initService: function () {
             this.registerService({
                'set.content': this.setContent
             });
+        },
+
+        __initMessage: function () {
+            this.onMessage({
+                'recalculate.formula': this.__recalculateFormula
+            })
         },
 
         setContent: function (content, row, col) {
@@ -50,7 +57,7 @@ define(function (require, exports, module) {
                 this.execCommand('numfmt', analyzeResult.numfmt,start, end);
             }
 
-            if (analyzeResult.type === VALUE_TYPE.FORMULA) {
+            if (analyzeResult.type === 'f') {
                 return this.__setFormula(content, row, col);
             }
 
@@ -76,6 +83,12 @@ define(function (require, exports, module) {
                 return false;
             }
 
+            var heap = this.getActiveHeap();
+
+            heap[row + ',' + col] = formulaBin;
+
+            this.rs('watch.formula', row, col, formulaBin);
+
             var result = this.rs('exec.formula', formulaBin, row, col);
 
             // 先设置值，再设置数组公式
@@ -83,6 +96,16 @@ define(function (require, exports, module) {
             this.rs('set.formula', formula, row, col);
 
             return true;
+        },
+
+        __recalculateFormula: function (row, col) {
+            var heap = this.getActiveHeap();
+            var formulaBin = heap[row + ',' + col];
+
+            var result = this.rs('exec.formula', formulaBin, row, col);
+
+            // 重置值和类型，但是不清除附加数据
+            this.rs('reset.content.and.type', result.value, result.type, row, col);
         }
     });
 });

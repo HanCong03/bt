@@ -9,6 +9,7 @@ define(function (require, exports, module) {
     var BFP = require('./bfp/src/runtime');
     var ArrayFormulaRuntime = require('./runtime/array/runtime');
     var NormalFormulaRuntime = require('./runtime/normal/runtime');
+    var FormulaPreprocessor = require('./preprocessor/preprocessor');
 
     module.exports = $$.createClass('Formula', {
         base: require('module'),
@@ -29,15 +30,21 @@ define(function (require, exports, module) {
         },
 
         __checkFormula: function (source) {
-            return BFP.run(source);
+            var firstResult = BFP.run(source);
+
+            if (!firstResult) {
+                return null;
+            }
+
+            return FormulaPreprocessor.process(firstResult);
         },
 
-        __execFormula: function (code, row, col) {
-            return NormalFormulaRuntime.exec(this.reader, code, row, col);
+        __execFormula: function (codes, row, col) {
+            return NormalFormulaRuntime.exec(this.reader, codes, row, col);
         },
 
-        __execArrayFormula: function (code, range) {
-            return ArrayFormulaRuntime.exec(this.reader, code, range);
+        __execArrayFormula: function (codes, range) {
+            return ArrayFormulaRuntime.exec(this.reader, codes, range);
         }
     });
 });
