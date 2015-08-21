@@ -33,7 +33,9 @@ define(function (require, exports, module) {
                 'standardchange': this.__onstandardchange,
                 'namedefinechange': this.__onnamedefinechange,
                 'formularemoved': this.__onformularemoved,
-                'formulaadded': this.__onformulaadded
+                'formulaadded': this.__onformulaadded,
+                'arrayformularemoved': this.__onarrayformularemoved,
+                'arrayformulaadded': this.__onarrayformulaadded
             });
         },
 
@@ -96,6 +98,14 @@ define(function (require, exports, module) {
 
         __onformulaadded: function (row, col) {
             this.__$ctx.emitAll('formulaadded', row, col);
+        },
+
+        __onarrayformularemoved: function (row, col) {
+            this.__$ctx.emitAll('arrayformularemoved', row, col);
+        },
+
+        __onarrayformulaadded: function (row, col) {
+            this.__$ctx.emitAll('arrayformulaadded', row, col);
         },
 
         getAPI: function () {

@@ -4,7 +4,6 @@
  */
 
 define(function (require, exports, module) {
-    var VALUE_TYPE = require('definition/vtype');
     var ERROR_TYPE = require('definition/error-type');
     var OPERAND_TYPE = require('../../../../definition/operand-type');
     var FrameCalculator = require('./frame-calculator');
@@ -49,22 +48,15 @@ define(function (require, exports, module) {
     }
 
     function loadOperand(reader, operand) {
-        var type = operand.type;
-        var result;
+        var result = reader.getValue(operand.value.row, operand.value.col);
 
-        if (type === OPERAND_TYPE.CELL) {
-            result = reader.getValue(operand.value.row, operand.value.col);
-
-            if (result) {
-                return result;
-            }
-
-            return {
-                type: OPERAND_TYPE.NUMBER,
-                value: '0'
-            };
+        if (result) {
+            return result;
         }
 
-        return operand;
+        return {
+            type: OPERAND_TYPE.NUMBER,
+            value: '0'
+        };
     }
 });

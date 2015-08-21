@@ -15,6 +15,7 @@ define(function (require, exports, module) {
         LOGICAL: 'logical',
         TEXT: 'text',
         ARRAY: 'array',
-        UNION: 'union'
+        UNION: 'union',
+        MULTI_ARRAY: 'multi_array'
     };
 });

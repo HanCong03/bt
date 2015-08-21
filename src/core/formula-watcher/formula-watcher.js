@@ -18,7 +18,7 @@ define(function (require, exports, module) {
             this.on({
                 'contentchange': this.__onContentChange,
                 'formularemoved': this.__onFormularemoved,
-                'formulaadded': this.__watchFormula
+                'formulaadded': this.__onFormulaAdded
             });
         },
 
@@ -48,14 +48,19 @@ define(function (require, exports, module) {
             }
         },
 
+        __onFormulaAdded: function (row, col) {
+            this.__recalculate('normal', row, col);
+            this.__watchFormula(row, col);
+        },
+
         __onFormularemoved: function (row, col) {
             var heap = this.getActiveHeap();
             delete heap[row + ',' + col];
         },
 
-        __recalculate: function (type, cell) {
+        __recalculate: function (type, row, col) {
             if (type === 'normal') {
-                this.postMessage('recalculate.formula', cell.row, cell.col);
+                this.postMessage('recalculate.formula', row, col);
             } else {
                 debugger;
             }
@@ -85,7 +90,7 @@ define(function (require, exports, module) {
                 current = pool[i];
 
                 if (isIntersection(range, current.range)) {
-                    this.__recalculate(current.type, current.source);
+                    this.__recalculate(current.type, current.source.row, current.source.col);
                     return;
                 }
             }

@@ -7,85 +7,127 @@ define(function (require, exports, module) {
     var ERROR_TYPE = require('definition/error-type');
     var OPERAND_TYPE = require('../../../../definition/operand-type');
 
-    function calculateArrayByArray(cb, opd1, opd2) {
-        var result = {
-            type: OPERAND_TYPE.RANGE
-        };
-
-        var rowCount1 = opd1.rowCount;
-        var rowCount2 = opd2.rowCount;
-        var colCount1 = opd1.colCount;
-        var colCount2 = opd2.colCount;
-
-        var rowCount;
-        var colCount;
-
-        if (colCount1 === 1 || colCount2 === 1) {
-            colCount = Math.max(colCount1, colCount2);
-        } else {
-            colCount = Math.min(colCount1, colCount2);
-        }
-
-        if (rowCount1 === 1 || rowCount2 === 1) {
-            rowCount = Math.max(rowCount1, rowCount2);
-        } else {
-            rowCount = Math.min(rowCount1, rowCount2);
-        }
-
-        debugger;
-
-    }
-
-    function calculateNormalByArray(cb, opd1, opd2) {
-
-    }
-
-    function calculateArrayByNormal(cb, opd1, opd2) {}
-
-    function calculateNormalByNormal(cb, opd1, opd2) {
-        var type1 = opd1.type;
-        var type2 = opd2.type;
-
-        if (type1 === OPERAND_TYPE.ROW || type1 === OPERAND_TYPE.COLUMN
-            || type2 === OPERAND_TYPE.ROW || type2 === OPERAND_TYPE.COLUMN) {
-            return {
-                type: OPERAND_TYPE.ERROR,
-                value: ERROR_TYPE.NAME
-            };
-        }
-
-        if (type1 === OPERAND_TYPE.ERROR) {
-            return opd1;
-        }
-
-        if (type2 === OPERAND_TYPE.ERROR) {
-            return opd2;
-        }
-
-        if (type1 === OPERAND_TYPE.TEXT || type2 === OPERAND_TYPE.TEXT) {
-            return {
-                type: OPERAND_TYPE.ERROR,
-                value: ERROR_TYPE.VALUE
-            };
-        }
-
-        return cb(opd1.value, opd2.value);
-    }
-
     module.exports = {
-        run: function (cb, opd1, opd2) {
-            var isArray1 = opd1.type === OPERAND_TYPE.ARRAY;
-            var isArray2 = opd2.type === OPERAND_TYPE.ARRAY;
+        run: function (op, operands) {
+            var type1 = operands[0].type;
+            var type2 = operands[1].type;
 
-            if (isArray1 && isArray2) {
-                return calculateArrayByArray(cb, opd1, opd2);
-            } else if (isArray1) {
-                return calculateArrayByNormal(cb, opd1, opd2);
-            } else if (isArray2) {
-                return calculateNormalByArray(cb, opd1, opd2);
+            if (type1 === OPERAND_TYPE.ARRAY && type2 === OPERAND_TYPE.ARRAY) {
+                return runArrayByArray(op, operands);
+            } else if (type1 === OPERAND_TYPE.ARRAY) {
+                return runArrayByNormal(op, operands);
+            } else if (type2 === OPERAND_TYPE.ARRAY) {
+                return runNormalByArray(op, operands);
             } else {
-                return calculateNormalByNormal(cb, opd1, opd2);
+                return runNormalByNormal(op, operands);
             }
         }
     };
+
+    function runArrayByArray(op, operands) {
+        if (operand1.rowCount === 1 && operand2.rowCount === 1) {
+
+        }
+    }
+
+    function runNormalByNormal(op, operands) {
+        switch (op) {
+            case '~':
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+            case '^':
+                operands = toNumber(operands);
+                if (operands.type === OPERAND_TYPE.ERROR) {
+                    return operands;
+                }
+
+                return runBasic(op, operands);
+
+            default:
+                throw new Error('unknow operator');
+        }
+    }
+
+    function runBasic(op, operands) {
+        switch (op) {
+            case '~':
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: operands[0]
+                };
+
+            case '+':
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: operands[0] + operands[1]
+                };
+
+            case '-':
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: operands[0] - operands[1]
+                };
+
+            case '*':
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: operands[0] * operands[1]
+                };
+
+            case '/':
+                if (operands[1] === 0) {
+                    return {
+                        type: OPERAND_TYPE.ERROR,
+                        value: ERROR_TYPE.DIV0
+                    };
+                }
+
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: operands[0] / operands[1]
+                };
+
+            case '^':
+
+                return {
+                    type: OPERAND_TYPE.NUMBER,
+                    value: Math.pow(operands[0], operands[1])
+                };
+
+            default:
+                throw new Error('unknow operator');
+        }
+    }
+
+    function toNumber(operands) {
+        var result = [];
+        var current;
+
+        for (var i = 0, len = operands.length; i < len; i++) {
+            current = operands[i];
+
+            switch (current.type) {
+                case OPERAND_TYPE.NUMBER:
+                case OPERAND_TYPE.LOGICAL:
+                    result.push(+current.value);
+                    break;
+
+                case OPERAND_TYPE.ERROR:
+                    return current;
+
+                case OPERAND_TYPE.TEXT:
+                    return {
+                        type: OPERAND_TYPE.ERROR,
+                        value: ERROR_TYPE.VALUE
+                    };
+
+                default:
+                    throw new Error('unknow type');
+            }
+        }
+
+        return result;
+    }
 });

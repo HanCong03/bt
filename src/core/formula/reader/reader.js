@@ -15,7 +15,31 @@ define(function (require, exports, module) {
         },
 
         getValues: function (start, end) {
-            return this.queryCommandValue('rangecontentinfo', start, end);
+            var values = this.queryCommandValue('rangecontentinfo', start, end);
+            var result = {};
+
+            for (var key in values) {
+                if (!values.hasOwnProperty(key)) {
+                    continue;
+                }
+
+                result[key] = convert(values[key]);
+            }
+
+            return {
+                type: VALUE_TYPE.ARRAY,
+                start: {
+                    row: start.row,
+                    col: start.col
+                },
+                end: {
+                    row: end.row,
+                    col: end.col
+                },
+                rowCount: end.row - start.row + 1,
+                colCount: end.col - start.col + 1,
+                values: result
+            };
         },
 
         getValue: function (row, col) {

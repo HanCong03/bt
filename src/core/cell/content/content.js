@@ -5,7 +5,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var VALUE_TYPE = require('definition/vtype');
 
     module.exports = $$.createClass('CellContent', {
         base: require('module'),
@@ -93,10 +92,11 @@ define(function (require, exports, module) {
 
             heap[row + ',' + col] = formulaBin;
 
-            var result = this.rs('exec.formula', formulaBin, row, col);
+            //var result = this.rs('exec.formula', formulaBin, row, col);
 
+            // 直接设置公式即可
             // 先设置值，再设置数组公式
-            this.rs('set.content.and.type', result.value, result.type, row, col);
+            //this.rs('set.content.and.type', result.value, result.type, row, col);
             this.rs('set.formula', formula, row, col);
 
             return true;

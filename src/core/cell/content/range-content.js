@@ -5,7 +5,6 @@
 
 define(function (require, exports, module) {
     var $$ = require('utils');
-    var VALUE_TYPE = require('definition/vtype');
 
     module.exports = {
 
@@ -64,6 +63,10 @@ define(function (require, exports, module) {
             if (!formulaBin) {
                 return false;
             }
+
+            var heap = this.getActiveHeap();
+
+            heap[row + ',' + col] = formulaBin;
 
             var result = this.rs('exec.array.formula', formulaBin, range);
 
