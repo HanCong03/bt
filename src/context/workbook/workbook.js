@@ -31,7 +31,9 @@ define(function (require, exports, module) {
                 'beforedataready': this.__onbeforedataready,
                 'dataready': this.__ondataready,
                 'standardchange': this.__onstandardchange,
-                'namedefinechange': this.__onnamedefinechange
+                'namedefinechange': this.__onnamedefinechange,
+                'formularemoved': this.__onformularemoved,
+                'formulaadded': this.__onformulaadded
             });
         },
 
@@ -86,6 +88,14 @@ define(function (require, exports, module) {
 
         __onnamedefinechange: function () {
             this.__$ctx.emitAll('namedefinechange');
+        },
+
+        __onformularemoved: function (row, col) {
+            this.__$ctx.emitAll('formularemoved', row, col);
+        },
+
+        __onformulaadded: function (row, col) {
+            this.__$ctx.emitAll('formulaadded', row, col);
         },
 
         getAPI: function () {

@@ -11,23 +11,19 @@ define(function (require, exports, module) {
         base: require('module'),
 
         init: function () {
-            this.__initService();
             this.__initEvent();
-        },
-
-        __initService: function () {
-            this.registerService({
-                'watch.formula': this.__watchFormula
-            });
         },
 
         __initEvent: function () {
             this.on({
-                'contentchange': this.__onContentChange
+                'contentchange': this.__onContentChange,
+                'formularemoved': this.__onFormularemoved,
+                'formulaadded': this.__watchFormula
             });
         },
 
-        __watchFormula: function (row, col, formulaBin) {
+        __watchFormula: function (row, col) {
+            var formulaBin = this.rs('get.parsed.formula', row, col);
             var cells = getCells(formulaBin);
 
             if (cells.length === 0) {
@@ -52,6 +48,11 @@ define(function (require, exports, module) {
             }
         },
 
+        __onFormularemoved: function (row, col) {
+            var heap = this.getActiveHeap();
+            delete heap[row + ',' + col];
+        },
+
         __recalculate: function (type, cell) {
             if (type === 'normal') {
                 this.postMessage('recalculate.formula', cell.row, cell.col);
@@ -64,9 +65,12 @@ define(function (require, exports, module) {
             var heap = this.getActiveHeap();
 
             var keys = Object.keys(heap);
+            var key;
 
             for (var i = 0, len = keys.length; i < len; i++) {
-                this.__check(heap[keys[i]], start, end);
+                key = keys[i];
+
+                this.__check(heap[key], start, end);
             }
         },
 

@@ -21,7 +21,8 @@ define(function (require, exports, module) {
 
         __initService: function () {
             this.registerService({
-               'set.content': this.setContent
+                'set.content': this.setContent,
+                'get.parsed.formula': this.__getParsedFormula
             });
         },
 
@@ -54,7 +55,7 @@ define(function (require, exports, module) {
 
             // 新的numfmt code
             if (analyzeResult.numfmt) {
-                this.execCommand('numfmt', analyzeResult.numfmt,start, end);
+                this.execCommand('numfmt', analyzeResult.numfmt, start, end);
             }
 
             if (analyzeResult.type === 'f') {
@@ -76,6 +77,11 @@ define(function (require, exports, module) {
             return true;
         },
 
+        __getParsedFormula: function (row, col) {
+            var heap = this.getActiveHeap();
+            return heap[row + ',' + col] || null;
+        },
+
         __setFormula: function (formula, row, col) {
             var formulaBin = this.rs('check.formula', formula);
 
@@ -86,8 +92,6 @@ define(function (require, exports, module) {
             var heap = this.getActiveHeap();
 
             heap[row + ',' + col] = formulaBin;
-
-            this.rs('watch.formula', row, col, formulaBin);
 
             var result = this.rs('exec.formula', formulaBin, row, col);
 
