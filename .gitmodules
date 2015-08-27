@@ -1,9 +1,9 @@
 [submodule "src/kernel"]
 	path = src/kernel
-	url = http://gitlab.baidu.com/hancong03/btable-kernel.git
+	url = http://gitlab.baidu.com/fex/btable-kernel.git
 [submodule "src/core/numfmt/numfmt-code"]
 	path = src/core/numfmt/numfmt-code
-	url = http://gitlab.baidu.com/hancong03/numfmt-code.git
+	url = http://gitlab.baidu.com/fex/numfmt-code.git
 [submodule "src/core/formula/bfp"]
 	path = src/core/formula/bfp
-	url = http://gitlab.baidu.com/hancong03/bfp.git
+	url = http://gitlab.baidu.com/fex/bfp.git

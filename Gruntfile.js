@@ -44,7 +44,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     src: './src/main.js',
-                    dest: './dist/btable2.js'
+                    dest: './dist/btable.all.js'
                 }]
             }
         }
