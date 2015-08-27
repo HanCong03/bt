@@ -19,6 +19,7 @@ define(function (require, exports, module) {
         __$rootNode: null,
         __$workbook: null,
         __$components: {},
+        __changed: false,
 
         constructor: function (node) {
             this.__$rootNode = node;
@@ -61,11 +62,25 @@ define(function (require, exports, module) {
 
         __registerInternalCommand: function () {
             this.__$components.commandManager.registerExecCommand('resize', this, this.resize);
+            this.__$components.commandManager.registerExecCommand('unchanged', this, this.unChanged);
+            this.__$components.commandManager.registerQueryCommand('changed', this, this.getChanged);
         },
 
         emitAll: function (name) {
             var eventManager = this.__$components.eventManager;
             eventManager.emitAll.apply(eventManager, arguments);
+        },
+
+        setChanged: function () {
+            this.__changed = true;
+        },
+
+        unChanged: function () {
+            this.__changed = false;
+        },
+
+        getChanged: function () {
+            return this.__changed;
         },
 
         resize: function () {

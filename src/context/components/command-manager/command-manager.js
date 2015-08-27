@@ -73,6 +73,10 @@ define(function (require, exports, module) {
 
             var result = command.command.apply(command.provider, args);
 
+            if (commandName !== 'unchanged') {
+                this.__$ctx.setChanged();
+            }
+
             this.unlock();
 
             this.trigger();
@@ -100,6 +104,11 @@ define(function (require, exports, module) {
 
                     result[i] = command.command.apply(command.provider, args);
                 }
+
+                if (commandName[commandName.length - 1].command !== 'unchanged') {
+                    this.__$ctx.setChanged();
+                }
+
             } else {
                 command = this.__lookupExecCommand('ext', commandName);
 
@@ -110,6 +119,10 @@ define(function (require, exports, module) {
                 args = this.__converter.getArguments(command, [].slice.call(arguments, 1));
 
                 result = command.command.apply(command.provider, args);
+
+                if (commandName !== 'unchanged') {
+                    this.__$ctx.setChanged();
+                }
             }
 
             this.unlock();
@@ -169,6 +182,16 @@ define(function (require, exports, module) {
 
         registerExecCommand: function (name, provider, handler) {
             var pool = this.__$commands.exec['ext'];
+
+            pool[name] = {
+                provider: provider,
+                command: handler,
+                args_processor: null
+            };
+        },
+
+        registerQueryCommand: function (name, provider, handler) {
+            var pool = this.__$commands.query['ext'];
 
             pool[name] = {
                 provider: provider,

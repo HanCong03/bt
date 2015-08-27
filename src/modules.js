@@ -28,7 +28,8 @@ define(function (require, exports, module) {
             name: require('./env/name'),
             writable: require('./env/writable'),
             selection: require('./env/selection'),
-            loader: require('./env/loader')
+            loader: require('./env/loader'),
+            exporter: require('./env/exporter')
         },
         core: {
             columnWidth: require('./core/column-width'),

@@ -12,28 +12,15 @@ define(function (require, exports, module) {
 
     module.exports = {
         __oncopy: function (evt) {
-            console.log('copy')
+            this.postMessage('control.copy', evt.originalEvent);
+        },
+
+        __oncut: function (evt) {
+            this.postMessage('control.cut', evt.originalEvent);
         },
 
         __onpaste: function (evt) {
-            var index = this.__getIndex(evt);
-
-            // 当前点击位置无意义，不切换模式
-            if (index.row < 0 || index.col < 0) {
-                return true;
-            }
-
-            var controlers = this.controllers;
-
-            // 通知selection控制器退出。
-            controlers[MODE.SELECTION].exit();
-            // 切换模式
-            this.mode = MODE.WRITE;
-            // 通知write控制器激活方式：通过鼠标激活
-            controlers[MODE.WRITE].mouseActive(index.row, index.col);
-
-            // 阻止后续事件处理
-            return false;
+            this.postMessage('control.paste', evt.originalEvent);
         }
     };
 });

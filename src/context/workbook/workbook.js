@@ -81,6 +81,7 @@ define(function (require, exports, module) {
         },
 
         __ondataready: function () {
+            this.__$ctx.unChanged();
             this.__$ctx.emitAll('dataready');
         },
 
