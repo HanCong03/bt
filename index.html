@@ -18,9 +18,10 @@
     </style>
 
     <link rel="stylesheet" href="./assets/styles/btable.css">
-
     <script src="bower_components/jquery/dist/jquery.js"></script>
 
+
+    <!-- 开发版本 start , 如果仅想看效果，可以替换成下面的合并版本 -->
     <script src="bower_components/modef/dist/modef.min.js"></script>
     <script>
         modef.config({
@@ -39,8 +40,11 @@
 
         use('./src/main.js');
     </script>
+    <!-- 开发版本 end  -->
 
-    <!--<script src="dist/btable.all.js"></script>-->
+    <!-- 合并版本 start， 新项目中无此文件，需要执行：grunt build -->
+    <!--<script src="dist/btable2.js"></script>-->
+    <!-- 合并版本 end -->
 
     <script>
         jQuery(function ($) {
