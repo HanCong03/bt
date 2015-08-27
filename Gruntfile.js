@@ -47,6 +47,11 @@ module.exports = function (grunt) {
                     dest: './dist/btable.all.js'
                 }]
             }
+        },
+
+        btable_init: {
+            init: {
+            }
         }
     });
 
@@ -54,11 +59,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('btable-build');
+    grunt.loadNpmTasks('grunt-btable-init');
 
 
     //grunt.registerTask('default', ['jshint']);
     //grunt.registerTask('test', ['uglify']);
     grunt.registerTask('dev', ['less', 'watch']);
     grunt.registerTask('build', ['btable_build']);
+    grunt.registerTask('init', ['btable_init']);
     //grunt.registerTask('build', ['less', 'ngtemplates', 'concat', 'uglify', 'cssmin']);
 };

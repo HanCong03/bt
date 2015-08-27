@@ -31,6 +31,7 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-less": "~0.11.3",
     "btable-build": "~0.1.6",
-    "xml2js": "~0.4.10"
+    "xml2js": "~0.4.10",
+    "grunt-btable-init": "~0.1.0"
   }
 }
